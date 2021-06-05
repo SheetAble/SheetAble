@@ -11,8 +11,6 @@ import (
 )
 
 func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("File Upload Endpoint Hit")
-
 	// Parse our multipart form, 10 << 20 specifies a maximum
 	// upload of 10 MB files.
 	r.ParseMultipartForm(10 << 20)
@@ -22,14 +20,16 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	file, handler, err := r.FormFile("uploadfile")
 
 	if err != nil {
-		fmt.Println("Error Retrieving the File")
+		responses.ERROR(w, http.StatusNotFound, err)
 		fmt.Println(err)
 		return
 	}
 	defer file.Close()
-	fmt.Printf("Uploaded File: %+v\n", handler.Filename)
-	fmt.Printf("File Size: %+v\n", handler.Size)
-	fmt.Printf("MIME Header: %+v\n", handler.Header)
+
+	// Check if the file is too big
+	if handler.Size > 100000 {
+		responses.ERROR(w, http.StatusNotAcceptable, errors.New("File too big"))
+	}
 
 	path := "uploaded-sheets"
 	createDir(path)
@@ -42,7 +42,6 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the file already exists
 	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
-	fmt.Println(fullpath)
 
 	if _, err := os.Stat(fullpath); err == nil {
 		responses.ERROR(w, http.StatusInternalServerError, errors.New("File already exists."))
@@ -51,7 +50,7 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// Create file
 	f, err := os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
-		fmt.Println(err)
+		responses.ERROR(w, http.StatusInternalServerError, err)
 		return
 	}
 
@@ -59,14 +58,11 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	io.Copy(f, file)
 
 	// return that we have successfully uploaded our file!
-	fmt.Fprintf(w, "Successfully Uploaded File\n")
-
+	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
 }
 
 func createDir(path string) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		err := os.Mkdir(path, os.ModePerm)
-		fmt.Println(err)
-		// TODO: return error
+		os.Mkdir(path, os.ModePerm)
 	}
 }
