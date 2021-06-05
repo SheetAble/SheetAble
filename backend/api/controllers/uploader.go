@@ -1,10 +1,13 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
+
+	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
 )
 
 func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
@@ -29,35 +32,41 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("MIME Header: %+v\n", handler.Header)
 
 	path := "uploaded-sheets"
+	createDir(path)
 	// Handle case where no author is given
 	author := r.FormValue("author")
 	if author != "" {
 		path += "/" + author
 	}
+	createDir(path)
 
+	// Check if the file already exists
+	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
+	fmt.Println(fullpath)
+
+	if _, err := os.Stat(fullpath); err == nil {
+		responses.ERROR(w, http.StatusInternalServerError, errors.New("File already exists."))
+		return
+	}
+	// Create file
+	f, err := os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	defer f.Close()
+	io.Copy(f, file)
+
+	// return that we have successfully uploaded our file!
+	fmt.Fprintf(w, "Successfully Uploaded File\n")
+
+}
+
+func createDir(path string) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		err := os.Mkdir(path, os.ModePerm)
 		fmt.Println(err)
 		// TODO: return error
 	}
-
-	// Create a temporary file within our path directory that follows
-	// a particular naming pattern
-	tempFile, err := ioutil.TempFile(path, "upload-*.pdf")
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer tempFile.Close()
-
-	// read all of the contents of our uploaded file into a
-	// byte array
-	fileBytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Println(err)
-	}
-	// write this byte array to our temporary file
-	tempFile.Write(fileBytes)
-	// return that we have successfully uploaded our file!
-	fmt.Fprintf(w, "Successfully Uploaded File\n")
-
 }
