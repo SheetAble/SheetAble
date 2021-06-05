@@ -1,0 +1,189 @@
+openapi: 3.1.0
+info:
+  title: APIv1
+  version: '1.0'
+  summary: 'This is the self hosted API for uploading, reading sheet music and user data. '
+  description: ''
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /login:
+    post:
+      summary: Login
+      tags:
+        - Authentication
+      responses:
+        '202':
+          description: Accepted
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jwt-key:
+                    type: string
+      operationId: post-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+            examples:
+              example-1:
+                value: {}
+              example-2:
+                value: {}
+          application/xml:
+            schema:
+              type: object
+              properties:
+                '':
+                  type: string
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+        description: ''
+      description: Login with your account and get a jwt key in return.
+  /register:
+    post:
+      summary: Register
+      tags:
+        - Authentication
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jwt-key:
+                    type: string
+      operationId: post-register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+          application/xml:
+            schema:
+              type: object
+              properties:
+                '':
+                  type: string
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+      description: Endpoint to register a new user to the database.
+  /users:
+    get:
+      summary: getusers
+      tags: []
+      responses: {}
+      operationId: get-users
+      description: Get all users. (only admin)
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: 'Bearer {jwt-key}'
+  '/users/{userid}':
+    parameters:
+      - schema:
+          type: string
+        name: userid
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: userid
+        in: path
+        required: true
+    get:
+      summary: getuserbyid
+      tags: []
+      responses: {}
+      operationId: get-users-userid
+      description: Get user by id. (only admin)
+    delete:
+      summary: deleteuser
+      tags: []
+      responses: {}
+      operationId: delete-users-userid
+  /upload:
+    post:
+      summary: Upload a Sheet
+      tags:
+        - Sheets
+      responses: {}
+      operationId: post-upload
+      description: 'Upload a sheet with given categories, genres, tags etc'
+  /sheets:
+    get:
+      summary: getSheets
+      tags: []
+      responses: {}
+      operationId: get-sheets
+      description: Get a list of all available sheets
+  '/category/{category_name}':
+    parameters:
+      - schema:
+          type: string
+        name: category_name
+        in: path
+        required: true
+    get:
+      summary: get category
+      tags: []
+      responses: {}
+      operationId: get-category-category_name
+      description: |-
+        Get all sheets in given category and in case it doesnt exist yet create the category.
+        Needs to be implemented with tags, genres etc
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+      required:
+        - id
+        - email
+  securitySchemes: {}
