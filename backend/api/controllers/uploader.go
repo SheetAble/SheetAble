@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 )
 
 func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
@@ -16,6 +17,7 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// it also returns the FileHeader so we can get the Filename,
 	// the Header and the size of the file
 	file, handler, err := r.FormFile("uploadfile")
+
 	if err != nil {
 		fmt.Println("Error Retrieving the File")
 		fmt.Println(err)
@@ -26,9 +28,22 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("File Size: %+v\n", handler.Size)
 	fmt.Printf("MIME Header: %+v\n", handler.Header)
 
-	// Create a temporary file within our temp-images directory that follows
+	path := "uploaded-sheets"
+	// Handle case where no author is given
+	author := r.FormValue("author")
+	if author != "" {
+		path += "/" + author
+	}
+
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		err := os.Mkdir(path, os.ModePerm)
+		fmt.Println(err)
+		// TODO: return error
+	}
+
+	// Create a temporary file within our path directory that follows
 	// a particular naming pattern
-	tempFile, err := ioutil.TempFile("uploaded-sheets", "upload-*.pdf")
+	tempFile, err := ioutil.TempFile(path, "upload-*.pdf")
 	if err != nil {
 		fmt.Println(err)
 	}
