@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
 )
 
@@ -48,6 +49,11 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Create file
+	sheet := models.Sheet{
+		SheetName: r.FormValue("sheetName"),
+	}
+	sheet.Prepare()
+	sheet.SaveSheet(server.DB)
 	f, err := os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
