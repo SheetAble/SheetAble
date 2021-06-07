@@ -38,7 +38,7 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the file is too big
 	if handler.Size > 100000 {
-		responses.ERROR(w, http.StatusNotAcceptable, errors.New("File too big"))
+		responses.ERROR(w, http.StatusNotAcceptable, errors.New("file too big"))
 	}
 
 	path := "uploaded-sheets"
@@ -56,7 +56,7 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
 
 	if _, err := os.Stat(fullpath); err == nil {
-		responses.ERROR(w, http.StatusInternalServerError, errors.New("File already exists."))
+		responses.ERROR(w, http.StatusInternalServerError, errors.New("file already exists"))
 		return
 	}
 
