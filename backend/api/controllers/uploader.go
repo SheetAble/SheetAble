@@ -3,8 +3,8 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"os"
 
@@ -21,17 +21,12 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Parse our multipart form, 10 << 20 specifies a maximum
-	// upload of 10 MB files.
 	r.ParseMultipartForm(10 << 20)
-	// FormFile returns the first file for the given key `myFile`
-	// it also returns the FileHeader so we can get the Filename,
-	// the Header and the size of the file
+
 	file, handler, err := r.FormFile("uploadfile")
 
 	if err != nil {
 		responses.ERROR(w, http.StatusNotFound, err)
-		fmt.Println(err)
 		return
 	}
 	defer file.Close()
@@ -43,6 +38,24 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	path := "uploaded-sheets"
 	createDir(path)
+
+	// Handle case where no author is given
+	checkAuthor(path, r)
+
+	// Check if the file already exists
+	fullpath := checkFile(path, w, r)
+	if fullpath == "" {
+		return
+	}
+
+	// Create file
+	createFile(uid, r, server, fullpath, w, file)
+
+	// return that we have successfully uploaded our file!
+	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
+}
+
+func checkAuthor(path string, r *http.Request) {
 	// Handle case where no author is given
 	author := r.FormValue("author")
 	if author != "" {
@@ -51,16 +64,9 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 		path += "/unkown"
 	}
 	createDir(path)
+}
 
-	// Check if the file already exists
-	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
-
-	if _, err := os.Stat(fullpath); err == nil {
-		responses.ERROR(w, http.StatusInternalServerError, errors.New("file already exists"))
-		return
-	}
-
-	// Create file
+func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File) {
 	sheet := models.Sheet{
 		SheetName: r.FormValue("sheetName"),
 		AuthorID:  uid,
@@ -75,9 +81,17 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	defer f.Close()
 	io.Copy(f, file)
+}
 
-	// return that we have successfully uploaded our file!
-	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
+func checkFile(path string, w http.ResponseWriter, r *http.Request) string {
+	// Check if the file already exists
+	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
+
+	if _, err := os.Stat(fullpath); err == nil {
+		responses.ERROR(w, http.StatusInternalServerError, errors.New("file already exists"))
+		return ""
+	}
+	return fullpath
 }
 
 func createDir(path string) {
