@@ -1,3 +1,4 @@
+// TODO: Spilt up function in mutliple functions
 package controllers
 
 import (
@@ -7,11 +8,19 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
 )
 
 func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
+	// Check for authentication
+	uid, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
 	// Parse our multipart form, 10 << 20 specifies a maximum
 	// upload of 10 MB files.
 	r.ParseMultipartForm(10 << 20)
@@ -50,9 +59,11 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusInternalServerError, errors.New("File already exists."))
 		return
 	}
+
 	// Create file
 	sheet := models.Sheet{
 		SheetName: r.FormValue("sheetName"),
+		AuthorID:  uid,
 	}
 	sheet.Prepare()
 	sheet.SaveSheet(server.DB)
