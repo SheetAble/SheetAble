@@ -38,6 +38,8 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	author := r.FormValue("author")
 	if author != "" {
 		path += "/" + author
+	} else {
+		path += "/unkown"
 	}
 	createDir(path)
 
