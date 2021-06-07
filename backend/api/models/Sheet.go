@@ -1,3 +1,5 @@
+// TODO: Add rest functions
+
 package models
 
 import (
