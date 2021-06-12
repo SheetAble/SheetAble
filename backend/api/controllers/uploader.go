@@ -3,7 +3,6 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -52,7 +51,7 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create all tags like genres categories etc
-	createTags(r)
+	createDivisions(r, server)
 
 	// Create file
 	createFile(uid, r, server, fullpath, w, file)
@@ -61,10 +60,37 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
 }
 
-func createTags(r *http.Request) {
-	// This function handles the formvalues, these have to be seperated by a comma example: categories | pop, kpop, jpop
-	categories := strings.Split(r.FormValue("categories"), ",")
-	fmt.Println(categories[1])
+func createDivisions(r *http.Request, server *Server) {
+	/*
+		This function handles the formvalues, these have to be seperated
+		by a comma example: categories | pop, kpop, jpop
+	*/
+	getDivisions(server, r, "categories")
+	getDivisions(server, r, "tags")
+	getDivisions(server, r, "genres")
+}
+
+func getDivisions(server *Server, r *http.Request, div string) {
+	// Gets the needed data from the request
+	formVal := r.FormValue(div)
+	if formVal == "" {
+		return
+	}
+
+	categories := strings.Split(formVal, ",")
+	for _, category := range categories {
+		saveDivision(category, div, server)
+	}
+}
+
+func saveDivision(name string, division string, server *Server) {
+	// Saving the division to the database
+	div := models.Division{
+		Name:         name,
+		DivisionName: division,
+	}
+	div.Prepare()
+	div.SaveDivision(server.DB)
 }
 
 func checkAuthor(path string, r *http.Request) string {
