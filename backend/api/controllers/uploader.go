@@ -3,10 +3,12 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
@@ -34,19 +36,23 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// Check if the file is too big
 	if handler.Size > 100000 {
 		responses.ERROR(w, http.StatusNotAcceptable, errors.New("file too big"))
+		return
 	}
 
 	path := "uploaded-sheets"
 	createDir(path)
 
 	// Handle case where no author is given
-	checkAuthor(path, r)
+	path = checkAuthor(path, r)
 
 	// Check if the file already exists
 	fullpath := checkFile(path, w, r)
 	if fullpath == "" {
 		return
 	}
+
+	// Create all tags like genres categories etc
+	createTags(r)
 
 	// Create file
 	createFile(uid, r, server, fullpath, w, file)
@@ -55,7 +61,13 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
 }
 
-func checkAuthor(path string, r *http.Request) {
+func createTags(r *http.Request) {
+	// This function handles the formvalues, these have to be seperated by a comma example: categories | pop, kpop, jpop
+	categories := strings.Split(r.FormValue("categories"), ",")
+	fmt.Println(categories[1])
+}
+
+func checkAuthor(path string, r *http.Request) string {
 	// Handle case where no author is given
 	author := r.FormValue("author")
 	if author != "" {
@@ -64,6 +76,7 @@ func checkAuthor(path string, r *http.Request) {
 		path += "/unkown"
 	}
 	createDir(path)
+	return path
 }
 
 func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File) {
