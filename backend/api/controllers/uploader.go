@@ -1,4 +1,3 @@
-// TODO: Spilt up function in mutliple functions
 package controllers
 
 import (
