@@ -9,16 +9,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
+	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/utils"
 )
 
 func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// Check for authentication
-	uid, err := auth.ExtractTokenID(r)
-	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+	uid := utils.CheckAuthorization(w, r)
+	if uid == 0 {
 		return
 	}
 
