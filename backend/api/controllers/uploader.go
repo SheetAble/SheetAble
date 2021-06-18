@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
@@ -106,8 +107,9 @@ func checkAuthor(path string, r *http.Request) string {
 
 func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File) {
 	sheet := models.Sheet{
-		SheetName: r.FormValue("sheetName"),
-		AuthorID:  uid,
+		SheetName:   r.FormValue("sheetName"),
+		AuthorID:    uid,
+		ReleaseDate: createDate(r.FormValue("releaseDate")),
 	}
 	sheet.Prepare()
 	sheet.SaveSheet(server.DB)
@@ -119,6 +121,13 @@ func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w 
 
 	defer f.Close()
 	io.Copy(f, file)
+}
+
+func createDate(date string) time.Time {
+	// Create a usable date
+	const layoutISO = "2006-01-02"
+	t, _ := time.Parse(layoutISO, date)
+	return t
 }
 
 func checkFile(path string, w http.ResponseWriter, r *http.Request) string {

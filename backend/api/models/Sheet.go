@@ -11,16 +11,18 @@ import (
 )
 
 type Sheet struct {
-	SheetName string    `gorm:"primary_key" json:"sheet_name"`
-	Author    User      `json:"author"`
-	AuthorID  uint32    `gorm:"not null" json:"author_id"`
-	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	SheetName   string `gorm:"primary_key" json:"sheet_name"`
+	Author      User   `json:"author"`
+	ReleaseDate time.Time
+	AuthorID    uint32    `gorm:"not null" json:"author_id"`
+	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func (s *Sheet) Prepare() {
 	s.SheetName = html.EscapeString(strings.TrimSpace(s.SheetName))
 	s.Author = User{}
+	s.ReleaseDate = s.ReleaseDate
 	s.CreatedAt = time.Now()
 	s.UpdatedAt = time.Now()
 }
