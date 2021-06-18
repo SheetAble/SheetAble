@@ -23,6 +23,7 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdatePost))).Methods("PUT")
 	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareAuthentication(s.DeletePost)).Methods("DELETE")
 
-	// Uploader routes
+	// Sheet routes
 	s.Router.HandleFunc("/upload", middlewares.SetMiddlewareJSON(s.UploadFile)).Methods("POST")
+	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareJSON(s.GetSheets)).Methods("GET")
 }
