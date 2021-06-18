@@ -94,7 +94,7 @@ func saveDivision(name string, division string, server *Server) {
 
 func checkAuthor(path string, r *http.Request) string {
 	// Handle case where no author is given
-	author := r.FormValue("author")
+	author := r.FormValue("composer")
 	if author != "" {
 		path += "/" + author
 	} else {
@@ -107,7 +107,8 @@ func checkAuthor(path string, r *http.Request) string {
 func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File) {
 	sheet := models.Sheet{
 		SheetName:   r.FormValue("sheetName"),
-		AuthorID:    uid,
+		Composer:    r.FormValue("composer"),
+		UploaderID:  uid,
 		ReleaseDate: createDate(r.FormValue("releaseDate")),
 	}
 	sheet.Prepare()
