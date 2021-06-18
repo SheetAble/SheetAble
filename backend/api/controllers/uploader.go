@@ -1,3 +1,9 @@
+/*
+	This file is for handeling the basic upload of sheets.
+	It will upload given file in the uploaded sheets folder either under
+	the unknown subfolder or under the author's name subfolder, depending on wheter an author is given or not.
+*/
+
 package controllers
 
 import (
@@ -23,19 +29,13 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseMultipartForm(10 << 20)
 
-	file, handler, err := r.FormFile("uploadfile")
+	pdfFile, _, err := r.FormFile("uploadfile")
 
 	if err != nil {
 		responses.ERROR(w, http.StatusNotFound, err)
 		return
 	}
-	defer file.Close()
-
-	// Check if the file is too big
-	if handler.Size > 100000 {
-		responses.ERROR(w, http.StatusNotAcceptable, errors.New("file too big"))
-		return
-	}
+	defer pdfFile.Close()
 
 	path := "uploaded-sheets"
 	createDir(path)
@@ -44,8 +44,12 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	path = checkAuthor(path, r)
 
 	// Check if the file already exists
-	fullpath := checkFile(path, w, r)
+	fullpath, fullpathThumbnail := checkFile(path, w, r)
 	if fullpath == "" {
+		return
+	}
+
+	if !createThumbnail(fullpathThumbnail, r, w) {
 		return
 	}
 
@@ -53,10 +57,22 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	createDivisions(r, server)
 
 	// Create file
-	createFile(uid, r, server, fullpath, w, file)
+	createFile(uid, r, server, fullpath, w, pdfFile)
 
 	// return that we have successfully uploaded our file!
 	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
+}
+
+func createThumbnail(fullpathThumbnail string, r *http.Request, w http.ResponseWriter) bool {
+	imageFile, _, err := r.FormFile("thumbnail")
+	if err != nil {
+		responses.ERROR(w, http.StatusNotFound, err)
+		return false
+	}
+	defer imageFile.Close()
+
+	osCreateFile(fullpathThumbnail, w, imageFile)
+	return true
 }
 
 func createDivisions(r *http.Request, server *Server) {
@@ -105,6 +121,7 @@ func checkAuthor(path string, r *http.Request) string {
 }
 
 func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File) {
+	// Create database entry
 	sheet := models.Sheet{
 		SheetName:   r.FormValue("sheetName"),
 		Composer:    r.FormValue("composer"),
@@ -113,6 +130,12 @@ func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w 
 	}
 	sheet.Prepare()
 	sheet.SaveSheet(server.DB)
+
+	osCreateFile(fullpath, w, file)
+}
+
+func osCreateFile(fullpath string, w http.ResponseWriter, file multipart.File) {
+	// Create the file
 	f, err := os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
@@ -130,15 +153,15 @@ func createDate(date string) time.Time {
 	return t
 }
 
-func checkFile(path string, w http.ResponseWriter, r *http.Request) string {
+func checkFile(path string, w http.ResponseWriter, r *http.Request) (string, string) {
 	// Check if the file already exists
 	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
-
+	fullpathThumbnail := path + "/" + r.FormValue("sheetName") + "-thumbnail.png"
 	if _, err := os.Stat(fullpath); err == nil {
 		responses.ERROR(w, http.StatusInternalServerError, errors.New("file already exists"))
-		return ""
+		return "", ""
 	}
-	return fullpath
+	return fullpath, fullpathThumbnail
 }
 
 func createDir(path string) {
