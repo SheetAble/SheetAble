@@ -38,13 +38,16 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	defer pdfFile.Close()
 
 	path := "uploaded-sheets"
+	thumbnailPath := "thumbnails"
+
 	createDir(path)
+	createDir(thumbnailPath)
 
 	// Handle case where no author is given
 	path = checkAuthor(path, r)
 
 	// Check if the file already exists
-	fullpath, fullpathThumbnail := checkFile(path, w, r)
+	fullpath, fullpathThumbnail := checkFile(path, thumbnailPath, w, r)
 	if fullpath == "" {
 		return
 	}
@@ -153,10 +156,10 @@ func createDate(date string) time.Time {
 	return t
 }
 
-func checkFile(path string, w http.ResponseWriter, r *http.Request) (string, string) {
+func checkFile(path string, thumbnailPath string, w http.ResponseWriter, r *http.Request) (string, string) {
 	// Check if the file already exists
 	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
-	fullpathThumbnail := path + "/" + r.FormValue("sheetName") + "-thumbnail.png"
+	fullpathThumbnail := thumbnailPath + "/" + r.FormValue("sheetName") + ".png"
 	if _, err := os.Stat(fullpath); err == nil {
 		responses.ERROR(w, http.StatusInternalServerError, errors.New("file already exists"))
 		return "", ""
