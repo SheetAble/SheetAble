@@ -26,4 +26,5 @@ func (s *Server) initializeRoutes() {
 	// Sheet routes
 	s.Router.HandleFunc("/upload", middlewares.SetMiddlewareJSON(s.UploadFile)).Methods("POST")
 	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareJSON(s.GetSheets)).Methods("GET")
+	s.Router.HandleFunc("/sheet/thumbnail/{name}", middlewares.SetMiddlewareAuthentication(s.GetThumbnail)).Methods("GET")
 }
