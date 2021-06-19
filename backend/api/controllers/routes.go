@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"net/http"
+
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/middlewares"
 )
 
@@ -26,7 +28,7 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareAuthentication(s.DeletePost)).Methods("DELETE")
 
 	// Sheet routes
-	s.Router.HandleFunc("/upload", middlewares.SetMiddlewareJSON(s.UploadFile)).Methods("POST")
-	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareJSON(s.GetSheets)).Methods("GET")
+	s.Router.HandleFunc("/upload", middlewares.SetMiddlewareAuthentication(s.UploadFile)).Methods("POST")
+	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareAuthentication(s.GetSheets)).Methods("GET", http.MethodOptions)
 	s.Router.HandleFunc("/sheet/thumbnail/{name}", middlewares.SetMiddlewareAuthentication(s.GetThumbnail)).Methods("GET")
 }
