@@ -1,5 +1,6 @@
 import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, MARK_NOTIFICATIONS_READ, SET_AUTHENTICATED} from '../types'
 import axios from 'axios'
+import { getSheets } from './dataActions'
 
 export const loginUser = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI})
@@ -29,7 +30,6 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     axios.post('/signup', newUserData)
         .then(res => {
             setAuthorizationHeader(res.data.token)
-            dispatch(getUserData())
             dispatch({ type: CLEAR_ERRORS })
             history.push('/')
         })
@@ -38,48 +38,6 @@ export const signupUser = (newUserData, history) => (dispatch) => {
                 type: SET_ERRORS,
                 payload: err.response.data
             })
-        })
-}
-
-export const getUserData = () => (dispatch) => {
-    dispatch({ type: LOADING_USER })
-    axios.get('/user')
-        .then(res => {
-            dispatch({
-                type: SET_USER,
-                payload: res.data
-            })
-        })
-        .catch(err => console.error(err))
-}
-
-export const uploadImage = (formData) => (dispatch) => {
-    dispatch({ type: LOADING_USER })
-    axios.post('/user/image', formData)
-        .then(() => {
-            dispatch(getUserData())
-        })
-        .catch(err => console.error(err))
-}
-
-export const editUserDetails = (userDetails) => (dispatch) => {
-    dispatch({ type: LOADING_USER })
-    axios.post('/user', userDetails)
-        .then(() => {
-            dispatch(getUserData())
-        })
-        .catch(err => console.error(err))
-}
-
-export const markNotificationsRead = (notificationIds) => dispatch => {
-    axios.post('/notifications', notificationIds)
-        .then(res => {
-            dispatch({
-                type: MARK_NOTIFICATIONS_READ
-            })
-        })
-        .catch(err => {
-            console.error(err)
         })
 }
 

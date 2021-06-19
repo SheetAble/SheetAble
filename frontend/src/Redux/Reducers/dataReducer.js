@@ -1,8 +1,7 @@
-import { SET_POSTS, LIKE_POST, UNLIKE_POST, LOADING_DATA, DELETE_POST, CREATE_POST, SET_POST, SUBMIT_COMMENT} from '../types'
+import { LOADING_DATA, SET_SHEETS } from '../types'
 
 const initialState = {
-    posts: [],
-    post: {},
+    sheets: [],
     loading: false
 }
 
@@ -14,56 +13,13 @@ export default function(state = initialState, action){
                 ...state,
                 loading: true
             }
-        case SET_POSTS:
-            return{
-                ...state,
-                posts: action.payload,
-                loading: false
-            }
-        case SET_POST:
+
+        case SET_SHEETS:
             return {
                 ...state,
-                post: action.payload
-            }
-        
-        case LIKE_POST:
-        case UNLIKE_POST:
-            index = state.posts.findIndex((post) => post.postId === action.payload.postId)
-            state.posts[index] = action.payload
-            if(state.post.postId === action.payload.postId){
-                let temp = state.post.comments
-                state.post = action.payload
-                state.post.comments = temp
-            }
-            return{
-                ...state
-            }
-        case DELETE_POST:
-            index = state.posts.findIndex(post=> post.postId === action.payload)
-            state.posts.splice(index, 1)
-            return {
-                ...state
-            }
-        case CREATE_POST:
-            return {
-                ...state,
-                posts: [
-                    action.payload,
-                    ...state.posts
-                ]
+                sheets: action.payload
             }
 
-        case SUBMIT_COMMENT:
-            return {
-                ...state,
-                post: {
-                    ...state.post,
-                    comments: [
-                        action.payload,
-                        ...state.post.comments
-                    ]
-                }
-            }
         default:
             return state   
     }
