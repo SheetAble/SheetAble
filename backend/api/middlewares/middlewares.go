@@ -16,6 +16,7 @@ func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func SetMiddlewareAuthentication(next http.HandlerFunc) http.HandlerFunc {
+	// Check for bearer token
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := auth.TokenValid(r)
 		if err != nil {
