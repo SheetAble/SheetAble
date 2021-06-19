@@ -4,8 +4,6 @@ const initialState = {
     authenticated: false,
     credentials: {},
     loading: false,
-    likes: [],
-    notifications: []
 }
 
 export default function(state = initialState, action){
