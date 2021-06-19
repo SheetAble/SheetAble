@@ -1,13 +1,17 @@
 package controllers
 
-import "github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/middlewares"
+import (
+	"net/http"
+
+	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/middlewares"
+)
 
 func (s *Server) initializeRoutes() {
 	// Home Route
 	s.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(s.Home)).Methods("GET")
 
 	// Login Route
-	s.Router.HandleFunc("/login", middlewares.SetMiddlewareJSON(s.Login)).Methods("POST")
+	s.Router.HandleFunc("/login", middlewares.SetMiddlewareJSON(s.Login)).Methods("POST", http.MethodOptions)
 
 	// Users routes
 	s.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.CreateUser)).Methods("POST")

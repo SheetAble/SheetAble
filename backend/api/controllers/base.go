@@ -11,6 +11,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
 
+	"github.com/rs/cors"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
 )
 
@@ -53,5 +54,9 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 
 func (server *Server) Run(addr string) {
 	fmt.Println("Listening to port 8080")
-	log.Fatal(http.ListenAndServe(addr, server.Router))
+	// cors.Default() setup the middleware with default options being
+	// all origins accepted with simple methods (GET, POST). See
+	// documentation below for more options.
+	handler := cors.Default().Handler(server.Router)
+	log.Fatal(http.ListenAndServe(addr, handler))
 }
