@@ -10,9 +10,6 @@ import (
 )
 
 func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
 	// This endpoint will return max 20 sheets
 	sheet := models.Sheet{}
 
