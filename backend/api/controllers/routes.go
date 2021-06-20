@@ -11,7 +11,7 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(s.Home)).Methods("GET")
 
 	// Login Route
-	s.Router.HandleFunc("/login", middlewares.SetMiddlewareJSON(s.Login)).Methods("POST")
+	s.Router.HandleFunc("/login", middlewares.SetMiddlewareJSON(s.Login)).Methods("POST", http.MethodOptions)
 
 	// Users routes
 	s.Router.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.CreateUser)).Methods("POST")
@@ -29,6 +29,6 @@ func (s *Server) initializeRoutes() {
 
 	// Sheet routes
 	s.Router.HandleFunc("/upload", middlewares.SetMiddlewareAuthentication(s.UploadFile)).Methods("POST")
-	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareAuthentication(s.GetSheets)).Methods("GET", http.MethodOptions)
+	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareAuthentication(s.GetSheets)).Methods("GET")
 	s.Router.HandleFunc("/sheet/thumbnail/{name}", middlewares.SetMiddlewareAuthentication(s.GetThumbnail)).Methods("GET")
 }
