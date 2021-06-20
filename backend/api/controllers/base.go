@@ -57,6 +57,27 @@ func (server *Server) Run(addr string) {
 	// cors.Default() setup the middleware with default options being
 	// all origins accepted with simple methods (GET, POST). See
 	// documentation below for more options.
-	handler := cors.Default().Handler(server.Router)
+
+	c := cors.New(cors.Options{
+		// Enable Debugging for testing, consider disabling in production
+		AllowedHeaders: []string{
+			"Origin",
+			"X-Requested-With",
+			"Content-Type",
+			"Accept",
+			"Authorization",
+		},
+		AllowedMethods: []string{
+			http.MethodHead,
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+		},
+		AllowCredentials: true,
+		Debug:            true,
+	})
+	handler := c.Handler(server.Router)
 	log.Fatal(http.ListenAndServe(addr, handler))
 }
