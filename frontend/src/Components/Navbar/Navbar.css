@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+body{
+ 	margin: 0px;
+}
+
+.navContainer {
+	background-color: #262525;
+	padding: 15px;	
+}
+
+.navULStyle {
+	list-style-type: none;
+  	margin: 0;
+  	padding: 0;
+}
+
+.navLIStyle {
+	display: inline;
+}
+
+.telliusHeaderNav {
+	text-decoration: none;
+	color: white;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 30px;
+	padding-left: 15px;
+}
+
+.navSearchBar{
+	margin-left: 15px;
+	background-color: #3B3838;
+	border-color: #707070;
+	border: 0;
+	border-radius: 40px;
+	
+}
+.navSearchBarDiv {
+	display: inline;
+	margin-left: 15px;
+	background-color: #3B3838;
+	border-color: #707070;
+	border: 0;
+	border-radius: 40px;
+	padding: 5px 30px 5px 30px;
+}
+
+textarea:focus, input:focus {
+	outline: none;
+}
