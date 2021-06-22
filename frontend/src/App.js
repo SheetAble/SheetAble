@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Pages
 import LoginPage from "./Components/Authentication/LoginPage";
 import SignupPage from "./Components/Authentication/SignupPage";
-import HomePage from "./Components/Home/HomePage";
+import HomePageProvider from "./Components/Home/HomePageProvider";
 
 // Redux
 import { Provider } from 'react-redux'
@@ -18,7 +18,6 @@ import axios from 'axios';
 
 // JWT
 import jwtDecode from 'jwt-decode'
-import HomePageNotLoggedIn from './Components/Home/HomePageNotLoggedIn';
 
 
 axios.defaults.baseURL = "http://localhost:8080"
@@ -47,7 +46,7 @@ function App() {
     <Provider store={store}>
       <Router>
         <Switch>
-            <Route exact path="/" component={token? HomePage : HomePageNotLoggedIn} />
+            <Route exact path="/" component={HomePageProvider} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/signup" component={SignupPage} />
         </Switch>

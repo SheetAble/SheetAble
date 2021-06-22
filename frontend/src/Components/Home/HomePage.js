@@ -7,16 +7,17 @@ import { connect } from 'react-redux'
 import { getSheets } from '../../Redux/Actions/dataActions'
 
 class HomePage extends Component {
-	
 	handlePress = () => {
         this.props.getSheets()
+        
 	}
-
-	render() {
+            
+    render() {
         return (
             <button onClick={this.handlePress}>test</button>
         )
-	}	
+    }	
+
 }
 
 HomePage.propTypes = {
@@ -24,7 +25,7 @@ HomePage.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    sheets: state.sheets,
+    sheets: state.data.sheets,
 })
 
 const mapActionsToProps = {
