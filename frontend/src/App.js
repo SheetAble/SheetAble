@@ -18,6 +18,7 @@ import axios from 'axios';
 
 // JWT
 import jwtDecode from 'jwt-decode'
+import HomePageNotLoggedIn from './Components/Home/HomePageNotLoggedIn';
 
 
 axios.defaults.baseURL = "http://localhost:8080"
@@ -41,14 +42,12 @@ if(token){
   }
 }
 
-// TODO: add an else state of the home page (if not logged in)
-
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <Switch>
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" component={token? HomePage : HomePageNotLoggedIn} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/signup" component={SignupPage} />
         </Switch>
