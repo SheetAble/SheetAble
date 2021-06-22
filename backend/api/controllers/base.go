@@ -76,7 +76,6 @@ func (server *Server) Run(addr string) {
 			http.MethodDelete,
 		},
 		AllowCredentials: true,
-		Debug:            true,
 	})
 	handler := c.Handler(server.Router)
 	log.Fatal(http.ListenAndServe(addr, handler))
