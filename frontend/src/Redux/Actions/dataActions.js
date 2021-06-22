@@ -4,7 +4,7 @@ import axios from 'axios'
 // Get all Sheets
 export const getSheets = () => dispatch => {
     dispatch({ type: LOADING_DATA })
-    console.log("In get")
+    console.log(axios.defaults.headers.common['Authorization']);
     axios.get('/sheets')
         .then(res => {
 			console.log(res.data);
