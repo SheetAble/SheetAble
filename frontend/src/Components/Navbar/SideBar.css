@@ -188,7 +188,7 @@ body{
   white-space: nowrap;
   transition: all 0.4s ease;
 }
-.sidebar.active ~ .profile .profile_details{
+.sidebar.active .profile .profile_details{
   opacity: 1;
   pointer-events: auto;
 }

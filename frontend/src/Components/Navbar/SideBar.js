@@ -59,10 +59,10 @@ function SideBar() {
 			<div class="profile_content">
 			<div class="profile">
 				<div class="profile_details">
-	
+
 				<div class="name_job">
-					<div class="name">Account Status:</div>
-					<div class="job">Logged In</div>
+					<div class="name"><span className="name">Account Status:</span></div>
+					<div class="job"><span>Logged In</span></div>
 				</div>
 				</div>
 				<i class='bx bx-log-out' id="log_out" ></i>
