@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginPage from "./Components/Authentication/LoginPage";
 import SignupPage from "./Components/Authentication/SignupPage";
 import HomePageProvider from "./Components/Home/HomePageProvider";
-import Navbar from './Components/Navbar/Navbar';
+import SideBar from './Components/Navbar/SideBar';
 
 // Redux
 import { Provider } from 'react-redux'
@@ -45,7 +45,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <Navbar />
+        <SideBar />
         <Switch>
             <Route exact path="/" component={HomePageProvider} />
             <Route exact path="/login" component={LoginPage} />
