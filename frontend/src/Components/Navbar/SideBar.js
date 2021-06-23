@@ -2,7 +2,7 @@ import React, {Fragment, useState} from 'react'
 import './SideBar.css'
 
 
-function SideBar() {
+function SideBar(props) {
 
 	const arrowHandle = (e) => {
    		let arrowParent = e.target.parentElement.parentElement;
@@ -18,10 +18,10 @@ function SideBar() {
 	return (
 		<Fragment>
 		 <div class={sidebar ? "sidebar" : "sidebar active"}>
-			<div class="logo_content">
-			<div class="logo">
-				<i class='bx bxl-c-plus-plus'></i>
-				<div class="logo_name">Tellius</div>
+			<div  class="logo_content">
+			<div class="logo" >
+				<i class='bx bxs-music'></i>
+				<div onClick={() => props.history.push("/")} class="logo_name" >Tellius</div>
 			</div>
 			<i class={sidebar? 'bx bx-menu' : "bx bx-menu-alt-right"} id="btn" onClick={onClickBtn} ></i>
 			</div>
@@ -69,9 +69,7 @@ function SideBar() {
 			</div>
 			</div>
 		</div>
-		<div class="home_content">
-			<div class="text">Home Content</div>
-		</div>
+		
 	</Fragment>
 	)
 }
