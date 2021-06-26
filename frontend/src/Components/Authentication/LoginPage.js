@@ -14,11 +14,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux'
 import { loginUser } from '../../Redux/Actions/userActions'
 
-const styles = (theme) => ({
-    ...theme.spreadThis
-})
-
-
 class LoginPage extends Component {
 	constructor(){
         super()
@@ -52,13 +47,13 @@ class LoginPage extends Component {
 
 
 	render() {
-		const { classes, UI: {loading} } = this.props
+		const { UI: {loading} } = this.props
         const  {errors} = this.state
         return (
-            <Grid container className={classes.form}>
+            <Grid container >
                 <Grid item sm />
                 <Grid item sm>
-                    <Typography variant="h2"className={classes.pageTitle}>
+                    <Typography variant="h2" >
                         Login
                     </Typography>
                     <form noValidate onSubmit={this.handleSubmit}>
@@ -67,7 +62,6 @@ class LoginPage extends Component {
                             name="email" 
                             type="email" 
                             label="Email" 
-                            className={classes.textField}
                             helperText={errors.email} 
                             error={errors.email ? true : false}
                             value={this.state.email} 
@@ -79,7 +73,6 @@ class LoginPage extends Component {
                             name="password" 
                             type="password" 
                             label="Password" 
-                            className={classes.textField}
                             helperText={errors.password} 
                             error={errors.password ? true : false}
                             value={this.state.password} 
@@ -87,20 +80,20 @@ class LoginPage extends Component {
                             fullWidth 
                         />
                         {errors.general && (
-                            <Typography variant="body2" className={classes.customError}>
+                            <Typography variant="body2" >
                                 {errors.general}
                             </Typography>
-                        )}                           
+                        )}           
+                        
                         <Button 
                         type="submit" 
                         variant="contained" 
                         color="primary" 
-                        className={classes.button}
                         disabled={loading}
                         >
                             Log in
                             {loading && (
-                                <CircularProgress size={30} className={classes.progress} />
+                                <CircularProgress size={30} />
                             )}
                         </Button>
                         <br />
@@ -130,4 +123,4 @@ const mapActionsToProps = {
     loginUser
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(LoginPage))
+export default connect(mapStateToProps, mapActionsToProps)(LoginPage)
