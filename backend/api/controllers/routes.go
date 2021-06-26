@@ -30,5 +30,5 @@ func (s *Server) initializeRoutes() {
 	// Sheet routes
 	s.Router.HandleFunc("/upload", middlewares.SetMiddlewareAuthentication(s.UploadFile)).Methods("POST")
 	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareAuthentication(s.GetSheets)).Methods("GET")
-	s.Router.HandleFunc("/sheet/thumbnail/{name}", middlewares.SetMiddlewareAuthentication(s.GetThumbnail)).Methods("GET")
+	s.Router.HandleFunc("/sheet/thumbnail/{name}", s.GetThumbnail).Methods("GET")
 }
