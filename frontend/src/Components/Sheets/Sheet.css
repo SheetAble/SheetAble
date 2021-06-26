@@ -4,11 +4,13 @@
 	margin-left: 15px;
 	margin-right: 5px;
 	margin-top: 20px;
-	padding-bottom: 10px;
+	padding-bottom: 0px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 5px;
+	min-height: 270px;
 	cursor: pointer;
 }
+ul{overflow:hidden; overflow-x:scroll;}
 
 .thumbnail-image{
 	max-width: 150px;
@@ -42,5 +44,5 @@
 
 .all-sheets-container {
 	display: flex;
-
+	padding-bottom: 25px;
 }
