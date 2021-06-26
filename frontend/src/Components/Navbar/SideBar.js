@@ -17,55 +17,55 @@ function SideBar(props) {
 
 	return (
 		<Fragment>
-		 <div class={sidebar ? "sidebar" : "sidebar active"}>
-			<div  class="logo_content">
-			<div class="logo" >
-				<i class='bx bxs-music'></i>
-				<div onClick={() => props.history.push("/")} class="logo_name" >Tellius</div>
+		 <div className={sidebar ? "sidebar" : "sidebar active"}>
+			<div  className="logo_content">
+			<div className="logo" >
+				<i className='bx bxs-music'></i>
+				<div onClick={() => props.history.push("/")} className="logo_name" >Tellius</div>
 			</div>
-			<i class={sidebar? 'bx bx-menu' : "bx bx-menu-alt-right"} id="btn" onClick={onClickBtn} ></i>
+			<i className={sidebar? 'bx bx-menu' : "bx bx-menu-alt-right"} id="btn" onClick={onClickBtn} ></i>
 			</div>
-			<ul class="nav_list">
+			<ul className="nav_list">
 			<li>
 				<a href="#">
-				<i class='bx bx-grid-alt' ></i>
-				<span class="links_name">Home</span>
+				<i className='bx bx-grid-alt' ></i>
+				<span className="links_name">Home</span>
 				</a>
-				<span class="tooltip">Home</span>
+				<span className="tooltip">Home</span>
 			</li>
 			<li>
 				<a href="#">
-				<i class='bx bx-user' ></i>
-				<span class="links_name">Composer</span>
+				<i className='bx bx-user' ></i>
+				<span className="links_name">Composer</span>
 				</a>
-				<span class="tooltip">Composer</span>
+				<span className="tooltip">Composer</span>
 			</li>
 			<li>
 				<a href="#">
-				<i class='bx bx-cloud-upload' ></i>
-				<span class="links_name">Upload</span>
+				<i className='bx bx-cloud-upload' ></i>
+				<span className="links_name">Upload</span>
 				</a>
-				<span class="tooltip">Upload</span>
+				<span className="tooltip">Upload</span>
 			</li>
 
 			<li>
 				<a href="#">
-				<i class='bx bx-cog' ></i>
-				<span class="links_name">Setting</span>
+				<i className='bx bx-cog' ></i>
+				<span className="links_name">Setting</span>
 				</a>
-				<span class="tooltip">Setting</span>
+				<span className="tooltip">Setting</span>
 			</li>
 			</ul>
-			<div class="profile_content">
-			<div class="profile">
-				<div class="profile_details">
+			<div className="profile_content">
+			<div className="profile">
+				<div className="profile_details">
 
-				<div class="name_job">
-					<div class="name"><span className="name">Account Status:</span></div>
-					<div class="job"><span>Logged In</span></div>
+				<div className="name_job">
+					<div className="name"><span className="name">Account Status:</span></div>
+					<div className="job"><span>Logged In</span></div>
 				</div>
 				</div>
-				<i class='bx bx-log-out' id="log_out" ></i>
+				<i className='bx bx-log-out' id="log_out" ></i>
 			</div>
 			</div>
 		</div>
