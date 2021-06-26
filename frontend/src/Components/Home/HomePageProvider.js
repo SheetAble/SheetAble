@@ -14,7 +14,7 @@ class HomePageProvider extends Component {
         const loggedIn = this.props.authenticated
         if (loggedIn) {            
             return (
-                <HomePage />
+                <HomePage history={this.props.history}/>
             )
         }
 
