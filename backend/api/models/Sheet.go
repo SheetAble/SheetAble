@@ -35,10 +35,15 @@ func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
 }
 
 func (s *Sheet) GetAllSheets(db *gorm.DB) (*[]Sheet, error) {
-	// This method will return max 20 sheets, to find more or specific one you need to specify it
+	/*
+		This method will return max 20 sheets, to find more or specific one you need to specify it.
+		Currently it sorts it by the newest updates
+	*/
 	var err error
 	sheets := []Sheet{}
-	err = db.Debug().Model(&Sheet{}).Limit(20).Find(&sheets).Error
+
+	err = db.Debug().Order("updated_at desc").Limit(20).Find(&sheets).Error
+
 	if err != nil {
 		return &[]Sheet{}, err
 	}
