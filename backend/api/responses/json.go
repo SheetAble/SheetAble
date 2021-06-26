@@ -1,3 +1,6 @@
+/*
+  These are basic Responses
+*/
 package responses
 
 import (
