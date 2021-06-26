@@ -27,21 +27,21 @@ function SideBar(props) {
 			</div>
 			<ul className="nav_list">
 			<li>
-				<a href="#">
+				<a href="/">
 				<i className='bx bx-grid-alt' ></i>
 				<span className="links_name">Home</span>
 				</a>
 				<span className="tooltip">Home</span>
 			</li>
 			<li>
-				<a href="#">
+				<a href="/composer">
 				<i className='bx bx-user' ></i>
 				<span className="links_name">Composer</span>
 				</a>
 				<span className="tooltip">Composer</span>
 			</li>
 			<li>
-				<a href="#">
+				<a href="/upload">
 				<i className='bx bx-cloud-upload' ></i>
 				<span className="links_name">Upload</span>
 				</a>
@@ -49,7 +49,7 @@ function SideBar(props) {
 			</li>
 
 			<li>
-				<a href="#">
+				<a href="/settings">
 				<i className='bx bx-cog' ></i>
 				<span className="links_name">Setting</span>
 				</a>
