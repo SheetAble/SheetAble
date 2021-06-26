@@ -25,6 +25,5 @@ func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
 func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 	// Serve the thumbnail file
 	name := mux.Vars(r)["name"]
-	fmt.Println(name)
 	http.ServeFile(w, r, "thumbnails/"+name+".png")
 }
