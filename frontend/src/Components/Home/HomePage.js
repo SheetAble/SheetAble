@@ -1,20 +1,41 @@
-import React, { Component } from 'react'
-import withStyles from '@material-ui/core/styles/withStyles'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 // Redux stuff
 import { connect } from 'react-redux'
 import { getSheets } from '../../Redux/Actions/dataActions'
 
+// Sidebar
+import SideBar from '../Navbar/SideBar'
+
+// CSS
+import './HomePage.css'
+
+// Components
+import Sheets from '../Sheets/Sheets'
+
 class HomePage extends Component {
-	handlePress = () => {
+    
+    componentDidMount = () => {
         this.props.getSheets()
-        
-	}
+        console.log(this.props.sheets);
+    }
+
             
     render() {
         return (
-            <button onClick={this.handlePress}>test</button>
+            <Fragment>
+                <SideBar history={this.props.history}/>
+                <div className="home_content">
+			        <div> 
+                        <br />
+                        <span className="text">Recently Added Sheets</span>
+                        <hr className="seperator"></hr>
+                        <Sheets />
+                    </div>
+                    
+		        </div>
+            </Fragment>
         )
     }	
 
