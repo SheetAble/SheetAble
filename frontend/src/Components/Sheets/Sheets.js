@@ -7,7 +7,6 @@ function Sheets(props) {
 	const { sheets } = props
 	
 	const sheetItems = sheets.map((sheet) => {
-
 		return (
 			<div className="box-container">
 				<img className="thumbnail-image" src={`http://localhost:8080/sheet/thumbnail/${sheet.sheet_name}`} alt="image" />
