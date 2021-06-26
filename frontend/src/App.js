@@ -10,7 +10,7 @@ import SideBar from './Components/Navbar/SideBar';
 // Redux
 import { Provider } from 'react-redux'
 import store from './Redux/store';
-import { logoutUser, getUserData } from './Redux/Actions/userActions'
+import { logoutUser } from './Redux/Actions/userActions'
 import { SET_AUTHENTICATED } from './Redux/types'
 
 // Axios
