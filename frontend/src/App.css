@@ -15,3 +15,19 @@
   margin: 12px;
 }
 
+
+
+/* Effects */
+/* Ripple effect */
+.ripple {
+  background-position: center;
+  transition: background 0.8s;
+}
+.ripple:hover {
+  background: #e8e8e8 radial-gradient(circle, transparent 1%, #DCDCDC 1%) center/15000%;
+}
+.ripple:active {
+  background-color: #DCDCDC;
+  background-size: 100%;
+  transition: background 0s;
+}
