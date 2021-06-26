@@ -13,19 +13,18 @@ import store from './Redux/store';
 import { logoutUser, getUserData } from './Redux/Actions/userActions'
 import { SET_AUTHENTICATED } from './Redux/types'
 
-
 // Axios
 import axios from 'axios';
 
 // JWT
 import jwtDecode from 'jwt-decode'
 
+// CSS
+import './App.css'
 
 axios.defaults.baseURL = "http://localhost:8080"
 
-
-// Token stuff 
-// TODO: rewrite into function
+// Load token from localstorage 
 const token = localStorage.FBIdToken
 if(token){
   const decodedToken = jwtDecode(token)
@@ -45,7 +44,6 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <SideBar />
         <Switch>
             <Route exact path="/" component={HomePageProvider} />
             <Route exact path="/login" component={LoginPage} />
