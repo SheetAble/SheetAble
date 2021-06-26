@@ -1,0 +1,39 @@
+.box-container {
+	background-color: #E8E8E8	;
+	width: 150px;
+	margin-left: 15px;
+	margin-top: 20px;
+	padding-bottom: 10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 5px;
+}
+
+.thumbnail-image{
+	max-width: 150px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.sheet-name-container {
+	text-align: left;
+	margin-left: 5px;
+	margin-top: 2px;
+	line-height: 0.6;
+}
+
+.sheet-name {
+	color: #404040;
+	font-weight: 300;
+	
+}
+
+.sheet-composer-container {
+	text-align: left;
+	margin-left: 5px;
+}
+
+.sheet-composer {
+	color: grey;
+	font-size: small;
+	font-weight: 100;
+}

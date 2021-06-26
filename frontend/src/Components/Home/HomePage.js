@@ -18,7 +18,6 @@ class HomePage extends Component {
     
     componentDidMount = () => {
         this.props.getSheets()
-        console.log(this.props.sheets);
     }
 
             
@@ -31,7 +30,7 @@ class HomePage extends Component {
                         <br />
                         <span className="text">Recently Added Sheets</span>
                         <hr className="seperator"></hr>
-                        <Sheets />
+                        <Sheets sheets={this.props.sheets} />
                     </div>
                     
 		        </div>
