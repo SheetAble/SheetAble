@@ -2,6 +2,7 @@
 	background-color: #E8E8E8;
 	width: 150px;
 	margin-left: 15px;
+	margin-right: 5px;
 	margin-top: 20px;
 	padding-bottom: 10px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -19,7 +20,7 @@
 	text-align: left;
 	margin-left: 10px;
 	margin-top: 2px;
-	line-height: 0.6;
+	line-height: 100%;
 }
 
 .sheet-name {
@@ -37,4 +38,9 @@
 	color: grey;
 	font-size: small;
 	font-weight: 100;
+}
+
+.all-sheets-container {
+	display: flex;
+
 }

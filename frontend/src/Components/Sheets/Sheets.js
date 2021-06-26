@@ -24,7 +24,7 @@ function Sheets(props) {
 	);
 
 	return (
-		<ul>
+		<ul className="all-sheets-container">
 			{sheetItems}
 		</ul>
 	)
