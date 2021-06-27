@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+
+import './LoginPage.css'
+
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -15,22 +18,17 @@ import { connect } from 'react-redux'
 import { loginUser } from '../../Redux/Actions/userActions'
 
 class LoginPage extends Component {
+
 	constructor(){
         super()
         this.state = {
             email: '',
             password: '',
-            errors: {}
         }
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.UI.errors){
-            this.setState({ errors: nextProps.UI.errors})
-        }
-    }
-
-    handleSubmit = (event) => {
+	handleSubmit = (event) => {
+		console.log(this.state);
         event.preventDefault()
         const userData = {
             email: this.state.email,
@@ -45,66 +43,43 @@ class LoginPage extends Component {
         })
     }
 
-
 	render() {
-		const { UI: {loading} } = this.props
-        const  {errors} = this.state
-        return (
-            <Grid container >
-                <Grid item sm />
-                <Grid item sm>
-                    <Typography variant="h2" >
-                        Login
-                    </Typography>
-                    <form noValidate onSubmit={this.handleSubmit}>
-                        <TextField 
-                            id="email" 
-                            name="email" 
-                            type="email" 
-                            label="Email" 
-                            helperText={errors.email} 
-                            error={errors.email ? true : false}
-                            value={this.state.email} 
-                            onChange={this.handleChange}                         
-                            fullWidth 
-                        />
-                        <TextField 
-                            id="password" 
-                            name="password" 
-                            type="password" 
-                            label="Password" 
-                            helperText={errors.password} 
-                            error={errors.password ? true : false}
-                            value={this.state.password} 
-                            onChange={this.handleChange}
-                            fullWidth 
-                        />
-                        {errors.general && (
-                            <Typography variant="body2" >
-                                {errors.general}
-                            </Typography>
-                        )}           
-                        
-                        <Button 
-                        type="submit" 
-                        variant="contained" 
-                        color="primary" 
-                        disabled={loading}
-                        >
-                            Log in
-                            {loading && (
-                                <CircularProgress size={30} />
-                            )}
-                        </Button>
-                        <br />
-                        <br />
-                        <small>Dont have an account? Sign up <Link to="/signup">here</Link></small>
-                    </form>
-                </Grid>
-                <Grid item sm />
-            </Grid>
-        )
-	}	
+		
+		return(
+			<div className="all-container">
+			<div class="wrapper">
+				<div class="title">
+					Login
+				</div>
+				<form >
+					<div class="field">
+						<input name="email" type="email" required onChange={this.handleChange}/>
+						<label>Email Address</label>
+					</div>
+					<div class="field">
+						<input name="password" type="password" required onChange={this.handleChange}/>
+					<label>Password</label>
+					</div>
+					<div class="content">
+						<div class="checkbox">
+							<input type="checkbox" id="remember-me" />
+							<label for="remember-me">Remember me</label>
+						</div>
+						<div class="pass-link">
+							<a href="/forgot-password">Forgot password?</a>
+						</div>
+					</div>
+					<div class="field">
+						<input type="submit" value="Login" onClick={this.handleSubmit} /> 
+					</div>
+					<div class="signup-link">
+						No account? <a href="/signup">Signup now</a>
+					</div>
+				</form>
+      		</div>
+		  </div>
+		)
+	}
 }
 
 LoginPage.propTypes = {
@@ -123,3 +98,4 @@ const mapActionsToProps = {
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(LoginPage)
+
