@@ -14,7 +14,7 @@ function Composers(props) {
 						<span className="comp-name">{composer.name}</span>
 					</div>
 					<div className="life-container">
-						<span className="life-text">1810.01.01 - 1849.01.01</span>
+						<span className="life-text">Romantic</span>
 					</div>
 				</div>
 			</li>
