@@ -59,11 +59,22 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// Create all tags like genres categories etc
 	createDivisions(r, server)
 
+	// Save composer in the database
+	safeComposer(r, server)
+
 	// Create file
 	createFile(uid, r, server, fullpath, w, pdfFile)
 
 	// return that we have successfully uploaded our file!
 	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
+}
+
+func safeComposer(r *http.Request, server *Server) {
+	comp := models.Composer{
+		Name: r.FormValue("composer"),
+	}
+	comp.Prepare()
+	comp.SaveComposer(server.DB)
 }
 
 func createThumbnail(fullpathThumbnail string, r *http.Request, w http.ResponseWriter) bool {

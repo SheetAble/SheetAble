@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -18,7 +17,6 @@ func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusInternalServerError, err)
 		return
 	}
-	fmt.Println(sheets)
 	responses.JSON(w, http.StatusOK, sheets)
 }
 
@@ -26,4 +24,18 @@ func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 	// Serve the thumbnail file
 	name := mux.Vars(r)["name"]
 	http.ServeFile(w, r, "thumbnails/"+name+".png")
+}
+
+func (server *Server) GetComposers(w http.ResponseWriter, r *http.Request) {
+	/*
+		Get authors, limited by 20 and sorted by newest
+	*/
+	composer := models.Composer{}
+
+	composers, err := composer.GetAllComposer(server.DB)
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+		return
+	}
+	responses.JSON(w, http.StatusOK, composers)
 }
