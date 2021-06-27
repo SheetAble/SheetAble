@@ -13,6 +13,7 @@ import './HomePage.css'
 
 // Components
 import Sheets from '../Sheets/Sheets'
+import Composers from '../Composers/Composers'
 
 // Images
 import lostImage from '../../Images/lost.svg'
@@ -35,6 +36,7 @@ class HomePage extends Component {
                     
                     <span className="text">New Composers</span>
                     <hr className="seperator"></hr>
+                    <Composers composers={this.props.composers} />
                 </div>
             </div>
         )
@@ -66,7 +68,7 @@ HomePage.propTypes = {
 
 const mapStateToProps = (state) => ({
     sheets: state.data.sheets,
-    composers: state.data.sheets 
+    composers: state.data.composers 
 })
 
 const mapActionsToProps = {
