@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 // Redux stuff
 import { connect } from 'react-redux'
-import { getSheets } from '../../Redux/Actions/dataActions'
+import { getSheets, getComposers } from '../../Redux/Actions/dataActions'
 
 // Sidebar
 import SideBar from '../Navbar/SideBar'
@@ -21,19 +21,21 @@ class HomePage extends Component {
     
     componentDidMount = () => {
         this.props.getSheets()
+        this.props.getComposers()
     }
-
-    
             
     render() {
         const sheetsTrue = (
             <div className="home_content">
                 <div> 
                     <br />
-                        <span className="text">Recently Added Sheets</span>
-                        <hr className="seperator"></hr>
-                        <Sheets sheets={this.props.sheets} />
-                    </div>
+                    <span className="text">Recently Added Sheets</span>
+                    <hr className="seperator"></hr>
+                    <Sheets sheets={this.props.sheets} />
+                    
+                    <span className="text">New Composers</span>
+                    <hr className="seperator"></hr>
+                </div>
             </div>
         )
         
@@ -59,14 +61,17 @@ class HomePage extends Component {
 
 HomePage.propTypes = {
     getSheets: PropTypes.func.isRequired,
+    getComposers: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
     sheets: state.data.sheets,
+    composers: state.data.sheets 
 })
 
 const mapActionsToProps = {
-    getSheets
+    getSheets,
+    getComposers
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(HomePage)

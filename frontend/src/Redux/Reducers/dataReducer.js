@@ -1,7 +1,8 @@
-import { LOADING_DATA, SET_SHEETS } from '../types'
+import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS } from '../types'
 
 const initialState = {
     sheets: [],
+    composers: [],
     loading: false
 }
 
@@ -19,6 +20,20 @@ export default function(state = initialState, action){
                 ...state,
                 sheets: action.payload
             }
+
+        case LOADING_COMPOSERS:
+            return {
+                ...state,
+                loading: true
+            }   
+            
+        case SET_COMPOSERS:
+            return {
+                ...state,
+                composers: action.payload
+            }
+
+            
 
         default:
             return state   
