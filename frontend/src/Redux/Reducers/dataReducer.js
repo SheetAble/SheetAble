@@ -18,7 +18,8 @@ export default function(state = initialState, action){
         case SET_SHEETS:
             return {
                 ...state,
-                sheets: action.payload
+                sheets: action.payload,
+                loading: false
             }
 
         case LOADING_COMPOSERS:
@@ -30,7 +31,8 @@ export default function(state = initialState, action){
         case SET_COMPOSERS:
             return {
                 ...state,
-                composers: action.payload
+                composers: action.payload,
+                loading: false
             }
 
             

@@ -50,11 +50,17 @@ class HomePage extends Component {
                 </div>
             </div>
         )
+
+        const loadingJSX = (
+            <h1>loading</h1>
+        )
+
         return (
             <Fragment>
                 <SideBar history={this.props.history}/>
-                {this.props.sheets.length > 0 ? sheetsTrue : sheetsFalse}
-                
+                {
+                    this.props.loading? loadingJSX : this.props.sheets.length > 0 ? sheetsTrue : sheetsFalse
+                }                
             </Fragment>
         )
     }	
@@ -63,12 +69,14 @@ class HomePage extends Component {
 
 HomePage.propTypes = {
     getSheets: PropTypes.func.isRequired,
-    getComposers: PropTypes.func.isRequired
+    getComposers: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state) => ({
     sheets: state.data.sheets,
-    composers: state.data.composers 
+    composers: state.data.composers,
+    loading: state.data.loading
 })
 
 const mapActionsToProps = {
