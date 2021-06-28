@@ -109,16 +109,15 @@ func getPortraitURL(composerName string) Comp {
 	/*
 		Check if the given name and the name from the API are alike
 	*/
-	if strings.EqualFold(composerName, composers[0].Name) || strings.EqualFold(composerName, composers[0].CompleteName) {
-		return composers[0]
+	if len(composers) == 0 || !strings.EqualFold(composerName, composers[0].Name) || !strings.EqualFold(composerName, composers[0].CompleteName) {
+		return Comp{
+			CompleteName: composerName,
+			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
+			Epoch:        "Unkown",
+		}
 	}
 
-	return Comp{
-		CompleteName: composerName,
-		Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
-		Epoch:        "Unkown",
-	}
-
+	return composers[0]
 }
 
 func safeComposer(r *http.Request, server *Server) {
