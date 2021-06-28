@@ -113,7 +113,7 @@ func getPortraitURL(composerName string) Comp {
 		return Comp{
 			CompleteName: composerName,
 			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
-			Epoch:        "Unkown",
+			Epoch:        "Unknown",
 		}
 	}
 
