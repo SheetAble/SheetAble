@@ -59,11 +59,14 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	path := "uploaded-sheets"
 	thumbnailPath := "thumbnails"
 
+	// Save composer in the database
+	comp := safeComposer(r, server)
+
 	createDir(path)
 	createDir(thumbnailPath)
 
 	// Handle case where no author is given
-	path = checkAuthor(path, r)
+	path = checkAuthor(path, comp)
 
 	// Check if the file already exists
 	fullpath, fullpathThumbnail := checkFile(path, thumbnailPath, w, r)
@@ -77,9 +80,6 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	// Create all tags like genres categories etc
 	createDivisions(r, server)
-
-	// Save composer in the database
-	comp := safeComposer(r, server)
 
 	// Create file
 	createFile(uid, r, server, fullpath, w, pdfFile, comp)
@@ -179,9 +179,9 @@ func saveDivision(name string, division string, server *Server) {
 	div.SaveDivision(server.DB)
 }
 
-func checkAuthor(path string, r *http.Request) string {
+func checkAuthor(path string, comp Comp) string {
 	// Handle case where no author is given
-	author := r.FormValue("composer")
+	author := comp.CompleteName
 	if author != "" {
 		path += "/" + author
 	} else {
