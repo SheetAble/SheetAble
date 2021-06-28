@@ -116,6 +116,7 @@ func getPortraitURL(composerName string) Comp {
 	return Comp{
 		CompleteName: composerName,
 		Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
+		Epoch:        "Unkown",
 	}
 
 }
@@ -127,6 +128,7 @@ func safeComposer(r *http.Request, server *Server) {
 	comp := models.Composer{
 		Name:        compo.CompleteName,
 		PortraitURL: compo.Portrait,
+		Epoch:       compo.Epoch,
 	}
 	comp.Prepare()
 	comp.SaveComposer(server.DB)
