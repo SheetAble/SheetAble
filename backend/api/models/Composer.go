@@ -9,13 +9,15 @@ import (
 )
 
 type Composer struct {
-	Name      string    `gorm:"primary_key" json:"name"`
-	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	Name        string    `gorm:"primary_key" json:"name"`
+	PortraitURL string    `json:"portrait_url"`
+	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func (c *Composer) Prepare() {
 	c.Name = html.EscapeString(strings.TrimSpace(c.Name))
+	c.PortraitURL = html.EscapeString(strings.TrimSpace(c.PortraitURL))
 	c.CreatedAt = time.Now()
 	c.UpdatedAt = time.Now()
 }

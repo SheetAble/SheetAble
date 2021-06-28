@@ -7,7 +7,9 @@
 package controllers
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -19,6 +21,23 @@ import (
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/utils"
 )
+
+/*
+	Structs for handling the response on the Open Opus API
+*/
+
+type Response struct {
+	Composers *[]Comp `json: "composers"`
+}
+
+type Comp struct {
+	Name         string `json:"name"`
+	CompleteName string `json:"complete_name"`
+	Birth        string `json:"birth"`
+	Death        string `json:"death"`
+	Epoch        string `json:"epoch"`
+	Portrait     string `json:"portrait"`
+}
 
 func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// Check for authentication
@@ -69,9 +88,45 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
 }
 
+func getPortraitURL(composerName string) Comp {
+	resp, err := http.Get("https://api.openopus.org/composer/list/search/" + composerName + ".json")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+	response := &Response{
+		Composers: &[]Comp{},
+	}
+
+	err_new := json.Unmarshal([]byte(string(body)), response)
+	fmt.Println(err_new)
+	composers := *response.Composers
+
+	/*
+		Check if the given name and the name from the API are alike
+	*/
+	if strings.EqualFold(composerName, composers[0].Name) || strings.EqualFold(composerName, composers[0].CompleteName) {
+		return composers[0]
+	}
+
+	return Comp{
+		CompleteName: composerName,
+		Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
+	}
+
+}
+
 func safeComposer(r *http.Request, server *Server) {
+
+	compo := getPortraitURL(r.FormValue("composer"))
+
 	comp := models.Composer{
-		Name: r.FormValue("composer"),
+		Name:        compo.CompleteName,
+		PortraitURL: compo.Portrait,
 	}
 	comp.Prepare()
 	comp.SaveComposer(server.DB)
