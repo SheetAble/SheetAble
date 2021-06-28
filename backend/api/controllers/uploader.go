@@ -79,10 +79,10 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	createDivisions(r, server)
 
 	// Save composer in the database
-	safeComposer(r, server)
+	comp := safeComposer(r, server)
 
 	// Create file
-	createFile(uid, r, server, fullpath, w, pdfFile)
+	createFile(uid, r, server, fullpath, w, pdfFile, comp)
 
 	// return that we have successfully uploaded our file!
 	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
@@ -120,7 +120,7 @@ func getPortraitURL(composerName string) Comp {
 	return composers[0]
 }
 
-func safeComposer(r *http.Request, server *Server) {
+func safeComposer(r *http.Request, server *Server) Comp {
 
 	compo := getPortraitURL(r.FormValue("composer"))
 
@@ -131,6 +131,7 @@ func safeComposer(r *http.Request, server *Server) {
 	}
 	comp.Prepare()
 	comp.SaveComposer(server.DB)
+	return compo
 }
 
 func createThumbnail(fullpathThumbnail string, r *http.Request, w http.ResponseWriter) bool {
@@ -190,11 +191,11 @@ func checkAuthor(path string, r *http.Request) string {
 	return path
 }
 
-func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File) {
+func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File, comp Comp) {
 	// Create database entry
 	sheet := models.Sheet{
 		SheetName:   r.FormValue("sheetName"),
-		Composer:    r.FormValue("composer"),
+		Composer:    comp.CompleteName,
 		UploaderID:  uid,
 		ReleaseDate: createDate(r.FormValue("releaseDate")),
 	}
