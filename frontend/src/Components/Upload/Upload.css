@@ -222,7 +222,7 @@ input:focus,
 }
 
 .slider-form [type="text"] {
-	width: 100%;
+	width: 90%;
 	box-sizing: border-box;
 	padding: 15px 20px;
 	background: white;
@@ -234,6 +234,8 @@ input:focus,
 	font-family: 'Roboto', sans-serif;
 	position: relative;
 	z-index: 99;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 3px 0 rgba(0, 0, 0, 0.19);
+
 }
 
 .slider-form [type="text"]:focus {
@@ -246,6 +248,7 @@ input:focus,
   display: inline-block;
   text-decoration: none;
 	background: #1d1b31;
+	
 	border: none;
 	color: white;
 	padding: 10px 25px;
