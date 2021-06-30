@@ -21,6 +21,7 @@ import jwtDecode from 'jwt-decode'
 
 // CSS
 import './App.css'
+import UploadPage from './Components/Upload/UploadPage';
 
 axios.defaults.baseURL = "http://localhost:8080"
 
@@ -48,6 +49,7 @@ function App() {
             <Route exact path="/" component={HomePageProvider} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/signup" component={SignupPage} />
+            <Route exact path="/upload" component={UploadPage} />
         </Switch>
       </Router>
     </Provider>
