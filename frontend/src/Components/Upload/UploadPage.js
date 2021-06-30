@@ -53,11 +53,11 @@ const InteractiveForm = () => {
 			<div class="steps">
 				<div class="step step-one">
 				<div class="liner"></div>
-				<span>Name</span>
+				<span>Information</span>
 				</div>
 				<div class="step step-two">
 				<div class="liner"></div>
-				<span>Rating</span>
+				<span>Composer Name</span>
 				</div>
 				<div class="step step-three">
 				<div class="liner"></div>
@@ -73,28 +73,18 @@ const InteractiveForm = () => {
 			<div class="slider-ctr">
 				<div class="slider">
 				<form class="slider-form slider-one">
-					<h2>Type in the name of the piece</h2>
+					<h2>Type in the data of the sheet</h2>
 					<label class="input">
-					<input type="text" class="name" name="sheetName" placeholder="What's the name of the sheet?" onChange={handleChange}/>
-					</label>
+						<input type="text" class="name" name="sheetName" placeholder="What's the name of the sheet?" onChange={handleChange}/>
+						<input type="text" class="name" name="composer" placeholder="What is the name of the composer?" onChange={handleChange}/>
+					</label>					
 					<button class="first next interactive-form-button" onClick={firstButtonOnClick}>{firstButtonText}</button>
 				</form>
 				<form class="slider-form slider-two">
-					<h2>Are you happy with our service?</h2>
-					<div class="label-ctr">
-					<label class="radio">
-						<input type="radio" value="happy" name="condition" />
-						<div class="emot happy">
-						<div class="mouth sad"></div>
-						</div>
+					<h2>From whom</h2>
+					<label class="input">
+					<input type="text" class="name" name="sheetName" placeholder="What is the name of the composer?" onChange={handleChange}/>
 					</label>
-					<label class="radio">
-						<input type="radio" value="happy" name="condition" />
-						<div class="emot happy">
-						<div class="mouth smile"></div>
-						</div>
-					</label>
-					</div>
 					<button onClick={secondButtonOnClick} class="second next interactive-form-button">{secondButtonText}</button>
 				</form>
 				<div class="slider-form slider-three">

@@ -225,11 +225,11 @@ input:focus,
 	width: 100%;
 	box-sizing: border-box;
 	padding: 15px 20px;
-	background: #fafafa;
+	background: white;
 	border: 1px solid transparent;
 	color: #777;
 	border-radius: 50px;
-	margin-bottom: 50px;
+	margin-bottom: 25px;
 	font-size: 1rem;
 	font-family: 'Roboto', sans-serif;
 	position: relative;
