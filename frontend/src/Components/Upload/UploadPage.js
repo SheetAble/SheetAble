@@ -22,15 +22,17 @@ const InteractiveForm = () => {
 
 	const [containerClasses, setcontainerClasses] = useState("container slider-one-active")
 
-	const firstButtonOnClick = (e) => {
-		console.log("firstButton Clik");
-		    e.preventDefault();
+	const [requestData, setrequestData] = useState({
+		uploadFile: undefined,
+		composer: "",
+		sheetName: "",
+		releaseDate: ""
+	})
 
+	const firstButtonOnClick = (e) => {
+		e.preventDefault();
 		setfirstButtonText("Saving...")
-		
 		setcontainerClasses("container center slider-two-active")
-		
-		
 	};
 
 	const secondButtonOnClick = (e) => {
@@ -39,12 +41,19 @@ const InteractiveForm = () => {
 		setcontainerClasses("container full slider-three-active")
 	}
 
+	const handleChange = (event) => {
+        setrequestData({
+			...requestData,
+			[event.target.name]: event.target.value
+		})    
+    }
+
 	return (
 		<div class={containerClasses}>
 			<div class="steps">
 				<div class="step step-one">
 				<div class="liner"></div>
-				<span>Hello!</span>
+				<span>Name</span>
 				</div>
 				<div class="step step-two">
 				<div class="liner"></div>
@@ -64,11 +73,11 @@ const InteractiveForm = () => {
 			<div class="slider-ctr">
 				<div class="slider">
 				<form class="slider-form slider-one">
-					<h2>Step Form Design Experience</h2>
+					<h2>Type in the name of the piece</h2>
 					<label class="input">
-					<input type="text" class="name" placeholder="What's your name?" />
+					<input type="text" class="name" name="sheetName" placeholder="What's the name of the sheet?" onChange={handleChange}/>
 					</label>
-					<button class="first next" onClick={firstButtonOnClick}>{firstButtonText}</button>
+					<button class="first next interactive-form-button" onClick={firstButtonOnClick}>{firstButtonText}</button>
 				</form>
 				<form class="slider-form slider-two">
 					<h2>Are you happy with our service?</h2>
@@ -86,7 +95,7 @@ const InteractiveForm = () => {
 						</div>
 					</label>
 					</div>
-					<button onClick={secondButtonOnClick} class="second next">{secondButtonText}</button>
+					<button onClick={secondButtonOnClick} class="second next interactive-form-button">{secondButtonText}</button>
 				</form>
 				<div class="slider-form slider-three">
 					<h2>Hello, <span class="yourname"></span></h2>

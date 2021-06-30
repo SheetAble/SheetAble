@@ -2,16 +2,16 @@
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
 input:focus,
-button:focus {
+.interactive-form-button:focus {
 	outline: none;
 }
 
-button:hover,
+.interactive-form-button:hover,
 .reset:hover {
 	opacity: .8;
 }
 
-button:active,
+.interactive-form-button:active,
 .reset:active {
 	opacity: .5;
 }
@@ -129,7 +129,7 @@ button:active,
 }
 
 .container.slider-one-active .dot.zero {
-	background: #5892fc;
+	background: #1d1b31;
 }
 
 .line .dot.center {
@@ -217,7 +217,7 @@ button:active,
 .slider-form h3 .balapa {
 	font-family: 'Pacifico', sans-serif;
 	display: inline-block;
-	color: #5892fc;
+	color: #1d1b31;
 	text-decoration: none
 }
 
@@ -241,16 +241,16 @@ button:active,
 	border: 1px solid #ddd;
 }
 
-.slider-form button,
+.slider-form .interactive-form-button,
 .reset {
   display: inline-block;
   text-decoration: none;
-	background: #5892fc;
+	background: #1d1b31;
 	border: none;
 	color: white;
 	padding: 10px 25px;
 	font-size: 1rem;
-	border-radius: 3px;
+	border-radius: 10px;
 	cursor: pointer;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 300;
@@ -286,12 +286,12 @@ label.radio input:checked + .emot {
 
 label.radio input:checked + .emot,
 label.radio input:checked + .emot .mouth {
-	border-color: #5892fc;
+	border-color: #1d1b31;
 }
 
 label.radio input:checked + .emot:before,
 label.radio input:checked + .emot:after {
-	background: #5892fc;
+	background: #1d1b31;
 }
 
 label.radio .emot {
@@ -359,7 +359,7 @@ label.radio .emot .mouth.sad {
 }
 
 .container.center .line .dot.center {
-	background: #5892fc;
+	background: #1d1b31;
 }
 
 .container.center .slider {
@@ -384,7 +384,7 @@ label.radio .emot .mouth.sad {
 }
 
 .container.full .line .dot.full {
-	background: #5892fc;
+	background: #1d1b31;
 }
 
 .container.full .slider {
