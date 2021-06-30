@@ -402,3 +402,7 @@ label.radio .emot .mouth.sad {
 .container.full .step-two .liner {
 	width: 100%;
 }
+
+.upload-container {
+	margin-top: -30px;
+}

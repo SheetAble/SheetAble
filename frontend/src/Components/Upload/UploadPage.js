@@ -3,6 +3,9 @@ import SideBar from '../Navbar/SideBar'
 
 import "./Upload.css"
 
+import DragNDrop from './DragNDrop'
+
+
 function UploadPage() {
 	return (
 		<Fragment>
@@ -57,7 +60,7 @@ const InteractiveForm = () => {
 				</div>
 				<div class="step step-two">
 				<div class="liner"></div>
-				<span>Composer Name</span>
+				<span>Upload</span>
 				</div>
 				<div class="step step-three">
 				<div class="liner"></div>
@@ -75,16 +78,14 @@ const InteractiveForm = () => {
 				<form class="slider-form slider-one">
 					<h2>Type in the data of the sheet</h2>
 					<label class="input">
-						<input type="text" class="name" name="sheetName" placeholder="What's the name of the sheet?" onChange={handleChange}/>
-						<input type="text" class="name" name="composer" placeholder="What is the name of the composer?" onChange={handleChange}/>
+						<input type="text" class="name" name="sheetName" placeholder="Sheet Name" onChange={handleChange}/>
+						<input type="text" class="name" name="composer" placeholder="Composer" onChange={handleChange}/>
 					</label>					
 					<button class="first next interactive-form-button" onClick={firstButtonOnClick}>{firstButtonText}</button>
 				</form>
 				<form class="slider-form slider-two">
-					<h2>From whom</h2>
-					<label class="input">
-					<input type="text" class="name" name="sheetName" placeholder="What is the name of the composer?" onChange={handleChange}/>
-					</label>
+					<h2>Upload the PDF</h2>
+					<DragNDrop />
 					<button onClick={secondButtonOnClick} class="second next interactive-form-button">{secondButtonText}</button>
 				</form>
 				<div class="slider-form slider-three">
