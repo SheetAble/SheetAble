@@ -4,8 +4,6 @@ import './LoginPage.css'
 
 import PropTypes from 'prop-types'
 
-import Typography from '@material-ui/core/Typography'
-
 // Redux stuff
 import { connect } from 'react-redux'
 import { loginUser } from '../../Redux/Actions/userActions'
@@ -28,7 +26,6 @@ class LoginPage extends Component {
     }
 
 	handleSubmit = (event) => {
-		console.log(this.state);
         event.preventDefault()
         const userData = {
             email: this.state.email,
