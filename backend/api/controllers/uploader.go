@@ -185,7 +185,7 @@ func checkAuthor(path string, comp Comp) string {
 	if author != "" {
 		path += "/" + author
 	} else {
-		path += "/unkown"
+		path += "/unknown"
 	}
 	createDir(path)
 	return path
