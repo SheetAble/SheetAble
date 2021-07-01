@@ -52,6 +52,8 @@ const InteractiveForm = () => {
     }
 
 	return (
+		<Fragment>
+	
 		<div class={containerClasses}>
 			<div class="steps">
 				<div class="step step-one">
@@ -85,18 +87,19 @@ const InteractiveForm = () => {
 				</form>
 				<form class="slider-form slider-two">
 					<h2>Upload the PDF</h2>
-					<DragNDrop />
-					<button onClick={secondButtonOnClick} class="second next interactive-form-button">{secondButtonText}</button>
+					<DragNDrop requestData={requestData} secondButtonOnClick={secondButtonOnClick} secondButtonText={secondButtonText}/>
+					
 				</form>
-				<div class="slider-form slider-three">
-					<h2>Hello, <span class="yourname"></span></h2>
-					<h3>Thank you for your input!
+				<div class="slider-form slider-three three">
+					<h2>The Sheet, <span class="yourname">{requestData.sheetName}</span></h2>
+					<h3 className="minus-marg">has been succesfully uploaded
 								</h3>
-					<a class="reset" href="https://codepen.io/balapa/pen/XbXVRg" target="_blank">Reset</a>
+					<a class="reset" href="/" >Home</a>
 				</div>
 				</div>
 			</div>
 		</div>
+		</Fragment>
 	)
 }
 
