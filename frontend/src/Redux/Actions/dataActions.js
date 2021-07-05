@@ -56,6 +56,25 @@ export const getComposers = () => dispatch => {
         })
 }
 
+// Upload a sheet
 export const uploadSheet = (data) => dispatch => {
-    console.log("test");
+    console.log(data.uploadFile);
+    let bodyFormData = new FormData()
+    bodyFormData.append('uploadFile', data.uploadFile)
+    bodyFormData.append('sheetName', data.sheetName)
+    bodyFormData.append('composer', data.composer)
+    bodyFormData.append("releaseDate", data.releaseDate)
+
+    console.log(bodyFormData);
+
+    axios.post("/upload", bodyFormData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }})
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }

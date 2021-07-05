@@ -29,7 +29,7 @@ const InteractiveForm = () => {
 		uploadFile: undefined,
 		composer: "",
 		sheetName: "",
-		releaseDate: ""
+		releaseDate: "1999-12-31",
 	})
 
 	const firstButtonOnClick = (e) => {
