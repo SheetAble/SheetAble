@@ -48,7 +48,7 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseMultipartForm(10 << 20)
 
-	pdfFile, _, err := r.FormFile("uploadfile")
+	pdfFile, _, err := r.FormFile("uploadFile")
 
 	if err != nil {
 		responses.ERROR(w, http.StatusNotFound, err)
@@ -69,12 +69,8 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	path = checkAuthor(path, comp)
 
 	// Check if the file already exists
-	fullpath, fullpathThumbnail := checkFile(path, thumbnailPath, w, r)
+	fullpath := checkFile(path, thumbnailPath, w, r)
 	if fullpath == "" {
-		return
-	}
-
-	if !createThumbnail(fullpathThumbnail, r, w) {
 		return
 	}
 
@@ -83,6 +79,11 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	// Create file
 	createFile(uid, r, server, fullpath, w, pdfFile, comp)
+
+	// Send POST request to python server for creating the thumbnail (first page of pdf as an image)
+	if !utils.RequestToPdfToImage(fullpath, r.FormValue("sheetName")) {
+		return
+	}
 
 	// return that we have successfully uploaded our file!
 	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
@@ -132,18 +133,6 @@ func safeComposer(r *http.Request, server *Server) Comp {
 	comp.Prepare()
 	comp.SaveComposer(server.DB)
 	return compo
-}
-
-func createThumbnail(fullpathThumbnail string, r *http.Request, w http.ResponseWriter) bool {
-	imageFile, _, err := r.FormFile("thumbnail")
-	if err != nil {
-		responses.ERROR(w, http.StatusNotFound, err)
-		return false
-	}
-	defer imageFile.Close()
-
-	osCreateFile(fullpathThumbnail, w, imageFile)
-	return true
 }
 
 func createDivisions(r *http.Request, server *Server) {
@@ -224,15 +213,14 @@ func createDate(date string) time.Time {
 	return t
 }
 
-func checkFile(path string, thumbnailPath string, w http.ResponseWriter, r *http.Request) (string, string) {
+func checkFile(path string, thumbnailPath string, w http.ResponseWriter, r *http.Request) string {
 	// Check if the file already exists
 	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
-	fullpathThumbnail := thumbnailPath + "/" + r.FormValue("sheetName") + ".png"
 	if _, err := os.Stat(fullpath); err == nil {
 		responses.ERROR(w, http.StatusInternalServerError, errors.New("file already exists"))
-		return "", ""
+		return ""
 	}
-	return fullpath, fullpathThumbnail
+	return fullpath
 }
 
 func createDir(path string) {
