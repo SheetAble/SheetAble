@@ -94,6 +94,7 @@ func getPortraitURL(composerName string) Comp {
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
@@ -106,11 +107,10 @@ func getPortraitURL(composerName string) Comp {
 	err_new := json.Unmarshal([]byte(string(body)), response)
 	fmt.Println(err_new)
 	composers := *response.Composers
-
 	/*
 		Check if the given name and the name from the API are alike
 	*/
-	if len(composers) == 0 || !strings.EqualFold(composerName, composers[0].Name) || !strings.EqualFold(composerName, composers[0].CompleteName) {
+	if len(composers) == 0 || (!strings.EqualFold(composerName, composers[0].Name) && !strings.EqualFold(composerName, composers[0].CompleteName)) {
 		return Comp{
 			CompleteName: composerName,
 			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
@@ -124,7 +124,6 @@ func getPortraitURL(composerName string) Comp {
 func safeComposer(r *http.Request, server *Server) Comp {
 
 	compo := getPortraitURL(r.FormValue("composer"))
-
 	comp := models.Composer{
 		Name:        compo.CompleteName,
 		PortraitURL: compo.Portrait,
