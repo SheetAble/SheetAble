@@ -34,7 +34,7 @@ function SideBar(props) {
 				<span className="tooltip">Home</span>
 			</li>
 			<li>
-				<a href="/composer">
+				<a >
 				<i className='bx bx-user' ></i>
 				<span className="links_name">Composer</span>
 				</a>
@@ -49,7 +49,7 @@ function SideBar(props) {
 			</li>
 
 			<li>
-				<a href="/settings">
+				<a>
 				<i className='bx bx-cog' ></i>
 				<span className="links_name">Setting</span>
 				</a>
