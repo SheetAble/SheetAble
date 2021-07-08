@@ -245,8 +245,8 @@ input:focus,
 
 .slider-form .interactive-form-button,
 .reset {
-  display: inline-block;
-  text-decoration: none;
+  	display: inline-block;
+  	text-decoration: none;
 	background: #1d1b31;
 	border: none;
 	color: white;

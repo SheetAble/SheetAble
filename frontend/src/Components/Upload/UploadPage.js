@@ -83,7 +83,7 @@ const InteractiveForm = () => {
 						<input type="text" class="name" name="sheetName" placeholder="Sheet Name" onChange={handleChange}/>
 						<input type="text" class="name" name="composer" placeholder="Composer" onChange={handleChange}/>
 					</label>					
-					<button class="first next interactive-form-button" onClick={firstButtonOnClick}>{firstButtonText}</button>
+					<button disabled={requestData.sheetName == "" || requestData.composer == ""} class="first next interactive-form-button" onClick={firstButtonOnClick}>{firstButtonText}</button>
 				</form>
 				<form class="slider-form slider-two">
 					<h2>Upload the PDF</h2>
