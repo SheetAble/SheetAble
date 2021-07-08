@@ -15,6 +15,7 @@ app = Flask(__name__)
     path: "your path name"
     name: "your sheet name"
 '''
+
 @app.route("/createthumbnail", methods=['POST'])
 def index():
     print(request.form['path'], request.form['name'])
@@ -22,7 +23,8 @@ def index():
     return "created Image succesfully"
 
 def createImg(path, name):
-    pages = convert_from_path(path)
+    scale_factor = 2.5 # To scale up the size of the PNG
+    pages = convert_from_path(path, single_file=True, size=(152 * scale_factor, 214 * scale_factor))
 
     pages[0].save(f'../thumbnails/{name}.png', 'PNG')
 
