@@ -10,7 +10,7 @@
 
   display: flex;
 	overflow:hidden; 
-	overflow-y:scroll;
+	
 }
 
 .home_content .text{
@@ -19,7 +19,6 @@
   color: #1d1b31;
   margin: 12px;
 }
-
 
 
 /* Effects */
