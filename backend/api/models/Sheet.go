@@ -49,3 +49,17 @@ func (s *Sheet) GetAllSheets(db *gorm.DB) (*[]Sheet, error) {
 	}
 	return &sheets, err
 }
+
+func (s *Sheet) FindSheetByID(db *gorm.DB, sheetName string) (*Sheet, error) {
+	/*
+		Get information of one single sheet
+	*/
+
+	var err error
+	err = db.Debug().Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&s).Error
+	if err != nil {
+		return &Sheet{}, err
+	}
+	return s, nil
+
+}

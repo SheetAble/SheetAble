@@ -35,12 +35,14 @@ func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	sheetName, err := url.Parse(vars["sheetName"])
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, errors.New("missing URL parameter 'sheet_name'"))
+		responses.ERROR(w, http.StatusUnprocessableEntity, errors.New("missing URL parameter 'sheetName'"))
 		return
 	}
 
-	fmt.Println(sheetName)
+	sheetModel := models.Sheet{}
 
+	sheet, err := sheetModel.FindSheetByID(server.DB, sheetName.RawPath)
+	fmt.Println(sheet)
 }
 
 func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
