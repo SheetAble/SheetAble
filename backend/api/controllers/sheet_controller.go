@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/gorilla/mux"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
@@ -25,8 +28,18 @@ func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
 	/*
-		Get PDF file and information about an individual sheet
+		Get PDF file and information about an individual sheet.
+		Example request: /sheet/Your%20SheetName
 	*/
+
+	vars := mux.Vars(r)
+	sheetName, err := url.Parse(vars["sheetName"])
+	if err != nil {
+		responses.ERROR(w, http.StatusUnprocessableEntity, errors.New("missing URL parameter 'sheet_name'"))
+		return
+	}
+
+	fmt.Println(sheetName)
 
 }
 
