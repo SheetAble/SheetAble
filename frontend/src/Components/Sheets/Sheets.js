@@ -2,15 +2,20 @@ import React, { useState } from 'react'
 
 import './Sheet.css'
 
+import { useHistory } from "react-router-dom";
+
 
 
 function Sheets(props) {
 	const { sheets } = props
 
+	let history = useHistory();
+
+
 	const sheetItems = sheets.map((sheet) => {
 		return (
-			<li key={sheet.sheet_name}>
-				<div className="box-container ripple">
+			<li key={sheet.sheet_name} onClick={() => history.push(`/sheet/${sheet.sheet_name}`)}>
+				<div className="box-container ripple" >
 					<img className="thumbnail-image" src={`http://localhost:8080/sheet/thumbnail/${sheet.sheet_name}`} alt="image" />
 					<div className="sheet-name-container">
 						<span className="sheet-name">{sheet.sheet_name}</span>
