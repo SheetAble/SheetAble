@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/utils"
 )
 
 func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
@@ -41,8 +40,7 @@ func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
 
 	sheetModel := models.Sheet{}
 
-	sheet, err := sheetModel.FindSheetByID(server.DB, sheetName.RawPath)
-	utils.GetSheetPath(sheet)
+	sheet, _ := sheetModel.FindSheetByID(server.DB, sheetName.RawPath)
 
 	responses.JSON(w, http.StatusOK, sheet)
 }
