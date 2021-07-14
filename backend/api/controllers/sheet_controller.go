@@ -2,13 +2,13 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 
 	"github.com/gorilla/mux"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
+	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/utils"
 )
 
 func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +42,9 @@ func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
 	sheetModel := models.Sheet{}
 
 	sheet, err := sheetModel.FindSheetByID(server.DB, sheetName.RawPath)
-	fmt.Println(sheet)
+	utils.GetSheetPath(sheet)
+
+	responses.JSON(w, http.StatusOK, sheet)
 }
 
 func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
