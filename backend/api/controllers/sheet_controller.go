@@ -45,6 +45,16 @@ func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
 	responses.JSON(w, http.StatusOK, sheet)
 }
 
+func (server *Server) GetPDF(w http.ResponseWriter, r *http.Request) {
+	/*
+		Serve the PDF file
+	*/
+
+	name := mux.Vars(r)["sheetName"]
+	composer := mux.Vars(r)["composer"]
+	http.ServeFile(w, r, "uploaded-sheets/"+composer+"/"+name+".pdf")
+}
+
 func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 	/*
 		Serve the thumbnail file

@@ -14,6 +14,7 @@ type Sheet struct {
 	SheetName   string `gorm:"primary_key" json:"sheet_name"`
 	Composer    string `json:"composer"`
 	ReleaseDate time.Time
+	PdfUrl      string    `json:"pdf_url"`
 	UploaderID  uint32    `gorm:"not null" json:"uploader_id"`
 	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
@@ -24,6 +25,7 @@ func (s *Sheet) Prepare() {
 	s.Composer = html.EscapeString(strings.TrimSpace(s.Composer))
 	s.CreatedAt = time.Now()
 	s.UpdatedAt = time.Now()
+	s.PdfUrl = "sheet/pdf/" + s.Composer + "/" + s.SheetName
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
