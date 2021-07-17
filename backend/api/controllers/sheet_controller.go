@@ -28,7 +28,7 @@ func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
 func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
 	/*
 		Get PDF file and information about an individual sheet.
-		Example request: /sheet/Your%20SheetName
+		Example request: /sheet/Étude N. 1
 	*/
 
 	vars := mux.Vars(r)
@@ -58,6 +58,7 @@ func (server *Server) GetPDF(w http.ResponseWriter, r *http.Request) {
 func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 	/*
 		Serve the thumbnail file
+		Example request: /sheet/pdf/Frédéric Chopin/Étude N. 1
 	*/
 
 	name := mux.Vars(r)["name"]
