@@ -3,6 +3,8 @@ import { Fragment } from 'react';
 
 import { useParams } from "react-router-dom";
 
+import { Document } from 'react-pdf'
+
 import SideBar from '../Navbar/SideBar'
 
 function Sheet() {
