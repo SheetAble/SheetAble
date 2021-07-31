@@ -33,10 +33,16 @@ function Sheet() {
 			<SideBar />
 			
 			<div className="home_content">
-				<div className="noselect">
-					<Document file={pdf} height={20}> 
-						<Page pageNumber={1} width={450}/>
-					</Document>
+				<div className="document_container">
+					<center>
+						<span className="docu_text">{sheetName}</span>
+						<hr className="seperator docu_sep"></hr>
+					</center>
+					<div className="noselect">
+						<Document file={pdf} height={20}> 
+							<Page pageNumber={1} width={450}/>
+						</Document>
+					</div>
 				</div>
 			</div>
 		</Fragment>            

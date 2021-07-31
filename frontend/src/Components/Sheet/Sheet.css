@@ -1,7 +1,23 @@
+.document_container {
+
+}
+
+.docu_text {
+	font-size: 23px;
+    font-weight: 500;
+    color: #1d1b31;
+    
+	
+}
 
 .react-pdf__Page__canvas{
   	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   	margin-left: 25px;
   	margin-top: 25px;
 	border-radius: 15px;
+}
+
+.docu_sep {
+	width: 60%;
+	margin-left: 0px;
 }
