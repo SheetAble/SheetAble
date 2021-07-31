@@ -37,7 +37,7 @@ function Sheet() {
 			<SideBar />
 			
 			<div className="home_content">
-				<div className="document_container">
+				<div className="noselect">
 					<Document file={pdf} height={20}> 
 						<Page pageNumber={1} width={450}/>
 					</Document>
