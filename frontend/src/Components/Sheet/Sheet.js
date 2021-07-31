@@ -1,20 +1,16 @@
-// TODO: seperate imports properly
 
-import React, { useEffect, useState } from 'react'
-import { Fragment } from 'react';
-
+import React, { useEffect, useState, Fragment } from 'react'
 import { useParams } from "react-router-dom";
 
 import { Document, pdfjs, Page } from 'react-pdf'
 
 import SideBar from '../Navbar/SideBar'
+import './Sheet.css'
 
 import axios from 'axios'
 
-import './Sheet.css'
-
+/* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
 
 
 function Sheet() {
@@ -49,4 +45,3 @@ function Sheet() {
 }
 
 export default Sheet
-
