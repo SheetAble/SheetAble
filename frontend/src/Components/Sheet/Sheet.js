@@ -3,13 +3,14 @@ import { Fragment } from 'react';
 
 import { useParams } from "react-router-dom";
 
-import { Document, pdfjs } from 'react-pdf'
+import { Document, pdfjs, Page } from 'react-pdf'
 
 import SideBar from '../Navbar/SideBar'
 
 import axios from 'axios'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 
 
 function Sheet() {
@@ -19,12 +20,14 @@ function Sheet() {
 
 	useEffect(() => {
 		if (pdf == undefined) {
-			axios.get("http://localhost:8080/sheet/pdf/Ludwig van Beethoven/fasdfsdsd")
+			axios.get("http://localhost:8080/sheet/pdf/Ludwig van Beethoven/fasdfsdsd", {responseType: "arraybuffer"})
 			.then(res => {
-				console.log(res.data);
-				setpdf(res.data)
+				var uint8View = new Uint8Array(res.data)
+				let obj = {data: uint8View}
+				setpdf(res)
+				console.log(res);
 			})
-		}
+		}	
 		
   	});
 
@@ -34,7 +37,10 @@ function Sheet() {
 			<SideBar />
 			<div className="home_content">
 				
-				<Document file={"test"}/>
+					<Document file={pdf}> 
+						<Page pageNumber={1} />
+					 </Document>
+				
 			</div>
 		</Fragment>            
 	)
