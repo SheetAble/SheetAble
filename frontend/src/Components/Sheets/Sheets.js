@@ -14,7 +14,7 @@ function Sheets(props) {
 
 	const sheetItems = sheets.map((sheet) => {
 		return (
-			<li key={sheet.sheet_name} onClick={() => history.push(`/sheet/${sheet.sheet_name}`)}>
+			<li key={sheet.sheet_name} onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)}>
 				<div className="box-container ripple" >
 					<img className="thumbnail-image" src={`http://localhost:8080/sheet/thumbnail/${sheet.sheet_name}`} alt="image" />
 					<div className="sheet-name-container">

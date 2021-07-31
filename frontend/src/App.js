@@ -52,7 +52,7 @@ function App() {
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/signup" component={SignupPage} />
             <Route exact path="/upload" component={UploadPage} />
-            <Route exact path="/sheet/:sheetName" component={Sheet} />
+            <Route exact path="/sheet/:composerName/:sheetName" component={Sheet} />
         </Switch>
       </Router>
     </Provider>

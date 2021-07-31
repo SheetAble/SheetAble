@@ -18,18 +18,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 
 function Sheet() {
-	let { sheetName } = useParams();
-
+	let { sheetName, composerName } = useParams();
 	const [pdf, setpdf] = useState(undefined)
 
 	useEffect(() => {
 		if (pdf == undefined) {
-			axios.get("http://localhost:8080/sheet/pdf/Frédéric Chopin/Chopin étude 1", {responseType: "arraybuffer"})
+			axios.get(`http://localhost:8080/sheet/pdf/${composerName}/${sheetName}`, {responseType: "arraybuffer"})
 			.then(res => {
-				var uint8View = new Uint8Array(res.data)
-				let obj = {data: uint8View}
 				setpdf(res)
-				console.log(res);
 			})
 		}	
 		
