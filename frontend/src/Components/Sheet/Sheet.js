@@ -7,9 +7,12 @@ import { Document, pdfjs, Page } from 'react-pdf'
 
 import SideBar from '../Navbar/SideBar'
 
+import Sample from './Sample.js';
+
 import axios from 'axios'
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 
 
 
@@ -31,19 +34,22 @@ function Sheet() {
 		
   	});
 
-
+	  
 	return (
 		 <Fragment>
 			<SideBar />
+			
 			<div className="home_content">
-				
-					<Document file={pdf}> 
-						<Page pageNumber={1} />
-					 </Document>
+
+			<Document file={pdf}> 
+				<Page pageNumber={1} />
+			</Document>
 				
 			</div>
 		</Fragment>            
 	)
+
 }
 
 export default Sheet
+
