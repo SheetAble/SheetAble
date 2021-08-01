@@ -1,12 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
 .all-container{
-  display: grid;
-  height: 100%;
-  padding-top: 220px;
-  padding-bottom: 100%;
-  width: 100%;
-  place-items: center;
+  
+  
+  position: absolute;
+  
+  
+  top: 50%;
+  left: 50%;
+  margin: -250px 0 0 -187px;  
+
   background: #f2f2f2;
   /* background: linear-gradient(-135deg, #c850c0, #4158d0); */
 }
@@ -14,7 +17,7 @@
   background: #0047AB;
   color: #fff;
 }
-.wrapper{
+.wrapper{   
   width: 380px;
   background: #fff;
   border-radius: 15px;
