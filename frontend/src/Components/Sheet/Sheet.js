@@ -38,11 +38,12 @@ function Sheet() {
 						<span className="docu_text">{sheetName}</span>
 						<hr className="seperator docu_sep"></hr>
 					</center>
-					<div className="noselect">
-						<Document file={pdf} height={20}> 
-							<Page pageNumber={1} width={450}/>
+					<div className="noselect document">
+						<Document file={pdf} > 
+							<Page pageNumber={1} width={320}/>
 						</Document>
 					</div>
+					<p>Download</p>
 				</div>
 			</div>
 		</Fragment>            
