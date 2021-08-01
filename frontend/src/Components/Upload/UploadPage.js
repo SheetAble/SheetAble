@@ -57,15 +57,15 @@ const InteractiveForm = () => {
 		<div class={containerClasses}>
 			<div class="steps">
 				<div class="step step-one">
-				<div class="liner"></div>
+				{/*<div class="liner"></div>*/}
 				<span>Information</span>
 				</div>
 				<div class="step step-two">
-				<div class="liner"></div>
+				{/*<div class="liner"></div>*/}
 				<span>Upload</span>
 				</div>
 				<div class="step step-three">
-				<div class="liner"></div>
+				{/*<div class="liner"></div>*/}
 				<span>Conclusion</span>
 				</div>
 			</div>
