@@ -240,7 +240,7 @@ input:focus,
 
 .slider-form [type="text"]:focus {
 	background: #fcfcfc;
-	border: 1px solid #ddd;
+	/*border: 1px solid #ddd;*/
 }
 
 .slider-form .interactive-form-button,
