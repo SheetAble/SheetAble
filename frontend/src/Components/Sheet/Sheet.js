@@ -58,28 +58,23 @@ function Sheet() {
 					
 					<div className="noselect document">
 						<Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}> 
+							
+
 							<Page pageNumber={pageNumber} width={360}/>
+							<div className="page_controls">
+								<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
+								<span>
+									{pageNumber} of {numPages}
+								</span>
+								<button type="button" disabled={pageNumber == numPages} onClick={nextPage}>
+									&gt;
+								</button>
+							</div>
 						</Document>
 					</div>
-					<div>
-						<p>
-							Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
-						</p>
-						<button
-						type="button"
-						disabled={pageNumber <= 1}
-						onClick={previousPage}
-						>
-							Previous
-						</button>
-						<button
-						type="button"
-						disabled={pageNumber >= numPages}
-						onClick={nextPage}
-						>
-							Next
-						</button>
-					</div>
+					
+					
+				
 									
 				</div>
 			</div>
