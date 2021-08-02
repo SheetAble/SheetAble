@@ -30,8 +30,8 @@
 
 .page_controls {
 	position: absolute;
-	margin-left: 23%;
-	margin-top: -10%;
+	margin-left: 180px;
+	margin-top: -75px;
 	background: white;
 	opacity: 0;
 	transform: translateX(-50%);
@@ -55,9 +55,6 @@
     border-bottom-left-radius: 0;
 }
 
-.page_controls button:not(:hover){
-	background-color: white;
-}
 
 .page_controls button:enabled:hover {
     cursor: pointer;
@@ -89,8 +86,6 @@
 .page_controls button:disabled {
 	color: -internal-light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
 }
-
-
 
 .page_controls span {
     font: inherit;
