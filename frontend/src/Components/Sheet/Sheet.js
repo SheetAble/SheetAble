@@ -39,11 +39,13 @@ function Sheet() {
 		setPageNumber(prevPageNumber => prevPageNumber + offset);
 	}
 
-	function previousPage() {
+	function previousPage(e) {
+		e.target.blur()
 		changePage(-1);
 	}
 
-	function nextPage() {
+	function nextPage(e) {
+		e.target.blur()
 		changePage(1);
 	}
 	  

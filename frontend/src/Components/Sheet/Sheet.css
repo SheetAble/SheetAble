@@ -33,10 +33,11 @@
 	margin-left: 23%;
 	margin-top: -10%;
 	background: white;
-	opacity: 0;
+	opacity: 1;
 	transform: translateX(-50%);
 	transition: opacity ease-in-out 0.2s;
-	box-shadow: 0 30px 40px 0 rgb(16 36 94 / 20%);
+	box-shadow: 0 30px 40px 0px rgb(16 36 94 / 20%);
+	
 	border-radius: 4px;
 }
 
