@@ -27,23 +27,60 @@ function Sheet() {
 		
   	});
 
+	const [numPages, setNumPages] = useState(null);
+	const [pageNumber, setPageNumber] = useState(1);
+
+	function onDocumentLoadSuccess({ numPages }) {
+		setNumPages(numPages);
+		setPageNumber(1);
+	}
+
+	function changePage(offset) {
+		setPageNumber(prevPageNumber => prevPageNumber + offset);
+	}
+
+	function previousPage() {
+		changePage(-1);
+	}
+
+	function nextPage() {
+		changePage(1);
+	}
 	  
+
+
 	return (
 		 <Fragment>
 			<SideBar />
 			
 			<div className="home_content">
 				<div className="document_container">
-					<center>
-						<span className="docu_text">{sheetName}</span>
-						<hr className="seperator docu_sep"></hr>
-					</center>
+					
 					<div className="noselect document">
-						<Document file={pdf} > 
-							<Page pageNumber={1} width={320}/>
+						<Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}> 
+							<Page pageNumber={pageNumber} width={360}/>
 						</Document>
 					</div>
-					<p>Download</p>
+					<div>
+						<p>
+							Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
+						</p>
+						<button
+						type="button"
+						disabled={pageNumber <= 1}
+						onClick={previousPage}
+						>
+							Previous
+						</button>
+						<button
+						type="button"
+						disabled={pageNumber >= numPages}
+						onClick={nextPage}
+						>
+							Next
+						</button>
+					</div>
+									
 				</div>
 			</div>
 		</Fragment>            

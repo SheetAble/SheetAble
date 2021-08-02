@@ -9,6 +9,7 @@
 .react-pdf__Page__canvas{
   	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 15px;
+	
 }
 
 .docu_sep {
@@ -17,7 +18,6 @@
 }
 
 .document {
-	margin: auto;
-  	width: 50%;
-	margin-top: 45px;
+  	margin-left: 25px;
+	margin-top: 25px;
 }
