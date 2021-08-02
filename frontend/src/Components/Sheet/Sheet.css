@@ -33,7 +33,7 @@
 	margin-left: 23%;
 	margin-top: -10%;
 	background: white;
-	opacity: 1;
+	opacity: 0;
 	transform: translateX(-50%);
 	transition: opacity ease-in-out 0.2s;
 	box-shadow: 0 30px 40px 0px rgb(16 36 94 / 20%);
