@@ -57,31 +57,34 @@ function Sheet() {
 			
 			<div className="home_content">
 				<div className="document_container">
+					<div>
+						<div className="doc_header">
+							<span className="doc_sheet">{sheetName}</span>
+							<br />
+							<span className="doc_composer">{composerName}</span>
+						</div>
 
+						<div className="noselect document">
+							<Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}> 
+								<Page pageNumber={pageNumber} width={360}/>
+								<div className="page_controls">
+									<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
+									<span>
+										{pageNumber} of {numPages}
+									</span>
+									<button type="button" disabled={pageNumber == numPages} onClick={nextPage}>
+										&gt;
+									</button>
+								</div>
+							</Document>
+						</div>	
+					</div>	
 
-					<div className="doc_header">
-						<span className="doc_sheet">{sheetName}</span>
-						<br />
-						<span className="doc_composer">{composerName}</span>
-					</div>
+					<div className="left_side_doc">
+						<div className="sheet_info">
 
-					<div className="noselect document">
-						<Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}> 
-							
-
-							<Page pageNumber={pageNumber} width={360}/>
-							<div className="page_controls">
-								<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
-								<span>
-									{pageNumber} of {numPages}
-								</span>
-								<button type="button" disabled={pageNumber == numPages} onClick={nextPage}>
-									&gt;
-								</button>
-							</div>
-						</Document>
-					</div>
-					
+						</div>					
+					</div>					
 					
 				
 									

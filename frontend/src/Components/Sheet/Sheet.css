@@ -1,3 +1,7 @@
+.document_container {
+    display: flex;
+}
+
 .docu_text {
 	font-size: 23px;
     font-weight: 500;
@@ -105,4 +109,14 @@
     color: #707070;
     font-weight: lighter;
     line-height: 0in;
+}
+
+.sheet_info {
+    background-color: white;
+    
+    padding: 50px;
+}
+
+.left_side_doc {
+    margin-left: 20px;
 }
