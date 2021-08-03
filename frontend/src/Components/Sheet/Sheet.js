@@ -57,7 +57,14 @@ function Sheet() {
 			
 			<div className="home_content">
 				<div className="document_container">
-					
+
+
+					<div className="doc_header">
+						<span className="doc_sheet">{sheetName}</span>
+						<br />
+						<span className="doc_composer">{composerName}</span>
+					</div>
+
 					<div className="noselect document">
 						<Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}> 
 							

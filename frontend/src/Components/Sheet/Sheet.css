@@ -2,14 +2,11 @@
 	font-size: 23px;
     font-weight: 500;
     color: #1d1b31;
-    
-	
 }
 
 .react-pdf__Page__canvas{
   	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 15px;
-	
 }
 
 .docu_sep {
@@ -19,10 +16,8 @@
 
 .document {
   	margin-left: 25px;
-	margin-top: 25px;
+	margin-top: 12px;
 }
-
-
 
 .react-pdf__Document:hover .page_controls {
     opacity: 1;
@@ -91,4 +86,23 @@
     font: inherit;
     font-size: 0.8em;
     padding: 0 0.5em;
+}
+
+.doc_header {
+    margin-left: 25px;
+    margin-top: 12px;
+}
+
+.doc_sheet {
+    color: #464646;
+    font-size: 25px;
+    font-weight: 300;
+    line-height: 0in;
+}
+
+.doc_composer {
+    font-size: 20px;
+    color: #707070;
+    font-weight: lighter;
+    line-height: 0in;
 }
