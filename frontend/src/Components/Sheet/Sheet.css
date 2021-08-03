@@ -11,6 +11,8 @@
 .react-pdf__Page__canvas{
   	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 15px;
+    width: 360px;
+    height: 509px;
 }
 
 .docu_sep {
@@ -113,10 +115,12 @@
 
 .sheet_info {
     background-color: white;
-    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
     padding: 50px;
+    border-radius: 15px;
 }
 
 .left_side_doc {
     margin-left: 20px;
+    margin-top: 80px;
 }
