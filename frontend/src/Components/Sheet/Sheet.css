@@ -116,11 +116,11 @@
 .sheet_info {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
-    padding: 50px;
+    padding: 150px;
     border-radius: 15px;
 }
 
 .left_side_doc {
-    margin-left: 20px;
+    margin-left: 120px;
     margin-top: 82px;
 }

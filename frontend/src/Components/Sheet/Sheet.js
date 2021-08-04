@@ -66,7 +66,7 @@ function Sheet() {
 
 						<div className="noselect document">
 							<Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}> 
-								<Page pageNumber={pageNumber} width={360}/>
+								<Page pageNumber={pageNumber} width={430}/>
 								<div className="page_controls">
 									<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
 									<span>
