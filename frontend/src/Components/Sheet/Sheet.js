@@ -47,14 +47,12 @@ function Sheet() {
 	function nextPage(e) {
 		e.target.blur()
 		changePage(1);
-	}
-	  
+	} 
 
 
 	return (
 		 <Fragment>
 			<SideBar />
-			
 			<div className="home_content">
 				<div className="document_container">
 					<div>
@@ -82,17 +80,17 @@ function Sheet() {
 
 					<div className="left_side_doc">
 						<div className="sheet_info">
+							Sheet info
+						</div>		
 
-						</div>					
-					</div>					
-					
-				
-									
+						<div className="sheet_info">
+							Composer
+						</div>				
+					</div>											
 				</div>
 			</div>
 		</Fragment>            
 	)
-
 }
 
 export default Sheet
