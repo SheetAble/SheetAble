@@ -110,8 +110,12 @@ function Sheet() {
 						</div>	
 
 
-						<div className="doc_box composer_info">
-							Composer
+						<div className="doc_box composer_info ripple">
+							<img className="composer_img" src="https://assets.openopus.org/portraits/72753742-1568084874.jpg" alt="image" />
+							<div className="composer_info_text_wrapper">
+								<span>{composerName}</span>								
+								<span>Romantic</span>
+							</div>
 						</div>				
 					</div>											
 				</div>

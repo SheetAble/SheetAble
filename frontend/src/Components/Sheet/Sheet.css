@@ -116,8 +116,8 @@
 .doc_box {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
-    width: 280px;
-    
+    width: 250px;
+    border: none; 
     border-radius: 15px;
     margin: 15px;
     margin-top: 82px;
@@ -126,12 +126,41 @@
 
 .composer_info {
     float: left;
-    height: 270px;
+    height: 300px;
+    background: none;
+}
+
+.composer_img {
+    margin: -15px -15px -15px -16px;
+    width: 251px;
+    border: none;
+    object-fit:cover;
+    height: 240px;
+    border-radius: 15px 15px 0 0;
+}
+
+.composer_info_text_wrapper {
+    margin-top: 20px;
+    display: grid;
+}
+
+.composer_info_text_wrapper span:first-child {
+    font-family: 'Open Sans';
+    font-weight: lighter;
+    font-size: 17px;
+    line-height: 0.3cm;
+}
+
+.composer_info_text_wrapper span:last-child {
+    font-family: 'Open Sans';
+    font-weight: lighter;
+    color: #707070;
+    font-size: 14px;
 }
 
 .sheet_info {
     margin-left: 7vw;
-    height: 200px;
+    height: 225px;
     float:left; /* add this */
     align-content: center;
 }
@@ -139,7 +168,7 @@
 /* Header */
 .sheet_info_header {
     font-family: 'Open Sans';
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
 }
 
@@ -152,7 +181,7 @@
 
 .sheet_info_button {
     margin: auto;
-    margin-top: 20px;
+    margin-top: 35px;
     display: flex;
     justify-content: center;
     padding: 5px 30px;
@@ -170,7 +199,7 @@
 }
 
 .under_box {
-    margin-top: 57px;
+    margin-top: 67px;
     display: flex;
     justify-content: space-between;
 }
