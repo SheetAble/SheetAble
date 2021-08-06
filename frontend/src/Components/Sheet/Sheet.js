@@ -97,8 +97,18 @@ function Sheet() {
 
 							<button className="sheet_info_button">
 								Share
-							</button>	
-						</div>		
+							</button>
+							<div className="under_box">
+								<button >
+									Download
+								</button>
+									
+								<button>
+									Edit
+								</button>	
+							</div>
+						</div>	
+
 
 						<div className="doc_box composer_info">
 							Composer

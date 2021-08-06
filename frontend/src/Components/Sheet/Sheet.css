@@ -117,15 +117,21 @@
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
     width: 280px;
-    height: 270px;
+    
     border-radius: 15px;
     margin: 15px;
     margin-top: 82px;
     padding: 15px;
 }
 
+.composer_info {
+    float: left;
+    height: 270px;
+}
+
 .sheet_info {
     margin-left: 7vw;
+    height: 200px;
     float:left; /* add this */
     align-content: center;
 }
@@ -146,10 +152,10 @@
 
 .sheet_info_button {
     margin: auto;
-    margin-top: 30px;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    padding: 5px 30px 5px 30px;
+    padding: 5px 30px;
     background-color: #2B235F;
     border: 0;
     border-radius: 15px;
@@ -159,11 +165,35 @@
     font-family: 'Open Sans';
 }
 
+.under_box {
+    margin-top: 57px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.under_box button {
+    padding: 15px 25px;
+    background: linear-gradient(#1D1B30, #10101D);
+    border: 0;
+    border-radius: 15px;
+    margin-left: -15px;
+    color: white;
+    font-weight: 600;
+    font-family: 'Open Sans';
+      	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Second Button */ 
+.under_box button:last-child {
+    padding: 15px 45.25px;
+    margin-left: 0;
+    margin-right: -15px;
+    background: none;
+    background-color: #2B235F;
+}
+
 .bold {
     font-weight: 600;
     color: black;
 }
 
-.composer_info {
-    float: left;
-}
