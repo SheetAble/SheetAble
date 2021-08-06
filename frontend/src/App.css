@@ -39,7 +39,7 @@
   transition: background 0.8s;
 }
 .ripple:hover {
-  
+  cursor: pointer; 
 }
 .ripple:active {
   background-color: #DCDCDC;
