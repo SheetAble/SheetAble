@@ -80,7 +80,23 @@ function Sheet() {
 
 					<div className="right_side_doc">
 						<div className="doc_box sheet_info">
-							Sheet info
+							<span>Nocturné 1 - Rosenblatt</span>
+							<div>
+								<span>Release Date:</span> 
+								<span> 1999-12-31</span>
+							</div>
+							<div>
+								<span>Upload By:</span> 
+								<span> vallezw</span>
+							</div>
+							<div>
+								<span>Uploaded At:</span> 
+								<span> 1999-12-31</span>
+							</div>
+
+							<button>
+								Share
+							</button>	
 						</div>		
 
 						<div className="doc_box composer_info">
