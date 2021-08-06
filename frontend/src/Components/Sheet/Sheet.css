@@ -9,7 +9,7 @@
 }
 
 .react-pdf__Page__canvas{
-  	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 15px;
     width: 360px;
     height: 509px;
@@ -31,7 +31,7 @@
 
 .page_controls {
 	position: absolute;
-	margin-left: 180px;
+	margin-left: 210px;
 	margin-top: -75px;
 	background: white;
 	opacity: 0;
@@ -115,7 +115,7 @@
 
 .doc_box {
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     width: 250px;
     border: none; 
     border-radius: 15px;
@@ -217,7 +217,7 @@
     color: white;
     font-weight: 600;
     font-family: 'Open Sans';
-      	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* Second Button */ 
@@ -236,8 +236,7 @@
 
 .video_player {
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-top: 435px; 
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    margin-top: 435px; 
     margin-left: 7vw;
     margin-right: 15px;
 
