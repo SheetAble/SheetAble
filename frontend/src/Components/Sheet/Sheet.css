@@ -118,21 +118,24 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
     padding: 25px;
     border-radius: 15px;
+    
     margin: 15px;
+    margin-top: 82px;
 }
 
 .sheet_info {
+    margin-left: 15vw;
     float:left; /* add this */
 }
 
 .composer_info {
     float: left;
 }
-
+/*
 .right_side_doc {
     display: inline;
     margin-left: 15vw;
     margin-top: 67px;
     padding-bottom: 0;
     overflow: hidden;
-}
+}*/
