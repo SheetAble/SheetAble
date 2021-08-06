@@ -1,5 +1,5 @@
 .document_container {
-    display: flex;
+    display: -webkit-box;
 }
 
 .docu_text {
@@ -130,8 +130,9 @@
 }
 
 .right_side_doc {
+    display: inline;
     margin-left: 15vw;
-    margin-top: 82px;
+    margin-top: 67px;
     padding-bottom: 0;
     overflow: hidden;
 }
