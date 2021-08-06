@@ -113,15 +113,25 @@
     line-height: 0in;
 }
 
-.sheet_info {
+.doc_box {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
     padding: 25px;
     border-radius: 15px;
-    display:inline-block;
+    margin: 15px;
 }
 
-.left_side_doc {
-    margin-left: 120px;
+.sheet_info {
+    float:left; /* add this */
+}
+
+.composer_info {
+    float: left;
+}
+
+.right_side_doc {
+    margin-left: 15vw;
     margin-top: 82px;
+    padding-bottom: 0;
+    overflow: hidden;
 }

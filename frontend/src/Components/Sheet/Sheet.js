@@ -78,12 +78,12 @@ function Sheet() {
 						</div>	
 					</div>	
 
-					<div className="left_side_doc">
-						<div className="sheet_info">
+					<div className="right_side_doc">
+						<div className="doc_box sheet_info">
 							Sheet info
 						</div>		
 
-						<div className="sheet_info">
+						<div className="doc_box composer_info">
 							Composer
 						</div>				
 					</div>											
