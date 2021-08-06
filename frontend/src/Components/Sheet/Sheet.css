@@ -165,10 +165,18 @@
     font-family: 'Open Sans';
 }
 
+.sheet_info_button:hover {
+    cursor: pointer;
+}
+
 .under_box {
     margin-top: 57px;
     display: flex;
     justify-content: space-between;
+}
+
+.under_box button:hover {
+    cursor: pointer;
 }
 
 .under_box button {
