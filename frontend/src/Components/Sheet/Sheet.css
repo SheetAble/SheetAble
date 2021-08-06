@@ -234,3 +234,33 @@
     color: black;
 }
 
+.video_player {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-top: 435px; 
+    margin-left: 7vw;
+    margin-right: 15px;
+
+    border-radius: 15px;
+    padding: 95px 0px;
+    
+    text-align: center;
+}
+
+.video_player a {
+    font-weight: 500;
+    text-decoration: none;
+    color: black;
+}
+
+.video_player span {
+    font-family: 'Open Sans';
+    
+}
+
+.coming_soon {
+    font-size: 23px;    
+    font-family: 'Open Sans';
+    font-weight: 600; 
+    line-height: 0cm;
+}
