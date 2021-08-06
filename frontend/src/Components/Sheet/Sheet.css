@@ -1,5 +1,6 @@
 .document_container {
     display: -webkit-box;
+    overflow-x: scroll;
 }
 
 .docu_text {
@@ -28,6 +29,7 @@
 .react-pdf__Document:hover .page_controls {
     opacity: 1;
 }
+
 
 .page_controls {
 	position: absolute;
