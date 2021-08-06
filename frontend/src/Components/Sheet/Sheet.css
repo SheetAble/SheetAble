@@ -116,25 +116,54 @@
 .doc_box {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
-    padding: 15px 70px 190px 70px;
+    width: 280px;
+    height: 270px;
     border-radius: 15px;
     margin: 15px;
     margin-top: 82px;
+    padding: 15px;
 }
 
 .sheet_info {
-    margin-left: 15vw;
+    margin-left: 7vw;
     float:left; /* add this */
+    align-content: center;
+}
+
+/* Header */
+.sheet_info_header {
+    font-family: 'Open Sans';
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sheet_info_info {
+    font-family: 'Open Sans';
+    font-size: 14px;
+    font-weight: lighter;
+    color: #707070;
+}
+
+.sheet_info_button {
+    margin: auto;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    padding: 5px 30px 5px 30px;
+    background-color: #2B235F;
+    border: 0;
+    border-radius: 15px;
+
+    color: white;
+    font-weight: 600;
+    font-family: 'Open Sans';
+}
+
+.bold {
+    font-weight: 600;
+    color: black;
 }
 
 .composer_info {
     float: left;
 }
-/*
-.right_side_doc {
-    display: inline;
-    margin-left: 15vw;
-    margin-top: 67px;
-    padding-bottom: 0;
-    overflow: hidden;
-}*/

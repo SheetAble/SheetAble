@@ -80,21 +80,22 @@ function Sheet() {
 
 					<div className="right_side_doc">
 						<div className="doc_box sheet_info">
-							<span>Nocturné 1 - Rosenblatt</span>
+							<span className="sheet_info_header">Nocturné 1 - Rosenblatt</span>
 							<div>
-								<span>Release Date:</span> 
-								<span> 1999-12-31</span>
+								<span className="bold sheet_info_info">Release Date:</span> 
+								<span className="sheet_info_info"> 1999-12-31</span>
 							</div>
 							<div>
-								<span>Upload By:</span> 
-								<span> vallezw</span>
+								<span className="bold sheet_info_info">Uploaded At:</span> 
+								<span className="sheet_info_info"> 1999-12-31</span>
 							</div>
 							<div>
-								<span>Uploaded At:</span> 
-								<span> 1999-12-31</span>
+								<span className="bold sheet_info_info">Upload By:</span> 
+								<span className="sheet_info_info"> vallezw</span>
 							</div>
+							
 
-							<button>
+							<button className="sheet_info_button">
 								Share
 							</button>	
 						</div>		
