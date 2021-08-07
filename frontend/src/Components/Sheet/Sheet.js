@@ -99,18 +99,18 @@ function Sheet() {
 								Share
 							</button>
 							<div className="under_box">
-								<button >
+								<button className="remove_shadow">
 									Download
 								</button>
 									
-								<button>
+								<button className="remove_shadow">
 									Edit
 								</button>	
 							</div>
 						</div>	
 
 
-						<div className="doc_box composer_info ripple">
+						<div className="doc_box composer_info remove_shadow">
 							<img className="composer_img" src="https://assets.openopus.org/portraits/72753742-1568084874.jpg" alt="image" />
 							<div className="composer_info_text_wrapper">
 								<span>{composerName}</span>								

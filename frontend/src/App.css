@@ -46,3 +46,17 @@
   background-size: 100%;
   transition: background 0s;
 }
+
+
+/* Remove Shadow Effect */
+.remove_shadow:hover {
+  cursor: pointer;
+}
+
+.remove_shadow:active {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 2px 15px 0 rgba(0, 0, 0, 0.19);
+}
+
+.box_shadow {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
