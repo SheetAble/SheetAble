@@ -1,7 +1,7 @@
 import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS } from '../types'
 import axios from 'axios'
 
-import store from '../store';
+import { store } from '../store';
 import { logoutUser } from './userActions'
 
 // Get all Sheets

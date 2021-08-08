@@ -10,9 +10,11 @@ import SideBar from './Components/Navbar/SideBar';
 
 // Redux
 import { Provider } from 'react-redux'
-import store from './Redux/store';
+import { store, persistor } from './Redux/store';
 import { logoutUser } from './Redux/Actions/userActions'
 import { SET_AUTHENTICATED } from './Redux/types'
+import { PersistGate } from 'redux-persist/integration/react'
+
 
 // Axios
 import axios from 'axios';
@@ -46,15 +48,17 @@ if(token){
 function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <Switch>
-            <Route exact path="/" component={HomePageProvider} />
-            <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/signup" component={SignupPage} />
-            <Route exact path="/upload" component={UploadPage} />
-            <Route exact path="/sheet/:composerName/:sheetName" component={Sheet} />
-        </Switch>
-      </Router>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <Switch>
+              <Route exact path="/" component={HomePageProvider} />
+              <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/signup" component={SignupPage} />
+              <Route exact path="/upload" component={UploadPage} />
+              <Route exact path="/sheet/:composerName/:sheetName" component={Sheet} />
+          </Switch>
+        </Router>
+      </PersistGate>
     </Provider>
   );
 }
