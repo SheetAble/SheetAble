@@ -122,7 +122,7 @@ function Sheet({ sheets, composers }) {
 
 
 						<div className="doc_box composer_info remove_shadow">
-							<img className="composer_img" src="https://assets.openopus.org/portraits/72753742-1568084874.jpg" alt="image" />
+							<img className="composer_img" src={composer.portrait_url} alt="image" />
 							<div className="composer_info_text_wrapper">
 								<span>{composerName}</span>								
 								<span>{composer.epoch}</span>
