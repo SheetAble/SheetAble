@@ -29,14 +29,14 @@ function Sheet({ sheets, composers }) {
 
 	const [composer, setcomposer] = useState(findComposer(composerName, composers))
 
-	useEffect(() => {
-		if (pdf == undefined) {
-			axios.get(`http://localhost:8080/sheet/pdf/${composerName}/${sheetName}`, {responseType: "arraybuffer"})
+	const pdfRequest = () => {
+		axios.get(`http://localhost:8080/sheet/pdf/${composerName}/${sheetName}`, {responseType: "arraybuffer"})
 			.then(res => {
 				setpdf(res)
 			})
-		}		
-  	});
+			
+		return pdf
+	}
 
 	const [numPages, setNumPages] = useState(null);
 	const [pageNumber, setPageNumber] = useState(1);
@@ -74,7 +74,7 @@ function Sheet({ sheets, composers }) {
 						</div>
 
 						<div className="noselect document">
-							<Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}> 
+							<Document file={pdf == undefined ? pdfRequest() : pdf} onLoadSuccess={onDocumentLoadSuccess}> 
 								<Page pageNumber={pageNumber} width={430}/>
 								<div className="page_controls">
 									<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
@@ -101,7 +101,7 @@ function Sheet({ sheets, composers }) {
 								<span className="sheet_info_info"> {displayTimeAsString(sheet.created_at)}</span>
 							</div>
 							<div>
-								<span className="bold sheet_info_info">Upload By:</span> 
+								<span className="bold sheet_info_info">Uploaded By:</span> 
 								<span className="sheet_info_info"> {sheet.uploader_id}</span>
 							</div>
 							
