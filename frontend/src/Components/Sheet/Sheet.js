@@ -9,13 +9,27 @@ import './Sheet.css'
 
 import axios from 'axios'
 
+/* Utils */
+import { displayTimeAsString } from '../../Utils/dataVisualtion'
+
+/* Redux stuff */
+import { connect } from 'react-redux'
+
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 
-function Sheet() {
+
+/* Returns sheet with sheetName from sheets */
+function findSheet(sheetName, sheets) {
+	return sheets.find(sheet => sheet.sheet_name == sheetName);
+}
+
+function Sheet({ sheets }) {
 	let { sheetName, composerName } = useParams();
 	const [pdf, setpdf] = useState(undefined)
+
+	const [sheet, setsheet] = useState(findSheet(sheetName, sheets))
 
 	useEffect(() => {
 		if (pdf == undefined) {
@@ -23,8 +37,9 @@ function Sheet() {
 			.then(res => {
 				setpdf(res)
 			})
-		}	
-		
+		}		
+
+		console.log(sheet);
   	});
 
 	const [numPages, setNumPages] = useState(null);
@@ -80,18 +95,18 @@ function Sheet() {
 
 					<div className="right_side_doc">
 						<div className="doc_box sheet_info">
-							<span className="sheet_info_header">Nocturné 1 - Rosenblatt</span>
+							<span className="sheet_info_header">{sheet.sheet_name}</span>
 							<div>
 								<span className="bold sheet_info_info">Release Date:</span> 
-								<span className="sheet_info_info"> 1999-12-31</span>
+								<span className="sheet_info_info"> {displayTimeAsString(sheet.ReleaseDate)}</span>
 							</div>
 							<div>
 								<span className="bold sheet_info_info">Uploaded At:</span> 
-								<span className="sheet_info_info"> 1999-12-31</span>
+								<span className="sheet_info_info"> {displayTimeAsString(sheet.created_at)}</span>
 							</div>
 							<div>
 								<span className="bold sheet_info_info">Upload By:</span> 
-								<span className="sheet_info_info"> vallezw</span>
+								<span className="sheet_info_info"> {sheet.uploader_id}</span>
 							</div>
 							
 
@@ -131,4 +146,12 @@ function Sheet() {
 	)
 }
 
-export default Sheet
+const mapStateToProps = (state) => ({
+    sheets: state.data.sheets
+})
+
+const mapActionsToProps = {
+    
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Sheet)
