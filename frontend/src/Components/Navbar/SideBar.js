@@ -33,8 +33,17 @@ function SideBar(props) {
 				</a>
 				<span className="tooltip">Home</span>
 			</li>
+
 			<li>
-				<a >
+				<a href="/">
+				<i className='bx bx-bookmarks'></i>
+				<span className="links_name">Sheets</span>
+				</a>
+				<span className="tooltip">Sheets</span>
+			</li>
+
+			<li>
+				<a href="/">
 				<i className='bx bx-user' ></i>
 				<span className="links_name">Composer</span>
 				</a>
