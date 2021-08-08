@@ -10,7 +10,7 @@ import './Sheet.css'
 import axios from 'axios'
 
 /* Utils */
-import { displayTimeAsString } from '../../Utils/dataVisualtion'
+import { displayTimeAsString, findSheet, findComposer } from '../../Utils/utils'
 
 /* Redux stuff */
 import { connect } from 'react-redux'
@@ -20,16 +20,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 
 
-/* Returns sheet with sheetName from sheets */
-function findSheet(sheetName, sheets) {
-	return sheets.find(sheet => sheet.sheet_name == sheetName);
-}
 
-function Sheet({ sheets }) {
+function Sheet({ sheets, composers }) {
 	let { sheetName, composerName } = useParams();
 	const [pdf, setpdf] = useState(undefined)
 
 	const [sheet, setsheet] = useState(findSheet(sheetName, sheets))
+
+	const [composer, setcomposer] = useState(findComposer(composerName, composers))
 
 	useEffect(() => {
 		if (pdf == undefined) {
@@ -38,8 +36,6 @@ function Sheet({ sheets }) {
 				setpdf(res)
 			})
 		}		
-
-		console.log(sheet);
   	});
 
 	const [numPages, setNumPages] = useState(null);
@@ -129,7 +125,7 @@ function Sheet({ sheets }) {
 							<img className="composer_img" src="https://assets.openopus.org/portraits/72753742-1568084874.jpg" alt="image" />
 							<div className="composer_info_text_wrapper">
 								<span>{composerName}</span>								
-								<span>Romantic</span>
+								<span>{composer.epoch}</span>
 							</div>
 						</div>
 
@@ -147,7 +143,8 @@ function Sheet({ sheets }) {
 }
 
 const mapStateToProps = (state) => ({
-    sheets: state.data.sheets
+    sheets: state.data.sheets,
+	composers: state.data.composers
 })
 
 const mapActionsToProps = {
