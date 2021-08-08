@@ -21,8 +21,13 @@ import lostImage from '../../Images/lost.svg'
 class HomePage extends Component {
     
     componentDidMount = () => {
-        this.props.getSheets()
-        this.props.getComposers()
+        if (this.props.sheets.length == 0) {
+            this.props.getSheets()
+        }
+        
+        if (this.props.composers.length == 0) {
+            this.props.getComposers()
+        }        
     }
             
     render() {

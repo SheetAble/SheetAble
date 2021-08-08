@@ -1,4 +1,4 @@
-import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS } from '../types'
+import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA } from '../types'
 
 const initialState = {
     sheets: [],
@@ -34,7 +34,13 @@ export default function(state = initialState, action){
                 composers: action.payload,
                 loading: false
             }
-
+        
+        case RESET_DATA: 
+            return {
+                ...state,
+                composers: [],
+                sheets: []
+            }
             
 
         default:

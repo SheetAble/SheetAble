@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS } from '../types'
+import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA } from '../types'
 import axios from 'axios'
 
 import { store } from '../store';
@@ -64,8 +64,8 @@ export const uploadSheet = (data) => dispatch => {
     bodyFormData.append('sheetName', data.sheetName)
     bodyFormData.append('composer', data.composer)
     bodyFormData.append("releaseDate", data.releaseDate)
-
-    console.log(bodyFormData);
+    
+    dispatch({ type: RESET_DATA })
 
     axios.post("/upload", bodyFormData, {
         headers: {
