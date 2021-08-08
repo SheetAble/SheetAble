@@ -8,7 +8,7 @@ function Composers(props) {
 	const composerItems = composers.map((composer) => {
 		return (
 			<li key={composer.name}>
-				<div className="box-container-comp ripple">
+				<div className="box-container-comp remove_shadow">
 					<img className="thumbnail-image-comp" src={composer.portrait_url} alt="image" />
 					<div className="comp-name-container">
 						<span className="comp-name">{composer.name}</span>
