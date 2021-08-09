@@ -60,9 +60,9 @@ function SideBar(props) {
 			<li>
 				<a>
 				<i className='bx bx-cog' ></i>
-				<span className="links_name">Setting</span>
+				<span className="links_name">Settings</span>
 				</a>
-				<span className="tooltip">Setting</span>
+				<span className="tooltip">Settings</span>
 			</li>
 			</ul>
 			<div className="profile_content">
