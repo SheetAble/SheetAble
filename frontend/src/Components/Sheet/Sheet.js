@@ -75,7 +75,7 @@ function Sheet({ sheets, composers }) {
 
 						<div className="noselect document">
 							<Document file={pdf == undefined ? pdfRequest() : pdf} onLoadSuccess={onDocumentLoadSuccess}> 
-								<Page pageNumber={pageNumber} width={430}/>
+								<Page pageNumber={pageNumber} width={540}/>
 								<div className="page_controls">
 									<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
 									<span>
@@ -128,7 +128,7 @@ function Sheet({ sheets, composers }) {
 								<span>{composer.epoch}</span>
 							</div>
 						</div>
-
+						<hr className="sep_video"/>
 						<div className="video_player">
 							<span className="coming_soon">Media Player Coming Soon</span>
 							<div>

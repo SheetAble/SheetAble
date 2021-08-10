@@ -1,29 +1,30 @@
+
 .document_container {
     display: -webkit-box;
     overflow-x: scroll;
 }
 
 .docu_text {
-	font-size: 23px;
+    font-size: 23px;
     font-weight: 500;
     color: #1d1b31;
 }
 
 .react-pdf__Page__canvas{
-  	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	border-radius: 15px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
     width: 360px;
     height: 509px;
 }
 
 .docu_sep {
-	width: 60%;
-	margin-left: 0px;
+    width: 60%;
+    margin-left: 0px;
 }
 
 .document {
-  	margin-left: 40px;
-	margin-top: 12px;
+    margin-left: 40px;
+    margin-top: 12px;
 }
 
 .react-pdf__Document:hover .page_controls {
@@ -32,16 +33,16 @@
 
 
 .page_controls {
-	position: absolute;
-	margin-left: 210px;
-	margin-top: -75px;
-	background: white;
-	opacity: 0;
-	transform: translateX(-50%);
-	transition: opacity ease-in-out 0.2s;
-	box-shadow: 0 30px 40px 0px rgb(16 36 94 / 20%);
-	
-	border-radius: 4px;
+    position: absolute;
+    margin-left: 210px;
+    margin-top: -75px;
+    background: white;
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: opacity ease-in-out 0.2s;
+    box-shadow: 0 30px 40px 0px rgb(16 36 94 / 20%);
+    
+    border-radius: 4px;
 }
 
 .page_controls button:enabled:hover, .page_controls button:enabled:focus {
@@ -64,7 +65,7 @@
 }
 
 .page_controls button {
-	appearance: auto;
+    appearance: auto;
     -webkit-writing-mode: horizontal-tb !important;
     text-rendering: auto;
     letter-spacing: normal;
@@ -76,8 +77,8 @@
     text-align: center;
     align-items: flex-start;
     cursor: default;
-	
-	width: 44px;
+    
+    width: 44px;
     height: 44px;
     background: white;
     border: 0;
@@ -87,7 +88,7 @@
 }
 
 .page_controls button:disabled {
-	color: -internal-light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+    color: -internal-light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
 }
 
 .page_controls span {
@@ -160,7 +161,7 @@
 }
 
 .sheet_info {
-    margin-left: 7vw;
+    margin-left: 6vw;
     height: 225px;
     float:left; /* add this */
     align-content: center;
@@ -235,16 +236,38 @@
     color: black;
 }
 
+
+/*
 .video_player {
     background-color: white;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    margin-top: 435px; 
-    margin-left: 7vw;
+    margin-left: 6vw;
     margin-right: 15px;
 
     border-radius: 15px;
     padding: 95px 0px;
     
     text-align: center;
+}
+*/
+
+.video_player {
+    background-color: white;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
+    margin-top: 82px;
+    margin-left: 6vw;
+    margin-right: 15px;
+    border-radius: 15px;
+    padding: 125px 0px;
+    text-align: center;
+}
+
+.sep_video {
+    margin-top: 463px;
+    margin-left: 6vw;
+    border-top: 2px solid #bbb;
+    width: 525px;
+    border-radius: 15px;
 }
 
 .video_player a {
@@ -263,4 +286,8 @@
     font-family: 'Open Sans';
     font-weight: 600; 
     line-height: 0cm;
+}
+
+.right_side_doc {
+    display: initial;
 }
