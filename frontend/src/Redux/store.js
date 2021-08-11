@@ -35,8 +35,6 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 
-
-
 const store = createStore(persistedReducer, initialState, composeEnhancers(applyMiddleware(...middleware)))
 let persistor = persistStore(store)
   

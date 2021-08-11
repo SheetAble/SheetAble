@@ -69,7 +69,7 @@ const mapActionsToProps = {
 }
 
 const mapStateToProps = (state) => ({
-
+  
 })
 
 
