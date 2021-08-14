@@ -69,10 +69,7 @@ const mapActionsToProps = {
 }
 
 const mapStateToProps = (state) => ({
-  
 })
-
-
 
 
 export default connect(mapStateToProps, mapActionsToProps)(DragNDrop)
