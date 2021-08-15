@@ -1,12 +1,19 @@
-import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, STOP_LOADING_UI } from '../types'
+import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, STOP_LOADING_UI, SET_SIDEBAR } from '../types'
 
 const initialState = {
     loading: false,
+    sidebar: true,
     errors: null
 }
 
 export default function(state = initialState, action){
     switch(action.type){
+        case SET_SIDEBAR:
+            return {
+                ...state,
+                sidebar: !state.sidebar
+            }
+
         case SET_ERRORS:
             return {
                 ...state,

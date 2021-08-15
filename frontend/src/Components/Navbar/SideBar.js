@@ -1,6 +1,9 @@
 import React, {Fragment, useState} from 'react'
 import './SideBar.css'
 
+import { setSidebar } from '../../Redux/Actions/uiActions';
+import { connect } from 'react-redux'
+
 
 function SideBar(props) {
 
@@ -9,10 +12,11 @@ function SideBar(props) {
   		arrowParent.classNameList.toggle("showMenu");
 	}
 
-	const [sidebar, setSidebar] = useState(false)
+	const { sidebar } = props
 	
 	const onClickBtn = () => {
-		setSidebar(!sidebar)
+		props.setSidebar()
+		console.log("set sidebar");
 	}
 
 	return (
@@ -83,4 +87,12 @@ function SideBar(props) {
 	)
 }
 
-export default SideBar
+const mapStateToProps = (state) => ({
+	sidebar: state.UI.sidebar
+})
+
+const mapActionsToProps = {
+    setSidebar
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(SideBar)
