@@ -24,6 +24,29 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 
 function Sheet({ sheets, composers }) {
+
+
+	/* PDF Page width rendering */
+
+	const windowHeight = 840
+
+	const [isDesktop, setDesktop] = useState(window.innerHeight > windowHeight);
+
+	const updateMedia = () => {
+		const nextDesktop = window.innerHeight > windowHeight 
+		
+		setDesktop(nextDesktop);
+	};
+
+	useEffect(() => {
+		console.log(isDesktop);
+		
+		window.addEventListener("resize", updateMedia);
+
+		return () => window.removeEventListener("resize", updateMedia);
+	});
+
+
 	let { sheetName, composerName } = useParams();
 	const [pdf, setpdf] = useState(undefined)
 
@@ -82,7 +105,7 @@ function Sheet({ sheets, composers }) {
 
 						<div className="noselect document">
 							<Document file={pdf == undefined ? pdfRequest() : pdf} onLoadSuccess={onDocumentLoadSuccess}> 
-								<Page pageNumber={pageNumber} />
+								<Page pageNumber={pageNumber} width={isDesktop? 540 : 430} />
 								<div className="page_controls">
 									<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
 									<span>

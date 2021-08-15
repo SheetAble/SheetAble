@@ -285,13 +285,15 @@
     font-size: 23px;    
     font-family: 'Open Sans';
     font-weight: 600; 
-    line-height: 0cm;
+    line-height: 0cm;   
 }
 
 .right_side_doc {
     display: initial;
 }
 
+
+/*
 .react-pdf__Page__canvas {
     width: 430px !important;
     height: auto !important;
@@ -303,3 +305,5 @@
         height: auto !important;
     }
 }
+
+*/
