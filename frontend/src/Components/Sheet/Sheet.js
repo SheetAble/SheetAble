@@ -34,7 +34,6 @@ function Sheet({ sheets, composers }) {
 
 	const updateMedia = () => {
 		const nextDesktop = window.innerHeight > windowHeight 
-		
 		setDesktop(nextDesktop);
 	};
 
@@ -158,7 +157,11 @@ function Sheet({ sheets, composers }) {
 								<span>{composer.epoch}</span>
 							</div>
 						</div>
-						<hr className="sep_video"/>
+						{isDesktop && 
+							<hr className="sep_video"/>	
+						}	
+						
+
 						<div className="video_player">
 							<span className="coming_soon">Media Player Coming Soon</span>
 							<div>
