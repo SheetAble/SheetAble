@@ -303,17 +303,13 @@
 }
 
 
-/*
+
 .react-pdf__Page__canvas {
-    width: 430px !important;
-    height: auto !important;
+    height: 608px !important;
 }
 
-@media screen and (min-height: 950px) {
+@media screen and (min-height: 840px) {
     .react-pdf__Page__canvas {
-        width: 530px !important;
-        height: auto !important;
+        height: 765px !important;
     }
 }
-
-*/
