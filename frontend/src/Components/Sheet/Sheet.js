@@ -14,6 +14,8 @@ import { displayTimeAsString, findSheet, findComposer } from '../../Utils/utils'
 
 /* Redux stuff */
 import { connect } from 'react-redux'
+import { store } from '../../Redux/store';
+import { logoutUser } from '../../Redux/Actions/userActions'
 
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -34,7 +36,12 @@ function Sheet({ sheets, composers }) {
 			.then(res => {
 				setpdf(res)
 			})
-			
+			.catch(err => {
+				if (err.request.status == 401) {
+					store.dispatch(logoutUser())
+					window.location.href = '/login'
+				}
+			})	
 		return pdf
 	}
 
