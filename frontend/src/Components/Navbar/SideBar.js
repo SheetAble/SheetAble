@@ -16,7 +16,6 @@ function SideBar(props) {
 	
 	const onClickBtn = () => {
 		props.setSidebar()
-		console.log("set sidebar");
 	}
 
 	return (
@@ -24,7 +23,6 @@ function SideBar(props) {
 		 <div className={sidebar ? "sidebar" : "sidebar active"}>
 			<div  className="logo_content">
 			<div className="logo" >
-				<i className='bx bxs-music'></i>
 				<div onClick={() => props.history.push("/")} className="logo_name" >SheetAble</div>
 			</div>
 			<i className={sidebar? 'bx bx-menu' : "bx bx-menu-alt-right"} id="btn" onClick={onClickBtn} ></i>
