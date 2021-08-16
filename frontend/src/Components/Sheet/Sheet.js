@@ -102,18 +102,19 @@ function Sheet({ sheets, composers }) {
 						<div className="noselect document">
 							<Document file={pdf == undefined ? pdfRequest() : pdf} onLoadSuccess={onDocumentLoadSuccess}> 
 								<Page pageNumber={pageNumber} width={isDesktop? 540 : 430} />
-								<div className="page_controls">
-									<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
-									<span>
-										{pageNumber} of {numPages}
-									</span>
-									<button type="button" disabled={pageNumber == numPages} onClick={nextPage}>
-										&gt;
-									</button>
-								</div>
+								
 							</Document>
 						</div>	
 					</div>	
+					<div className="page_controls">
+						<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
+						<span>
+							{pageNumber} of {numPages}
+						</span>
+						<button type="button" disabled={pageNumber == numPages} onClick={nextPage}>
+							&gt;
+						</button>
+					</div>
 
 					<div className="right_side_doc">
 						<div className="doc_box sheet_info">

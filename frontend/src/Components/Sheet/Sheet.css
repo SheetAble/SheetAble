@@ -28,15 +28,15 @@
     margin-top: 12px;
 }
 
-.react-pdf__Document:hover .page_controls {
+.document_container:hover .page_controls {
     opacity: 1;
 }
 
 
 .page_controls {
     position: absolute;
-    margin-left: 210px;
-    margin-top: -75px;
+    top: 620px;
+    left: 245px;
     background: white;
     opacity: 0;
     transform: translateX(-50%);
