@@ -1,5 +1,3 @@
-// TODO: Add rest functions
-
 package models
 
 import (
@@ -64,4 +62,16 @@ func (s *Sheet) FindSheetByID(db *gorm.DB, sheetName string) (*Sheet, error) {
 	}
 	return s, nil
 
+}
+
+func (s *Sheet) List(db *gorm.DB, pagination Pagination) (*Pagination, error) {
+	/*
+		For pagination
+	*/
+
+	var sheets []*Sheet
+	db.Scopes(paginate(sheets, &pagination, db)).Find(&sheets)
+	pagination.Rows = sheets
+
+	return &pagination, nil
 }

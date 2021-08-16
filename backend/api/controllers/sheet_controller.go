@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -23,6 +24,32 @@ func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	responses.JSON(w, http.StatusOK, sheets)
+}
+
+func (server *Server) GetSheetsPost(w http.ResponseWriter, r *http.Request) {
+	/*
+		This endpoint will return all sheets in Page like style.
+		Meaning POST request will have 2 attributes:
+			- sort_by: (how is it sorted)
+			- page_num: (what page)
+
+		Return:
+			- sheets: [...]
+			- page_max: [7] // How many pages there are
+			- page_current: [1] // What page we are on
+	*/
+
+	pagination := models.Pagination{
+		Sort:  "updated_at desc",
+		Limit: 10,
+		Page:  2,
+	}
+
+	sheet := models.Sheet{}
+	pageNew, _ := sheet.List(server.DB, pagination)
+
+	fmt.Println(pageNew)
+	responses.JSON(w, http.StatusOK, pageNew)
 }
 
 func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
