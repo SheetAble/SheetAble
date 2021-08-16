@@ -20,9 +20,6 @@ import { logoutUser } from '../../Redux/Actions/userActions'
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-
-
-
 function Sheet({ sheets, composers }) {
 
 
