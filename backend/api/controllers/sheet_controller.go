@@ -2,36 +2,22 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
 )
 
-func (server *Server) GetSheets(w http.ResponseWriter, r *http.Request) {
-	/*
-		This endpoint will return max 20 sheets
-	*/
-
-	sheet := models.Sheet{}
-
-	sheets, err := sheet.GetAllSheets(server.DB)
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
-	responses.JSON(w, http.StatusOK, sheets)
-}
-
 func (server *Server) GetSheetsPost(w http.ResponseWriter, r *http.Request) {
 	/*
 		This endpoint will return all sheets in Page like style.
-		Meaning POST request will have 2 attributes:
+		Meaning POST request will have 3 attributes:
 			- sort_by: (how is it sorted)
-			- page_num: (what page)
+			- page: (what page)
+			- limit: (limit number)
 
 		Return:
 			- sheets: [...]
@@ -39,16 +25,36 @@ func (server *Server) GetSheetsPost(w http.ResponseWriter, r *http.Request) {
 			- page_current: [1] // What page we are on
 	*/
 
+	sortBy := r.FormValue("sort_by")
+	if sortBy == "" {
+		sortBy = "updated_at desc"
+	}
+
+	limitInt := 0
+	limit := r.FormValue("limit")
+	if limit == "" {
+		limitInt = 10
+	} else {
+		limitInt, _ = strconv.Atoi(limit)
+	}
+
+	pageInt := 0
+	page := r.FormValue("page")
+	if page == "" {
+		pageInt = 1
+	} else {
+		pageInt, _ = strconv.Atoi(page)
+	}
+
 	pagination := models.Pagination{
-		Sort:  "updated_at desc",
-		Limit: 10,
-		Page:  2,
+		Sort:  sortBy,
+		Limit: limitInt,
+		Page:  pageInt,
 	}
 
 	sheet := models.Sheet{}
 	pageNew, _ := sheet.List(server.DB, pagination)
 
-	fmt.Println(pageNew)
 	responses.JSON(w, http.StatusOK, pageNew)
 }
 
