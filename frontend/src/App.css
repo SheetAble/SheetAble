@@ -31,6 +31,9 @@
   margin: 12px;
 }
 
+.cursor:hover {
+  cursor: pointer;
+}
 
 /* Effects */
 /* Ripple effect */

@@ -8,13 +8,10 @@ import { logoutUser } from './userActions'
 export const getSheets = () => dispatch => {
     dispatch({ type: LOADING_DATA })
     axios.get('/sheets')
-        .then(res => {
-			
-            console.log(res.data);
-            
+        .then(res => {            
             dispatch({
                 type: SET_SHEETS,
-                payload: res.data
+                payload: res.data.rows
             })
         })
         .catch(err => {

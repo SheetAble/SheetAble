@@ -2,6 +2,7 @@ import React, {Fragment, useState} from 'react'
 import './SideBar.css'
 
 import { setSidebar } from '../../Redux/Actions/uiActions';
+import { getSheets, getComposers } from '../../Redux/Actions/dataActions';
 import { connect } from 'react-redux'
 
 
@@ -58,7 +59,18 @@ function SideBar(props) {
 				</a>
 				<span className="tooltip">Upload</span>
 			</li>
-
+			<li>
+				<a onClick={() => {
+					props.getSheets()
+					props.getComposers()
+				}} 
+				className="cursor">
+				<i class='bx bx-sync'></i>
+				<span className="links_name">Synchronize</span>
+				</a>
+				<span className="tooltip">Synchronize</span>
+			</li>
+			
 			<li>
 				<a>
 				<i className='bx bx-cog' ></i>
@@ -90,7 +102,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapActionsToProps = {
-    setSidebar
+    setSidebar,
+	getSheets,
+	getComposers
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar)

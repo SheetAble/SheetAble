@@ -34,8 +34,9 @@ class HomePage extends Component {
         const sheetsTrue = (
             <div className="home_content">
                 <div> 
-                    <br />
+                    <div className="space"/>
                     <span className="text">Recently Added Sheets</span>
+                    
                     <hr className="seperator"></hr>
                     <Sheets sheets={this.props.sheets} />
                     
