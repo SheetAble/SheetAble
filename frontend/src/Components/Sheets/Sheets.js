@@ -12,8 +12,8 @@ function Sheets(props) {
 	let history = useHistory();
 
 
-	const sheetItems = sheets.map((sheet) => {
-		return (
+	const sheetItems = sheets.map((sheet, index) => {
+		return (			
 			<li key={sheet.sheet_name} onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)}>
 				<div className="box-container remove_shadow" >
 					<img className="thumbnail-image" src={`http://localhost:8080/sheet/thumbnail/${sheet.sheet_name}`} alt="image" />
