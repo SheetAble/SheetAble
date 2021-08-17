@@ -1,5 +1,5 @@
 import React, {Fragment, useState} from 'react'
-import SideBar from '../Navbar/SideBar'
+import SideBar from '../Sidebar/SideBar'
 
 import "./Upload.css"
 

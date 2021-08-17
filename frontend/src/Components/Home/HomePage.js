@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { getSheets, getComposers } from '../../Redux/Actions/dataActions'
 
 // Sidebar
-import SideBar from '../Navbar/SideBar'
+import SideBar from '../Sidebar/SideBar'
 
 // CSS
 import './HomePage.css'

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { Document, pdfjs, Page } from 'react-pdf'
 
-import SideBar from '../Navbar/SideBar'
+import SideBar from '../Sidebar/SideBar'
 import './Sheet.css'
 
 import axios from 'axios'

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginPage from "./Components/Authentication/LoginPage";
 import SignupPage from "./Components/Authentication/SignupPage";
 import HomePageProvider from "./Components/Home/HomePageProvider";
-import SideBar from './Components/Navbar/SideBar';
+import SideBar from './Components/Sidebar/SideBar';
 
 // Redux
 import { Provider } from 'react-redux'
