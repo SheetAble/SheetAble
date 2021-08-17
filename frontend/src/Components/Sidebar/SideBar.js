@@ -38,7 +38,7 @@ function SideBar(props) {
 			</li>
 
 			<li>
-				<a href="/">
+				<a href="/sheets">
 				<i className='bx bx-bookmarks'></i>
 				<span className="links_name">Sheets</span>
 				</a>
