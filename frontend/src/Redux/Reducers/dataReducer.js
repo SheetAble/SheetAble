@@ -1,4 +1,4 @@
-import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS } from '../types'
+import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE } from '../types'
 
 const initialState = {
     sheets: [],
@@ -17,6 +17,24 @@ export default function(state = initialState, action){
                 loading: true
             }
         
+        case INCREMENT_PAGE: 
+            return {
+                ...state,
+                page: state.page + 1
+            }
+
+        case DECREMENT_PAGE: 
+            return {
+                ...state,
+                page: state.page - 1
+            }
+
+        case SET_PAGE: 
+            return {
+                ...state,
+                page: action.payload
+            }
+
         case SET_PAGE_SHEETS: 
             return {
                 ...state,

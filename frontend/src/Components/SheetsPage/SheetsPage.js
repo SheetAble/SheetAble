@@ -4,10 +4,10 @@ import SideBar from '../Sidebar/SideBar'
 import SheetBox from './SheetBox'
 
 import { connect } from 'react-redux'
-import { getSheetPage } from '../../Redux/Actions/dataActions'
+import { getSheetPage, incrementPage } from '../../Redux/Actions/dataActions'
 
 
-function SheetsPage({ getSheetPage, sheetPages} ) {
+function SheetsPage({ getSheetPage, sheetPages, incrementPage, page} ) {
 	useEffect(() => {
 		const data = {
 			page: 1,
@@ -20,6 +20,9 @@ function SheetsPage({ getSheetPage, sheetPages} ) {
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
+				<button onClick={incrementPage}>
+					{page} I
+				</button>
 				{ /*<SheetBox sheet={sheet}/> */}
 			</div>
 		</Fragment>
@@ -27,11 +30,13 @@ function SheetsPage({ getSheetPage, sheetPages} ) {
 }
 
 const mapStateToProps = (state) => ({
-	sheetPages: state.data.sheetPages
+	sheetPages: state.data.sheetPages,
+	page: state.data.page
 })
 
 const mapActionsToProps = {
-    getSheetPage
+    getSheetPage,
+	incrementPage
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(SheetsPage)
