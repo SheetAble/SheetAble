@@ -21,15 +21,12 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, page, setPage} ) 
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				<ul>
-					<li>
-						{sheetPages[page].map(sheet => {
-							return (
-								<SheetBox sheet={sheet}/>
-							)
-						})}
-						
-					</li>
+				<ul className="all-sheets-container">					
+					{sheetPages[page].map(sheet => {
+						return (
+							<SheetBox sheet={sheet}/>
+						)
+					})}
 				</ul>
 			</div>
 		</Fragment>
