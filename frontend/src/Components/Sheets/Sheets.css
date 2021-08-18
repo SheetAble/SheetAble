@@ -6,15 +6,15 @@
 	margin-top: 20px;
 	padding-bottom: 0px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	border-radius: 5px;
+	border-radius: 15px;
 	min-height: 280px;
 	cursor: pointer;
 }
 
 .thumbnail-image{
 	max-width: 150px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
 }
 
 .sheet-name-container {
