@@ -1,16 +1,46 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 
 import SideBar from '../Sidebar/SideBar'
+import SheetBox from './SheetBox'
 
-function SheetsPage() {
+import { connect } from 'react-redux'
+import { getSheetPage } from '../../Redux/Actions/dataActions'
+
+
+function SheetsPage({ getSheetPage, sheetPages} ) {
+	useEffect(() => {
+		const data = {
+			page: 1,
+			sortBy: "updated_at desc"
+		}
+		getSheetPage(data)
+	}, [])
+	
 	return (
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				Sheets
+				{ /*<SheetBox sheet={sheet}/> */}
 			</div>
 		</Fragment>
 	)
 }
 
-export default SheetsPage
+const mapStateToProps = (state) => ({
+	sheetPages: state.data.sheetPages
+})
+
+const mapActionsToProps = {
+    getSheetPage
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(SheetsPage)
+
+
+
+/*
+	data:
+		sheets: [...]
+		sheetPages: {1: [...], 2: [...]}
+		currentPage: 1
+*/
