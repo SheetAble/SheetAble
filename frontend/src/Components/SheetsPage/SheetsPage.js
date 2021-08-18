@@ -4,15 +4,16 @@ import SideBar from '../Sidebar/SideBar'
 import SheetBox from './SheetBox'
 
 import { connect } from 'react-redux'
-import { getSheetPage, incrementPage } from '../../Redux/Actions/dataActions'
+import { getSheetPage, incrementPage, setPage } from '../../Redux/Actions/dataActions'
 
 
-function SheetsPage({ getSheetPage, sheetPages, incrementPage, page} ) {
+function SheetsPage({ getSheetPage, sheetPages, incrementPage, page, setPage} ) {
 	useEffect(() => {
 		const data = {
-			page: 1,
+			page: page,
 			sortBy: "updated_at desc"
 		}
+		setPage(1)
 		getSheetPage(data)
 	}, [])
 	
@@ -20,10 +21,16 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, page} ) {
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				<button onClick={incrementPage}>
-					{page} I
-				</button>
-				{ /*<SheetBox sheet={sheet}/> */}
+				<ul>
+					<li>
+						{sheetPages[page].map(sheet => {
+							return (
+								<SheetBox sheet={sheet}/>
+							)
+						})}
+						
+					</li>
+				</ul>
 			</div>
 		</Fragment>
 	)
@@ -36,7 +43,8 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
     getSheetPage,
-	incrementPage
+	incrementPage,
+	setPage
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(SheetsPage)
