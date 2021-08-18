@@ -32,3 +32,9 @@
     font-weight: 300;
     line-height: 100%;
 }
+
+
+.home-page-wrapper {
+    word-wrap: break-word;
+    overflow-x: auto;
+}
