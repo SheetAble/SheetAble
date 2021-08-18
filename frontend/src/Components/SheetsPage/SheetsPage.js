@@ -6,6 +6,7 @@ import SheetBox from './SheetBox'
 import { connect } from 'react-redux'
 import { getSheetPage, incrementPage, setPage } from '../../Redux/Actions/dataActions'
 
+import './SheetsPage.css'
 
 function SheetsPage({ getSheetPage, sheetPages, incrementPage, page, setPage} ) {
 	useEffect(() => {
@@ -21,13 +22,20 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, page, setPage} ) 
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				<ul className="all-sheets-container">					
-					{sheetPages[page].map(sheet => {
-						return (
-							<SheetBox sheet={sheet}/>
-						)
-					})}
-				</ul>
+				<div className="sheets-wrapper">
+					<div className="doc_header">
+						<span className="doc_sheet">Sheets in your library</span>
+						<br />
+						<span className="doc_composer">Recent Uploads</span>
+					</div>
+					<ul className="all-sheets-container full-height">					
+						{sheetPages[page].map(sheet => {
+							return (
+								<SheetBox sheet={sheet}/>
+							)
+						})}
+					</ul>
+				</div>
 			</div>
 		</Fragment>
 	)

@@ -1,0 +1,9 @@
+li {
+	display: inline-block;
+	whitespace: normal;
+}
+
+.sheets-wrapper {
+	word-wrap:break-word;
+	overflow-x: auto;
+}
