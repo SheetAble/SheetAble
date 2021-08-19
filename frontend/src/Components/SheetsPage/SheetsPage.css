@@ -7,3 +7,36 @@ li {
 	word-wrap:break-word;
 	overflow-x: auto;
 }
+
+.full-height {
+	display: block;
+}
+
+.page-info-wrapper {
+	text-align: center;
+}
+
+.page-info-wrapper span {
+	font-weight: 300;
+}
+
+.page-info-wrapper b {
+	font-weight: 500;
+}
+
+.page-info-wrapper svg {
+	margin-right: 5px;
+}
+
+.page-info-wrapper svg:hover {
+	cursor: pointer;
+}
+
+.disabled {
+	cursor: no-drop !important;
+}
+
+.svg-2 {
+	margin-right: 0;
+	margin-left: 5px;
+}

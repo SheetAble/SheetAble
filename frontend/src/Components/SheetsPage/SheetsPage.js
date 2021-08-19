@@ -4,20 +4,39 @@ import SideBar from '../Sidebar/SideBar'
 import SheetBox from './SheetBox'
 
 import { connect } from 'react-redux'
-import { getSheetPage, incrementPage, setPage } from '../../Redux/Actions/dataActions'
+import { getSheetPage, incrementPage, setPage, decrementPage } from '../../Redux/Actions/dataActions'
 
 import './SheetsPage.css'
 
-function SheetsPage({ getSheetPage, sheetPages, incrementPage, page, setPage} ) {
+function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, page, setPage} ) {
 	useEffect(() => {
+		getData()		
+	}, [])
+	
+	const getData = () => {
+		console.log("loggin");
 		const data = {
 			page: page,
 			sortBy: "updated_at desc"
 		}
-		setPage(1)
+		
 		getSheetPage(data)
-	}, [])
-	
+	}
+
+	const svgDec = (e) => {
+		e.preventDefault()
+		if (page != 1) {
+			decrementPage() 
+			getData()
+		} 	
+	}
+
+	const svgInc = () => {
+		incrementPage()  
+		getData()
+	}
+
+
 	return (
 		<Fragment>
 			<SideBar />
@@ -29,12 +48,26 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, page, setPage} ) 
 						<span className="doc_composer">Recent Uploads</span>
 					</div>
 					<ul className="all-sheets-container full-height">					
-						{sheetPages[page].map(sheet => {
-							return (
-								<SheetBox sheet={sheet}/>
-							)
+						{sheetPages[page] == undefined ?
+							setPage(1) :
+							sheetPages[page].map(sheet => {
+								return (
+									<SheetBox sheet={sheet}/>
+								) 
 						})}
 					</ul>
+					<div className="page-info-wrapper">
+						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgDec}
+						 className={page != 1? "" : "disabled"}>
+  							<path id="ic_chevron_right_24px" d="M14.59,6,16,7.41,11.42,12,16,16.59,14.59,18l-6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
+						</svg>
+
+						<span>Page <b>{page}</b> of <b>7</b></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className="svg-2">
+  							<path id="ic_chevron_right_24px" d="M10,6,8.59,7.41,13.17,12,8.59,16.59,10,18l6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
+						</svg>	
+
+					</div>
 				</div>
 			</div>
 		</Fragment>
@@ -49,6 +82,7 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
     getSheetPage,
 	incrementPage,
+	decrementPage,
 	setPage
 }
 
