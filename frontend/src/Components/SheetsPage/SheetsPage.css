@@ -6,6 +6,7 @@ li {
 .sheets-wrapper {
 	word-wrap:break-word;
 	overflow-x: auto;
+	width: 100%;
 }
 
 .full-height {

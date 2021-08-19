@@ -22,11 +22,15 @@
 	margin-left: 10px;
 	margin-top: 2px;
 	line-height: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap;
 }
 
 .sheet-name {
 	color: #404040;
 	font-weight: 300;
+	text-overflow: ellipsis;
 	
 }
 
