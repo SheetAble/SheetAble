@@ -1,11 +1,12 @@
-import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE } from '../types'
+import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES } from '../types'
 
 const initialState = {
     sheets: [],
     sheetPages: {},
     composers: [],
     page: 1,
-    loading: false
+    loading: false,
+    totalPages: 1
 }
 
 export default function(state = initialState, action){
@@ -15,6 +16,12 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 loading: true
+            }
+
+        case SET_TOTAL_PAGES: 
+            return {
+                ...state, 
+                totalPages: action.payload
             }
         
         case INCREMENT_PAGE: 

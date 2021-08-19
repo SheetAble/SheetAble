@@ -8,7 +8,7 @@ import { getSheetPage, incrementPage, setPage, decrementPage } from '../../Redux
 
 import './SheetsPage.css'
 
-function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, page, setPage} ) {
+function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, page, setPage, totalPages} ) {
 	useEffect(() => {
 		getData()		
 	}, [])
@@ -31,9 +31,13 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, pa
 		} 	
 	}
 
-	const svgInc = () => {
-		incrementPage()  
-		getData()
+	const svgInc = (e) => {
+		e.preventDefault()
+		if (page != totalPages) {
+			incrementPage()  
+			getData()
+		}
+		
 	}
 
 
@@ -62,8 +66,8 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, pa
   							<path id="ic_chevron_right_24px" d="M14.59,6,16,7.41,11.42,12,16,16.59,14.59,18l-6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
 						</svg>
 
-						<span>Page <b>{page}</b> of <b>7</b></span>
-						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className="svg-2">
+						<span>Page <b>{page}</b> of <b>{totalPages}</b></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className={page != totalPages ? "svg-2" : "svg-2 disabled"}>
   							<path id="ic_chevron_right_24px" d="M10,6,8.59,7.41,13.17,12,8.59,16.59,10,18l6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
 						</svg>	
 
@@ -76,7 +80,8 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, pa
 
 const mapStateToProps = (state) => ({
 	sheetPages: state.data.sheetPages,
-	page: state.data.page
+	page: state.data.page,
+	totalPages: state.data.totalPages
 })
 
 const mapActionsToProps = {

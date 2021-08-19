@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE } from '../types'
+import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES } from '../types'
 import axios from 'axios'
 
 import { store } from '../store';
@@ -64,6 +64,10 @@ export const getSheetPage = (data) => dispatch => {
                 type: SET_PAGE_SHEETS,
                 payload: res.data.rows,
                 page: data.page
+            })
+            dispatch({
+                type: SET_TOTAL_PAGES,
+                payload: res.data.total_pages
             })
         })
         .catch(err => {
