@@ -45,8 +45,9 @@ export default function(state = initialState, action){
         case SET_PAGE_SHEETS: 
             return {
                 ...state,
+                loading: false,
                 sheetPages: {...state.sheetPages, [action.page]: action.payload},
-                loading: false
+                
             }
 
         case SET_SHEETS:

@@ -52,7 +52,7 @@ export const getSheetPage = (data) => dispatch => {
 
     let bodyFormData = new FormData()
     bodyFormData.append('page', data.page)
-    bodyFormData.append('limit', 10)
+    bodyFormData.append('limit', 50)
     bodyFormData.append('sort_by', data.sortBy)
 
     axios.post("/sheets", bodyFormData, {
@@ -71,6 +71,10 @@ export const getSheetPage = (data) => dispatch => {
             })
         })
         .catch(err => {
+            if (err.request.status == 401) {
+                store.dispatch(logoutUser())
+                window.location.href = '/login'
+            }
             console.log(err);
         })
 }
