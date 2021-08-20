@@ -46,8 +46,8 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, pa
 			<SideBar />
 			<div className="home_content">
 				<div className="sheets-wrapper">
-					<div className="doc_header">
-						<span className="doc_sheet">Sheets in your library</span>
+					<div className="doc_header auto-margin">
+						<span className="doc_sheet ">Sheets in your library</span>
 						<br />
 						<span className="doc_composer">Recent Uploads</span>
 					</div>

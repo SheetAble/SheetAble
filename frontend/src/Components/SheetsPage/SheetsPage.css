@@ -3,18 +3,26 @@ li {
 	whitespace: normal;
 }
 
+.auto-margin {
+	margin-left: auto;
+	margin-right: auto;
+	width: 74%;
+}
+
 .sheets-wrapper {
 	word-wrap:break-word;
-	overflow-x: auto;
-	width: 100%;
+	overflow-x: auto;	
 }
 
 .full-height {
 	display: block;
+	width: 77%;
+    margin: auto;
 }
 
 .page-info-wrapper {
 	text-align: center;
+	padding-bottom: 15px;
 }
 
 .page-info-wrapper span {
