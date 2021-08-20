@@ -3,6 +3,10 @@ li {
 	whitespace: normal;
 }
 
+.middle-part-container {
+	display: flex;
+}
+
 .auto-margin {
 	margin-left: auto;
 	margin-right: auto;

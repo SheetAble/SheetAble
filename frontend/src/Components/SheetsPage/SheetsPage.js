@@ -14,13 +14,14 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, pa
 	}, [])
 	
 	const getData = () => {
-		console.log("loggin");
 		const data = {
 			page: page,
 			sortBy: "updated_at desc"
 		}
 		
-		getSheetPage(data)
+		if (sheetPages[page] == undefined) {
+			getSheetPage(data)
+		}
 	}
 
 	const svgDec = (e) => {
@@ -51,15 +52,20 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, pa
 						<br />
 						<span className="doc_composer">Recent Uploads</span>
 					</div>
-					<ul className="all-sheets-container full-height">					
-						{sheetPages[page] == undefined ?
-							setPage(1) :
-							sheetPages[page].map(sheet => {
-								return (
-									<SheetBox sheet={sheet}/>
-								) 
-						})}
-					</ul>
+					<div className="middle-part-container">
+						<ul className="all-sheets-container full-height">					
+							{sheetPages[page] == undefined ?
+								setPage(1) :
+								sheetPages[page].map(sheet => {
+									return (
+										<SheetBox sheet={sheet}/>
+									) 
+							})}
+						</ul>
+						<div className="box ">
+							test
+						</div>
+					</div>
 					<div className="page-info-wrapper">
 						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgDec}
 						 className={page != 1? "" : "disabled"}>
