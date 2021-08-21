@@ -1,12 +1,14 @@
 import React, { Fragment, useEffect } from 'react'
 
 import SideBar from '../Sidebar/SideBar'
-import SheetBox from './SheetBox'
+import SheetBox from './Components/SheetBox'
 
 import { connect } from 'react-redux'
 import { getSheetPage, incrementPage, setPage, decrementPage } from '../../Redux/Actions/dataActions'
 
 import './SheetsPage.css'
+import RandomPieceSelection from './Components/RandomPieceSelection'
+
 
 function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, page, setPage, totalPages} ) {
 	useEffect(() => {
@@ -62,10 +64,9 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, pa
 									) 
 							})}
 						</ul>
-						<div className="box ">
-							test
-						</div>
+						<RandomPieceSelection />
 					</div>
+					
 					<div className="page-info-wrapper">
 						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgDec}
 						 className={page != 1? "" : "disabled"}>

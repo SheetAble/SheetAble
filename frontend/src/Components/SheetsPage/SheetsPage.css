@@ -53,3 +53,17 @@ li {
 	margin-right: 0;
 	margin-left: 5px;
 }
+
+.rand-piece {
+	margin-right: 15px;
+	margin-top: 19px;
+	
+	width: 230px;
+	height: 350px;
+	text-align: center;
+}
+
+.rand-piece span {
+	font-size: 17px;	
+	font-weight: lighter;
+}
