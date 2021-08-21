@@ -10,7 +10,7 @@ li {
 .auto-margin {
 	margin-left: auto;
 	margin-right: auto;
-	width: 74%;
+	width: 95%;
 }
 
 .sheets-wrapper {
@@ -56,14 +56,38 @@ li {
 
 .rand-piece {
 	margin-right: 15px;
-	margin-top: 19px;
+	margin-top: 18px;
 	
 	width: 230px;
-	height: 350px;
+	height: 430px;
 	text-align: center;
 }
 
-.rand-piece span {
-	font-size: 17px;	
-	font-weight: lighter;
+.rand-piece-span{
+	padding-top: 15px;
+	color: #464646;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.loading-animation-rand {
+	display: block;
+	
+	margin: auto;
+	margin-top: 30%;
+	width: 100px;
+}
+
+.rand-img {
+	width: 230px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	
+}
+.rand-piece .sheet-name {
+	font-size: 17px;
+}
+
+.rand-piece .sheet-composer {
+	font-size: 13px;
 }

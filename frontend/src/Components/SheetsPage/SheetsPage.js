@@ -64,7 +64,7 @@ function SheetsPage({ getSheetPage, sheetPages, incrementPage, decrementPage, pa
 									) 
 							})}
 						</ul>
-						<RandomPieceSelection />
+						<RandomPieceSelection sheetPages={sheetPages} page={page}/>
 					</div>
 					
 					<div className="page-info-wrapper">
