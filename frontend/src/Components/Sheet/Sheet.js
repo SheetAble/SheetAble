@@ -20,7 +20,7 @@ import { logoutUser } from '../../Redux/Actions/userActions'
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-function Sheet({ sheets, composers }) {
+function Sheet({ sheetPages, composers }) {
 
 
 	/* PDF Page width rendering */
@@ -46,7 +46,7 @@ function Sheet({ sheets, composers }) {
 	let { sheetName, composerName } = useParams();
 	const [pdf, setpdf] = useState(undefined)
 
-	const [sheet, setsheet] = useState(findSheet(sheetName, sheets))
+	const [sheet, setsheet] = useState(findSheet(sheetName, sheetPages))
 
 	const [composer, setcomposer] = useState(findComposer(composerName, composers))
 
@@ -174,7 +174,7 @@ function Sheet({ sheets, composers }) {
 }
 
 const mapStateToProps = (state) => ({
-    sheets: state.data.sheets,
+	sheetPages: state.data.sheetPages,
 	composers: state.data.composers
 })
 
