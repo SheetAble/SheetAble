@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES, SET_PAGE_COMPOSERS, SET_TOTAL_COMPOSER_PAGES } from '../types'
+import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES, SET_PAGE_COMPOSERS, SET_TOTAL_COMPOSER_PAGES, INCREMENT_COMPOSER_PAGE, DECREMENT_COMPOSER_PAGE, SET_COMPOSER_PAGE } from '../types'
 import axios from 'axios'
 
 import { store } from '../store';
@@ -28,17 +28,32 @@ export const getSheets = () => dispatch => {
         })
 }
 
+
+/* Page navigation */
 export const incrementSheetPage = () => dispatch => {
     dispatch({type: INCREMENT_SHEET_PAGE})
+}
+
+export const incrementComposerPage = () => dispatch => {
+    dispatch({type: INCREMENT_COMPOSER_PAGE})
 }
 
 export const decrementSheetPage = () => dispatch => {
     dispatch({type: DECREMENT_SHEET_PAGE})
 }
 
+export const decrementComposerPage = () => dispatch => {
+    //dispatch({type: DECREMENT_COMPOSER_PAGE})
+}
+
 export const setSheetPage = (page) => dispatch => {
     dispatch({type: SET_SHEET_PAGE, payload: page})
 }
+
+export const setComposerPage = (page) => dispatch => {
+    dispatch({type: SET_COMPOSER_PAGE, payload: page})
+}
+
 
 /* Get specific sheet data from page
     data parameter:
@@ -89,6 +104,8 @@ export const getSheetPage = (data) => dispatch => {
 */
 export const getComposerPage = (data) => dispatch => {
     dispatch({ type: LOADING_DATA })
+
+    console.log(data);
 
     let bodyFormData = new FormData()
     bodyFormData.append('page', data.page)

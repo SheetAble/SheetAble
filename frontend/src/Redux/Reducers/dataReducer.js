@@ -67,7 +67,7 @@ export default function(state = initialState, action){
                 sheetPage: action.payload
             }
 
-        case SET_COMPOSER_PAGE: 
+        case SET_COMPOSER_PAGE:
             return {
                 ...state,
                 composerPage: action.payload
@@ -86,10 +86,8 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 loading: false,
-                composerPages: {...state.sheetPages, [action.page]: action.payload},
+                composerPages: {...state.composerPages, [action.page]: action.payload},
             }            
-
-
 
         case SET_SHEETS:
             return {
