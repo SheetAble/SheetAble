@@ -47,3 +47,15 @@ func (c *Composer) GetAllComposer(db *gorm.DB) (*[]Composer, error) {
 	}
 	return &composers, err
 }
+
+func (c *Composer) List(db *gorm.DB, pagination Pagination) (*Pagination, error) {
+	/*
+		For pagination
+	*/
+
+	var composers []*Composer
+	db.Scopes(paginate(composers, &pagination, db)).Find(&composers)
+	pagination.Rows = composers
+
+	return &pagination, nil
+}

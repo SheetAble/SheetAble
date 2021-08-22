@@ -11,7 +11,7 @@ import (
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
 )
 
-func (server *Server) GetSheetsPost(w http.ResponseWriter, r *http.Request) {
+func (server *Server) GetSheetsPage(w http.ResponseWriter, r *http.Request) {
 	/*
 		This endpoint will return all sheets in Page like style.
 		Meaning POST request will have 3 attributes:
@@ -22,7 +22,7 @@ func (server *Server) GetSheetsPost(w http.ResponseWriter, r *http.Request) {
 		Return:
 			- sheets: [...]
 			- page_max: [7] // How many pages there are
-			- page_current: [1] // What page we are on
+			- page_current: [1] // Which page is currently selected
 	*/
 
 	sortBy := r.FormValue("sort_by")
@@ -96,19 +96,4 @@ func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 
 	name := mux.Vars(r)["name"]
 	http.ServeFile(w, r, "thumbnails/"+name+".png")
-}
-
-func (server *Server) GetComposers(w http.ResponseWriter, r *http.Request) {
-	/*
-		Get authors, limited by 20 and sorted by newest
-	*/
-
-	composer := models.Composer{}
-
-	composers, err := composer.GetAllComposer(server.DB)
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
-	responses.JSON(w, http.StatusOK, composers)
 }

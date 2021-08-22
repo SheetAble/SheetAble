@@ -29,10 +29,11 @@ func (s *Server) initializeRoutes() {
 
 	// Sheet routes
 	s.Router.HandleFunc("/upload", middlewares.SetMiddlewareAuthentication(s.UploadFile)).Methods("POST")
-	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareAuthentication(s.GetSheetsPost)).Methods("GET", "POST")
-
+	s.Router.HandleFunc("/sheets", middlewares.SetMiddlewareAuthentication(s.GetSheetsPage)).Methods("GET", "POST")
 	s.Router.HandleFunc("/sheet/thumbnail/{name}", s.GetThumbnail).Methods("GET")
 	s.Router.HandleFunc("/sheet/pdf/{composer}/{sheetName}", middlewares.SetMiddlewareAuthentication(s.GetPDF)).Methods("GET")
-	s.Router.HandleFunc("/composers", middlewares.SetMiddlewareAuthentication(s.GetComposers)).Methods("GET")
 	s.Router.HandleFunc("/sheet/{sheetName}", middlewares.SetMiddlewareAuthentication(s.GetSheet)).Methods("GET")
+
+	// Composer routes
+	s.Router.HandleFunc("/composers", middlewares.SetMiddlewareAuthentication(s.GetComposersPage)).Methods("GET", "POST")
 }
