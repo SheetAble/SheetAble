@@ -11,7 +11,7 @@
 	 cursor: pointer;
 	 position: relative;
 	 transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
-	     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	 font-size: 15px;
 	 font-weight: 300;
 }
