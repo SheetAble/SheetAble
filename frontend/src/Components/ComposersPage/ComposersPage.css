@@ -1,0 +1,8 @@
+.composer-wrapper .thumbnail-image {
+	max-width: none;
+	height: 190px;
+}
+
+.composer-wrapper .box-container {
+	width: 190px;
+}

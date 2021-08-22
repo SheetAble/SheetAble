@@ -16,6 +16,11 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 	}, [])
 	
 	const getData = () => {
+		
+		if (sheetPage == undefined || sheetPages < 0 || sheetPages > totalSheetPages) {
+			setSheetPage(1)
+		}
+		
 		const data = {
 			page: sheetPage,
 			sortBy: "updated_at desc"
