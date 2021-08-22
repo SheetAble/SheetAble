@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
 import LoadingAnimation from '../../../Images/Animations/Loading.svg'
-import './BubblyButton.css'
 import { useHistory } from 'react-router';
 
-function RandomPieceSelection({ sheetPages, page }) {
+function RandomComposerSelection({ sheetPages, page }) {
 	
 	const [loading, setLoading] = useState(true)	
 	
@@ -71,4 +70,4 @@ function RandomPieceSelection({ sheetPages, page }) {
 	)
 }
 
-export default RandomPieceSelection
+export default RandomComposerSelection

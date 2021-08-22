@@ -27,6 +27,7 @@ import './App.css'
 import UploadPage from './Components/Upload/UploadPage';
 import Sheet from './Components/Sheet/Sheet';
 import SheetsPage from './Components/SheetsPage/SheetsPage';
+import ComposersPage from './Components/ComposersPage/ComposersPage';
 
 axios.defaults.baseURL = "http://localhost:8080"
 
@@ -58,6 +59,7 @@ function App() {
               <Route exact path="/upload" component={UploadPage} />
               <Route exact path="/sheet/:composerName/:sheetName" component={Sheet} />
               <Route exact path="/sheets" component={SheetsPage} />
+              <Route exact path="/composers" component={ComposersPage} />
           </Switch>
         </Router>
       </PersistGate>

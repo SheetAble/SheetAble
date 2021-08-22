@@ -1,43 +1,43 @@
 import React, { Fragment, useEffect } from 'react'
 
 import SideBar from '../Sidebar/SideBar'
-import SheetBox from './Components/SheetBox'
+import ComposerBox from './Components/ComposerBox'
 
 import { connect } from 'react-redux'
-import { getSheetPage, incrementPage, setPage, decrementPage } from '../../Redux/Actions/dataActions'
+import { getSheetPage, incrementSheetPage, setSheetPage, decrementSheetPage } from '../../Redux/Actions/dataActions'
 
-import './SheetsPage.css'
-import RandomPieceSelection from './Components/RandomPieceSelection'
+import './ComposersPage.css'
+import RandomPieceSelection from './Components/RandomComposerSelection'
 
 
-function ComposersPage({ getSheetPage, sheetPages, incrementPage, decrementPage, page, setPage, totalPages} ) {
+function ComposersPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage, decrementSheetPage, sheetPage, totalSheetPages} ) {
 	useEffect(() => {
 		getData()		
 	}, [])
 	
 	const getData = () => {
 		const data = {
-			page: page,
+			page: sheetPage,
 			sortBy: "updated_at desc"
 		}
 		
-		if (sheetPages[page] == undefined) {
+		if (sheetPages[sheetPage] == undefined) {
 			getSheetPage(data)
 		}
 	}
 
 	const svgDec = (e) => {
 		e.preventDefault()
-		if (page != 1) {
-			decrementPage() 
+		if (sheetPage != 1) {
+			decrementSheetPage() 
 			getData()
 		} 	
 	}
 
 	const svgInc = (e) => {
 		e.preventDefault()
-		if (page != totalPages) {
-			incrementPage()  
+		if (sheetPage != totalSheetPages) {
+			incrementSheetPage()  
 			getData()
 		}
 		
@@ -56,25 +56,25 @@ function ComposersPage({ getSheetPage, sheetPages, incrementPage, decrementPage,
 					</div>
 					<div className="middle-part-container">
 						<ul className="all-sheets-container full-height">					
-							{sheetPages[page] == undefined ?
-								setPage(1) :
-								sheetPages[page].map(sheet => {
+							{sheetPages[sheetPage] == undefined ?
+								setSheetPage(1) :
+								sheetPages[sheetPage].map(sheet => {
 									return (
-										<SheetBox sheet={sheet}/>
+										<ComposerBox sheet={sheet}/>
 									) 
 							})}
 						</ul>
-						<RandomPieceSelection sheetPages={sheetPages} page={page}/>
+						<RandomPieceSelection sheetPages={sheetPages} page={sheetPage}/>
 					</div>
 					
 					<div className="page-info-wrapper">
 						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgDec}
-						 className={page != 1? "" : "disabled"}>
+						 className={sheetPage != 1? "" : "disabled"}>
   							<path id="ic_chevron_right_24px" d="M14.59,6,16,7.41,11.42,12,16,16.59,14.59,18l-6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
 						</svg>
 
-						<span>Page <b>{page}</b> of <b>{totalPages}</b></span>
-						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className={page != totalPages ? "svg-2" : "svg-2 disabled"}>
+						<span>Page <b>{sheetPage}</b> of <b>{totalSheetPages}</b></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className={sheetPage != totalSheetPages ? "svg-2" : "svg-2 disabled"}>
   							<path id="ic_chevron_right_24px" d="M10,6,8.59,7.41,13.17,12,8.59,16.59,10,18l6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
 						</svg>	
 
@@ -87,15 +87,15 @@ function ComposersPage({ getSheetPage, sheetPages, incrementPage, decrementPage,
 
 const mapStateToProps = (state) => ({
 	sheetPages: state.data.sheetPages,
-	page: state.data.page,
-	totalPages: state.data.totalPages
+	sheetPage: state.data.sheetPage,
+	totalSheetPages: state.data.totalSheetPages
 })
 
 const mapActionsToProps = {
     getSheetPage,
-	incrementPage,
-	decrementPage,
-	setPage
+	incrementSheetPage,
+	setSheetPage,
+	decrementSheetPage
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(ComposersPage)

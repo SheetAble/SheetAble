@@ -46,7 +46,7 @@ function SideBar(props) {
 			</li>
 
 			<li>
-				<a href="/">
+				<a href="/composers">
 				<i className='bx bx-user' ></i>
 				<span className="links_name">Composer</span>
 				</a>
