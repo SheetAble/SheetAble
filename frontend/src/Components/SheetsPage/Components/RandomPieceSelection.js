@@ -46,7 +46,7 @@ function RandomPieceSelection({ sheetPages, page }) {
 	let history = useHistory()
 
 	return (	
-		<div className="box rand-piece">
+		<div className="box rand-piece remove_shadow">
 
 			{loading? <img className="loading-animation-rand" src={LoadingAnimation}/> :
 			(
