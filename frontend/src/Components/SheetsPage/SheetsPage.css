@@ -5,23 +5,28 @@ li {
 
 .middle-part-container {
 	display: flex;
+	min-height: 80%;
 }
 
 .auto-margin {
 	margin-left: auto;
 	margin-right: auto;
-	width: 95%;
+	width: 97%;
 }
 
 .sheets-wrapper {
 	word-wrap:break-word;
-	overflow-x: auto;	
+	overflow-x: auto;
+	width: 1000%;
+	
 }
 
 .full-height {
 	display: block;
-	width: 77%;
-    margin: auto;
+	width: 1000%;
+	
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .page-info-wrapper {
