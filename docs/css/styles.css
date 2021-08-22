@@ -1,13 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+body {
+  margin: 0 130px ;
+  background-image: url("/assets/bg.png");
+}
+
+input:focus {
+  outline: none;
+}
 
 header {
   display: flex;
   justify-content: space-between;
   font-family: 'Poppins';
   color: #525FFB;
-  margin-left: 35px;
-  margin-right: 35px;
   margin-top: 15px;
 }
 
@@ -30,4 +37,56 @@ header button {
 
 button:hover {
   cursor: pointer;
+}
+
+section:first-of-type{
+  margin-top: 70px;
+  display: flex;
+  justify-content: space-between;
+}
+
+section:first-of-type img {
+  width: 650px;
+}
+
+.info-wrapper {
+  margin-top: 70px;
+}
+
+.info-wrapper h1{
+  font-family: 'Poppins';
+  font-size: 50px;
+  line-height: 0em;
+}
+
+.info-wrapper span {
+  font-family: 'Muli';
+  color: #B1AAAA;
+  font-size: 16px;
+  font-weight: bolder;
+}
+
+.get-beta {
+  margin-top: 15px;
+}
+
+.get-beta input {
+  padding: 15px;
+  font-family: "Montserrat";
+  border-radius: 35px;
+  padding-right: 40px;
+  border:1px solid #EBEBEB;
+  color: #1E1C24;
+}
+
+.get-beta button {
+  margin-left: 55px;
+  background-color: #525FFB;
+  border: none; 
+  color: white;
+  font-family: 'Poppins';
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 35px;
+  padding: 12px 30px;
 }
