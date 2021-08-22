@@ -69,7 +69,7 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 									) 
 							})}
 						</ul>
-						<RandomPieceSelection sheetPages={composerPages} page={composerPage}/>
+						<RandomPieceSelection composerPages={composerPages} page={composerPage}/>
 					</div>
 					
 					<div className="page-info-wrapper">

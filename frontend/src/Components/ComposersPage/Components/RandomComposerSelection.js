@@ -3,23 +3,23 @@ import React, { useEffect, useState } from 'react'
 import LoadingAnimation from '../../../Images/Animations/Loading.svg'
 import { useHistory } from 'react-router';
 
-function RandomComposerSelection({ sheetPages, page }) {
+function RandomComposerSelection({ composerPages, page }) {
 	
 	const [loading, setLoading] = useState(true)	
 	
-	const [sheet, setSheet] = useState(undefined)
+	const [composer, setComposer] = useState(undefined)
 
 	const [bubblyButton, setBubblyButton] = useState("bubbly-button")
 
-	const pickPiece = () => {
+	const pickComposer = () => {
 		setLoading(true)
-		return sheetPages[page][Math.floor(Math.random()*sheetPages[page].length)];
+		return composerPages[page][Math.floor(Math.random()*composerPages[page].length)];
 	}
 
 
 
 	useEffect(() => {
-		setSheet(pickPiece())
+		setComposer(pickComposer())
 		setLoading(false)
 	}, [])
 
@@ -34,7 +34,7 @@ function RandomComposerSelection({ sheetPages, page }) {
 		setBubblyButton("bubbly-button animate")
 
 
-		setSheet(pickPiece())
+		setComposer(pickComposer())
 		setLoading(false)
 
 		setTimeout(function(){
@@ -50,13 +50,13 @@ function RandomComposerSelection({ sheetPages, page }) {
 			{loading? <img className="loading-animation-rand" src={LoadingAnimation}/> :
 			(
 				<div>
-					<div onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)} className="cursor">
-						<img className="rand-img" src={`http://localhost:8080/sheet/thumbnail/${sheet.sheet_name}`} alt="image" />
+					<div className="cursor">
+						<img className="rand-img" src={composer.portrait_url} alt="image" />
 						<div className="sheet-name-container">
-							<span className="sheet-name">{sheet.sheet_name}</span>
+							<span className="sheet-name">{composer.name}</span>
 						</div>
 						<div className="sheet-composer-container">
-							<span className="sheet-composer">{sheet.composer}</span>
+							<span className="sheet-composer">{composer.epoch}</span>
 						</div>
 					</div>
 					<button onClick={animateButton} className={bubblyButton}>
