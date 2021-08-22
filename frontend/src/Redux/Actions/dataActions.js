@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES } from '../types'
+import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES } from '../types'
 import axios from 'axios'
 
 import { store } from '../store';
@@ -28,16 +28,16 @@ export const getSheets = () => dispatch => {
         })
 }
 
-export const incrementPage = () => dispatch => {
-    dispatch({type: INCREMENT_PAGE})
+export const incrementSheetPage = () => dispatch => {
+    dispatch({type: INCREMENT_SHEET_PAGE})
 }
 
-export const decrementPage = () => dispatch => {
-    dispatch({type: DECREMENT_PAGE})
+export const decrementSheetPage = () => dispatch => {
+    dispatch({type: DECREMENT_SHEET_PAGE})
 }
 
-export const setPage = (page) => dispatch => {
-    dispatch({type: SET_PAGE, payload: page})
+export const setSheetPage = (page) => dispatch => {
+    dispatch({type: SET_SHEET_PAGE, payload: page})
 }
 
 /* Get specific sheet data from page
@@ -66,7 +66,7 @@ export const getSheetPage = (data) => dispatch => {
                 page: data.page
             })
             dispatch({
-                type: SET_TOTAL_PAGES,
+                type: SET_TOTAL_SHEET_PAGES,
                 payload: res.data.total_pages
             })
         })

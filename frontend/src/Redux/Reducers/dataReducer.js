@@ -1,16 +1,15 @@
-import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES } from '../types'
+import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES } from '../types'
 
 const initialState = {
     sheets: [],
     sheetPages: {},
     composers: [],
-    page: 1,
+    sheetPage: 1,
     loading: false,
-    totalPages: 1
+    totalSheetPages: 1
 }
 
 export default function(state = initialState, action){
-    let index
     switch(action.type){
         case LOADING_DATA: 
             return {
@@ -18,28 +17,28 @@ export default function(state = initialState, action){
                 loading: true
             }
 
-        case SET_TOTAL_PAGES: 
+        case SET_TOTAL_SHEET_PAGES: 
             return {
                 ...state, 
-                totalPages: action.payload
+                totalSheetPages: action.payload
             }
         
-        case INCREMENT_PAGE: 
+        case INCREMENT_SHEET_PAGE: 
             return {
                 ...state,
-                page: state.page + 1
+                sheetPage: state.sheetPage + 1
             }
 
-        case DECREMENT_PAGE: 
+        case DECREMENT_SHEET_PAGE: 
             return {
                 ...state,
-                page: state.page - 1
+                sheetPage: state.sheetPage - 1
             }
 
-        case SET_PAGE: 
+        case SET_SHEET_PAGE: 
             return {
                 ...state,
-                page: action.payload
+                sheetPage: action.payload
             }
 
         case SET_PAGE_SHEETS: 
