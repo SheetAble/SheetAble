@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES } from '../types'
+import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES, SET_PAGE_COMPOSERS, SET_TOTAL_COMPOSER_PAGES } from '../types'
 import axios from 'axios'
 
 import { store } from '../store';
@@ -78,6 +78,47 @@ export const getSheetPage = (data) => dispatch => {
             console.log(err);
         })
 }
+
+
+/* Get specific composer data from page
+    data parameter:
+        data: {
+            page: 1,
+            sortBy: updated_at desc
+        }
+*/
+export const getComposerPage = (data) => dispatch => {
+    dispatch({ type: LOADING_DATA })
+
+    let bodyFormData = new FormData()
+    bodyFormData.append('page', data.page)
+    bodyFormData.append('limit', 50)
+    bodyFormData.append('sort_by', data.sortBy)
+
+    axios.post("/composers", bodyFormData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }})
+        .then(res => {
+            dispatch({
+                type: SET_PAGE_COMPOSERS,
+                payload: res.data.rows,
+                page: data.page
+            })
+            dispatch({
+                type: SET_TOTAL_COMPOSER_PAGES,
+                payload: res.data.total_pages
+            })
+        })
+        .catch(err => {
+            if (err.request.status == 401) {
+                store.dispatch(logoutUser())
+                window.location.href = '/login'
+            }
+            console.log(err);
+        })
+}
+
 
 
 // Get all composers sorted by newest

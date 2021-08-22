@@ -1,12 +1,19 @@
-import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES } from '../types'
+import { LOADING_COMPOSERS, LOADING_DATA, SET_SHEETS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES, SET_TOTAL_COMPOSER_PAGES, INCREMENT_COMPOSER_PAGE, DECREMENT_COMPOSER_PAGE, SET_COMPOSER_PAGE, SET_PAGE_COMPOSERS } from '../types'
 
 const initialState = {
     sheets: [],
-    sheetPages: {},
     composers: [],
+
+    sheetPages: {},
+    composerPages: {},
+    
     sheetPage: 1,
+    composerPage: 1,
+    
+    totalSheetPages: 1,
+    totalComposerPages: 1,
+
     loading: false,
-    totalSheetPages: 1
 }
 
 export default function(state = initialState, action){
@@ -22,17 +29,36 @@ export default function(state = initialState, action){
                 ...state, 
                 totalSheetPages: action.payload
             }
-        
+            
+        case SET_TOTAL_COMPOSER_PAGES: 
+            return {
+                ...state, 
+                totalComposerPages: action.payload
+            }
+
         case INCREMENT_SHEET_PAGE: 
             return {
                 ...state,
                 sheetPage: state.sheetPage + 1
             }
+            
+        case INCREMENT_COMPOSER_PAGE: 
+            return {
+                ...state,
+                composerPage: state.composerPage + 1
+            }
+
 
         case DECREMENT_SHEET_PAGE: 
             return {
                 ...state,
                 sheetPage: state.sheetPage - 1
+            }
+        
+        case DECREMENT_COMPOSER_PAGE: 
+            return {
+                ...state,
+                composerPage: state.composerPage - 1
             }
 
         case SET_SHEET_PAGE: 
@@ -41,6 +67,13 @@ export default function(state = initialState, action){
                 sheetPage: action.payload
             }
 
+        case SET_COMPOSER_PAGE: 
+            return {
+                ...state,
+                composerPage: action.payload
+            }
+
+
         case SET_PAGE_SHEETS: 
             return {
                 ...state,
@@ -48,6 +81,15 @@ export default function(state = initialState, action){
                 sheetPages: {...state.sheetPages, [action.page]: action.payload},
                 
             }
+
+        case SET_PAGE_COMPOSERS:
+            return {
+                ...state,
+                loading: false,
+                composerPages: {...state.sheetPages, [action.page]: action.payload},
+            }            
+
+
 
         case SET_SHEETS:
             return {
