@@ -84,10 +84,11 @@ export const getSheetPage = (data) => dispatch => {
 export const getComposers = () => dispatch => {
     dispatch({ type: LOADING_COMPOSERS })
     axios.get('/composers')
-        .then(res => {			         
+        .then(res => {			       
+            console.log("composers " + res.data.rows);  
             dispatch({
                 type: SET_COMPOSERS,
-                payload: res.data
+                payload: res.data.rows
             })
         })
         .catch(err => {
