@@ -17,6 +17,8 @@ import { connect } from 'react-redux'
 import { store } from '../../Redux/store';
 import { logoutUser } from '../../Redux/Actions/userActions'
 
+import { useHistory } from 'react-router-dom'
+
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -86,6 +88,8 @@ function Sheet({ sheetPages, composerPages }) {
 		changePage(1);
 	} 
 
+	let history = useHistory()
+
 
 	return (
 		 <Fragment>
@@ -148,7 +152,7 @@ function Sheet({ sheetPages, composerPages }) {
 						</div>	
 
 
-						<div className="doc_box composer_info remove_shadow">
+						<div className="doc_box composer_info remove_shadow" onClick={() => history.push(`/composer/${composer.name}`)}>
 							<img className="composer_img" src={composer.portrait_url} alt="image" />
 							<div className="composer_info_text_wrapper">
 								<span>{composerName}</span>								
