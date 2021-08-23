@@ -35,7 +35,7 @@ function Composer({ composerPages, getSheetPage }) {
 					<h5>{composer.name}</h5>
 					<h6>{composer.epoch}</h6>
 					<ul className="all-sheets-container full-height">					
-						{composer.sheets == undefined ?
+						{composer.sheets == undefined?
 							getData() :
 							composer.sheets.map(sheet => {
 								return (

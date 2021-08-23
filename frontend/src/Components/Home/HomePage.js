@@ -36,15 +36,17 @@ class HomePage extends Component {
                 <div className="home-page-wrapper"> 
                     <div className="space"/>
                     <div className="overflow-scroll">
-                    <span className="text">Recently Added Sheets</span>
-                    
-                    <hr className="seperator"></hr>
-                    
+                        <span className="text">Recently Added Sheets</span>
+                        
+                        <hr className="seperator"></hr>
+                        
                         <Sheets sheets={this.props.sheets} />
                     </div>
-                    <span className="text">New Composers</span>
-                    <hr className="seperator"></hr>
-                    <Composers composers={this.props.composers} />
+                    <div className="overflow-scroll">
+                        <span className="text">New Composers</span>
+                        <hr className="seperator"></hr>
+                        <Composers composers={this.props.composers} />
+                    </div>
                 </div>
             </div>
         )
