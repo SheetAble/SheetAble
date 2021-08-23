@@ -64,11 +64,16 @@ export const setComposerPage = (page) => dispatch => {
 */
 export const getSheetPage = (data) => dispatch => {
     dispatch({ type: LOADING_DATA })
+    console.log(data);
 
     let bodyFormData = new FormData()
     bodyFormData.append('page', data.page)
     bodyFormData.append('limit', 50)
     bodyFormData.append('sort_by', data.sortBy)
+
+    if (data.composer != undefined) {
+        bodyFormData.append("composer", data.composer)
+    }
 
     axios.post("/sheets", bodyFormData, {
         headers: {
@@ -78,7 +83,8 @@ export const getSheetPage = (data) => dispatch => {
             dispatch({
                 type: SET_PAGE_SHEETS,
                 payload: res.data.rows,
-                page: data.page
+                page: data.page,
+                composer: data.composer
             })
             dispatch({
                 type: SET_TOTAL_SHEET_PAGES,

@@ -74,13 +74,36 @@ export default function(state = initialState, action){
             }
 
 
-        case SET_PAGE_SHEETS: 
-            return {
-                ...state,
-                loading: false,
-                sheetPages: {...state.sheetPages, [action.page]: action.payload},
-                
+        case SET_PAGE_SHEETS:
+            if (action.composer == undefined) {
+                return {
+                    ...state,
+                    loading: false,
+                    sheetPages: {...state.sheetPages, [action.page]: action.payload},
+                }
             }
+
+            for (let key in state.composerPages) {
+                if (!state.composerPages.hasOwnProperty(key)) continue;
+                const page = state.composerPages[key]
+                const result = page.find(composer => composer.name == action.composer)
+
+                if (result != undefined) {
+                    var index = page.indexOf(result);
+                
+                    if (index !== -1) {
+                        page[index] = { ...page[index], sheets: action.payload } 
+                    }
+            
+                    return {
+                        ...state,
+                        loading: false,
+                        composerPages: {...state.composerPages, [state.composerPages[key]]: page},
+                    }
+                }
+            }
+
+            
 
         case SET_PAGE_COMPOSERS:
             return {
