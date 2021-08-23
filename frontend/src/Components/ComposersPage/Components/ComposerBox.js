@@ -6,7 +6,7 @@ function ComposerBox({ composer }) {
 	let history = useHistory();
 
 	return (
-		<li key={composer.name} className="li-height">
+		<li key={composer.name} className="li-height" onClick={() => history.push(`/composer/${composer.name}`)}>
 			<div className="box-container remove_shadow" >
 					<img className="thumbnail-image" src={composer.portrait_url} alt="image" />
 					<div className="sheet-name-container">
