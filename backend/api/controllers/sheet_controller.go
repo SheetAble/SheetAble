@@ -18,6 +18,7 @@ func (server *Server) GetSheetsPage(w http.ResponseWriter, r *http.Request) {
 			- sort_by: (how is it sorted)
 			- page: (what page)
 			- limit: (limit number)
+			- composer: (what composer)
 
 		Return:
 			- sheets: [...]
@@ -53,7 +54,7 @@ func (server *Server) GetSheetsPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sheet := models.Sheet{}
-	pageNew, _ := sheet.List(server.DB, pagination)
+	pageNew, _ := sheet.List(server.DB, pagination, r.FormValue("composer"))
 
 	responses.JSON(w, http.StatusOK, pageNew)
 }

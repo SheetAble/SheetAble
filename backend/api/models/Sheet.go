@@ -64,14 +64,26 @@ func (s *Sheet) FindSheetByID(db *gorm.DB, sheetName string) (*Sheet, error) {
 
 }
 
-func (s *Sheet) List(db *gorm.DB, pagination Pagination) (*Pagination, error) {
+func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagination, error) {
 	/*
 		For pagination
 	*/
 
 	var sheets []*Sheet
-	db.Scopes(paginate(sheets, &pagination, db)).Find(&sheets)
+	if composer != "" {
+		db.Scopes(ComposerEqual(composer), paginate(sheets, &pagination, db)).Find(&sheets)
+	} else {
+		db.Scopes(paginate(sheets, &pagination, db)).Find(&sheets)
+	}
+
 	pagination.Rows = sheets
 
 	return &pagination, nil
+}
+
+func ComposerEqual(composer string) func(db *gorm.DB) *gorm.DB {
+	/* Scope that composer is equal to composer (if you only want sheets from a certain composer) */
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where("composer = ?", composer)
+	}
 }
