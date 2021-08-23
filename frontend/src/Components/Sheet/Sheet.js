@@ -20,7 +20,7 @@ import { logoutUser } from '../../Redux/Actions/userActions'
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-function Sheet({ sheetPages, composers }) {
+function Sheet({ sheetPages, composerPages }) {
 
 
 	/* PDF Page width rendering */
@@ -48,7 +48,7 @@ function Sheet({ sheetPages, composers }) {
 
 	const [sheet, setsheet] = useState(findSheet(sheetName, sheetPages))
 
-	const [composer, setcomposer] = useState(findComposer(composerName, composers))
+	const [composer, setcomposer] = useState(findComposer(composerName, composerPages))
 
 	const pdfRequest = () => {
 		axios.get(`http://localhost:8080/sheet/pdf/${composerName}/${sheetName}`, {responseType: "arraybuffer"})
@@ -175,7 +175,7 @@ function Sheet({ sheetPages, composers }) {
 
 const mapStateToProps = (state) => ({
 	sheetPages: state.data.sheetPages,
-	composers: state.data.composers
+	composerPages: state.data.composerPages
 })
 
 const mapActionsToProps = {

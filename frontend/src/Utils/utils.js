@@ -14,7 +14,13 @@ export function findSheet(sheetName, sheetPages) {
 	}
 }
 
-/* Returns composer with composerName from composers */
-export function findComposer(composerName, composers) {
-	return composers.find(composer => composer.name == composerName);
+/* Returns composer with composerName from composerPages */
+export function findComposer(composerName, composerPages) {
+	for (let key in composerPages) {
+		if (!composerPages.hasOwnProperty(key)) continue;
+		const page = composerPages[key]
+		const result = page.find(composer => composer.name == composerName)
+
+		if (result != undefined) return result
+	}
 }
