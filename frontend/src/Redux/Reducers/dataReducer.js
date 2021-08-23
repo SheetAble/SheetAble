@@ -136,7 +136,9 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 composers: [],
-                sheets: []
+                sheets: [],
+                sheetPages: {},
+                composerPages: {}
             }
             
 

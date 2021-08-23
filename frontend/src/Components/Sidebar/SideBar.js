@@ -23,7 +23,6 @@ function SideBar(props) {
 		props.setSidebar()
 	}
 
-
 	return (
 		<Fragment>
 		 <div className={sidebar ? "sidebar" : "sidebar active"}>
@@ -60,7 +59,7 @@ function SideBar(props) {
 			<li>
 				<a onClick={() => setUploadModal(true)} className="cursor">
 				<Modal title="Upload" onClose={() => setUploadModal(false)} show={uploadModal}>
-        			<ModalContent />
+        			<ModalContent onClose={() => setUploadModal(false)}/>
       			</Modal>
 				<i className='bx bx-cloud-upload' ></i>
 				<span className="links_name">Upload</span>

@@ -62,14 +62,14 @@ export const setComposerPage = (page) => dispatch => {
             sortBy: updated_at desc
         }
 */
-export const getSheetPage = (data) => dispatch => {
+export const getSheetPage = (data = {}) => dispatch => {
     dispatch({ type: LOADING_DATA })
     console.log(data);
-
+    
     let bodyFormData = new FormData()
-    bodyFormData.append('page', data.page)
+    bodyFormData.append('page', data.page == undefined? 1: data.page)
     bodyFormData.append('limit', 50)
-    bodyFormData.append('sort_by', data.sortBy)
+    bodyFormData.append('sort_by', data.sortBy == undefined ? "updated_at desc" : data.sortBy)
 
     if (data.composer != undefined) {
         bodyFormData.append("composer", data.composer)
@@ -108,15 +108,14 @@ export const getSheetPage = (data) => dispatch => {
             sortBy: updated_at desc
         }
 */
-export const getComposerPage = (data) => dispatch => {
+export const getComposerPage = (data = {}) => dispatch => {
     dispatch({ type: LOADING_DATA })
-
-    console.log(data);
+    
 
     let bodyFormData = new FormData()
-    bodyFormData.append('page', data.page)
+    bodyFormData.append('page', data.page == undefined? 1: data.page)
     bodyFormData.append('limit', 50)
-    bodyFormData.append('sort_by', data.sortBy)
+    bodyFormData.append('sort_by', data.sortBy == undefined ? "updated_at desc" : data.sortBy)
 
     axios.post("/composers", bodyFormData, {
         headers: {
@@ -177,7 +176,6 @@ export const uploadSheet = (data) => dispatch => {
     bodyFormData.append('composer', data.composer)
     bodyFormData.append("releaseDate", data.releaseDate)
     
-    dispatch({ type: RESET_DATA })
 
     axios.post("/upload", bodyFormData, {
         headers: {

@@ -3,8 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import DragNDrop from '../../Upload/DragNDrop';
 import Button from '@material-ui/core/Button';
 
+import { connect } from 'react-redux'
+import { uploadSheet, getComposers, getComposerPage, getSheets, getSheetPage } from '../../../Redux/Actions/dataActions'
 
-function ModalContent() {
+
+
+function ModalContent(props) {
 	const [disabled, setDisabled] = useState(true)
 	
 	const [requestData, setRequestData] = useState({
@@ -35,6 +39,15 @@ function ModalContent() {
 		}
     }
 
+	const sendRequest = () => {
+		props.uploadSheet(requestData)
+		props.onClose()
+		props.getSheets()
+		props.getComposers()
+		props.getSheetPage()
+		props.getComposerPage() 
+	}
+
 	return (
 		<div className="upload">
 			<form noValidate autoComplete="off">
@@ -43,11 +56,24 @@ function ModalContent() {
 				
 			</form>
 			<DragNDrop giveModalData={giveModalData} />
-			<Button variant="contained" color="primary" disabled={disabled}>
+			<Button variant="contained" color="primary" disabled={disabled} onClick={sendRequest}>
 				Upload
 			</Button>
 		</div>
 	)
 }
 
-export default ModalContent
+
+const mapActionsToProps = {
+    uploadSheet,
+	getComposers,
+	getComposerPage, 
+	getSheets, 
+	getSheetPage	
+}
+
+const mapStateToProps = (state) => ({
+	
+})
+
+export default connect(mapStateToProps, mapActionsToProps)(ModalContent)
