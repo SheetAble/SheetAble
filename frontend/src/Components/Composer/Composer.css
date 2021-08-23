@@ -3,7 +3,7 @@
 	text-align: center;
 }
 
-.composer-page img {
+.portrait-page {
 	width: 150px;
 	display: block;
   	margin-left: auto;
@@ -25,4 +25,9 @@
 	font-weight: lighter;
 	line-height: 0.2em;
 	color: rgb(71, 71, 71);
+}
+
+.composer-page .full-height {
+	width: 100%;
+	margin-top: 35px;
 }

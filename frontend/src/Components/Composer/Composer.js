@@ -9,6 +9,7 @@ import { getSheetPage } from '../../Redux/Actions/dataActions'
 import './Composer.css'
 
 import SideBar from '../Sidebar/SideBar'
+import SheetBox from '../SheetsPage/Components/SheetBox';
 
 function Composer({ composerPages, getSheetPage }) {
 	const { composerName } = useParams();
@@ -30,12 +31,18 @@ function Composer({ composerPages, getSheetPage }) {
 			<SideBar />
 			<div className="home_content">
 				<div className="composer-page">
-					<img src={composer.portrait_url}/>
+					<img src={composer.portrait_url} className="portrait-page" />
 					<h5>{composer.name}</h5>
 					<h6>{composer.epoch}</h6>
-					<button onClick={getData}>
-						press
-					</button>
+					<ul className="all-sheets-container full-height">					
+						{composer.sheets == undefined ?
+							getData() :
+							composer.sheets.map(sheet => {
+								return (
+									<SheetBox sheet={sheet}/>
+								) 
+						})}
+					</ul>
 				</div>
 			</div>
 		</Fragment>
