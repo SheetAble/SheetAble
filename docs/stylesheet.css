@@ -133,8 +133,8 @@
 	position: absolute;
 	width: 666.172px;
 	height: 77px;
-	left: 330px;
-	top: 200px;
+	left: -100px;
+	top: 180px;
 	overflow: visible;
 }
 #button {
@@ -158,7 +158,7 @@
 }
 #Get_Beta_r {
 	left: 56px;
-	top: 23px;
+	top: 26px;
 	position: absolute;
 	overflow: visible;
 	width: 107px;
