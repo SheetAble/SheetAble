@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
 .mediaViewInfo {
 	--web-view-name: ::::Home;
 	--web-view-id: Home;
@@ -122,7 +125,7 @@
 	line-height: 97px;
 	margin-top: -13.5px;
 	text-align: left;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 70px;
@@ -166,7 +169,7 @@
 	line-height: 91px;
 	margin-top: -34px;
 	text-align: left;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 23px;
@@ -259,7 +262,7 @@
 	line-height: 60px;
 	margin-top: -5px;
 	text-align: left;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 50px;
@@ -291,7 +294,7 @@
 	line-height: 60px;
 	margin-top: -5px;
 	text-align: center;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 50px;
@@ -307,7 +310,7 @@
 	line-height: 60px;
 	margin-top: -5px;
 	text-align: center;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 50px;
@@ -352,7 +355,7 @@
 	line-height: 40px;
 	margin-top: -5px;
 	text-align: center;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 30px;
@@ -411,7 +414,7 @@
 	line-height: 40px;
 	margin-top: -5px;
 	text-align: center;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 30px;
@@ -470,7 +473,7 @@
 	line-height: 40px;
 	margin-top: -5px;
 	text-align: center;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 30px;
@@ -548,7 +551,7 @@
 	line-height: 91px;
 	margin-top: -34px;
 	text-align: left;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 23px;
@@ -3566,7 +3569,7 @@
 	width: 229px;
 	white-space: nowrap;
 	text-align: center;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 47px;
@@ -6435,7 +6438,7 @@
 	line-height: 91px;
 	margin-top: -34px;
 	text-align: left;
-	font-family: Poppins;
+	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: bold;
 	font-size: 23px;
