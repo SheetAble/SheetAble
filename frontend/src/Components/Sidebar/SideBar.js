@@ -23,6 +23,7 @@ function SideBar(props) {
 		props.setSidebar()
 	}
 
+
 	return (
 		<Fragment>
 		 <div className={sidebar ? "sidebar" : "sidebar active"}>
