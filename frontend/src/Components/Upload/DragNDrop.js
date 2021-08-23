@@ -19,40 +19,37 @@ import { uploadSheet } from '../../Redux/Actions/dataActions'
 registerPlugin(FilePondPluginFileValidateType);
 
 
-function DragNDrop({uploadSheet, requestData, secondButtonOnClick, secondButtonText}) {
+function DragNDrop({ giveModalData }) {
   const [files, setFiles] = useState([])
-
-  const [finishedRequest, setfinishedRequest] = useState(true)
-
+  
   const uploadFinish = () => {
-    requestData.uploadFile = files[0].file
-    uploadSheet(requestData)
-    setfinishedRequest(false)
+    giveModalData(files[0].file)
   }
   
+  const removeFile = () => {
+    console.log("remove");
+    giveModalData(undefined)
+  }
+
   return (
-    <Fragment>
     <div className="upload-container">
       <FilePond
-        files={files}
         onupdatefiles={setFiles}
+        onremovefile={removeFile}
         allowMultiple={false}
-        maxFiles={1}
-		server={ {
-        process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-          load()
-          uploadFinish()
+        server={ {
+          process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+            load()
+            uploadFinish()
         }}}
+        maxFiles={1}
         name="files"
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
         credits={false}
         allowFileTypeValidation={true}
         acceptedFileTypes={['application/pdf']}
       />
-    </div>
-    
-    <button disabled={finishedRequest} onClick={secondButtonOnClick} class="second next interactive-form-button">{secondButtonText}</button>
-    </Fragment>
+    </div> 
   )
 }
 

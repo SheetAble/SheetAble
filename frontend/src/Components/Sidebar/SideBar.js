@@ -4,6 +4,8 @@ import './SideBar.css'
 import { setSidebar } from '../../Redux/Actions/uiActions';
 import { getSheets, getComposers } from '../../Redux/Actions/dataActions';
 import { connect } from 'react-redux'
+import Modal from './Modal/Modal';
+import ModalContent from './Modal/ModalContent';
 
 
 function SideBar(props) {
@@ -12,6 +14,8 @@ function SideBar(props) {
    		let arrowParent = e.target.parentElement.parentElement;
   		arrowParent.classNameList.toggle("showMenu");
 	}
+
+	const [uploadModal, setUploadModal] = useState(false)
 
 	const { sidebar } = props
 	
@@ -53,7 +57,10 @@ function SideBar(props) {
 				<span className="tooltip">Composer</span>
 			</li>
 			<li>
-				<a href="/upload">
+				<a onClick={() => setUploadModal(true)} className="cursor">
+				<Modal title="Upload" onClose={() => setUploadModal(false)} show={uploadModal}>
+        			<ModalContent />
+      			</Modal>
 				<i className='bx bx-cloud-upload' ></i>
 				<span className="links_name">Upload</span>
 				</a>
