@@ -188,7 +188,7 @@
     display: flex;
     justify-content: center;
     padding: 5px 30px;
-    background-color: #2B235F;
+    background-color: #4f40b3;
     border: 0;
     border-radius: 15px;
 
@@ -213,7 +213,7 @@
 
 .under_box button {
     padding: 15px 25px;
-    background: linear-gradient(#1D1B30, #10101D);
+    background: #2B235F;
     border: 0;
     border-radius: 15px;
     margin-left: -15px;
@@ -228,8 +228,6 @@
     padding: 15px 45.25px;
     margin-left: 0;
     margin-right: -15px;
-    background: none;
-    background-color: #2B235F;
 }
 
 .bold {
