@@ -29,6 +29,7 @@ import Sheet from './Components/Sheet/Sheet';
 import SheetsPage from './Components/SheetsPage/SheetsPage';
 import ComposersPage from './Components/ComposersPage/ComposersPage';
 import Composer from './Components/Composer/Composer';
+import Settings from './Components/Settings/Settings';
 
 axios.defaults.baseURL = "http://localhost:8080"
 
@@ -62,6 +63,7 @@ function App() {
               <Route exact path="/composer/:composerName" component={Composer} />
               <Route exact path="/sheets" component={SheetsPage} />
               <Route exact path="/composers" component={ComposersPage} />
+              <Route exact path="/settings" component={Settings} />
           </Switch>
         </Router>
       </PersistGate>

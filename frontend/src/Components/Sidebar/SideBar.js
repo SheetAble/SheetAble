@@ -79,7 +79,7 @@ function SideBar(props) {
 			</li>
 			
 			<li>
-				<a>
+				<a href="/settings">
 				<i className='bx bx-cog' ></i>
 				<span className="links_name">Settings</span>
 				</a>
