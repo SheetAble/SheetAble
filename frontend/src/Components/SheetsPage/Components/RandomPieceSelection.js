@@ -51,9 +51,9 @@ function RandomPieceSelection({ sheetPages, page }) {
 			{loading? <img className="loading-animation-rand" src={LoadingAnimation}/> :
 			(
 				<div>
-					<div onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)} className="cursor">
-						<img className="rand-img" src={`http://localhost:8080/sheet/thumbnail/${sheet.sheet_name}`} alt="image" />
-						<div className="sheet-name-container">
+					<div>
+						<img className="rand-img cursor" src={`http://localhost:8080/sheet/thumbnail/${sheet.sheet_name}`} alt="image"  onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)}/>
+						<div className="sheet-name-container n-cursor">
 							<span className="sheet-name">{sheet.sheet_name}</span>
 						</div>
 						<div className="sheet-composer-container">

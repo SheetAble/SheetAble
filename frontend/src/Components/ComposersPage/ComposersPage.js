@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { getComposerPage, incrementComposerPage, setComposerPage, decrementComposerPage } from '../../Redux/Actions/dataActions'
 
 import './ComposersPage.css'
-import RandomPieceSelection from './Components/RandomComposerSelection'
+import RandomComposerSelection from './Components/RandomComposerSelection'
 
 
 function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, setComposerPage, decrementComposerPage, composerPage, totalComposerPages	} ) {	
@@ -69,7 +69,7 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 									) 
 							})}
 						</ul>
-						<RandomPieceSelection composerPages={composerPages} page={composerPage}/>
+						<RandomComposerSelection composerPages={composerPages} page={composerPage}/>
 					</div>
 					
 					<div className="page-info-wrapper">
