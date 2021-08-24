@@ -2,15 +2,31 @@ import React, { Fragment } from 'react'
 
 import SideBar from '../Sidebar/SideBar'
 
-function Settings() {
+import { connect } from 'react-redux'
+
+function Settings(props) {
 	return (
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				Settings Coming Soon...
+				{props.userData.id == 1? 
+				<p>yes admin</p>
+				
+				:
+				
+				<p>No admin</p>
+				}
 			</div>
 		</Fragment>
 	)
 }
 
-export default Settings
+const mapStateToProps = (state) => ({
+    userData: state.user.userData,
+})
+
+const mapActionsToProps = {
+    
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Settings)
