@@ -12,14 +12,23 @@ import (
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
+	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/utils"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/utils/formaterror"
 )
 
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 
+	// Check for authentication
+	uid := utils.CheckAuthorization(w, r)
+	if uid != 1 {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("only Admins are able to persue this command"))
+		return
+	}
+
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		return
 	}
 	user := models.User{}
 	err = json.Unmarshal(body, &user)
