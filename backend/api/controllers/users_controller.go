@@ -75,6 +75,14 @@ func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
 	}
+
+	var newUid uint32 = 0
+	if uid == 0 {
+		newUid = utils.CheckAuthorization(w, r)
+	}
+
+	uid = uint64(newUid)
+
 	user := models.User{}
 	userGotten, err := user.FindUserByID(server.DB, uint32(uid))
 	if err != nil {
