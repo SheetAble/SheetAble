@@ -1,4 +1,4 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, MARK_NOTIFICATIONS_READ, SET_AUTHENTICATED} from '../types'
+import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, MARK_NOTIFICATIONS_READ, SET_AUTHENTICATED, SET_USER_DATA} from '../types'
 import axios from 'axios'
 import { getSheets } from './dataActions'
 
@@ -17,12 +17,26 @@ export const loginUser = (userData, history) => (dispatch) => {
                 payload: err.response.data
             })
         })
+        .then(() => {
+            axios.post("/users/0")
+            .then(res => {
+                dispatch({type: SET_USER_DATA, payload: res.data})
+            })
+            .catch(err => {
+                dispatch({
+                    type: SET_ERRORS,
+                    payload: err.response.data
+                })
+            })
+        })
+        
 }
 
-export const logoutUser = () => (dispatch) => {
+export const logoutUser = (history) => (dispatch) => {
     localStorage.removeItem('FBIdToken')
     delete axios.defaults.headers.common['Authorization']
     dispatch({ type: SET_UNAUTHENTICATED})
+    history.push("/login")
 }
 
 export const signupUser = (newUserData, history) => (dispatch) => {

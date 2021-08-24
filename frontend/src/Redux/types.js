@@ -1,6 +1,7 @@
 // Authentication/User reducer types
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED'
 export const SET_UNAUTHENTICATED = 'SET_UNAUTHENTICATED'
+export const SET_USER_DATA = 'SET_USER_DATA'
 // UI reducer types
 export const SET_SIDEBAR = 'SET_SIDEBAR'
 export const SET_ERRORS = 'SET_ERRORS'
