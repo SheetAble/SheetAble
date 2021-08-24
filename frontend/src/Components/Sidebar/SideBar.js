@@ -3,6 +3,7 @@ import './SideBar.css'
 
 import { setSidebar } from '../../Redux/Actions/uiActions';
 import { getSheets, getComposers } from '../../Redux/Actions/dataActions';
+import { logoutUser } from '../../Redux/Actions/userActions';
 import { connect } from 'react-redux'
 import Modal from './Modal/Modal';
 import ModalContent from './Modal/ModalContent';
@@ -95,7 +96,7 @@ function SideBar(props) {
 					<div className="job"><span>Logged In</span></div>
 				</div>
 				</div>
-				<i className='bx bx-log-out' id="log_out" ></i>
+				<i className='bx bx-log-out' id="log_out" onClick={() => props.logoutUser(props.history)}></i>
 			</div>
 			</div>
 		</div>
@@ -111,7 +112,8 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
     setSidebar,
 	getSheets,
-	getComposers
+	getComposers,
+	logoutUser
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar)

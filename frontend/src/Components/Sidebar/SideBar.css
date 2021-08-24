@@ -209,6 +209,12 @@ body{
 .profile .profile_details .job{
   font-size: 12px;
 }
+#log_out:hover {
+  cursor: pointer;
+  background-color: #fff !important;
+  color: #1d1b31;
+}
+
 .profile #log_out{
   position: absolute;
   bottom: 5px;
