@@ -18,8 +18,9 @@ export const loginUser = (userData, history) => (dispatch) => {
             })
         })
         .then(() => {
-            axios.post("/users/0")
+            axios.get("/users/0")
             .then(res => {
+                delete res.data.password
                 dispatch({type: SET_USER_DATA, payload: res.data})
             })
             .catch(err => {
