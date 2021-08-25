@@ -9,7 +9,7 @@ import { createUser } from '../../Redux/Actions/userActions'
 
 import CreateAccountContent from './CreateAccountContent';
 import { Button } from '@material-ui/core'
-
+import SettingsSvg from '../../Images/Settings.svg'
 
 function Settings(props) {
 
@@ -25,7 +25,7 @@ function Settings(props) {
 				<div className="doc_header">
 					<span className="doc_sheet">Settings</span>
 					<br />
-					<span className="doc_composer ">Account Status: <b>{admin? "Admin" : "Non Admin"}</b></span>
+					<span className="doc_composer ">Account Status: <b>{admin? "Admin" : "Non Admin"}</b>{!admin && (<div className="no-settings"> Currently no settings available for non admins</div>)}</span>
 				</div>
 
 				{
@@ -41,7 +41,9 @@ function Settings(props) {
 						</div>
 						)
 						 :
-					<p>no admino </p>
+						 <div className="non-admin-wrapper">
+							<img src={SettingsSvg} />
+						</div>
 				}
 
 			</div>
