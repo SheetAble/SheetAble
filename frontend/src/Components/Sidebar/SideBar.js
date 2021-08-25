@@ -29,7 +29,7 @@ function SideBar(props) {
 		 <div className={sidebar ? "sidebar" : "sidebar active"}>
 			<div  className="logo_content">
 			<div className="logo" >
-				<div onClick={() => props.history.push("/")} className="logo_name" >SheetAble</div>
+				<div className="logo_name" >SheetAble</div>
 			</div>
 			<i className={sidebar? 'bx bx-menu' : "bx bx-menu-alt-right"} id="btn" onClick={onClickBtn} ></i>
 			</div>
@@ -96,7 +96,9 @@ function SideBar(props) {
 					<div className="job"><span>Logged In</span></div>
 				</div>
 				</div>
-				<i className='bx bx-log-out' id="log_out" onClick={() => props.logoutUser(props.history)}></i>
+				<a href="/login">
+					<i className='bx bx-log-out' id="log_out" onClick={() =>  {props.logoutUser()}}></i>
+				</a>
 			</div>
 			</div>
 		</div>

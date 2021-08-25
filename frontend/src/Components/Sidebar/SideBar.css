@@ -230,6 +230,11 @@ body{
 }
 
 
+.sidebar a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 .sidebar.active .profile #log_out{
   left: 88%;
 }
