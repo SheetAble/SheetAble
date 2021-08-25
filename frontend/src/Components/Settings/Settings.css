@@ -1,0 +1,18 @@
+.settings {
+	display: block;
+	width: 100%;
+}
+
+
+.settings .MuiFormControl-root {
+	min-width: 234px;	
+}
+
+.settings b {
+	font-weight: 400;
+}
+
+
+.settings form {
+	margin-bottom: 45px;
+}
