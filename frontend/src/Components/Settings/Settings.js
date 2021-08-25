@@ -8,7 +8,7 @@ import Modal from '../Sidebar/Modal/Modal'
 import { createUser } from '../../Redux/Actions/userActions'
 
 import CreateAccountContent from './CreateAccountContent';
-
+import { Button } from '@material-ui/core'
 
 
 function Settings(props) {
@@ -27,11 +27,23 @@ function Settings(props) {
 					<br />
 					<span className="doc_composer ">Account Status: <b>{admin? "Admin" : "Non Admin"}</b></span>
 				</div>
-				<button onClick={() => setModal(!modal)}>Open Modal</button>
 
-				<Modal title="Create New Account" onClose={() => setModal(false)} show={modal}>
-					<CreateAccountContent createUser={props.createUser} onClose={() => setModal(false)}/>
-      			</Modal>
+				{
+					admin?
+					(
+						<div className="admin-wrapper">
+							<Button variant="contained" color="primary" onClick={() => setModal(!modal)} size="large">
+							  	Create New Account
+							</Button>
+							<Modal title="Create New Account" onClose={() => setModal(false)} show={modal}>
+								<CreateAccountContent createUser={props.createUser} onClose={() => setModal(false)}/>
+							</Modal>
+						</div>
+						)
+						 :
+					<p>no admino </p>
+				}
+
 			</div>
 		</Fragment>
 	)

@@ -16,3 +16,20 @@
 .settings form {
 	margin-bottom: 45px;
 }
+
+/* Positioning */
+.admin-wrapper .MuiButtonBase-root{
+	margin: 0;
+	position: absolute;
+	top: 45%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	left: 46%;
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+
+.admin-wrapper {
+	  	
+}
