@@ -1,10 +1,12 @@
 import React, { Fragment, useState } from 'react'
 import SideBar from '../Sidebar/SideBar'
-import TextField from '@material-ui/core/TextField';
+
 import { connect } from 'react-redux'
 import './Settings.css'
 import Modal from '../Sidebar/Modal/Modal'
-import { Button } from '@material-ui/core';
+
+import { createUser } from '../../Redux/Actions/userActions'
+
 import CreateAccountContent from './CreateAccountContent';
 
 
@@ -28,7 +30,7 @@ function Settings(props) {
 				<button onClick={() => setModal(!modal)}>Open Modal</button>
 
 				<Modal title="Create New Account" onClose={() => setModal(false)} show={modal}>
-					<CreateAccountContent />
+					<CreateAccountContent createUser={props.createUser} onClose={() => setModal(false)}/>
       			</Modal>
 			</div>
 		</Fragment>
@@ -60,7 +62,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapActionsToProps = {
-    
+	createUser
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Settings)

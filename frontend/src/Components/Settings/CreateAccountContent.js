@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
-function CreateAccountContent() {
+function CreateAccountContent(props) {
 
 	const [disabled, setDisabled] = useState(true)
 
@@ -24,11 +24,11 @@ function CreateAccountContent() {
 			[event.target.name]: event.target.value,
 			lastFocus: [event.target.name]
 		})    
-		console.log(requestData);	
     }
 
 	const sendRequest = () => {
-		
+		props.createUser(requestData)
+		props.onClose()
 	}
 
 	return (
