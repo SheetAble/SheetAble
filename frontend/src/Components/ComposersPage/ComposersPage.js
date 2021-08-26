@@ -32,6 +32,8 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 		
 		if (composerPages == undefined || composerPages[composerPage] == undefined) {
 			getComposerPage(data, () => setLoading(false))
+		} else {
+			setLoading(false)
 		}
 	}
 
