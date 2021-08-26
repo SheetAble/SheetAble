@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
 	"github.com/rs/cors"
 	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
@@ -37,6 +39,21 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	if Dbdriver == "postgres" {
 		DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
 		server.DB, err = gorm.Open(Dbdriver, DBURL)
+		if err != nil {
+			fmt.Printf("Cannot connect to %s database", Dbdriver)
+			log.Fatal("This is the error:", err)
+		} else {
+			fmt.Printf("Connected to %s database...", Dbdriver)
+		}
+	}
+	if Dbdriver == "sqlite" || Dbdriver == "" {
+
+		if _, err := os.Stat("/database.db"); os.IsNotExist(err) {
+			os.Create("database.db") // Create your file
+		}
+
+		server.DB, err = gorm.Open("sqlite3", "database.db")
+
 		if err != nil {
 			fmt.Printf("Cannot connect to %s database", Dbdriver)
 			log.Fatal("This is the error:", err)
