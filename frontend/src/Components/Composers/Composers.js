@@ -1,13 +1,17 @@
 import React from 'react'
+import { useHistory } from 'react-router';
 
 import './Composers.css'
 
 function Composers(props) {
 	const { composers } = props
 	console.log(composers);
+
+	const history = useHistory()
+
 	const composerItems = composers.map((composer) => {
 		return (
-			<li key={composer.name}>
+			<li key={composer.name} onClick={() => history.push(`/composer/${composer.name}`)}>
 				<div className="box-container-comp remove_shadow">
 					<img className="thumbnail-image-comp" src={composer.portrait_url} alt="image" />
 					<div className="comp-name-container">
