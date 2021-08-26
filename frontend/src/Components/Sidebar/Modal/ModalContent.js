@@ -4,7 +4,7 @@ import DragNDrop from '../../Upload/DragNDrop';
 import Button from '@material-ui/core/Button';
 
 import { connect } from 'react-redux'
-import { uploadSheet, getComposers, getComposerPage, getSheets, getSheetPage } from '../../../Redux/Actions/dataActions'
+import { uploadSheet, resetData } from '../../../Redux/Actions/dataActions'
 
 
 
@@ -40,12 +40,15 @@ function ModalContent(props) {
     }
 
 	const sendRequest = () => {
-		props.uploadSheet(requestData)
-		props.onClose()
-		props.getSheets()
-		props.getComposers()
-		props.getSheetPage()
-		props.getComposerPage() 
+		const makeCalls = (_callback) => {
+			props.uploadSheet(requestData, () => {
+				props.resetData()
+				props.onClose()
+				_callback()
+			})
+		}
+		
+		makeCalls(() => window.location.reload())
 	}
 
 	return (
@@ -66,10 +69,7 @@ function ModalContent(props) {
 
 const mapActionsToProps = {
     uploadSheet,
-	getComposers,
-	getComposerPage, 
-	getSheets, 
-	getSheetPage	
+	resetData
 }
 
 const mapStateToProps = (state) => ({

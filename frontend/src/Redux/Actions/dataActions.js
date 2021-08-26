@@ -172,7 +172,7 @@ export const getComposers = () => dispatch => {
 }
 
 // Upload a sheet
-export const uploadSheet = (data) => dispatch => {
+export const uploadSheet = (data, _callback) => dispatch => {
     let bodyFormData = new FormData()
     bodyFormData.append('uploadFile', data.uploadFile)
     bodyFormData.append('sheetName', data.sheetName)
@@ -185,7 +185,8 @@ export const uploadSheet = (data) => dispatch => {
             'Content-Type': 'multipart/form-data'
         }})
         .then(res => {
-            console.log(res);
+            console.log(res.data);
+            _callback()
         })
         .catch(err => {
             console.log(err);

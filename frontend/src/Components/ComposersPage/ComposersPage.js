@@ -32,8 +32,6 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 		
 		if (composerPages == undefined || composerPages[composerPage] == undefined) {
 			getComposerPage(data, () => setLoading(false))
-		} else {
-			setLoading(false)
 		}
 	}
 
@@ -59,7 +57,7 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				{!loading ? 
+				{!loading || (composerPages != undefined && composerPages[composerPage] != undefined) ? 
 				(<div className="sheets-wrapper composer-wrapper">
 					<div className="doc_header auto-margin">
 						<span className="doc_sheet ">Composers in your library</span>
@@ -95,7 +93,7 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 				) 
 				: 
 				(
-					<p>loadin</p>
+					<p>Loading...</p>
 				)
 			
 			}

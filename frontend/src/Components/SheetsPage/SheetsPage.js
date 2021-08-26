@@ -29,7 +29,7 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 			sortBy: "updated_at desc"
 		}
 		
-		if (sheetPages[sheetPage] == undefined) {
+		if (sheetPages == undefined || sheetPages[sheetPage] == undefined) {
 			getSheetPage(data, () => setLoading(false))
 		} else {
 			setLoading(false)
@@ -95,7 +95,7 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 					)
 					:
 					(
-						<p>Loading</p>
+						<p>Loading...</p>
 					)
 				}
 			</div>
