@@ -39,8 +39,9 @@
 
 .page_controls {
     position: absolute;
-    top: 620px;
-    left: 245px;
+    margin-top: -84px;
+    margin-left: 234px;
+
     background: white;
     opacity: 0;
     transform: translateX(-50%);
@@ -268,7 +269,7 @@
     }
 
     .page_controls {
-        margin-left: 264px;
+        margin-left: 283px;
     }
 
 }
