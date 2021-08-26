@@ -167,9 +167,15 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 								</button>
 								</a>
 
-								<button className="remove_shadow last-button">
-									Edit
-								</button>	
+
+								<div class="tooltip">	
+									<button className="remove_shadow last-button">								
+										Edit
+									</button>	
+
+									<span class="tooltiptext">Edit function is currently not supported</span>
+									</div>
+
 							</div>
 						</div>	
 
