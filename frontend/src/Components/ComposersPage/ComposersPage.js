@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 
 import SideBar from '../Sidebar/SideBar'
 import ComposerBox from './Components/ComposerBox'
@@ -10,10 +10,14 @@ import './ComposersPage.css'
 import RandomComposerSelection from './Components/RandomComposerSelection'
 
 
-function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, setComposerPage, decrementComposerPage, composerPage, totalComposerPages	} ) {	
+function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, setComposerPage, decrementComposerPage, composerPage, totalComposerPages } ) {	
+	
+	const [loading, setLoading] = useState(true)
+	
 	useEffect(() => {
 		getData()
 	}, [])
+	
 	
 
 	const getData = () => {
@@ -27,7 +31,7 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 		}
 		
 		if (composerPages == undefined || composerPages[composerPage] == undefined) {
-			getComposerPage(data)
+			getComposerPage(data, () => setLoading(false))
 		}
 	}
 
@@ -53,7 +57,8 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				<div className="sheets-wrapper composer-wrapper">
+				{!loading ? 
+				(<div className="sheets-wrapper composer-wrapper">
 					<div className="doc_header auto-margin">
 						<span className="doc_sheet ">Composers in your library</span>
 						<br />
@@ -85,6 +90,14 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 
 					</div>
 				</div>
+				) 
+				: 
+				(
+					<p>loadin</p>
+				)
+			
+			}
+				
 			</div>
 		</Fragment>
 	)
@@ -93,7 +106,7 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 const mapStateToProps = (state) => ({
 	composerPages: state.data.composerPages,
 	composerPage: state.data.composerPage,
-	totalComposerPages: state.data.totalComposerPages
+	totalComposerPages: state.data.totalComposerPages,
 })
 
 const mapActionsToProps = {

@@ -108,7 +108,7 @@ export const getSheetPage = (data = {}) => dispatch => {
             sortBy: updated_at desc
         }
 */
-export const getComposerPage = (data = {}) => dispatch => {
+export const getComposerPage = (data = {}, _callback) => dispatch => {
     dispatch({ type: LOADING_DATA })
     
 
@@ -131,6 +131,8 @@ export const getComposerPage = (data = {}) => dispatch => {
                 type: SET_TOTAL_COMPOSER_PAGES,
                 payload: res.data.total_pages
             })
+
+            _callback()
         })
         .catch(err => {
             if (err.request.status == 401) {
@@ -187,4 +189,8 @@ export const uploadSheet = (data) => dispatch => {
         .catch(err => {
             console.log(err);
         })
+}
+
+export const resetData = () => dispatch => {
+    dispatch({ type: RESET_DATA})
 }
