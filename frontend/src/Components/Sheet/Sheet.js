@@ -95,6 +95,18 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 	} 
 
 	let history = useHistory()
+	console.log(pdf);
+
+	const [pdfDownloadData, setPdfDownloadData] = useState({link: "", name: ""})
+
+	function saveByteArray(reportName, byte) {
+		var blob = new Blob([byte], {type: "application/pdf"});
+		setPdfDownloadData({
+			...pdfDownloadData, 
+			link: window.URL.createObjectURL(blob),
+			name: reportName
+		} )
+	};
 
 
 	return (
@@ -149,11 +161,13 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 								Share
 							</button>
 							<div className="under_box">
-								<button className="remove_shadow">
+								<a href={pdfDownloadData.link} download={pdfDownloadData.name} target='_blank'>
+								<button className="remove_shadow" onClick={() => saveByteArray(sheet.sheet_name, pdf.data)}>
 									Download
 								</button>
-									
-								<button className="remove_shadow">
+								</a>
+
+								<button className="remove_shadow last-button">
 									Edit
 								</button>	
 							</div>

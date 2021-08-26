@@ -216,6 +216,7 @@
     cursor: pointer;
 }
 
+
 .under_box button {
     padding: 15px 25px;
     background: #2B235F;
@@ -229,7 +230,7 @@
 }
 
 /* Second Button */ 
-.under_box button:last-child {
+.under_box .last-button {
     padding: 15px 45.25px;
     margin-left: 0;
     margin-right: -15px;
