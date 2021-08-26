@@ -19,7 +19,6 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 	}, [])
 	
 	const getData = () => {
-		
 		if (sheetPage == undefined || sheetPages < 0 || sheetPages > totalSheetPages) {
 			setSheetPage(1)
 		}
@@ -69,7 +68,7 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 							<div className="middle-part-container">
 								<ul className="all-sheets-container full-height">					
 									{sheetPages[sheetPage] == undefined ?
-										setSheetPage(1) :
+										getData() :
 										sheetPages[sheetPage].map(sheet => {
 											return (
 												<SheetBox sheet={sheet}/>

@@ -43,10 +43,11 @@ export const decrementSheetPage = () => dispatch => {
 }
 
 export const decrementComposerPage = () => dispatch => {
-    //dispatch({type: DECREMENT_COMPOSER_PAGE})
+    dispatch({type: DECREMENT_COMPOSER_PAGE})
 }
 
 export const setSheetPage = (page) => dispatch => {
+    console.log("haha settings hsit");
     dispatch({type: SET_SHEET_PAGE, payload: page})
 }
 

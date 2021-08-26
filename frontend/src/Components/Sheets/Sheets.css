@@ -38,7 +38,9 @@
 	text-align: left;
 	margin-left: 10px;
 	line-height: 100%;
-
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .sheet-composer {

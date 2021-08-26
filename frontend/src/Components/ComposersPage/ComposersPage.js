@@ -66,8 +66,8 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 					</div>
 					<div className="middle-part-container">
 						<ul className="all-sheets-container full-height">					
-							{getData()}
 							{
+								composerPages[composerPage] == undefined? getData():
 								composerPages[composerPage].map(composer => {
 									return (
 										<ComposerBox composer={composer}/>
