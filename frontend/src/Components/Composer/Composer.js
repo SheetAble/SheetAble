@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { useParams } from 'react-router';
-import { findComposer } from '../../Utils/utils';
+import { findComposerByPages } from '../../Utils/utils';
 
 import { connect } from 'react-redux';
 import { getSheetPage } from '../../Redux/Actions/dataActions'
@@ -14,7 +14,7 @@ import SheetBox from '../SheetsPage/Components/SheetBox';
 function Composer({ composerPages, getSheetPage }) {
 	const { composerName } = useParams();
 
-	const [composer, setComposer] = useState(findComposer(composerName, composerPages))
+	const [composer, setComposer] = useState(findComposerByPages(composerName, composerPages))
 
 	const getData = () => {
 		const data = {

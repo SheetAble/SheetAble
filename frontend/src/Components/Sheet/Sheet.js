@@ -10,7 +10,7 @@ import './Sheet.css'
 import axios from 'axios'
 
 /* Utils */
-import { displayTimeAsString, findSheet, findComposer } from '../../Utils/utils'
+import { displayTimeAsString, findSheetByPages, findComposerByPages, findSheetBySheets, findComposerByComposers } from '../../Utils/utils'
 
 /* Redux stuff */
 import { connect } from 'react-redux'
@@ -22,7 +22,7 @@ import { useHistory } from 'react-router-dom'
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-function Sheet({ sheetPages, composerPages }) {
+function Sheet({ sheetPages, composerPages, sheets, composers }) {
 
 
 	/* PDF Page width rendering */
@@ -48,9 +48,15 @@ function Sheet({ sheetPages, composerPages }) {
 	let { sheetName, composerName } = useParams();
 	const [pdf, setpdf] = useState(undefined)
 
-	const [sheet, setsheet] = useState(findSheet(sheetName, sheetPages))
 
-	const [composer, setcomposer] = useState(findComposer(composerName, composerPages))
+	const bySheetPages = findSheetByPages(sheetName, sheetPages)
+
+	const [sheet, setSheet] = useState( bySheetPages == undefined ? findSheetBySheets(sheetName, sheets) : bySheetPages)
+	
+	const byComposerPages = findComposerByPages(composerName, composerPages)
+
+	const [composer, setComposer] = useState(byComposerPages == undefined ? findComposerByComposers(composerName, composers) : byComposerPages)
+
 
 	const pdfRequest = () => {
 		axios.get(`http://localhost:8080/sheet/pdf/${composerName}/${sheetName}`, {responseType: "arraybuffer"})
@@ -179,7 +185,9 @@ function Sheet({ sheetPages, composerPages }) {
 
 const mapStateToProps = (state) => ({
 	sheetPages: state.data.sheetPages,
-	composerPages: state.data.composerPages
+	composerPages: state.data.composerPages,
+	sheets: state.data.sheets,
+	composers: state.data.composers
 })
 
 const mapActionsToProps = {

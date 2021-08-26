@@ -4,7 +4,7 @@ export const displayTimeAsString = (str) => {
 }
 
 /* Returns sheet with sheetName from sheetPages */
-export function findSheet(sheetName, sheetPages) {
+export function findSheetByPages(sheetName, sheetPages) {
 	for (let key in sheetPages) {
 		if (!sheetPages.hasOwnProperty(key)) continue;
 		const page = sheetPages[key]
@@ -14,8 +14,13 @@ export function findSheet(sheetName, sheetPages) {
 	}
 }
 
+/* Returns sheet with sheetName from sheets */
+export function findSheetBySheets(sheetName, sheets) {
+	return sheets.find(sheet => sheet.sheet_name == sheetName);
+}
+
 /* Returns composer with composerName from composerPages */
-export function findComposer(composerName, composerPages) {
+export function findComposerByPages(composerName, composerPages) {
 	for (let key in composerPages) {
 		if (!composerPages.hasOwnProperty(key)) continue;
 		const page = composerPages[key]
@@ -23,4 +28,9 @@ export function findComposer(composerName, composerPages) {
 
 		if (result != undefined) return result
 	}
+}
+
+/* Returns composer with composerName from composers */
+export function findComposerByComposers(composerName, composers) {
+	return composers.find(composer => composer.name == composerName);
 }
