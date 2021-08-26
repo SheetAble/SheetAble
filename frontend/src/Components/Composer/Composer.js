@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { useParams } from 'react-router';
-import { findComposerByPages } from '../../Utils/utils';
+import { findComposerByPages, findComposerByComposers } from '../../Utils/utils';
 
 import { connect } from 'react-redux';
 import { getSheetPage } from '../../Redux/Actions/dataActions'
@@ -11,10 +11,13 @@ import './Composer.css'
 import SideBar from '../Sidebar/SideBar'
 import SheetBox from '../SheetsPage/Components/SheetBox';
 
-function Composer({ composerPages, getSheetPage }) {
+function Composer({ composerPages, getSheetPage, composers }) {
 	const { composerName } = useParams();
 
-	const [composer, setComposer] = useState(findComposerByPages(composerName, composerPages))
+	const byComposerPages = findComposerByPages(composerName, composerPages)
+
+	const [composer, setComposer] = useState(byComposerPages == undefined ? findComposerByComposers(composerName, composers) : byComposerPages)
+
 
 	const getData = () => {
 		const data = {
@@ -51,6 +54,7 @@ function Composer({ composerPages, getSheetPage }) {
 
 const mapStateToProps = (state) => ({
 	composerPages: state.data.composerPages,
+	composers: state.data.composers
 })
 
 const mapActionsToProps = {
