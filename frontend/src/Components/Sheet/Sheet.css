@@ -28,8 +28,12 @@
     margin-top: 12px;
 }
 
-.document_container:hover .page_controls {
+.doc_wrapper:hover .page_controls {
     opacity: 1;
+}
+
+.doc_wrapper {
+    height: min-content;
 }
 
 

@@ -102,7 +102,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 			<SideBar />
 			<div className="home_content">
 				<div className="document_container">
-					<div>
+					<div className="doc_wrapper">
 						<div className="doc_header">
 							<span className="doc_sheet">{sheetName}</span>
 							<br />
@@ -115,16 +115,18 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 								
 							</Document>
 						</div>	
+
+						<div className="page_controls">
+							<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
+							<span>
+								{pageNumber} of {numPages}
+							</span>
+							<button type="button" disabled={pageNumber == numPages} onClick={nextPage}>
+								&gt;
+							</button>
+						</div>
 					</div>	
-					<div className="page_controls">
-						<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
-						<span>
-							{pageNumber} of {numPages}
-						</span>
-						<button type="button" disabled={pageNumber == numPages} onClick={nextPage}>
-							&gt;
-						</button>
-					</div>
+					
 
 					<div className="right_side_doc">
 						<div className="doc_box sheet_info">
