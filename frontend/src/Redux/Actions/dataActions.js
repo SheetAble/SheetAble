@@ -136,11 +136,13 @@ export const getComposerPage = (data = {}, _callback) => dispatch => {
             _callback()
         })
         .catch(err => {
+            console.log(err);
+            
             if (err.request.status == 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }
-            console.log(err);
+            
         })
 }
 

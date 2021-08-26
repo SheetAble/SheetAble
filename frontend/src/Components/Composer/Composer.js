@@ -1,9 +1,9 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect} from 'react'
 import { useParams } from 'react-router';
 import { findComposerByPages, findComposerByComposers } from '../../Utils/utils';
 
 import { connect } from 'react-redux';
-import { getSheetPage } from '../../Redux/Actions/dataActions'
+import { getSheetPage, setComposerPage, getComposerPage } from '../../Redux/Actions/dataActions'
 
 
 import './Composer.css'
@@ -11,29 +11,64 @@ import './Composer.css'
 import SideBar from '../Sidebar/SideBar'
 import SheetBox from '../SheetsPage/Components/SheetBox';
 
-function Composer({ composerPages, getSheetPage, composers }) {
+function Composer({ composerPages, getSheetPage, composers, composerPage, setComposerPage, getComposerPage, totalComposerPages }) {
 	const { composerName } = useParams();
 
-	const byComposerPages = findComposerByPages(composerName, composerPages)
+	const [composer, setComposer] = useState(findComposerByPages(composerName, composerPages))
 
-	const [composer, setComposer] = useState(byComposerPages == undefined ? findComposerByComposers(composerName, composers) : byComposerPages)
+	const [inRequest, setInRequest] = useState(false)
 
+
+	const [loading, setLoading] = useState(true)
+
+	const getComposerPagesData = (_callback) => {
+		if (composerPage == undefined || composerPage < 0 || composerPage > totalComposerPages ) {
+			setComposerPage(1)
+		}
+			
+		const data = {
+			page: composerPage,
+			sortBy: "updated_at desc"
+		}		
+		
+		getComposerPage(data, () =>  _callback())
+	}
 
 	const getData = () => {
-		const data = {
-			page: 1,
-			sortBy: "updated_at desc",
-			composer: composerName
-		}
+		if (composer == undefined) {
+			getComposerPagesData(() => {
+				setComposer(findComposerByPages(composerName, composerPages))
+			})
+		} else if (composer.sheets == undefined && !inRequest)  {
+			setInRequest(true)
+			const data = {
+				page: 1,
+				sortBy: "updated_at desc",
+				composer: composerName
+			}
 
-		getSheetPage(data)
+			getSheetPage(data, () => {
+				setLoading(false)
+				window.location.reload()
+			})
+		}
+		else {
+			setLoading(false)
+		}
 	}
+
+	useEffect(() => {
+		getData()
+	});
+	
+
 
 	return (
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				<div className="composer-page">
+				{!loading? (
+					<div className="composer-page">
 					<img src={composer.portrait_url} className="portrait-page" />
 					<h5>{composer.name}</h5>
 					<h6>{composer.epoch}</h6>
@@ -47,6 +82,14 @@ function Composer({ composerPages, getSheetPage, composers }) {
 						})}
 					</ul>
 				</div>
+				)
+				:
+				(
+					<p>loading</p>
+				)
+			
+			}
+				
 			</div>
 		</Fragment>
 	)
@@ -54,11 +97,15 @@ function Composer({ composerPages, getSheetPage, composers }) {
 
 const mapStateToProps = (state) => ({
 	composerPages: state.data.composerPages,
-	composers: state.data.composers
+	composers: state.data.composers,
+	composerPage: state.data.composerPage,
+	totalComposerPages: state.data.totalComposerPages
 })
 
 const mapActionsToProps = {
-    getSheetPage
+    getSheetPage,
+	getComposerPage,
+	setComposerPage
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Composer)
