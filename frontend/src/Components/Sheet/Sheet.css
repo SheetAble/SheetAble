@@ -317,3 +317,7 @@
         height: 765px !important;
     }
 }
+
+.right_side_doc .tooltip {
+    display: block;
+}

@@ -109,6 +109,14 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 	};
 
 
+	const [copyText, setCopyText] = useState("Click to Copy")
+
+	const handleClick = () => {
+		setCopyText(copyText == "Click to Copy" ? "Copied ✓" : "Click to Copy")
+		navigator.clipboard.writeText(window.location.href)
+	}
+
+
 	return (
 		 <Fragment>
 			<SideBar />
@@ -157,9 +165,16 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 							</div>
 							
 
-							<button className="sheet_info_button">
-								Share
-							</button>
+
+								<div class="tooltip">	
+										<button className="sheet_info_button" onClick={handleClick}>
+											Share
+										</button>	
+									<span class="tooltiptext">{copyText}</span>
+								</div>
+							
+
+						
 							<div className="under_box">
 								<a href={pdfDownloadData.link} download={pdfDownloadData.name} target='_blank'>
 								<button className="remove_shadow" onClick={() => saveByteArray(sheet.sheet_name, pdf.data)}>
