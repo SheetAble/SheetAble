@@ -27,7 +27,7 @@ function RandomPieceSelection({ sheetPages, page }) {
 
 	var animateButton = function(e) {
 
-		e.preventDefault;
+		e.preventDefault();
 		//reset animation
 		
 		setBubblyButton("bubbly-button")

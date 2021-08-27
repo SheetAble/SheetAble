@@ -26,7 +26,7 @@ function RandomComposerSelection({ composerPages, page }) {
 
 	var animateButton = function(e) {
 
-		e.preventDefault;
+		e.preventDefault();
 		//reset animation
 		
 		setBubblyButton("bubbly-button")
