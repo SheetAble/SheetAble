@@ -1,6 +1,8 @@
 package main
 
-import "github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api"
+import (
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api"
+)
 
 func main() {
 	api.Run()

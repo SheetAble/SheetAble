@@ -5,14 +5,15 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 
+	"github.com/gorilla/handlers"
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-
 	"github.com/rs/cors"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 )
@@ -94,6 +95,17 @@ func (server *Server) Run(addr string) {
 		},
 		AllowCredentials: true,
 	})
+
+	srv := &http.Server{
+		Handler: handlers.LoggingHandler(os.Stdout, server.Router),
+		Addr:    "127.0.0.1:8080",
+		// Good practice: enforce timeouts for servers you create!
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+
+	log.Fatal(srv.ListenAndServe())
+
 	handler := c.Handler(server.Router)
 	log.Fatal(http.ListenAndServe(addr, handler))
 }
