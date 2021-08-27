@@ -30,24 +30,42 @@ import SheetsPage from './Components/SheetsPage/SheetsPage';
 import ComposersPage from './Components/ComposersPage/ComposersPage';
 import Composer from './Components/Composer/Composer';
 import Settings from './Components/Settings/Settings';
+import Ping from './Components/Ping/Ping';
 
-axios.defaults.baseURL = "http://localhost:8080"
+
+
+axios.defaults.baseURL = "/api"
+
 
 // Load token from localstorage 
 const token = localStorage.FBIdToken
 if(token){
-  const decodedToken = jwtDecode(token)
-  const ts = Date.now()
-  const currentTime = Math.floor(ts/1000) - 7200
-  if(decodedToken.exp < currentTime){
+  let decodedToken = undefined
+  try {
+    decodedToken = jwtDecode(token)
+  }
+  catch {
+    decodedToken = undefined
+  }
+  
+  if (decodedToken != undefined) {
+    const ts = Date.now()
+    const currentTime = Math.floor(ts/1000) - 7200
+    if(decodedToken.exp < currentTime){
+      store.dispatch(logoutUser())
+      window.location.href = '/login'
+    } else {
+      store.dispatch({ type: SET_AUTHENTICATED })
+      axios.defaults.headers.common['Authorization'] = token
+    }
+  } else {
     store.dispatch(logoutUser())
     window.location.href = '/login'
   }
-  else {
-    store.dispatch({ type: SET_AUTHENTICATED })
-    axios.defaults.headers.common['Authorization'] = token
-  }
-}
+  
+  
+} 
+
 
 function App() {
   return (
@@ -64,11 +82,22 @@ function App() {
               <Route exact path="/sheets" component={SheetsPage} />
               <Route exact path="/composers" component={ComposersPage} />
               <Route exact path="/settings" component={Settings} />
+              <Route exact path="/ping" component={Ping} />
           </Switch>
         </Router>
       </PersistGate>
     </Provider>
   );
 }
+
+/*
+function App() {
+  return(
+        <p>TESto</p>
+      
+  )
+}
+
+*/
 
 export default App;

@@ -21,11 +21,13 @@ import lostImage from '../../Images/lost.svg'
 class HomePage extends Component {
     
     componentDidMount = () => {
-        if (this.props.sheets.length == 0) {
+        console.log("HELLLO");
+        if ( this.props.sheets == undefined || this.props.sheets.length == 0) {
+            console.log("tatalae");
             this.props.getSheets()
         }
         
-        if (this.props.composers.length == 0) {
+        if (this.props.composers == undefined || this.props.composers.length == 0) {
             this.props.getComposers()
         }        
     }
@@ -69,7 +71,7 @@ class HomePage extends Component {
             <Fragment>
                 <SideBar history={this.props.history}/>
                 {
-                    this.props.loading? loadingJSX : this.props.sheets.length > 0 ? sheetsTrue : sheetsFalse
+                    this.props.loading? loadingJSX : (this.props.sheets == undefined || this.props.sheets.length == 0) ? sheetsFalse : sheetsTrue
                 }                
             </Fragment>
         )
