@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/controllers"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/seed"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/controllers"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/seed"
 )
 
 var server = controllers.Server{}

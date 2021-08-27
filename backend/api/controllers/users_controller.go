@@ -9,11 +9,11 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/utils"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/utils/formaterror"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
 )
 
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {

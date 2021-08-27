@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/responses"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 )
 
 func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {

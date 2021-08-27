@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/jinzhu/gorm"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 )
 
 var users = []models.User{

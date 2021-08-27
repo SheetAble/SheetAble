@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/middlewares"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/middlewares"
 )
 
 func (s *Server) initializeRoutes() {

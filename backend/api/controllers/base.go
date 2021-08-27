@@ -14,7 +14,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 
 	"github.com/rs/cors"
-	"github.com/vallezw/Sheet-Uploader-Selfhosted/backend/api/models"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 )
 
 type Server struct {
