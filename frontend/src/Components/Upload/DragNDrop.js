@@ -20,9 +20,9 @@ registerPlugin(FilePondPluginFileValidateType);
 
 
 function DragNDrop({ giveModalData }) {
-  const [files, setFiles] = useState([])
+  //const [files, setFiles] = useState(undefined)
   
-  const uploadFinish = () => {
+  const uploadFinish = (files) => {
     giveModalData(files[0].file)
   }
   
@@ -34,13 +34,16 @@ function DragNDrop({ giveModalData }) {
   return (
     <div className="upload-container">
       <FilePond
-        onupdatefiles={setFiles}
+        onupdatefiles={(files) => {
+          console.log(files);
+          //setFiles(file)
+          uploadFinish(files)  
+        }}
         onremovefile={removeFile}
         allowMultiple={false}
         server={ {
           process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
             load()
-            uploadFinish()
         }}}
         maxFiles={1}
         name="files"
