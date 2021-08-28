@@ -49,7 +49,7 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	}
 	if Dbdriver == "sqlite" || Dbdriver == "" {
 
-		if _, err := os.Stat("/database.db"); os.IsNotExist(err) {
+		if _, err := os.Stat("database.db"); os.IsNotExist(err) {
 			os.Create("database.db") // Create your file
 		}
 
