@@ -96,5 +96,5 @@ func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 	*/
 
 	name := mux.Vars(r)["name"]
-	http.ServeFile(w, r, "thumbnails/"+name+".png")
+	http.ServeFile(w, r, "thumbnails/"+name+".jpg")
 }
