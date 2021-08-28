@@ -23,10 +23,17 @@ func RequestToPdfToImage(path string, name string) bool {
 
 	}
 
-	newImage, err := bimg.NewImage(buffer).Convert(bimg.JPEG)
+	image, err := bimg.NewImage(buffer).Convert(bimg.JPEG)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
+	}
 
+	scaleFactor := 2.5 // To scale up the size of the JPG
+
+	// first force resize
+	newImage, errF := bimg.NewImage(image).ForceResize(int(152*scaleFactor), int(221*scaleFactor))
+	if errF != nil {
+		fmt.Fprintln(os.Stderr, err)
 	}
 
 	if bimg.NewImage(newImage).Type() == "jpeg" {
