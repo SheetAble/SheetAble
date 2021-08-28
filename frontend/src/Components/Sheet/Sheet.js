@@ -59,7 +59,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 
 
 	const pdfRequest = () => {
-		axios.get(`http://localhost:8080/sheet/pdf/${composerName}/${sheetName}`, {responseType: "arraybuffer"})
+		axios.get(`/sheet/pdf/${composerName}/${sheetName}`, {responseType: "arraybuffer"})
 			.then(res => {
 				setpdf(res)
 			})
