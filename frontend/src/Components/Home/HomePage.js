@@ -21,9 +21,7 @@ import lostImage from '../../Images/lost.svg'
 class HomePage extends Component {
     
     componentDidMount = () => {
-        console.log("HELLLO");
         if ( this.props.sheets == undefined || this.props.sheets.length == 0) {
-            console.log("tatalae");
             this.props.getSheets()
         }
         
