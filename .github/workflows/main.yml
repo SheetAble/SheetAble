@@ -1,36 +1,25 @@
-name: build
+# workflow name
+name: Generate release-artifacts
 
+# on events
 on:
-  pull_request:
-  push:
+  release:
+    types: 
+        - created
 
+# workflow tasks
 jobs:
-  xgo:
-    strategy:
-      fail-fast: false
-      matrix:
-        go_version:
-          - 1.12.4
-          - 1.13.x
+  generate:
+    name: Generate cross-platform builds
     runs-on: ubuntu-latest
     steps:
-      - name: Install packages
-        run:  sudo apt-get install build-essential pkg-config glib2.0-dev libxml2-dev libvips 
-      - 
-        name: Checkout
+      - name: Checkout the repository
         uses: actions/checkout@v2
-      -
-        name: Build with xgo
-        uses: crazy-max/ghaction-xgo@v1
+      - name: Generate build files
+        uses: thatisuday/go-cross-build@v1
         with:
-          xgo_version: latest
-          go_version: ${{ matrix.go_version }}
-          dest: build
-          prefix: myapp
-          targets: windows/386,windows/amd64,linux/386,linux/amd64,darwin/386,darwin/amd64
-          v: true
-          x: false
-          race: false
-          ldflags: -s -w
-          buildmode: default
-          working_dir: backend/
+            platforms: 'linux/amd64, darwin/amd64, windows/amd64'
+            package: 'backend'
+            name: 'program'
+            compress: 'true'
+            dest: 'dist'
