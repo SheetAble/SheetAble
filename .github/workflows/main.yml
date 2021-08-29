@@ -1,7 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
 name: build
-
 # .github/workflows/release.yaml
 
 on: 
@@ -9,28 +6,15 @@ on:
     types: [created]
 
 jobs:
-  releases-matrix:
-    name: Release Go Binary
+  release-linux-amd64:
+    name: release linux/amd64
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # build and publish in parallel: linux/386, linux/amd64, windows/386, windows/amd64, darwin/amd64 
-        goos: [linux, windows, darwin]
-        goarch: ["386", amd64]
-        exclude:  
-          - goarch: "386"
-            goos: darwin 
     steps:
-    - name: install pkg-config
-      run: sudo apt-get install pkg-config libc6-dev-i386
     - uses: actions/checkout@v2
     - uses: wangyoucao577/go-release-action@v1.20
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        goos: ${{ matrix.goos }}
-        goarch: ${{ matrix.goarch }}
-        goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
-        project_path: "./backend"
-        binary_name: "test-binary"
-      env:
-        CGO_ENABLED: 1
+        goos: linux
+        goarch: amd64
+        project_path: backend/
+        pre_command: export CGO_ENABLED=1
