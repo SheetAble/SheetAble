@@ -21,6 +21,8 @@ jobs:
           - goarch: "386"
             goos: darwin 
     steps:
+    - name: install pkg-config
+      run: sudo apt-get install -y pkg-config
     - uses: actions/checkout@v2
     - uses: wangyoucao577/go-release-action@v1.20
       with:
