@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: install pkg
-      run: sudo apt install pkg-config lxc-dev
+      run: sudo apt install -y pkg-config lxc-dev
     - uses: actions/checkout@v2
     - uses: wangyoucao577/go-release-action@v1.20
       with:
