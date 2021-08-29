@@ -11,7 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: install pkg
-      run: sudo apt install -y pkg-config lxc-dev
+      run: curl https://pkgconfig.freedesktop.org/releases/pkg-config-0.29.tar.gz -o pkgconfig.tgz
+    - name: next
+      run: tar -zxf pkgconfig.tgz && cd pkg-config-0.29
+    - name: config
+      run: ./configure && make install
+    
     - uses: actions/checkout@v2
     - uses: wangyoucao577/go-release-action@v1.20
       with:
