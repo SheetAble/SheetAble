@@ -30,3 +30,5 @@ jobs:
         goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
         project_path: "./backend"
         binary_name: "test-binary"
+      env:
+        CGO_ENABLED: 1
