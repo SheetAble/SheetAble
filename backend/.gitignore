@@ -6,4 +6,4 @@ database.db
 backend.exe
 backend
 rice
-backend/api/controllers/rice-box.go
+api/controllers/rice-box.go
