@@ -2,7 +2,6 @@ package api
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -17,7 +16,7 @@ func Run() {
 	var err error
 	err = godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error getting env, not comming through %v", err)
+		fmt.Println("Error getting env, not comming through, using sqlite instead")
 	} else {
 		fmt.Println("Env values loaded...")
 	}
