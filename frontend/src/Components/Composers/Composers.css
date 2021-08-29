@@ -45,6 +45,7 @@
 .all-comp-container {
 	display: flex;
 	padding-bottom: 25px;
-	overflow: scroll; 
+	overflow-x: scroll;
+	overflow-y: hidden;
 	list-style: none;	
 }

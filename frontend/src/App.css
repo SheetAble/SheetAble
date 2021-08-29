@@ -35,6 +35,7 @@
 
 .overflow-scroll {
   overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .home_content .text{

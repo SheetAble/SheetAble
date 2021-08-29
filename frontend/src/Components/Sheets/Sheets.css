@@ -53,5 +53,6 @@
 	display: flex;
 	list-style: none;
 	padding-bottom: 25px;
-	overflow: scroll;
+	overflow-x: scroll;
+	overflow-y: hidden;
 }
