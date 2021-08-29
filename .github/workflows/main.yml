@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install packages
-        run:  apt-get install build-essential pkg-config glib2.0-dev libxml2-dev libvips 
+        run:  sudo apt-get install build-essential pkg-config glib2.0-dev libxml2-dev libvips 
       - 
         name: Checkout
         uses: actions/checkout@v2
