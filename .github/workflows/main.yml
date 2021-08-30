@@ -1,24 +1,25 @@
-name: build
-# .github/workflows/release.yaml
+# workflow name
+name: Generate release-artifacts
 
-on: 
+# on events
+on:
   release:
-    types: [created]
+    types: 
+        - created
 
+# workflow tasks
 jobs:
-  release-linux-amd64:
-    name: release linux/amd64
+  generate:
+    name: Generate cross-platform builds
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: install pkg
-      run: sudo apt install -y pkg-config libvips
-    - name: set var 2
-      run: export PKG_CONFIG_EXECUTABLE=/usr/bin/pkg-config
-    - uses: wangyoucao577/go-release-action@v1.20
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        goos: linux
-        goarch: amd64
-        project_path: backend/
-        pre_command: export CGO_ENABLED=1
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Generate build files
+        uses: thatisuday/go-cross-build@v1
+        with:
+            platforms: 'linux/amd64, darwin/amd64, windows/amd64'
+            package: 'backend/'
+            name: 'program'
+            compress: 'true'
+            dest: 'build'
