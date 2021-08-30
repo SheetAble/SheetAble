@@ -13,6 +13,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: install pkg
       run: sudo apt install -y pkg-config libvips
+    - name: set var
+      run: set(PKG_CONFIG_EXECUTABLE "/usr/bin/pkg-config")
+    - name: set var 2
+      run: export PKG_CONFIG_EXECUTABLE="/usr/bin/pkg-config"
     - uses: wangyoucao577/go-release-action@v1.20
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
