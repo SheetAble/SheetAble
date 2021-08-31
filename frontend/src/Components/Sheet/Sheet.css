@@ -1,6 +1,5 @@
 .document_container {
     display: -webkit-box;
-    overflow-x: scroll;
     margin-left: auto;
     margin-right: auto;
 }
