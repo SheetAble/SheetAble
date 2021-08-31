@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bytes"
+	"crypto/tls"
 	"fmt"
 	"io"
 	"mime/multipart"
@@ -34,10 +35,14 @@ func sendRequest(path string, name string, remoteURL string) {
 			}
 			fmt.Printf("%s", b)
 		}))
+
 		defer ts.Close()
+
 		client = ts.Client()
-		//	remoteURL = ts.URL
 	}
+
+	// Add InsecureSkipVerify because otherwise there would be an error
+	client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
 	//prepare the reader instances to encode
 	values := map[string]io.Reader{
