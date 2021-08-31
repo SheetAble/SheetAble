@@ -1,37 +1,36 @@
+# This is a basic workflow to help you get started with Actions
+
 name: build
 
-on:
-  pull_request:
-  push:
+# .github/workflows/release.yaml
+
+on: 
+  release:
+    types: [created]
 
 jobs:
-  xgo:
-    strategy:
-      fail-fast: false
-      matrix:
-        go_version:
-          - 1.12.4
-          - 1.13.x
+  releases-matrix:
+    name: Release Go Binary
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # build and publish in parallel: linux/386, linux/amd64, windows/386, windows/amd64, darwin/amd64 
+        goos: [linux, windows, darwin]
+        goarch: ["386", amd64]
+        exclude:  
+          - goarch: "386"
+            goos: darwin 
     steps:
-      - 
-        name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Install packages
-        run:  sudo apt-get install build-essential pkg-config glib2.0-dev libxml2-dev libvips libvips-tools libvips-dev
-      -
-        name: Build with xgo
-        uses: crazy-max/ghaction-xgo@v1
-        with:
-          xgo_version: latest
-          go_version: ${{ matrix.go_version }}
-          dest: build
-          prefix: myapp
-          targets: windows/386,windows/amd64,linux/386,linux/amd64,darwin/386,darwin/amd64
-          v: true
-          x: false
-          race: false
-          ldflags: -s -w
-          buildmode: default
-          working_dir: backend/
+    - name: install pkg-config
+      run: sudo apt-get install -y pkg-config
+    - uses: actions/checkout@v2
+    - uses: wangyoucao577/go-release-action@v1.20
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: ${{ matrix.goos }}
+        goarch: ${{ matrix.goarch }}
+        goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
+        project_path: "./backend"
+        binary_name: "test-binary"
+      env:
+        CGO_ENABLED: 1
