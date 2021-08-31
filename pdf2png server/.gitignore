@@ -1,3 +1,4 @@
 /thumbnails
 *.pdf
 app.pyc
+__pycache__/

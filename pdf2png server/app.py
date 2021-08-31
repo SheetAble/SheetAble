@@ -49,7 +49,3 @@ def createImg(path, name):
     pages = convert_from_path(path, single_file=True, size=(152 * scale_factor, 214 * scale_factor))
 
     pages[0].save(f'./{name}.png', 'PNG')
-
-
-if __name__ == '__main__':
-    app.run()
