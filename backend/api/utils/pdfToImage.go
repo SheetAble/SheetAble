@@ -17,7 +17,7 @@ func RequestToPdfToImage(path string, name string) bool {
 	/*_, err := http.PostForm("http://127.0.0.1:5000/createthumbnail",
 	url.Values{"path": {path}, "name": {name}})
 	*/
-	sendRequest(path, name, "http://127.0.0.1:5000/createthumbnail")
+	sendRequest(path, name, "https://pdf2png.zwerschke.net/createthumbnail")
 
 	return true
 }
