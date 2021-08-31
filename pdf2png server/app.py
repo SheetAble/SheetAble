@@ -33,10 +33,10 @@ def index():
     @after_this_request
     def cleanup(response):
         os.remove(f"./{name}.pdf")
-        os.remove(f"./thumbnails/{name}.png") 
+        os.remove(f"./{name}.png") 
         return response
 
-    return send_file(f'./thumbnails/{name}.png', attachment_filename='python.jpg')
+    return send_file(f'./{name}.png', attachment_filename='python.jpg')
 
   
 
@@ -48,7 +48,7 @@ def createImg(path, name):
     scale_factor = 2.5 # To scale up the size of the PNG
     pages = convert_from_path(path, single_file=True, size=(152 * scale_factor, 214 * scale_factor))
 
-    pages[0].save(f'./thumbnails/{name}.png', 'PNG')
+    pages[0].save(f'./{name}.png', 'PNG')
 
 
 if __name__ == '__main__':
