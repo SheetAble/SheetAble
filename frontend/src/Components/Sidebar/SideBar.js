@@ -92,8 +92,8 @@ function SideBar(props) {
 				<div className="profile_details">
 
 				<div className="name_job">
-					<div className="name"><span className="name">Account Status:</span></div>
-					<div className="job"><span>Logged In</span></div>
+					<div className="name"><span className="name">Account Email:</span></div>
+					<div className="job"><span>{props.userData.email}</span></div>
 				</div>
 				</div>
 				<a href="/login">
@@ -108,7 +108,8 @@ function SideBar(props) {
 }
 
 const mapStateToProps = (state) => ({
-	sidebar: state.UI.sidebar
+	sidebar: state.UI.sidebar,
+	userData: state.user.userData
 })
 
 const mapActionsToProps = {
