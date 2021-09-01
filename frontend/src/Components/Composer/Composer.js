@@ -21,6 +21,32 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 
 	const [loading, setLoading] = useState(true)
 
+
+	const getData = () => {
+		
+		if ((composer == undefined || composer.sheets == undefined) && !inRequest) {
+			setInRequest(true)
+			getComposerPagesData(() => {
+				getSheetsForComposer()
+			})
+		} else if (composer != undefined && composer.sheets != undefined ){
+			setInRequest(false)
+			setLoading(false)
+		}
+	}
+
+	const getSheetsForComposer = () => {
+		const data = {
+				page: 1,
+				sortBy: "updated_at desc",
+				composer: composerName
+			}
+
+			getSheetPage(data, () => {
+				setComposer(findComposerByPages(composerName, composerPages))
+			})
+	}
+
 	const getComposerPagesData = (_callback) => {
 		if (composerPage == undefined || composerPage < 0 || composerPage > totalComposerPages ) {
 			setComposerPage(1)
@@ -34,32 +60,17 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 		getComposerPage(data, () =>  _callback())
 	}
 
-	const getData = () => {
-		if (composer == undefined) {
-			getComposerPagesData(() => {
-				setComposer(findComposerByPages(composerName, composerPages))
-			})
-		} else if (composer.sheets == undefined && !inRequest)  {
-			setInRequest(true)
-			const data = {
-				page: 1,
-				sortBy: "updated_at desc",
-				composer: composerName
-			}
-
-			getSheetPage(data, () => {
-				setLoading(false)
-				window.location.reload()
-			})
-		}
-		else {
+	useEffect(() => {	
+		setComposer(findComposerByPages(composerName, composerPages))
+		if (composer != undefined && composer.sheets != undefined) {
+			setInRequest(false)
 			setLoading(false)
 		}
-	}
+	}, [composerPages])
 
 	useEffect(() => {
 		getData()
-	});
+	});	
 	
 
 
