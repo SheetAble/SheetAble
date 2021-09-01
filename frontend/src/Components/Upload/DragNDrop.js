@@ -35,8 +35,6 @@ function DragNDrop({ giveModalData }) {
     <div className="upload-container">
       <FilePond
         onupdatefiles={(files) => {
-          console.log(files);
-          //setFiles(file)
           uploadFinish(files)  
         }}
         onremovefile={removeFile}
