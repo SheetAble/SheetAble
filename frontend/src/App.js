@@ -32,7 +32,7 @@ import Composer from './Components/Composer/Composer';
 import Settings from './Components/Settings/Settings';
 import Ping from './Components/Ping/Ping';
 
-
+import Logo from './Images/logo.png'
 
 axios.defaults.baseURL = "/api"
 
