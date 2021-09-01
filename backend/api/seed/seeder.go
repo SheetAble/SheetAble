@@ -1,57 +1,36 @@
 package seed
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/jinzhu/gorm"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 )
 
-var users = []models.User{
-	models.User{
-		Nickname: "Steven victor",
-		Email:    "steven@gmail.com",
-		Password: "password",
-	},
-	models.User{
-		Nickname: "Martin Luther",
-		Email:    "luther@gmail.com",
-		Password: "password",
-	},
-}
+func Load(db *gorm.DB, email string, password string) {
 
-var posts = []models.Post{
-	models.Post{
-		Title:   "Title 1",
-		Content: "Hello world 1",
-	},
-	models.Post{
-		Title:   "Title 2",
-		Content: "Hello world 2",
-	},
-}
+	/*
+		err := db.Debug().DropTableIfExists(&models.Post{}, &models.User{}, &models.Division{}).Error
+		if err != nil {
+			log.Fatalf("cannot drop table: %v", err)
+		}
 
-func Load(db *gorm.DB) {
+	*/
 
-	err := db.Debug().DropTableIfExists(&models.Post{}, &models.User{}, &models.Division{}).Error
-	if err != nil {
-		log.Fatalf("cannot drop table: %v", err)
-	}
-	err = db.Debug().AutoMigrate(&models.User{}, &models.Post{}, &models.Sheet{}, &models.Division{}, &models.Composer{}).Error
+	err := db.Debug().AutoMigrate(&models.User{}, &models.Post{}, &models.Sheet{}, &models.Division{}, &models.Composer{}).Error
 	if err != nil {
 		log.Fatalf("cannot migrate table: %v", err)
 	}
 
-	for i, _ := range users {
-		err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
-		if err != nil {
-			log.Fatalf("cannot seed users table: %v", err)
-		}
-		posts[i].AuthorID = users[i].ID
+	err = db.Debug().Model(&models.User{}).Create(&models.User{
+		Nickname: email,
+		Email:    email,
+		Password: password,
+	}).Error
 
-		err = db.Debug().Model(&models.Post{}).Create(&posts[i]).Error
-		if err != nil {
-			log.Fatalf("cannot seed posts table: %v", err)
-		}
+	if err != nil {
+		fmt.Println("User already exists")
+		return
 	}
 }
