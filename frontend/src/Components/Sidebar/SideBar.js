@@ -2,7 +2,7 @@ import React, {Fragment, useState} from 'react'
 import './SideBar.css'
 
 import { setSidebar } from '../../Redux/Actions/uiActions';
-import { getSheets, getComposers } from '../../Redux/Actions/dataActions';
+import { getSheets, getComposers, getComposerPage, getSheetPage, resetData } from '../../Redux/Actions/dataActions';
 import { logoutUser } from '../../Redux/Actions/userActions';
 import { connect } from 'react-redux'
 import Modal from './Modal/Modal';
@@ -69,8 +69,8 @@ function SideBar(props) {
 			</li>
 			<li>
 				<a onClick={() => {
-					props.getSheets()
-					props.getComposers()
+					props.resetData()
+					window.location.reload()
 				}} 
 				className="cursor">
 				<i class='bx bx-sync'></i>
@@ -116,7 +116,10 @@ const mapActionsToProps = {
     setSidebar,
 	getSheets,
 	getComposers,
-	logoutUser
+	logoutUser,
+	getComposerPage, 
+	getSheetPage,
+	resetData
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar)
