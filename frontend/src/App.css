@@ -38,7 +38,8 @@
 }
 
 .overflow-scroll {
-  overflow-x: scroll;
+  overflow-x: hidden;
+  width: 100%;
   overflow-y: hidden;
 }
 
