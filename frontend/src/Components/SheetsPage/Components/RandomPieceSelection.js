@@ -4,6 +4,8 @@ import LoadingAnimation from '../../../Images/Animations/Loading.svg'
 import './BubblyButton.css'
 import { useHistory } from 'react-router';
 
+import axios from 'axios';
+
 function RandomPieceSelection({ sheetPages, page }) {
 	
 	const [loading, setLoading] = useState(true)	
@@ -52,7 +54,7 @@ function RandomPieceSelection({ sheetPages, page }) {
 			(
 				<div>
 					<div>
-						<img className="rand-img cursor" src={`api/sheet/thumbnail/${sheet.sheet_name}`} alt="image"  onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)}/>
+						<img className="rand-img cursor" src={`${axios.defaults.baseURL}/sheet/thumbnail/${sheet.sheet_name}`} alt="image"  onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)}/>
 						<div className="sheet-name-container n-cursor">
 							<span className="sheet-name">{sheet.sheet_name}</span>
 						</div>

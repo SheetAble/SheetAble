@@ -6,7 +6,7 @@ const Ping = () => {
 
     const handlePing = async () => {
         try {
-            const response = await axios.get('/api/ping');
+            const response = await axios.get(`${axios.defaults.baseURL}/pin`);
             setNotification(`Successful ping with response: ${response.data}`);
         } catch (e) {
             setNotification('Failed to ping');
