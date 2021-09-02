@@ -10,5 +10,9 @@
 }
 
 .composer-wrapper .rand-piece {
-	height: 355px;
+	height: 340px !important;
+}
+
+.composer-wrapper .bubbly-button {
+	margin-top: 8px !important;
 }

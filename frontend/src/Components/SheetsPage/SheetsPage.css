@@ -63,10 +63,10 @@ li {
 
 	margin-right: 15px;
 	margin-top: 18px;
-	background-color: #E8E8E8;
+	background-color: #E8E8E8 !important;
 	
-	width: 230px;
-	height: 430px;
+	width: 230px !important;
+	height: 430px !important;
 	text-align: center;
 }
 
