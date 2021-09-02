@@ -4,9 +4,16 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Pages and Components
 import LoginPage from "./Components/Authentication/LoginPage";
-import SignupPage from "./Components/Authentication/SignupPage";
 import HomePageProvider from "./Components/Home/HomePageProvider";
-import SideBar from './Components/Sidebar/SideBar';
+import UploadPage from './Components/Upload/UploadPage';
+import Sheet from './Components/Sheet/Sheet';
+import SheetsPage from './Components/SheetsPage/SheetsPage';
+import ComposersPage from './Components/ComposersPage/ComposersPage';
+import Composer from './Components/Composer/Composer';
+import Settings from './Components/Settings/Settings';
+import Ping from './Components/Ping/Ping';
+import PageNotFound from './Components/NotFound/PageNotFound';
+
 
 // Redux
 import { Provider } from 'react-redux'
@@ -24,13 +31,6 @@ import jwtDecode from 'jwt-decode'
 
 // CSS
 import './App.css'
-import UploadPage from './Components/Upload/UploadPage';
-import Sheet from './Components/Sheet/Sheet';
-import SheetsPage from './Components/SheetsPage/SheetsPage';
-import ComposersPage from './Components/ComposersPage/ComposersPage';
-import Composer from './Components/Composer/Composer';
-import Settings from './Components/Settings/Settings';
-import Ping from './Components/Ping/Ping';
 
 import Logo from './Images/logo.png'
 
@@ -75,7 +75,6 @@ function App() {
           <Switch>
               <Route exact path="/" component={HomePageProvider} />
               <Route exact path="/login" component={LoginPage} />
-              <Route exact path="/signup" component={SignupPage} />
               <Route exact path="/upload" component={UploadPage} />
               <Route exact path="/sheet/:composerName/:sheetName" component={Sheet} />
               <Route exact path="/composer/:composerName" component={Composer} />
@@ -83,6 +82,7 @@ function App() {
               <Route exact path="/composers" component={ComposersPage} />
               <Route exact path="/settings" component={Settings} />
               <Route exact path="/ping" component={Ping} />
+              <Route component={PageNotFound} />
           </Switch>
         </Router>
       </PersistGate>
