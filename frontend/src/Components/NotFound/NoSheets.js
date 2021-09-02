@@ -1,18 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import lostImage from '../../Images/lost.svg'
+import Modal from '../Sidebar/Modal/Modal'
+import ModalContent from '../Sidebar/Modal/ModalContent'
 
-import './NoSheets.css'
 
 function NoSheets() {
+
+	const [uploadModal, setUploadModal] = useState(false)
+
 	return (
 		
-		<div className="lost-image-container">
-			<span className="lost-text-header">Whooops!</span>
-			<span className="lost-text">Seems like you haven't uploaded any sheets yet.</span> 
-			<img src={lostImage} className="lost-image" />
+		<div className="notfound">
+			<div className="notfound-404">
+				<h1>Oops!</h1>
+				<h2>Upload Sheets to begin</h2>
+			</div>
+			<a onClick={() => setUploadModal(true)} className="cursor">Upload Sheet</a>
+			<Modal title="Upload" onClose={() => setUploadModal(false)} show={uploadModal}>
+				<ModalContent onClose={() => setUploadModal(false)}/>
+			</Modal>
 		</div>
-		
 	)
 }
 
