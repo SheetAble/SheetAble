@@ -112,7 +112,7 @@ form .field input[type="submit"]{
   color: #fff;
   border: none;
   padding-left: 0;
-  margin-top: -10px;
+  margin-top: 10px;
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
@@ -125,8 +125,9 @@ form .field input[type="submit"]:active{
 }
 form .signup-link{
   color: #262626;
-  margin-top: 20px;
+  margin-top: 34px;
   text-align: center;
+  font-weight: 300;
 }
 form .pass-link a,
 form .signup-link a{

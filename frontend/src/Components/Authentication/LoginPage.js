@@ -60,20 +60,25 @@ class LoginPage extends Component {
 							<input name="password" type="password" required onChange={this.handleChange}/>
 						<label>Password</label>
 						</div>
+						{/*
 						<div class="content">
 							<div class="checkbox">
 								<input type="checkbox" id="remember-me" />
 								<label for="remember-me">Remember me</label>
 							</div>
+							
+							
 							<div class="pass-link">
 								<a href="/forgot-password">Forgot password?</a>
 							</div>
+							*
 						</div>
+						*/}
 						<div class="field">
 							<input type="submit" value="Login" onClick={this.handleSubmit} /> 
 						</div>
 						<div class="signup-link">
-							No account? <a href="/signup">Signup now</a>
+							Accounts can be created by the admin.
 						</div>
 					</form>
 					: 			
