@@ -1,36 +1,22 @@
-# This is a basic workflow to help you get started with Actions
+# workflow name
+name: Generate release-artifacts
 
-name: build
+# on events
+on: push
 
-# .github/workflows/release.yaml
-
-on: 
-  release:
-    types: [created]
-
+# workflow tasks
 jobs:
-  releases-matrix:
-    name: Release Go Binary
+  generate:
+    name: Generate cross-platform builds
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # build and publish in parallel: linux/386, linux/amd64, windows/386, windows/amd64, darwin/amd64 
-        goos: [linux, windows, darwin]
-        goarch: [amd64]
-        exclude:  
-          - goarch: "386"
-            goos: darwin 
     steps:
-    - name: install libc6-dev-i386 libc6 libc6-dev
-      run: sudo apt-get install -y libc6-dev-i386 libc6 libc6-dev
-    - uses: actions/checkout@v2
-    - uses: wangyoucao577/go-release-action@v1.20
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        goos: ${{ matrix.goos }}
-        goarch: ${{ matrix.goarch }}
-        goversion: "https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz"
-        project_path: "./backend"
-        binary_name: "test-binary"
-      env:
-        CGO_ENABLED: 1
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Generate build files
+        uses: thatisuday/go-cross-build@v1
+        with:
+            platforms: 'linux/amd64, darwin/amd64, windows/amd64'
+            package: 'backend/'
+            name: 'program'
+            compress: 'true'
+            dest: 'dist'
