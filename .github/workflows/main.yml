@@ -16,12 +16,12 @@ jobs:
       matrix:
         # build and publish in parallel: linux/386, linux/amd64, windows/386, windows/amd64, darwin/amd64 
         goos: [linux, windows, darwin]
-        goarch: ["386", amd64]
+        goarch: [amd64]
         exclude:  
           - goarch: "386"
             goos: darwin 
     steps:
-    - name: install libc6-dev-i386
+    - name: install libc6-dev-i386 libc6 libc6-dev
       run: sudo apt-get install -y libc6-dev-i386
     - uses: actions/checkout@v2
     - uses: wangyoucao577/go-release-action@v1.20
