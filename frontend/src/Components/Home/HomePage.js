@@ -14,9 +14,7 @@ import './HomePage.css'
 // Components
 import Sheets from '../Sheets/Sheets'
 import Composers from '../Composers/Composers'
-
-// Images
-import lostImage from '../../Images/lost.svg'
+import NoSheets from '../NotFound/NoSheets'
 
 class HomePage extends Component {
     
@@ -53,11 +51,7 @@ class HomePage extends Component {
         
         const sheetsFalse = (
             <div className="home_content">
-                <div className="lost-image-container">
-                    <span className="lost-text-header">Whooops!</span>
-                    <span className="lost-text">Seems like you haven't uploaded any sheets yet.</span> 
-                    <img src={lostImage} className="lost-image" />
-                </div>
+                <NoSheets />
             </div>
         )
 

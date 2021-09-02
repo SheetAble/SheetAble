@@ -8,6 +8,7 @@ import { getComposerPage, incrementComposerPage, setComposerPage, decrementCompo
 
 import './ComposersPage.css'
 import RandomComposerSelection from './Components/RandomComposerSelection'
+import NoSheets from '../NotFound/NoSheets'
 
 
 function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, setComposerPage, decrementComposerPage, composerPage, totalComposerPages } ) {	
@@ -57,8 +58,11 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
-				{!loading || (composerPages != undefined && composerPages[composerPage] != undefined) ? 
-				(<div className="sheets-wrapper composer-wrapper">
+				{!loading || (composerPages != undefined && composerPages[composerPage] != undefined) ?
+				composerPages[composerPage].length != 0 ? 
+
+				(
+				<div className="sheets-wrapper composer-wrapper">
 					<div className="doc_header auto-margin">
 						<span className="doc_sheet ">Composers in your library</span>
 						<br />
@@ -90,7 +94,12 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 
 					</div>
 				</div>
-				) 
+				)
+				: 
+				(
+					<NoSheets />
+				)
+
 				: 
 				(
 					<p>Loading...</p>

@@ -8,6 +8,7 @@ import { getSheetPage, incrementSheetPage, setSheetPage, decrementSheetPage } fr
 
 import './SheetsPage.css'
 import RandomPieceSelection from './Components/RandomPieceSelection'
+import NoSheets from '../NotFound/NoSheets'
 
 
 function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage, decrementSheetPage, sheetPage, totalSheetPages} ) {
@@ -58,7 +59,8 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 			<SideBar />
 			<div className="home_content">
 				{!loading ?
-					(
+					sheetPages[sheetPage].length != 0 ? 
+						(
 						<div className="sheets-wrapper">
 							<div className="doc_header auto-margin">
 								<span className="doc_sheet ">Sheets in your library</span>
@@ -91,6 +93,10 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 
 							</div>
 						</div>
+					)
+					:
+					(
+						<NoSheets />
 					)
 					:
 					(
