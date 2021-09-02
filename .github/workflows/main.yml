@@ -10,6 +10,8 @@ jobs:
     name: Generate cross-platform builds
     runs-on: ubuntu-latest
     steps:
+      - name: install
+      - run: sudo apt install -y mingw-w64
       - name: Checkout the repository
         uses: actions/checkout@v2
       - name: Generate build files
@@ -20,3 +22,7 @@ jobs:
             name: 'program'
             compress: 'true'
             dest: 'dist'
+        env:
+          CGO_ENABLED: "1" 
+          CC: "x86_64-w64-mingw32-gcc"
+          CGO_CFLAGS_ALLOW: "-Xpreprocessor"
