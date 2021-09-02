@@ -57,9 +57,9 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 	return (
 		<Fragment>
 			<SideBar />
-			<div className="home_content">
+			<div id={(composerPages != undefined && composerPages[composerPage] != undefined && composerPages[composerPage].length != 0) ? "" : "notfound"} className="home_content">
 				{!loading || (composerPages != undefined && composerPages[composerPage] != undefined) ?
-				composerPages[composerPage].length != 0 ? 
+				(composerPages != undefined && composerPages[composerPage] != undefined && composerPages[composerPage].length != 0) ?
 
 				(
 				<div className="sheets-wrapper composer-wrapper">

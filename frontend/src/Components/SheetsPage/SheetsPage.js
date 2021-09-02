@@ -57,9 +57,9 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 	return (
 		<Fragment>
 			<SideBar />
-			<div className="home_content">
+			<div id={(sheetPages != undefined && sheetPages[sheetPage] != undefined && sheetPages[sheetPage].length != 0) ? "" : "notfound"} className="home_content">
 				{!loading ?
-					sheetPages[sheetPage].length != 0 ? 
+					(sheetPages != undefined && sheetPages[sheetPage] != undefined && sheetPages[sheetPage].length != 0) ?
 						(
 						<div className="sheets-wrapper">
 							<div className="doc_header auto-margin">
