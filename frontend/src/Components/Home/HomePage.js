@@ -50,7 +50,7 @@ class HomePage extends Component {
         )
         
         const sheetsFalse = (
-            <div className="home_content">
+            <div id="notfound" className="home_content">
                 <NoSheets />
             </div>
         )
