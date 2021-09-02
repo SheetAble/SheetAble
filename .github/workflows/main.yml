@@ -22,7 +22,7 @@ jobs:
             goos: darwin 
     steps:
     - name: install libc6-dev-i386 libc6 libc6-dev
-      run: sudo apt-get install -y libc6-dev-i386
+      run: sudo apt-get install -y libc6-dev-i386 libc6 libc6-dev
     - uses: actions/checkout@v2
     - uses: wangyoucao577/go-release-action@v1.20
       with:
