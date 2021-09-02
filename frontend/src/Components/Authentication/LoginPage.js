@@ -45,7 +45,8 @@ class LoginPage extends Component {
         const  {errors} = this.state
 
 		return(
-			<div className="all-container">
+			
+			<div className="all-container-pos">
 			<div class="wrapper">
 				<div class="title">
 					Login
