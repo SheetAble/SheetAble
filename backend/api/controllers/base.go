@@ -14,7 +14,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/rs/cors"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 )
 
@@ -50,7 +49,7 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	if Dbdriver == "sqlite" || Dbdriver == "" {
 
 		if _, err := os.Stat("database.db"); os.IsNotExist(err) {
-			os.Create("database.db") // Create your file
+			os.Create("database.db") // Create database.db file
 		}
 
 		server.DB, err = gorm.Open("sqlite3", "database.db")
@@ -71,12 +70,12 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 }
 
 func (server *Server) Run(addr string) {
-	fmt.Println("Listening to port 8080")
+	fmt.Printf("Listening to port %v\n", addr)
 	// cors.Default() setup the middleware with default options being
 	// all origins accepted with simple methods (GET, POST). See
 	// documentation below for more options.
 
-	c := cors.New(cors.Options{
+	/*c := cors.New(cors.Options{
 		// Enable Debugging for testing, consider disabling in production
 		AllowedHeaders: []string{
 			"Origin",
@@ -95,17 +94,18 @@ func (server *Server) Run(addr string) {
 		},
 		AllowCredentials: true,
 	})
+	*/
 
 	srv := &http.Server{
 		Handler: handlers.LoggingHandler(os.Stdout, server.Router),
-		Addr:    "127.0.0.1:8080",
+		Addr:    addr,
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
 	log.Fatal(srv.ListenAndServe())
-
-	handler := c.Handler(server.Router)
-	log.Fatal(http.ListenAndServe(addr, handler))
+	//fmt.Println(addr, c)
+	//handler := c.Handler(server.Router)
+	//log.Fatal(http.ListenAndServe(addr, handler))
 }
