@@ -56,8 +56,8 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	defer pdfFile.Close()
 
-	path := "uploaded-sheets"
-	thumbnailPath := "thumbnails"
+	path := "config/sheets/uploaded-sheets"
+	thumbnailPath := "config/sheetsthumbnails"
 
 	// Save composer in the database
 	comp := safeComposer(r, server)

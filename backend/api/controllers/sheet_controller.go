@@ -87,7 +87,7 @@ func (server *Server) GetPDF(w http.ResponseWriter, r *http.Request) {
 
 	name := mux.Vars(r)["sheetName"]
 	composer := mux.Vars(r)["composer"]
-	http.ServeFile(w, r, "uploaded-sheets/"+composer+"/"+name+".pdf")
+	http.ServeFile(w, r, "config/sheets/uploaded-sheets/"+composer+"/"+name+".pdf")
 }
 
 func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
@@ -96,5 +96,5 @@ func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 	*/
 
 	name := mux.Vars(r)["name"]
-	http.ServeFile(w, r, "thumbnails/"+name+".png")
+	http.ServeFile(w, r, "config/sheets/thumbnails/"+name+".png")
 }
