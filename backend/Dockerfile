@@ -3,9 +3,6 @@ FROM golang:alpine
 ADD . /go/src/github.com/vallezw/SheetUploader-Selfhosted/backend
 WORKDIR /go/src/github.com/vallezw/SheetUploader-Selfhosted/backend
 
-
-
-
 COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
