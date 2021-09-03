@@ -12,6 +12,8 @@ COPY *.go ./
 
 RUN go build -o /docker-gs-ping
 
+RUN ln -s /go/src/github.com/vallezw/SheetUploader-Selfhosted/backend/config ~/config
+
 EXPOSE 8080
 
 CMD [ "/docker-gs-ping" ]
