@@ -27,7 +27,7 @@ func Run() {
 
 	seed.Load(server.DB, os.Getenv("ADMIN_EMAIL"), os.Getenv("ADMIN_PASSWORD"))
 
-	server.Run(":8080")
+	server.Run("0.0.0.0:8080")
 
 }
 
