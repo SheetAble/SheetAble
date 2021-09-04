@@ -1,19 +1,41 @@
-# syntax=docker/dockerfile:1
-FROM golang:alpine
-ADD . /go/src/github.com/vallezw/SheetUploader-Selfhosted/backend
-WORKDIR /go/src/github.com/vallezw/SheetUploader-Selfhosted/backend
+# GO Repo base repo
+FROM golang:alpine as builder
 
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
 RUN apk add build-base
 
-COPY *.go ./
+RUN apk add git
 
-RUN go build -o /docker-gs-ping
+# Add Maintainer Info
+LABEL maintainer="<>"
 
-RUN ln -s /go/src/github.com/vallezw/SheetUploader-Selfhosted/backend/config ~/config
+RUN mkdir /app
+ADD . /app
+WORKDIR /app
 
-EXPOSE 8080
+COPY go.mod go.sum ./
 
-CMD [ "/docker-gs-ping" ]
+# Download all the dependencies
+RUN go mod download
+
+COPY . .
+
+# Build the Go app
+RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o main .
+
+# GO Repo base repo
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates curl
+
+RUN mkdir /app
+
+WORKDIR /app/
+
+# Copy the Pre-built binary file from the previous stage
+COPY --from=builder /app/main .
+
+# Expose port 8000
+EXPOSE 8000
+
+# Run Executable
+CMD ["./main"]
