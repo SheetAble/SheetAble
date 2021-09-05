@@ -13,7 +13,7 @@ import Composer from './Components/Composer/Composer';
 import Settings from './Components/Settings/Settings';
 import Ping from './Components/Ping/Ping';
 import PageNotFound from './Components/NotFound/PageNotFound';
-
+import Redirect from './Components/Redirect/Redirect'
 
 // Redux
 import { Provider } from 'react-redux'
@@ -66,13 +66,14 @@ if(token){
   
 } 
 
-
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
-          <Switch>
+          {store.getState().user.authenticated? 
+            <Switch>
+            
               <Route exact path="/" component={HomePageProvider} />
               <Route exact path="/login" component={LoginPage} />
               <Route exact path="/upload" component={UploadPage} />
@@ -83,7 +84,14 @@ function App() {
               <Route exact path="/settings" component={Settings} />
               <Route exact path="/ping" component={Ping} />
               <Route component={PageNotFound} />
-          </Switch>
+            </Switch> 
+            :
+            <Switch>
+               <Route exact path="/login" component={LoginPage} />
+               <Route component={Redirect} /> 
+            </Switch>
+          }
+          
         </Router>
       </PersistGate>
     </Provider>

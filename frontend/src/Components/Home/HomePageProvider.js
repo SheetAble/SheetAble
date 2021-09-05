@@ -8,8 +8,10 @@ import { connect } from 'react-redux'
 import HomePageNotLoggedIn from './HomePageNotLoggedIn'
 import HomePage from './HomePage'
 
+import { Redirect } from "react-router-dom";
 
 class HomePageProvider extends Component {
+    
     render() {
         const loggedIn = this.props.authenticated
         if (loggedIn) {            
@@ -19,7 +21,7 @@ class HomePageProvider extends Component {
         }
 
         return(
-            <HomePageNotLoggedIn />
+            <Redirect to="/login" />
         )
     }	
 
