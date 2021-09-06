@@ -9,15 +9,18 @@ export const loginUser = (userData, history) => (dispatch) => {
 			setAuthorizationHeader(res.data)            
             dispatch({ type: SET_AUTHENTICATED })
             dispatch({ type: CLEAR_ERRORS })
-            history.push('/')
+            window.location.replace("/")
+            
         })
         .catch(err => {
             dispatch({
                 type: SET_ERRORS,
                 payload: err.response.data
             })
+            return err
         })
-        .then(() => {
+        .then((err) => {
+            if (err != undefined) {return}
             axios.get("/users/0")
             .then(res => {
                 delete res.data.password

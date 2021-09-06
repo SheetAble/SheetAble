@@ -26,12 +26,14 @@ class LoginPage extends Component {
     }
 
 	handleSubmit = (event) => {
-        event.preventDefault()
+		event.preventDefault()
         const userData = {
             email: this.state.email,
             password: this.state.password
         }
         this.props.loginUser(userData, this.props.history)
+		
+		
     }
 
     handleChange = (event) => {
@@ -52,7 +54,7 @@ class LoginPage extends Component {
 					Login
 				</div>
 				{ !errors.error?
-					<form >
+					<form onSubmit={this.handleSubmit}>
 						<div class="field">
 							<input name="email" type="name" required onChange={this.handleChange}/>
 							<label>Email Address</label>
@@ -76,22 +78,23 @@ class LoginPage extends Component {
 						</div>
 						*/}
 						<div class="field">
-							<input type="submit" value="Login" onClick={this.handleSubmit} /> 
+							<input type="submit" value="Login" onSubmit={this.handleSubmit} /> 
 						</div>
 						<div class="signup-link">
 							Accounts can be created by the admin.
 						</div>
 					</form>
 					: 			
-					<form >
+					<form onSubmit={this.handleSubmit}>
 						<div class={errors.error == "Invalid Email"? "field field-wrong shake" : "field"}>
 							<input name="email" type="name" required onChange={this.handleChange}/>
-							<label>Email Adresse</label>
+							<label>Email Adress</label>
 						</div>
 						<div class={errors.error == "Incorrect Password"? "field field-wrong shake" : "field"}>
 							<input name="password" type="password" required onChange={this.handleChange}/>
 						<label>Password</label>
 						</div>
+						{/*
 						<div class="content">
 							<div class="checkbox">
 								<input type="checkbox" id="remember-me" />
@@ -101,11 +104,12 @@ class LoginPage extends Component {
 								<a href="/forgot-password">Forgot password?</a>
 							</div>
 						</div>
+						*/}
 						<div class="field">
-							<input type="submit" value="Login" onClick={this.handleSubmit} /> 
+							<input type="submit" value="Login" onSubmit={this.handleSubmit} /> 
 						</div>
 						<div class="signup-link">
-							No account? <a href="/signup">Signup now</a>
+							Accounts can be created by the admin.
 						</div>
 					</form>	
 				}

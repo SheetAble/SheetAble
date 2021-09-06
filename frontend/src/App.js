@@ -75,7 +75,6 @@ function App() {
             <Switch>
             
               <Route exact path="/" component={HomePageProvider} />
-              <Route exact path="/login" component={LoginPage} />
               <Route exact path="/upload" component={UploadPage} />
               <Route exact path="/sheet/:composerName/:sheetName" component={Sheet} />
               <Route exact path="/composer/:composerName" component={Composer} />
