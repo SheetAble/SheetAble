@@ -19,6 +19,9 @@ import { logoutUser } from '../../Redux/Actions/userActions'
 
 import { useHistory } from 'react-router-dom'
 
+import Modal from '../Sidebar/Modal/Modal'
+import ModalContent from './ModalContent'
+
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -37,8 +40,6 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 	};
 
 	useEffect(() => {
-		console.log(isDesktop);
-		
 		window.addEventListener("resize", updateMedia);
 
 		return () => window.removeEventListener("resize", updateMedia);
@@ -95,7 +96,6 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 	} 
 
 	let history = useHistory()
-	console.log(pdf);
 
 	const [pdfDownloadData, setPdfDownloadData] = useState({link: "", name: ""})
 
@@ -116,6 +116,8 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 		navigator.clipboard.writeText(window.location.href)
 	}
 
+
+	const [editModal, setEditModal] = useState(false)
 
 	return (
 		 <Fragment>
@@ -183,13 +185,13 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 								</a>
 
 
-								<div class="tooltip">	
-									<button className="remove_shadow last-button">								
-										Edit
-									</button>	
+								<button className="remove_shadow last-button" onClick={setEditModal}>								
+									Edit
+								</button>
+								<Modal title="Edit" onClose={() => setEditModal(false)} show={editModal}>
+									<ModalContent onClose={() => setEditModal(false)} uploadFile={pdf} sheet={sheet}/>
+								</Modal>	
 
-									<span class="tooltiptext">Edit function is currently not supported</span>
-									</div>
 
 							</div>
 						</div>	
