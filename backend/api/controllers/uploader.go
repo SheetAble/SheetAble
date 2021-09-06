@@ -103,7 +103,7 @@ func (server *Server) UpdateSheet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	sheetName := vars["sheetName"]
 
-	// Check if the sheet exist
+	// Delete Sheet
 	sheet := models.Sheet{}
 	_, err := sheet.DeleteSheet(server.DB, sheetName)
 	if err != nil {

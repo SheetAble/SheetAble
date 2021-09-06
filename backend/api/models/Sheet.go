@@ -2,7 +2,10 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"html"
+	"log"
+	"os"
 	"strings"
 	"time"
 
@@ -36,6 +39,27 @@ func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
 }
 
 func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
+
+	sheet, err := s.FindSheetByID(db, sheetName)
+	if err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return 0, errors.New("Sheet not found")
+		}
+		return 0, err
+	}
+
+	paths := []string{
+		"config/sheets/uploaded-sheets/" + sheet.Composer + "/" + sheet.SheetName + ".pdf",
+		"config/sheets/thumbnails/" + sheet.SheetName + ".png",
+	}
+
+	for _, path := range paths {
+		fmt.Println(path)
+		e := os.Remove(path)
+		if e != nil {
+			log.Fatal(e)
+		}
+	}
 
 	db = db.Debug().Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&Sheet{}).Delete(&Sheet{})
 
