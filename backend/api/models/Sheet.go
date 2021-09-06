@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"html"
 	"strings"
 	"time"
@@ -32,6 +33,19 @@ func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
 		return &Sheet{}, err
 	}
 	return s, nil
+}
+
+func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
+
+	db = db.Debug().Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&Sheet{}).Delete(&Sheet{})
+
+	if db.Error != nil {
+		if gorm.IsRecordNotFoundError(db.Error) {
+			return 0, errors.New("Sheet not found")
+		}
+		return 0, db.Error
+	}
+	return db.RowsAffected, nil
 }
 
 func (s *Sheet) GetAllSheets(db *gorm.DB) (*[]Sheet, error) {

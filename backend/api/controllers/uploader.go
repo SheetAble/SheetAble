@@ -17,6 +17,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
@@ -89,6 +90,29 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	// return that we have successfully uploaded our file!
 	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
+}
+
+func (server *Server) UpdateSheet(w http.ResponseWriter, r *http.Request) {
+
+	// Check for authentication
+	uid := utils.CheckAuthorization(w, r)
+	if uid == 0 {
+		return
+	}
+
+	vars := mux.Vars(r)
+	sheetName := vars["sheetName"]
+
+	// Check if the sheet exist
+	sheet := models.Sheet{}
+	_, err := sheet.DeleteSheet(server.DB, sheetName)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	server.UploadFile(w, r)
+
 }
 
 func getPortraitURL(composerName string) Comp {
