@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 )
@@ -97,4 +98,33 @@ func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 
 	name := mux.Vars(r)["name"]
 	http.ServeFile(w, r, "config/sheets/thumbnails/"+name+".png")
+}
+
+func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	sheetName := vars["sheetName"]
+
+	// Is this user authenticated?
+	_, err := auth.ExtractTokenID(r)
+	if err != nil {
+		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		return
+	}
+
+	// Check if the sheet exist
+	sheet := models.Sheet{}
+	err = server.DB.Debug().Model(models.Post{}).Where("sheet_name = ?", sheetName).Take(&sheet).Error
+	if err != nil {
+		responses.ERROR(w, http.StatusNotFound, errors.New("sheet not found"))
+		return
+	}
+
+	_, err = sheet.DeleteSheet(server.DB, sheetName)
+	if err != nil {
+		responses.ERROR(w, http.StatusBadRequest, err)
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, "Sheet was succesfully deleted")
 }

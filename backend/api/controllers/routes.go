@@ -37,6 +37,7 @@ func (s *Server) initializeRoutes() {
 	api.HandleFunc("/sheet/pdf/{composer}/{sheetName}", middlewares.SetMiddlewareAuthentication(s.GetPDF)).Methods("GET")
 	api.HandleFunc("/sheet/{sheetName}", middlewares.SetMiddlewareAuthentication(s.GetSheet)).Methods("GET")
 	api.HandleFunc("/sheet/{sheetName}", middlewares.SetMiddlewareAuthentication(s.UpdateSheet)).Methods("PUT")
+	api.HandleFunc("/sheet/{sheetName}", middlewares.SetMiddlewareAuthentication(s.DeletSheet)).Methods("DELETE")
 
 	// Composer routes
 	api.HandleFunc("/composers", middlewares.SetMiddlewareAuthentication(s.GetComposersPage)).Methods("GET", "POST")
