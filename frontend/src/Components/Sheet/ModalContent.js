@@ -1,6 +1,8 @@
 import React, {useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { connect } from 'react-redux'
 import { updateSheet, resetData } from '../../Redux/Actions/dataActions'
@@ -138,9 +140,14 @@ function ModalContent(props) {
 					acceptedFileTypes={['application/pdf']}
 				/>
 			</div>
-			<Button variant="contained" color="primary" disabled={disabled} onClick={sendRequest}>
-				Upload
-			</Button>
+			<div className="delete-wrapper">
+				<Button variant="contained" color="primary" disabled={disabled} onClick={sendRequest}>
+					Upload
+				</Button>
+				<IconButton aria-label="delete"  size="large" className="icon-button">
+					<DeleteIcon />
+				</IconButton>
+			</div>
 		</div>
 	)
 }
