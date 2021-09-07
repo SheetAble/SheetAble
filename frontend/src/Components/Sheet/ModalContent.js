@@ -34,12 +34,15 @@ function ModalContent(props) {
 	}
 
 	useEffect(() => {
-		if (requestData.composer != "" && requestData.sheetName != "" && uploadFile != undefined) {
-			setDisabled(false)
-		} else if (uploadFile == undefined) {
-			setDisabled(true)
-		}
-		
+		console.log(uploadFile);
+		if (requestData.composer != props.sheet.composer || requestData.sheetName != props.sheet.sheet_name || pdfChange){
+			if (requestData.composer != "" && requestData.sheetName != "" && uploadFile != undefined) {
+				setDisabled(false)
+			} else if (uploadFile == undefined) {
+				setDisabled(true)
+			}
+		} else { setDisabled(true) }
+
 	}, [requestData, uploadFile])
 
 	const handleChange = (event) => {
@@ -100,7 +103,7 @@ function ModalContent(props) {
 
 		
 	const uploadFinish = (files) => {
-		giveModalData(files[0].file)
+		//giveModalData(files[0].file)
 	}
 	
 	const removeFile = () => {
@@ -121,7 +124,7 @@ function ModalContent(props) {
 					onupdatefiles={(files) => {
 						uploadFinish(files)  
 					}}
-					onremovefile={removeFile}
+					
 					allowMultiple={false}
 					server={ {
 					process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
