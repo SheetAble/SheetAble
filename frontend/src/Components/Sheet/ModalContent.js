@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import { connect } from 'react-redux'
-import { uploadSheet, resetData } from '../../Redux/Actions/dataActions'
+import { updateSheet, resetData } from '../../Redux/Actions/dataActions'
 
 // Import React FilePond
 import { FilePond, registerPlugin } from 'react-filepond'
@@ -34,7 +34,6 @@ function ModalContent(props) {
 	}
 
 	useEffect(() => {
-		console.log(uploadFile);
 		if (requestData.composer != props.sheet.composer || requestData.sheetName != props.sheet.sheet_name || pdfChange){
 			if (requestData.composer != "" && requestData.sheetName != "" && uploadFile != undefined) {
 				setDisabled(false)
@@ -44,6 +43,11 @@ function ModalContent(props) {
 		} else { setDisabled(true) }
 
 	}, [requestData, uploadFile])
+
+	useEffect(() => {
+		
+		setPdfChange(true)
+	}, [uploadFile])
 
 	const handleChange = (event) => {
         setRequestData({
@@ -91,25 +95,21 @@ function ModalContent(props) {
 		}
 
 		const makeCalls = (_callback) => {
-			props.uploadSheet(newData, () => {
+			props.updateSheet(newData, props.sheet.sheet_name, () => {
 				props.resetData()
 				props.onClose()
 				_callback()
 			})
 		}
 		
-		makeCalls(() => window.location.reload())
+		makeCalls(() => window.location.replace("/"))
 	}
 
 		
 	const uploadFinish = (files) => {
-		//giveModalData(files[0].file)
+		setUploadFile(files[0] == undefined ? undefined : files[0].file)
 	}
-	
-	const removeFile = () => {
-		setPdfChange(true)
-		giveModalData(undefined)
-	}
+
 
 	return (
 		<div className="upload">
@@ -147,7 +147,7 @@ function ModalContent(props) {
 
 
 const mapActionsToProps = {
-    uploadSheet,
+    updateSheet,
 	resetData
 }
 

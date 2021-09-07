@@ -202,6 +202,35 @@ export const uploadSheet = (data, _callback) => dispatch => {
         })
 }
 
+// Update a sheet
+export const updateSheet = (data, origSheetName, _callback) => dispatch => {
+    let bodyFormData = new FormData()
+    bodyFormData.append('uploadFile', data.uploadFile)
+    bodyFormData.append('sheetName', data.sheetName)
+    bodyFormData.append('composer', data.composer)
+    bodyFormData.append("releaseDate", data.releaseDate)
+    
+
+    axios.put(`/sheet/${origSheetName}`, bodyFormData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }})
+        .then(res => {
+            console.log(res.data);
+            _callback()
+        })
+        .catch(err => {
+            if (err.request.status == 401) {
+                store.dispatch(logoutUser())
+                window.location.href = '/login'
+            }
+
+            
+            console.log(err);
+        })
+}
+
+
 export const resetData = () => dispatch => {
     dispatch({ type: RESET_DATA})
 }
