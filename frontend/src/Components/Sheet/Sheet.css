@@ -328,13 +328,13 @@
 }
 
 
-button.MuiButtonBase-root.MuiIconButton-root.icon-button  {
+.delete-wrapper button.MuiButtonBase-root.MuiIconButton-root.icon-button  {
     color: tomato;
     display: inline-block;
 
 }  
 
-button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
+.delete-wrapper button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary {
     display: inline-block;
     margin-left: 66px;
     margin-right: 4px;

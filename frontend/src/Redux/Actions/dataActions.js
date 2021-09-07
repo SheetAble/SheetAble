@@ -230,6 +230,23 @@ export const updateSheet = (data, origSheetName, _callback) => dispatch => {
         })
 }
 
+// Delete a sheet
+export const deleteSheet = (origSheetName, _callback) => dispatch => {
+    axios.delete(`/sheet/${origSheetName}`)
+        .then(res => {
+            console.log(res.data);
+            _callback()
+        })
+        .catch(err => {
+            if (err.request.status == 401) {
+                store.dispatch(logoutUser())
+                window.location.href = '/login'
+            }
+            console.log(err);
+        })
+}
+
+
 
 export const resetData = () => dispatch => {
     dispatch({ type: RESET_DATA})

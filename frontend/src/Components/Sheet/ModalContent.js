@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { connect } from 'react-redux'
-import { updateSheet, resetData } from '../../Redux/Actions/dataActions'
+import { updateSheet, resetData, deleteSheet } from '../../Redux/Actions/dataActions'
 
 // Import React FilePond
 import { FilePond, registerPlugin } from 'react-filepond'
@@ -106,7 +106,18 @@ function ModalContent(props) {
 		
 		makeCalls(() => window.location.replace("/"))
 	}
-
+	
+	const sendDeleteRequest = () => {
+		const makeCalls = (_callback) => {
+			props.deleteSheet(props.sheet.sheet_name, () => {
+				props.resetData()
+				props.onClose()
+				_callback()
+			})
+		}
+		
+		makeCalls(() => window.location.replace("/"))
+	}
 		
 	const uploadFinish = (files) => {
 		setUploadFile(files[0] == undefined ? undefined : files[0].file)
@@ -144,7 +155,7 @@ function ModalContent(props) {
 				<Button variant="contained" color="primary" disabled={disabled} onClick={sendRequest}>
 					Upload
 				</Button>
-				<IconButton aria-label="delete"  size="large" className="icon-button">
+				<IconButton aria-label="delete"  size="large" className="icon-button" onClick={sendDeleteRequest}>
 					<DeleteIcon />
 				</IconButton>
 			</div>
@@ -155,7 +166,8 @@ function ModalContent(props) {
 
 const mapActionsToProps = {
     updateSheet,
-	resetData
+	resetData,
+	deleteSheet
 }
 
 const mapStateToProps = (state) => ({
