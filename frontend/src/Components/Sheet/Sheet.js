@@ -16,7 +16,7 @@ import { displayTimeAsString, findSheetByPages, findComposerByPages, findSheetBy
 import { connect } from 'react-redux'
 import { store } from '../../Redux/store';
 import { logoutUser } from '../../Redux/Actions/userActions'
-
+import { getComposerPage, getSheetPage, setSheetPage, setComposerPage } from '../../Redux/Actions/dataActions';
 import { useHistory } from 'react-router-dom'
 
 import Modal from '../Sidebar/Modal/Modal'
@@ -25,7 +25,7 @@ import ModalContent from './ModalContent'
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-function Sheet({ sheetPages, composerPages, sheets, composers }) {
+function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getSheetPage, totalSheetPages, setSheetPage, getComposerPage, composerPage, totalComposerPages, setComposerPage }) {
 
 
 	/* PDF Page width rendering */
@@ -45,18 +45,68 @@ function Sheet({ sheetPages, composerPages, sheets, composers }) {
 		return () => window.removeEventListener("resize", updateMedia);
 	});
 
-
 	let { sheetName, composerName } = useParams();
+
+	const getSheetDataReq = async (_callback) => {
+		
+		if (sheetPage == undefined || sheetPages < 0 || sheetPages > totalSheetPages) {
+			setSheetPage(1)
+		}
+		
+		const data = {
+			page: sheetPage,
+			sortBy: "updated_at desc"
+		}
+		
+		if (sheetPages == undefined || sheetPages[sheetPage] == undefined) {
+			await getSheetPage(data, () => window.location.reload())
+		}
+	}
+
+	const getComposerDataReq = async (_callback) => {
+		
+		if (composerPage == undefined || composerPages < 0 || composerPages > totalComposerPages) {
+			setComposerPage(1)
+		}
+		
+		const data = {
+			page: composerPage,
+			sortBy: "updated_at desc"
+		}
+		
+		if (composerPages == undefined || composerPages[composerPage] == undefined) {
+			await getComposerPage(data, () => window.location.reload())
+		}
+	}
+
 	const [pdf, setpdf] = useState(undefined)
 
 
 	const bySheetPages = findSheetByPages(sheetName, sheetPages)
+	const bySheets = findSheetBySheets(sheetName, sheets)
 
-	const [sheet, setSheet] = useState( bySheetPages == undefined ? findSheetBySheets(sheetName, sheets) : bySheetPages)
+
+	const [sheet, setSheet] = useState( bySheetPages == undefined ?  
+		(bySheets == undefined ? getSheetDataReq() : bySheets)
+		: 
+		bySheetPages
+	)
 	
-	const byComposerPages = findComposerByPages(composerName, composerPages)
 
-	const [composer, setComposer] = useState(byComposerPages == undefined ? findComposerByComposers(composerName, composers) : byComposerPages)
+	const byComposerPages = findComposerByPages(composerName, composerPages)
+	const byComposers = findComposerByComposers(composerName, composers) 
+	
+
+	const [composer, setComposer] = useState(
+		byComposerPages == undefined ? 
+		(
+			byComposers == undefined ?
+			getComposerDataReq() :
+			byComposers
+		)	
+		:
+		byComposerPages
+	)
 
 
 	const pdfRequest = () => {
@@ -226,11 +276,18 @@ const mapStateToProps = (state) => ({
 	sheetPages: state.data.sheetPages,
 	composerPages: state.data.composerPages,
 	sheets: state.data.sheets,
-	composers: state.data.composers
+	composers: state.data.composers,
+	sheetPage: state.data.sheetPage,
+	totalSheetPages: state.data.totalSheetPages,
+	composerPage: state.data.composerPage,
+	totalComposerPages: state.data.totalComposerPages
 })
 
 const mapActionsToProps = {
-    
+    getSheetPage,
+	setSheetPage,
+	getComposerPage,
+	setComposerPage
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Sheet)
