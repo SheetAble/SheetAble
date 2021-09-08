@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/SheetAble">
     <img src="docs/SheetAbleNoBackground.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -15,9 +15,9 @@
     <br />
     <a href="https://discord.com/invite/QnFbxyPbRj" target="_blank">Discord Server</a>
     ·
-    <a href="https://github.com/SheetAble/SheetAble/issues">Report Bug</a>
+    <a href="https://github.com/SheetAble/server/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/SheetAble/server/issues">Request Feature</a>
   </p>
 </p>
 
@@ -57,7 +57,7 @@
 
 ### Built With
 
-The backend is written with [Golang](https://golang.org/) and the Frontend with [React.js](https://reactjs.org/).
+The backend is written in [Golang](https://golang.org/) and the frontend with [React.js](https://reactjs.org/).
 
 
 <!-- GETTING STARTED -->
@@ -66,7 +66,7 @@ To get started please refer to the official [SheetAble Documentation](https://sh
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/SheetAble/SheetAble/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/SheetAble/server/issues) for a list of proposed features (and known issues).
 
 
 
@@ -79,7 +79,7 @@ Contributions are what make the open source community such an amazing place to l
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a [Pull Request](https://github.com/SheetAble/SheetAble/compare)
+5. Open a [Pull Request](https://github.com/SheetAble/server/compare)
 
 
 
