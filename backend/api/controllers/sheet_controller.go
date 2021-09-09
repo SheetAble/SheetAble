@@ -114,7 +114,7 @@ func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the sheet exist
 	sheet := models.Sheet{}
-	err = server.DB.Debug().Model(models.Post{}).Where("sheet_name = ?", sheetName).Take(&sheet).Error
+	err = server.DB.Debug().Model(models.Sheet{}).Where("sheet_name = ?", sheetName).Take(&sheet).Error
 	if err != nil {
 		responses.ERROR(w, http.StatusNotFound, errors.New("sheet not found"))
 		return
