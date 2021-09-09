@@ -27,7 +27,11 @@ func Run() {
 
 	seed.Load(server.DB, os.Getenv("ADMIN_EMAIL"), os.Getenv("ADMIN_PASSWORD"))
 
-	server.Run("0.0.0.0:8080")
+	if os.Getenv("PORT") == "" {
+		server.Run("0.0.0.0:8080")
+	} else {
+		server.Run("0.0.0.0:" + os.Getenv("PORT"))
+	}
 
 }
 
