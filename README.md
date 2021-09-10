@@ -15,9 +15,9 @@
     <br />
     <a href="https://discord.com/invite/QnFbxyPbRj" target="_blank">Discord Server</a>
     ·
-    <a href="https://github.com/SheetAble/server/issues">Report Bug</a>
+    <a href="https://github.com/SheetAble/SheetAble/issues">Report Bug</a>
     ·
-    <a href="https://github.com/SheetAble/server/issues">Request Feature</a>
+    <a href="https://github.com/SheetAble/SheetAble/issues">Request Feature</a>
   </p>
 </p>
 
@@ -68,7 +68,7 @@ To get started please refer to the official [SheetAble Documentation](https://sh
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/SheetAble/server/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/SheetAble/SheetAble/issues) for a list of proposed features (and known issues).
 
 
 
@@ -81,7 +81,7 @@ Contributions are what make the open-source community such an amazing place to l
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a [Pull Request](https://github.com/SheetAble/server/compare)
+5. Open a [Pull Request](https://github.com/SheetAble/SheetAble/compare)
 
 
 
@@ -106,5 +106,5 @@ Organization Link: [github.com/SheetAble](https://github.com/SheetAble)
 * [Open Opus API](https://www.webpagefx.com/tools/emoji-cheat-sheet) - Free, open metadata for classical music
 
 ## Supporters
-[![Stargazers repo roster for @SheetAble/server](https://reporoster.com/stars/SheetAble/server)](https://github.com/SheetAble/server/stargazers)
-[![Forkers repo roster for @SheetAble/server](https://reporoster.com/forks/SheetAble/server)](https://github.com/SheetAble/server/network/members)
+[![Stargazers repo roster for @SheetAble/SheetAble](https://reporoster.com/stars/SheetAble/SheetAble)](https://github.com/SheetAble/SheetAble/stargazers)
+[![Forkers repo roster for @SheetAble/SheetAble](https://reporoster.com/forks/SheetAble/SheetAble)](https://github.com/SheetAble/SheetAble/network/members)
