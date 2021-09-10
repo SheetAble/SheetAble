@@ -73,14 +73,14 @@ SCRIPT_NAME=`basename "$0"`
 FAILURES=""
 SOURCE_FILE=`echo $@ | sed 's/\.go//'`
 CURRENT_DIRECTORY=${PWD##*/}
-OUTPUT=${SOURCE_FILE:-'../build/sheetable'} # if no src file given, use current dir name
+OUTPUT=${SOURCE_FILE:-'../build/sheetable-0.1'} # if no src file given, use current dir name
 
 for PLATFORM in $PLATFORMS; do
   GOOS=${PLATFORM%/*}
   GOARCH=${PLATFORM#*/}
   BIN_FILENAME="${OUTPUT}-${GOOS}-${GOARCH}"
   if [[ "${GOOS}" == "windows" ]]; then BIN_FILENAME="${BIN_FILENAME}.exe"; fi
-  CMD="GOOS=${GOOS} GOARCH=${GOARCH} go build -o ${BIN_FILENAME} $@"
+  CMD="GOOS=${GOOS} GOARCH=${GOARCH} CGO_ENABLED="1" CC="x86_64-w64-mingw32-gcc" CGO_CFLAGS_ALLOW="-Xpreprocessor"  go build -o ${BIN_FILENAME} $@"
   echo "${CMD}"
   eval $CMD || FAILURES="${FAILURES} ${PLATFORM}"
 done
