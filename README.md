@@ -50,8 +50,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Example Screenshot](docs/SheetAbleShowcase.png)
-
+<img src="docs/SheetAbleShowcase.gif" alt="Example Gif" style="border-radius: 5px">
 
 **SheetAble** is an easy to use music sheet organiser for all the music enthusiasts out there. You can upload and organise your sheets for any kind of instrument you use! 
 Create Accounts for your friends or family to invite them to your libary to use it as well or potentially upload sheets themselves.
