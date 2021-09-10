@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/SheetAble">
-    <img src="docs/SheetAbleNoBackground.png" alt="Logo" width="80" height="80">
+    <img src="docs/SheetAbleNoBackground.png" alt="Logo" width="80" height="80" >
   </a>
 
   <h3 align="center">SheetAble</h3>
@@ -50,10 +50,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="docs/SheetAbleShowcase.gif" alt="Example Gif" style="border-radius: 5px">
+<img src="docs/SheetAbleShowcase.gif" alt="Example Gif" style="border-radius: 5px;">
 
-**SheetAble** is an easy to use music sheet organiser for all the music enthusiasts out there. You can upload and organise your sheets for any kind of instrument you use! 
-Create Accounts for your friends or family to invite them to your libary to use it as well or potentially upload sheets themselves.
+**SheetAble** is an easy-to-use music sheet organizer for all the music enthusiasts out there. You can upload and organize your sheets for any kind of instrument you use! 
+Create Accounts for your friends or family to invite them to your library to use it as well or potentially upload sheets themselves.
 My goal is to have it available on all devices soon, so you can highlight or take notes on your sheet over your Tablet/iPad.  
 
 
@@ -75,7 +75,7 @@ See the [open issues](https://github.com/SheetAble/server/issues) for a list of 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
