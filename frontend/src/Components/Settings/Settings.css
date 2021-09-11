@@ -1,7 +1,6 @@
 .settings {
-	display: block;
+	display: block !important;
 }
-
 
 .settings .MuiFormControl-root {
 	min-width: 234px;	
@@ -29,16 +28,11 @@
 }
 
 
-.non-admin-wrapper {
-	
-}
-
-
 .non-admin-wrapper img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15%;
+    margin-top: 5%;
 }
 
 .no-settings {
