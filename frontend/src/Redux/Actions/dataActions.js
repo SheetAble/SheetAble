@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, LOADING_UI, SET_ERRORS, SET_PAGE_SHEETS, INCREMENT_PAGE, DECREMENT_PAGE, SET_PAGE, SET_TOTAL_PAGES, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES, SET_PAGE_COMPOSERS, SET_TOTAL_COMPOSER_PAGES, INCREMENT_COMPOSER_PAGE, DECREMENT_COMPOSER_PAGE, SET_COMPOSER_PAGE } from '../types'
+import { LOADING_DATA, SET_SHEETS, LOADING_COMPOSERS, SET_COMPOSERS, RESET_DATA, SET_PAGE_SHEETS, INCREMENT_SHEET_PAGE, DECREMENT_SHEET_PAGE, SET_SHEET_PAGE, SET_TOTAL_SHEET_PAGES, SET_PAGE_COMPOSERS, SET_TOTAL_COMPOSER_PAGES, INCREMENT_COMPOSER_PAGE, DECREMENT_COMPOSER_PAGE, SET_COMPOSER_PAGE } from '../types'
 import axios from 'axios'
 
 import { store } from '../store';
@@ -15,7 +15,7 @@ export const getSheets = () => dispatch => {
             })
         })
         .catch(err => {
-            if (err.request.status == 401) {
+            if (err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }
@@ -64,14 +64,13 @@ export const setComposerPage = (page) => dispatch => {
 */
 export const getSheetPage = (data = {}, _callback) => dispatch => {
     dispatch({ type: LOADING_DATA })
-    console.log(data);
     
     let bodyFormData = new FormData()
-    bodyFormData.append('page', data.page == undefined? 1: data.page)
+    bodyFormData.append('page', data.page === undefined? 1: data.page)
     bodyFormData.append('limit', 50)
-    bodyFormData.append('sort_by', data.sortBy == undefined ? "updated_at desc" : data.sortBy)
+    bodyFormData.append('sort_by', data.sortBy === undefined ? "updated_at desc" : data.sortBy)
 
-    if (data.composer != undefined) {
+    if (data.composer !== undefined) {
         bodyFormData.append("composer", data.composer)
     }
 
@@ -93,7 +92,7 @@ export const getSheetPage = (data = {}, _callback) => dispatch => {
             _callback()
         })
         .catch(err => {
-            if (err.request.status == 401) {
+            if (err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }
@@ -114,9 +113,9 @@ export const getComposerPage = (data = {}, _callback) => dispatch => {
     
 
     let bodyFormData = new FormData()
-    bodyFormData.append('page', data.page == undefined? 1: data.page)
+    bodyFormData.append('page', data.page === undefined? 1: data.page)
     bodyFormData.append('limit', 50)
-    bodyFormData.append('sort_by', data.sortBy == undefined ? "updated_at desc" : data.sortBy)
+    bodyFormData.append('sort_by', data.sortBy === undefined ? "updated_at desc" : data.sortBy)
 
     axios.post("/composers", bodyFormData, {
         headers: {
@@ -138,7 +137,7 @@ export const getComposerPage = (data = {}, _callback) => dispatch => {
         .catch(err => {
             console.log(err);
             
-            if (err.request.status == 401) {
+            if (err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }
@@ -153,14 +152,13 @@ export const getComposers = () => dispatch => {
     dispatch({ type: LOADING_COMPOSERS })
     axios.get('/composers')
         .then(res => {			       
-            console.log("composers " + res.data.rows);  
             dispatch({
                 type: SET_COMPOSERS,
                 payload: res.data.rows
             })
         })
         .catch(err => {
-            if (err.request.status == 401) {
+            if (err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }
@@ -187,11 +185,10 @@ export const uploadSheet = (data, _callback) => dispatch => {
             'Content-Type': 'multipart/form-data'
         }})
         .then(res => {
-            console.log(res.data);
             _callback()
         })
         .catch(err => {
-            if (err.request.status == 401) {
+            if (err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }
@@ -215,11 +212,10 @@ export const updateSheet = (data, origSheetName, _callback) => dispatch => {
             'Content-Type': 'multipart/form-data'
         }})
         .then(res => {
-            console.log(res.data);
             _callback()
         })
         .catch(err => {
-            if (err.request.status == 401) {
+            if (err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }
@@ -233,11 +229,10 @@ export const updateSheet = (data, origSheetName, _callback) => dispatch => {
 export const deleteSheet = (origSheetName, _callback) => dispatch => {
     axios.delete(`/sheet/${origSheetName}`)
         .then(res => {
-            console.log(res.data);
             _callback()
         })
         .catch(err => {
-            if (err.request.status == 401) {
+            if (err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }

@@ -13,7 +13,7 @@ import SettingsSvg from '../../Images/Settings.svg'
 
 function Settings(props) {
 
-	const [admin, setAdmin] = useState(props.userData.id == 1)
+	const [admin] = useState(props.userData.id === 1)
 
 	const [modal, setModal] = useState(false)
 
@@ -42,7 +42,7 @@ function Settings(props) {
 						)
 						 :
 						 <div className="non-admin-wrapper">
-							<img src={SettingsSvg} />
+							<img src={SettingsSvg} alt="" />
 						</div>
 				}
 

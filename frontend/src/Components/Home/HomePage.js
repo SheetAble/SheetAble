@@ -19,11 +19,11 @@ import NoSheets from '../NotFound/NoSheets'
 class HomePage extends Component {
     
     componentDidMount = () => {
-        if ( this.props.sheets == undefined || this.props.sheets.length == 0) {
+        if ( this.props.sheets === undefined || this.props.sheets.length === 0) {
             this.props.getSheets()
         }
         
-        if (this.props.composers == undefined || this.props.composers.length == 0) {
+        if (this.props.composers === undefined || this.props.composers.length === 0) {
             this.props.getComposers()
         }        
     }
@@ -63,7 +63,7 @@ class HomePage extends Component {
             <Fragment>
                 <SideBar history={this.props.history}/>
                 {
-                    this.props.loading? loadingJSX : (this.props.sheets == undefined || this.props.sheets.length == 0) ? sheetsFalse : sheetsTrue
+                    this.props.loading? loadingJSX : (this.props.sheets === undefined || this.props.sheets.length === 0) ? sheetsFalse : sheetsTrue
                 }                
             </Fragment>
         )

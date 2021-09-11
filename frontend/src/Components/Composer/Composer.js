@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect} from 'react'
 import { useParams } from 'react-router';
-import { findComposerByPages, findComposerByComposers } from '../../Utils/utils';
+import { findComposerByPages } from '../../Utils/utils';
 
 import { connect } from 'react-redux';
 import { getSheetPage, setComposerPage, getComposerPage } from '../../Redux/Actions/dataActions'
@@ -24,12 +24,12 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 
 	const getData = () => {
 		
-		if ((composer == undefined || composer.sheets == undefined) && !inRequest) {
+		if ((composer === undefined || composer.sheets === undefined) && !inRequest) {
 			setInRequest(true)
 			getComposerPagesData(() => {
 				getSheetsForComposer()
 			})
-		} else if (composer != undefined && composer.sheets != undefined ){
+		} else if (composer !== undefined && composer.sheets !== undefined ){
 			setInRequest(false)
 			setLoading(false)
 		}
@@ -48,7 +48,7 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 	}
 
 	const getComposerPagesData = (_callback) => {
-		if (composerPage == undefined || composerPage < 0 || composerPage > totalComposerPages ) {
+		if (composerPage === undefined || composerPage < 0 || composerPage > totalComposerPages ) {
 			setComposerPage(1)
 		}
 			
@@ -62,7 +62,7 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 
 	useEffect(() => {	
 		setComposer(findComposerByPages(composerName, composerPages))
-		if (composer != undefined && composer.sheets != undefined) {
+		if (composer !== undefined && composer.sheets !== undefined) {
 			setInRequest(false)
 			setLoading(false)
 		}
@@ -80,11 +80,11 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 			<div className="home_content">
 				{!loading? (
 					<div className="composer-page">
-					<img src={composer.portrait_url} className="portrait-page" />
+					<img src={composer.portrait_url} className="portrait-page" alt="Portrait"/>
 					<h5>{composer.name}</h5>
 					<h6>{composer.epoch}</h6>
 					<ul className="all-sheets-container full-height">					
-						{composer.sheets == undefined?
+						{composer.sheets === undefined?
 							getData() :
 							composer.sheets.map(sheet => {
 								return (

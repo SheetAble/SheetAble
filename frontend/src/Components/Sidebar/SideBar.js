@@ -11,10 +11,6 @@ import ModalContent from './Modal/ModalContent';
 
 function SideBar(props) {
 
-	const arrowHandle = (e) => {
-   		let arrowParent = e.target.parentElement.parentElement;
-  		arrowParent.classNameList.toggle("showMenu");
-	}
 
 	const [uploadModal, setUploadModal] = useState(false)
 
@@ -58,24 +54,24 @@ function SideBar(props) {
 				<span className="tooltip">Composer</span>
 			</li>
 			<li>
-				<a onClick={() => setUploadModal(true)} className="cursor">
+				<p onClick={() => setUploadModal(true)} className="cursor">
 				<Modal title="Upload" onClose={() => setUploadModal(false)} show={uploadModal}>
         			<ModalContent onClose={() => setUploadModal(false)}/>
       			</Modal>
 				<i className='bx bx-cloud-upload' ></i>
 				<span className="links_name">Upload</span>
-				</a>
+				</p>
 				<span className="tooltip">Upload</span>
 			</li>
 			<li>
-				<a onClick={() => {
+				<p onClick={() => {
 					props.resetData()
 					window.location.reload()
 				}} 
 				className="cursor">
-				<i class='bx bx-sync'></i>
+				<i className='bx bx-sync'></i>
 				<span className="links_name">Synchronize</span>
-				</a>
+				</p>
 				<span className="tooltip">Synchronize</span>
 			</li>
 			

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 // Pages
-import HomePageNotLoggedIn from './HomePageNotLoggedIn'
 import HomePage from './HomePage'
 
 import { Redirect } from "react-router-dom";

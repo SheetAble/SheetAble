@@ -15,7 +15,7 @@ function NoSheets() {
 				<h1>Oops!</h1>
 				<h2>Upload Sheets to begin</h2>
 			</div>
-			<a onClick={() => setUploadModal(true)} className="cursor">Upload Sheet</a>
+			<p onClick={() => setUploadModal(true)} className="cursor">Upload Sheet</p>
 			<Modal title="Upload" onClose={() => setUploadModal(false)} show={uploadModal}>
 				<ModalContent onClose={() => setUploadModal(false)}/>
 			</Modal>

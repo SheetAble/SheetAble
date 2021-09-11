@@ -5,7 +5,6 @@ import './Composers.css'
 
 function Composers(props) {
 	const { composers } = props
-	console.log(composers);
 
 	const history = useHistory()
 
@@ -13,7 +12,7 @@ function Composers(props) {
 		return (
 			<li key={composer.name} onClick={() => history.push(`/composer/${composer.name}`)}>
 				<div className="box-container-comp remove_shadow">
-					<img className="thumbnail-image-comp" src={composer.portrait_url} alt="image" />
+					<img className="thumbnail-image-comp" src={composer.portrait_url} alt="Portrait" />
 					<div className="comp-name-container">
 						<span className="comp-name">{composer.name}</span>
 					</div>

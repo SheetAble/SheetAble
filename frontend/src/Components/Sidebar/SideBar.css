@@ -130,7 +130,7 @@ body{
   background: #fff;
   color: #1d1b31;
 }
-.sidebar ul li a{
+.sidebar ul li a, p{
   color: #fff;
   display: flex;
   align-items: center;
@@ -139,7 +139,7 @@ body{
   white-space: nowrap;
   transition: all 0.4s ease;
 }
-.sidebar ul li a:hover{
+.sidebar ul li a:hover, p:hover{
   color: #11101d;
   background: #fff;
 }

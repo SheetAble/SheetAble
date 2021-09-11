@@ -3,6 +3,9 @@
     height: 100vh;
 }
 
+button {
+    
+}
 
 .notfound {
     position: absolute;
@@ -62,7 +65,7 @@
     overflow: hidden;
 }
 
-.notfound a {
+.notfound p {
     font-family: montserrat,sans-serif;
     display: inline-block;
     font-weight: 700;

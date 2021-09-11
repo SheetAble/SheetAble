@@ -24,9 +24,9 @@ function ModalContent(props) {
 	}
 
 	useEffect(() => {
-		if (requestData.composer != "" && requestData.sheetName != "" && uploadFile != undefined) {
+		if (requestData.composer !== "" && requestData.sheetName !== "" && uploadFile !== undefined) {
 			setDisabled(false)
-		} else if (uploadFile == undefined) {
+		} else if (uploadFile === undefined) {
 			setDisabled(true)
 		}
 		

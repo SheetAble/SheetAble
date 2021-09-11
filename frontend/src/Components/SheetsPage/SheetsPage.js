@@ -20,7 +20,7 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 	}, [])
 	
 	const getData = () => {
-		if (sheetPage == undefined || sheetPages < 0 || sheetPages > totalSheetPages) {
+		if (sheetPage === undefined || sheetPages < 0 || sheetPages > totalSheetPages) {
 			setSheetPage(1)
 		}
 		
@@ -29,7 +29,7 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 			sortBy: "updated_at desc"
 		}
 		
-		if (sheetPages == undefined || sheetPages[sheetPage] == undefined) {
+		if (sheetPages === undefined || sheetPages[sheetPage] === undefined) {
 			getSheetPage(data, () => setLoading(false))
 		} else {
 			setLoading(false)
@@ -38,7 +38,7 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 
 	const svgDec = (e) => {
 		e.preventDefault()
-		if (sheetPage != 1) {
+		if (sheetPage !== 1) {
 			decrementSheetPage() 
 			getData()
 		} 	
@@ -46,7 +46,7 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 
 	const svgInc = (e) => {
 		e.preventDefault()
-		if (sheetPage != totalSheetPages) {
+		if (sheetPage !== totalSheetPages) {
 			incrementSheetPage()  
 			getData()
 		}
@@ -57,9 +57,9 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 	return (
 		<Fragment>
 			<SideBar />
-			<div id={(sheetPages != undefined && sheetPages[sheetPage] != undefined && sheetPages[sheetPage].length != 0) ? "" : "notfound"} className="home_content">
+			<div id={(sheetPages !== undefined && sheetPages[sheetPage] !== undefined && sheetPages[sheetPage].length !== 0) ? "" : "notfound"} className="home_content">
 				{!loading ?
-					(sheetPages != undefined && sheetPages[sheetPage] != undefined && sheetPages[sheetPage].length != 0) ?
+					(sheetPages !== undefined && sheetPages[sheetPage] !== undefined && sheetPages[sheetPage].length !== 0) ?
 						(
 						<div className="sheets-wrapper">
 							<div className="doc_header auto-margin">
@@ -69,11 +69,11 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 							</div>
 							<div className="middle-part-container">
 								<ul className="all-sheets-container full-height">					
-									{sheetPages[sheetPage] == undefined ?
+									{sheetPages[sheetPage] === undefined ?
 										getData() :
 										sheetPages[sheetPage].map(sheet => {
 											return (
-												<SheetBox sheet={sheet}/>
+												<SheetBox sheet={sheet} key={sheet.sheet_name}/>
 											) 
 									})}
 								</ul>
@@ -82,12 +82,12 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 							
 							<div className="page-info-wrapper">
 								<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgDec}
-								className={sheetPage != 1? "" : "disabled"}>
+								className={sheetPage !== 1? "" : "disabled"}>
 									<path id="ic_chevron_right_24px" d="M14.59,6,16,7.41,11.42,12,16,16.59,14.59,18l-6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
 								</svg>
 
 								<span>Page <b>{sheetPage}</b> of <b>{totalSheetPages}</b></span>
-								<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className={sheetPage != totalSheetPages ? "svg-2" : "svg-2 disabled"}>
+								<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className={sheetPage !== totalSheetPages ? "svg-2" : "svg-2 disabled"}>
 									<path id="ic_chevron_right_24px" d="M10,6,8.59,7.41,13.17,12,8.59,16.59,10,18l6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
 								</svg>	
 

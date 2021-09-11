@@ -50,11 +50,11 @@ function RandomPieceSelection({ sheetPages, page }) {
 	return (	
 		<div className="box rand-piece remove_shadow">
 
-			{loading? <img className="loading-animation-rand" src={LoadingAnimation}/> :
+			{loading? <img className="loading-animation-rand" src={LoadingAnimation} alt=""/> :
 			(
 				<div>
 					<div>
-						<img className="rand-img cursor" src={`${axios.defaults.baseURL}/sheet/thumbnail/${sheet.sheet_name}`} alt="image"  onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)}/>
+						<img className="rand-img cursor" src={`${axios.defaults.baseURL}/sheet/thumbnail/${sheet.sheet_name}`} alt="Sheet Thumbnail"  onClick={() => history.push(`sheet/${sheet.pdf_url.split("pdf/").pop()}`)}/>
 						<div className="sheet-name-container n-cursor">
 							<span className="sheet-name">{sheet.sheet_name}</span>
 						</div>

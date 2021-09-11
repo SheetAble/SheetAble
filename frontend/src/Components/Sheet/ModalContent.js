@@ -8,9 +8,10 @@ import { connect } from 'react-redux'
 import { updateSheet, resetData, deleteSheet } from '../../Redux/Actions/dataActions'
 
 // Import React FilePond
-import { FilePond, registerPlugin } from 'react-filepond'
+import { FilePond } from 'react-filepond'
 
 // Import the plugin code
+// eslint-disable-next-line
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 // Import FilePond styles
@@ -31,15 +32,11 @@ function ModalContent(props) {
 
 	const [uploadFile, setUploadFile] = useState(dataURLtoFile(arrayBufferToBase64(props.uploadFile.data, "pdf"), `${props.sheet.sheet_name}.pdf`))
 
-	const giveModalData = (file) => {
-		setUploadFile(file)
-	}
-
 	useEffect(() => {
-		if (requestData.composer != props.sheet.composer || requestData.sheetName != props.sheet.sheet_name || pdfChange){
-			if (requestData.composer != "" && requestData.sheetName != "" && uploadFile != undefined) {
+		if (requestData.composer !== props.sheet.composer || requestData.sheetName !== props.sheet.sheet_name || pdfChange){
+			if (requestData.composer !== "" && requestData.sheetName !== "" && uploadFile !== undefined) {
 				setDisabled(false)
-			} else if (uploadFile == undefined) {
+			} else if (uploadFile === undefined) {
 				setDisabled(true)
 			}
 		} else { setDisabled(true) }
@@ -120,7 +117,7 @@ function ModalContent(props) {
 	}
 		
 	const uploadFinish = (files) => {
-		setUploadFile(files[0] == undefined ? undefined : files[0].file)
+		setUploadFile(files[0] === undefined ? undefined : files[0].file)
 	}
 
 

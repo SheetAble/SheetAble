@@ -32,6 +32,7 @@ import jwtDecode from 'jwt-decode'
 // CSS
 import './App.css'
 
+// eslint-disable-next-line
 import Logo from './Images/logo.png'
 
 
@@ -44,7 +45,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 
 
 
-// Load token from localstorage 
+// Load token from localstorage and check it
 const token = localStorage.FBIdToken
 if(token){
   let decodedToken = undefined
@@ -55,7 +56,7 @@ if(token){
     decodedToken = undefined
   }
   
-  if (decodedToken != undefined) {
+  if (decodedToken !== undefined) {
     const ts = Date.now()
     const currentTime = Math.floor(ts/1000) - 7200
     if(decodedToken.exp < currentTime){

@@ -75,7 +75,7 @@ export default function(state = initialState, action){
 
 
         case SET_PAGE_SHEETS:
-            if (action.composer == undefined) {
+            if (action.composer === undefined) {
                 return {
                     ...state,
                     loading: false,
@@ -86,9 +86,9 @@ export default function(state = initialState, action){
             for (let key in state.composerPages) {
                 if (!state.composerPages.hasOwnProperty(key)) continue;
                 const page = state.composerPages[key]
-                const result = page.find(composer => composer.name == action.composer)
+                const result = page.find(composer => composer.name === action.composer)
 
-                if (result != undefined) {
+                if (result !== undefined) {
                     var index = page.indexOf(result);
                 
                     if (index !== -1) {
@@ -102,8 +102,7 @@ export default function(state = initialState, action){
                     }
                 }
             }
-
-            
+            break
 
         case SET_PAGE_COMPOSERS:
             return {

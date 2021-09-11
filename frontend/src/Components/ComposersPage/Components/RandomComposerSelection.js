@@ -47,11 +47,11 @@ function RandomComposerSelection({ composerPages, page }) {
 	return (	
 		<div className="box rand-piece">
 
-			{loading? <img className="loading-animation-rand" src={LoadingAnimation}/> :
+			{loading? <img className="loading-animation-rand" src={LoadingAnimation} alt=""/> :
 			(
 				<div>
 					<div >
-						<img className="rand-img cursor" src={composer.portrait_url} alt="image" onClick={() => history.push(`/composer/${composer.name}`)}/>
+						<img className="rand-img cursor" src={composer.portrait_url} alt="Portrait" onClick={() => history.push(`/composer/${composer.name}`)}/>
 						<div className="sheet-name-container">
 							<span className="sheet-name">{composer.name}</span>
 						</div>

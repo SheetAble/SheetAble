@@ -22,7 +22,7 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 	
 
 	const getData = () => {
-		if (composerPage == undefined || composerPage < 0 || composerPage > totalComposerPages ) {
+		if (composerPage === undefined || composerPage < 0 || composerPage > totalComposerPages ) {
 			setComposerPage(1)
 		}
 
@@ -31,14 +31,14 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 			sortBy: "updated_at desc"
 		}
 		
-		if (composerPages == undefined || composerPages[composerPage] == undefined) {
+		if (composerPages === undefined || composerPages[composerPage] === undefined) {
 			getComposerPage(data, () => setLoading(false))
 		}
 	}
 
 	const svgDec = (e) => {
 		e.preventDefault()
-		if (composerPage != 1) {
+		if (composerPage !== 1) {
 			decrementComposerPage() 
 			getData()
 		} 	
@@ -46,7 +46,7 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 
 	const svgInc = (e) => {
 		e.preventDefault()
-		if (composerPage != totalComposerPages) {
+		if (composerPage !== totalComposerPages) {
 			incrementComposerPage()  
 			getData()
 		}
@@ -57,9 +57,9 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 	return (
 		<Fragment>
 			<SideBar />
-			<div id={(composerPages != undefined && composerPages[composerPage] != undefined && composerPages[composerPage].length != 0) ? "" : "notfound"} className="home_content">
-				{!loading || (composerPages != undefined && composerPages[composerPage] != undefined) ?
-				(composerPages != undefined && composerPages[composerPage] != undefined && composerPages[composerPage].length != 0) ?
+			<div id={(composerPages !== undefined && composerPages[composerPage] !== undefined && composerPages[composerPage].length !== 0) ? "" : "notfound"} className="home_content">
+				{!loading || (composerPages !== undefined && composerPages[composerPage] !== undefined) ?
+				(composerPages !== undefined && composerPages[composerPage] !== undefined && composerPages[composerPage].length !== 0) ?
 
 				(
 				<div className="sheets-wrapper composer-wrapper">
@@ -71,10 +71,10 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 					<div className="middle-part-container">
 						<ul className="all-sheets-container full-height">					
 							{
-								composerPages[composerPage] == undefined? getData():
+								composerPages[composerPage] === undefined? getData():
 								composerPages[composerPage].map(composer => {
 									return (
-										<ComposerBox composer={composer}/>
+										<ComposerBox composer={composer} key={composer.name}/>
 									) 
 							})}
 						</ul>
@@ -83,12 +83,12 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 					
 					<div className="page-info-wrapper">
 						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgDec}
-						 className={composerPage != 1? "" : "disabled"}>
+						 className={composerPage !== 1? "" : "disabled"}>
   							<path id="ic_chevron_right_24px" d="M14.59,6,16,7.41,11.42,12,16,16.59,14.59,18l-6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
 						</svg>
 
 						<span>Page <b>{composerPage}</b> of <b>{totalComposerPages}</b></span>
-						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className={composerPage != totalComposerPages ? "svg-2" : "svg-2 disabled"}>
+						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className={composerPage !== totalComposerPages ? "svg-2" : "svg-2 disabled"}>
   							<path id="ic_chevron_right_24px" d="M10,6,8.59,7.41,13.17,12,8.59,16.59,10,18l6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
 						</svg>	
 

@@ -49,7 +49,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 	const getSheetDataReq = async (_callback) => {
 		
-		if (sheetPage == undefined || sheetPages < 0 || sheetPages > totalSheetPages) {
+		if (sheetPage === undefined || sheetPages < 0 || sheetPages > totalSheetPages) {
 			setSheetPage(1)
 		}
 		
@@ -58,14 +58,14 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 			sortBy: "updated_at desc"
 		}
 		
-		if (sheetPages == undefined || sheetPages[sheetPage] == undefined) {
+		if (sheetPages === undefined || sheetPages[sheetPage] === undefined) {
 			await getSheetPage(data, () => window.location.reload())
 		}
 	}
 
 	const getComposerDataReq = async (_callback) => {
 		
-		if (composerPage == undefined || composerPages < 0 || composerPages > totalComposerPages) {
+		if (composerPage === undefined || composerPages < 0 || composerPages > totalComposerPages) {
 			setComposerPage(1)
 		}
 		
@@ -74,7 +74,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 			sortBy: "updated_at desc"
 		}
 		
-		if (composerPages == undefined || composerPages[composerPage] == undefined) {
+		if (composerPages === undefined || composerPages[composerPage] === undefined) {
 			await getComposerPage(data, () => window.location.reload())
 		}
 	}
@@ -86,8 +86,8 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 	const bySheets = findSheetBySheets(sheetName, sheets)
 
 
-	const [sheet, setSheet] = useState( bySheetPages == undefined ?  
-		(bySheets == undefined ? getSheetDataReq() : bySheets)
+	const [sheet] = useState( bySheetPages === undefined ?  
+		(bySheets === undefined ? getSheetDataReq() : bySheets)
 		: 
 		bySheetPages
 	)
@@ -97,10 +97,10 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 	const byComposers = findComposerByComposers(composerName, composers) 
 	
 
-	const [composer, setComposer] = useState(
-		byComposerPages == undefined ? 
+	const [composer] = useState(
+		byComposerPages === undefined ? 
 		(
-			byComposers == undefined ?
+			byComposers === undefined ?
 			getComposerDataReq() :
 			byComposers
 		)	
@@ -115,7 +115,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 				setpdf(res)
 			})
 			.catch(err => {
-				if (err.request.status == 401) {
+				if (err.request.status === 401) {
 					store.dispatch(logoutUser())
 					window.location.href = '/login'
 				}
@@ -162,7 +162,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 	const [copyText, setCopyText] = useState("Click to Copy")
 
 	const handleClick = () => {
-		setCopyText(copyText == "Click to Copy" ? "Copied ✓" : "Click to Copy")
+		setCopyText(copyText === "Click to Copy" ? "Copied ✓" : "Click to Copy")
 		navigator.clipboard.writeText(window.location.href)
 	}
 
@@ -182,18 +182,18 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 						</div>
 
 						<div className="noselect document">
-							<Document file={pdf == undefined ? pdfRequest() : pdf} onLoadSuccess={onDocumentLoadSuccess}> 
+							<Document file={pdf === undefined ? pdfRequest() : pdf} onLoadSuccess={onDocumentLoadSuccess}> 
 								<Page pageNumber={pageNumber} width={isDesktop? 540 : 430} />
 								
 							</Document>
 						</div>	
 
 						<div className="page_controls">
-							<button type="button" disabled={pageNumber == 1} onClick={previousPage}>&lt;</button>
+							<button type="button" disabled={pageNumber === 1} onClick={previousPage}>&lt;</button>
 							<span>
 								{pageNumber} of {numPages}
 							</span>
-							<button type="button" disabled={pageNumber == numPages} onClick={nextPage}>
+							<button type="button" disabled={pageNumber === numPages} onClick={nextPage}>
 								&gt;
 							</button>
 						</div>
@@ -228,7 +228,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 						
 							<div className="under_box">
-								<a href={pdfDownloadData.link} download={pdfDownloadData.name} target='_blank'>
+								<a href={pdfDownloadData.link} download={pdfDownloadData.name} target='_blank' rel="noopener noreferrer">
 								<button className="remove_shadow" onClick={() => saveByteArray(sheet.sheet_name, pdf.data)}>
 									Download
 								</button>
@@ -248,7 +248,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 
 						<div className="doc_box composer_info remove_shadow" onClick={() => history.push(`/composer/${composer.name}`)}>
-							<img className="composer_img" src={composer.portrait_url} alt="image" />
+							<img className="composer_img" src={composer.portrait_url} alt="Portrait" />
 							<div className="composer_info_text_wrapper">
 								<span>{composerName}</span>								
 								<span>{composer.epoch}</span>

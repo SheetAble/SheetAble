@@ -43,7 +43,6 @@ class LoginPage extends Component {
     }
 
 	render() {
-		const { UI: {loading} } = this.props
         const  {errors} = this.state
 
 		return(
@@ -86,11 +85,11 @@ class LoginPage extends Component {
 					</form>
 					: 			
 					<form onSubmit={this.handleSubmit}>
-						<div class={errors.error == "Invalid Email"? "field field-wrong shake" : "field"}>
+						<div class={errors.error === "Invalid Email"? "field field-wrong shake" : "field"}>
 							<input name="email" type="name" required onChange={this.handleChange}/>
 							<label>Email Adress</label>
 						</div>
-						<div class={errors.error == "Incorrect Password"? "field field-wrong shake" : "field"}>
+						<div class={errors.error === "Incorrect Password"? "field field-wrong shake" : "field"}>
 							<input name="password" type="password" required onChange={this.handleChange}/>
 						<label>Password</label>
 						</div>

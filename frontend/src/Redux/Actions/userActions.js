@@ -1,6 +1,5 @@
-import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, LOADING_USER, MARK_NOTIFICATIONS_READ, SET_AUTHENTICATED, SET_USER_DATA} from '../types'
+import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, SET_UNAUTHENTICATED, SET_AUTHENTICATED, SET_USER_DATA} from '../types'
 import axios from 'axios'
-import { getSheets } from './dataActions'
 
 export const loginUser = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI})
@@ -18,7 +17,7 @@ export const loginUser = (userData, history) => (dispatch) => {
             return err
         })
         .then((err) => {
-            if (err != undefined) {return}
+            if (err !== undefined) {return}
             axios.get("/users/0")
             .then(res => {
                 delete res.data.password

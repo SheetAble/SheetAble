@@ -1,5 +1,4 @@
-import React, { useState, Fragment } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 
 // Import React FilePond
 import { FilePond, registerPlugin } from 'react-filepond'
@@ -27,7 +26,6 @@ function DragNDrop({ giveModalData }) {
   }
   
   const removeFile = () => {
-    console.log("remove");
     giveModalData(undefined)
   }
 
