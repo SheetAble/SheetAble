@@ -27,10 +27,16 @@ func Run() {
 
 	seed.Load(server.DB, os.Getenv("ADMIN_EMAIL"), os.Getenv("ADMIN_PASSWORD"))
 
+	/* Check if started in development mode */
+	dev := false
+	if os.Getenv("DEV") == "1" {
+		dev = true
+	}
+
 	if os.Getenv("PORT") == "" {
-		server.Run("0.0.0.0:8080")
+		server.Run("0.0.0.0:8080", dev)
 	} else {
-		server.Run("0.0.0.0:" + os.Getenv("PORT"))
+		server.Run("0.0.0.0:"+os.Getenv("PORT"), dev)
 	}
 
 }

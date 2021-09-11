@@ -9,6 +9,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+	"github.com/rs/cors"
 
 	"github.com/gorilla/handlers"
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
@@ -68,13 +69,13 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	server.initializeRoutes()
 }
 
-func (server *Server) Run(addr string) {
+func (server *Server) Run(addr string, dev bool) {
 	fmt.Printf("Listening to port %v\n", addr)
 	// cors.Default() setup the middleware with default options being
 	// all origins accepted with simple methods (GET, POST). See
 	// documentation below for more options.
 
-	/*c := cors.New(cors.Options{
+	c := cors.New(cors.Options{
 		// Enable Debugging for testing, consider disabling in production
 		AllowedHeaders: []string{
 			"Origin",
@@ -93,10 +94,15 @@ func (server *Server) Run(addr string) {
 		},
 		AllowCredentials: true,
 	})
-	*/
+
+	srvHandler := handlers.LoggingHandler(os.Stdout, server.Router)
+
+	if dev {
+		srvHandler = handlers.LoggingHandler(os.Stdout, c.Handler(server.Router))
+	}
 
 	srv := &http.Server{
-		Handler: handlers.LoggingHandler(os.Stdout, server.Router),
+		Handler: srvHandler,
 		Addr:    addr,
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: 15 * time.Second,

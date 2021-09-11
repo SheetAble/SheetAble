@@ -34,7 +34,14 @@ import './App.css'
 
 import Logo from './Images/logo.png'
 
-axios.defaults.baseURL = "/api"
+
+// Check if started in development mode, so you can modify baseURL accordingly
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    axios.defaults.baseURL = "http://localhost:8080/api"
+} else {
+    axios.defaults.baseURL = "/api"
+}
+
 
 
 // Load token from localstorage 
