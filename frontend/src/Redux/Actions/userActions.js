@@ -9,8 +9,6 @@ export const loginUser = (userData, history) => (dispatch) => {
 			setAuthorizationHeader(res.data)            
             dispatch({ type: SET_AUTHENTICATED })
             dispatch({ type: CLEAR_ERRORS })
-            window.location.replace("/")
-            
         })
         .catch(err => {
             dispatch({
@@ -25,6 +23,7 @@ export const loginUser = (userData, history) => (dispatch) => {
             .then(res => {
                 delete res.data.password
                 dispatch({type: SET_USER_DATA, payload: res.data})
+                window.location.replace("/")
             })
             .catch(err => {
                 dispatch({
