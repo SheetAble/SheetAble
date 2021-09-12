@@ -61,9 +61,6 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 	db.Save(&composer)
 
 	// Update Sheets with that composer
-
-	sheet := Sheet{}
-	db.First(&sheet, "composer = ?", originalName)
 	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", originalName, updatedName, originalName)
 	db.Model(&Sheet{}).Where("composer = ?", originalName).Update("composer", updatedName)
 
@@ -72,6 +69,31 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 	os.Rename(path+originalName, path+updatedName)
 
 	return composer, nil
+}
+
+func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, error) {
+
+	_, err := c.FindComposerByID(db, composerName)
+	if err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return 0, errors.New("composer not found")
+		}
+		return 0, err
+	}
+
+	db = db.Debug().Model(&Composer{}).Where("name = ?", composerName).Take(&Composer{}).Delete(&Composer{})
+
+	if db.Error != nil {
+		if gorm.IsRecordNotFoundError(db.Error) {
+			return 0, errors.New("composer not found")
+		}
+		return 0, db.Error
+	}
+
+	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", composerName, "Unknown", composerName)
+	db.Model(&Sheet{}).Where("composer = ?", composerName).Update("composer", "Unknown")
+
+	return db.RowsAffected, nil
 }
 
 func (c *Composer) FindComposerByID(db *gorm.DB, composerName string) (*Composer, error) {
@@ -85,7 +107,6 @@ func (c *Composer) FindComposerByID(db *gorm.DB, composerName string) (*Composer
 		return &Composer{}, err
 	}
 	return c, nil
-
 }
 
 func (c *Composer) GetAllComposer(db *gorm.DB) (*[]Composer, error) {
