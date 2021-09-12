@@ -62,6 +62,9 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 		}
 	}
 
+	/* Silence the logger */
+	server.DB.LogMode(false)
+
 	server.DB.Debug().AutoMigrate(&models.User{}, &models.Sheet{}) //database migration
 
 	server.Router = mux.NewRouter()
@@ -110,7 +113,4 @@ func (server *Server) Run(addr string, dev bool) {
 	}
 
 	log.Fatal(srv.ListenAndServe())
-	//fmt.Println(addr, c)
-	//handler := c.Handler(server.Router)
-	//log.Fatal(http.ListenAndServe(addr, handler))
 }

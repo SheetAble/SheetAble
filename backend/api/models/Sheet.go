@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 	"html"
 	"log"
 	"os"
@@ -54,7 +53,6 @@ func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 	}
 
 	for _, path := range paths {
-		fmt.Println(path)
 		e := os.Remove(path)
 		if e != nil {
 			log.Fatal(e)

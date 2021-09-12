@@ -18,12 +18,12 @@ func Load(db *gorm.DB, email string, password string) {
 
 	*/
 
-	err := db.Debug().AutoMigrate(&models.User{}, &models.Sheet{}, &models.Division{}, &models.Composer{}).Error
+	err := db.AutoMigrate(&models.User{}, &models.Sheet{}, &models.Division{}, &models.Composer{}).Error
 	if err != nil {
 		log.Fatalf("cannot migrate table: %v", err)
 	}
 
-	err = db.Debug().Model(&models.User{}).Create(&models.User{
+	err = db.Model(&models.User{}).Create(&models.User{
 		Nickname: email,
 		Email:    email,
 		Password: password,
