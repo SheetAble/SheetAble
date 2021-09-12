@@ -49,8 +49,8 @@ func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 	}
 
 	paths := []string{
-		"config/sheets/uploaded-sheets/" + sheet.Composer + "/" + sheet.SheetName + ".pdf",
-		"config/sheets/thumbnails/" + sheet.SheetName + ".png",
+		os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/" + sheet.Composer + "/" + sheet.SheetName + ".pdf",
+		os.Getenv("CONFIG_PATH") + "sheets/thumbnails/" + sheet.SheetName + ".png",
 	}
 
 	for _, path := range paths {

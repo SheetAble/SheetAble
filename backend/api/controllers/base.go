@@ -48,11 +48,11 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 		}
 	}
 	if Dbdriver == "sqlite" || Dbdriver == "" {
-		if _, err := os.Stat("config/"); os.IsNotExist(err) {
-			_ = os.Mkdir("config/", os.ModePerm)
+		if _, err := os.Stat(os.Getenv("CONFIG_PATH")); os.IsNotExist(err) {
+			_ = os.Mkdir(os.Getenv("CONFIG_PATH"), os.ModePerm)
 		}
 
-		server.DB, err = gorm.Open("sqlite3", "config/database.db")
+		server.DB, err = gorm.Open("sqlite3", os.Getenv("CONFIG_PATH")+"database.db")
 
 		if err != nil {
 			fmt.Printf("Cannot connect to %s database", Dbdriver)

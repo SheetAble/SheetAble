@@ -44,21 +44,21 @@ func Run() {
 func checkEnvs() {
 	/*
 		Check admin login data and api secret, so if there is none the default will be set
-		default:
-			email: admin
-			password: sheetable
-			API_SECRET: sheetable
+		default values:
 	*/
+
+	data := [4][2]string{
+		{"ADMIN_EMAIL", "admin@admin.com"},
+		{"ADMIN_PASSWORD", "sheetable"},
+		{"API_SECRET", "sheetable"},
+		{"CONFIG_PATH", "config/"},
+	}
 
 	godotenv.Load()
 
-	if os.Getenv("ADMIN_EMAIL") == "" {
-		os.Setenv("ADMIN_EMAIL", "admin@admin.com")
-	}
-	if os.Getenv("ADMIN_PASSWORD") == "" {
-		os.Setenv("ADMIN_PASSWORD", "sheetable")
-	}
-	if os.Getenv("API_SECRET") == "" {
-		os.Setenv("API_SECRET", "sheetable")
+	for _, vars := range data {
+		if os.Getenv(vars[0]) == "" {
+			os.Setenv(vars[0], vars[1])
+		}
 	}
 }

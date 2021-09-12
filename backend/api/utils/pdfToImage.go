@@ -105,7 +105,7 @@ func Upload(client *http.Client, url string, values map[string]io.Reader, name s
 
 	// Save response
 	defer res.Body.Close()
-	out, err := os.Create("config/sheets/thumbnails/" + name + ".png")
+	out, err := os.Create(os.Getenv("CONFIG_PATH") + "sheets/thumbnails/" + name + ".png")
 	if err != nil {
 		return
 	}
