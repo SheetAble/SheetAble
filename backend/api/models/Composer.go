@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"html"
+	"os"
 	"strings"
 	"time"
 
@@ -58,6 +59,17 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 	composer.UpdatedAt = time.Now()
 
 	db.Save(&composer)
+
+	// Update Sheets with that composer
+
+	sheet := Sheet{}
+	db.First(&sheet, "composer = ?", originalName)
+	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", originalName, updatedName, originalName)
+	db.Model(&Sheet{}).Where("composer = ?", originalName).Update("composer", updatedName)
+
+	// Rename folder
+	path := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
+	os.Rename(path+originalName, path+updatedName)
 
 	return composer, nil
 }
