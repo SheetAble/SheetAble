@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"html"
 	"strings"
 	"time"
@@ -30,6 +31,49 @@ func (c *Composer) SaveComposer(db *gorm.DB) (*Composer, error) {
 		return &Composer{}, err
 	}
 	return c, nil
+}
+
+func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName string, portraitUrl string, epoch string) (*Composer, error) {
+
+	composer, err := c.FindComposerByID(db, originalName)
+	if err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return &Composer{}, errors.New("Composer not found")
+		}
+		return &Composer{}, err
+	}
+
+	db.Delete(&composer)
+
+	if updatedName != "" {
+		composer.Name = updatedName
+	}
+	if portraitUrl != "" {
+		composer.PortraitURL = portraitUrl
+	}
+	if epoch != "" {
+		composer.Epoch = epoch
+	}
+
+	composer.UpdatedAt = time.Now()
+
+	db.Save(&composer)
+
+	return composer, nil
+}
+
+func (c *Composer) FindComposerByID(db *gorm.DB, composerName string) (*Composer, error) {
+	/*
+		Get information of one single composer
+	*/
+
+	var err error
+	err = db.Debug().Model(&Composer{}).Where("name = ?", composerName).Take(&c).Error
+	if err != nil {
+		return &Composer{}, err
+	}
+	return c, nil
+
 }
 
 func (c *Composer) GetAllComposer(db *gorm.DB) (*[]Composer, error) {

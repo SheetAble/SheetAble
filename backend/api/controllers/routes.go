@@ -34,6 +34,7 @@ func (s *Server) initializeRoutes() {
 
 	// Composer routes
 	api.HandleFunc("/composers", middlewares.SetMiddlewareAuthentication(s.GetComposersPage)).Methods("GET", "POST")
+	api.HandleFunc("/composer/{composerName}", middlewares.SetMiddlewareAuthentication(s.UpdateComposer)).Methods("PUT")
 
 	// Serve React
 	appBox, err := rice.FindBox("../../../frontend/build")

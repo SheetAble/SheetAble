@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/gorilla/mux"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 )
@@ -53,4 +56,36 @@ func (server *Server) GetComposersPage(w http.ResponseWriter, r *http.Request) {
 	pageNew, _ := composer.List(server.DB, pagination)
 
 	responses.JSON(w, http.StatusOK, pageNew)
+}
+
+func (server *Server) UpdateComposer(w http.ResponseWriter, r *http.Request) {
+
+	/*
+		Update a composer via PUT request
+		body - formdata
+		example:
+			- name: Chopin
+			- portrait_url: url
+			- epoch: romance
+	*/
+
+	vars := mux.Vars(r)
+	composerName := vars["composerName"]
+	if composerName == "" {
+		responses.ERROR(w, http.StatusBadRequest, errors.New("no composer given"))
+		return
+	}
+
+	composer := &models.Composer{}
+
+	newComp, err := composer.UpdateComposer(server.DB, composerName, r.FormValue("name"), r.FormValue("portrait_url"), r.FormValue("epoch"))
+	fmt.Println(err)
+	if err != nil {
+		fmt.Println("test")
+		responses.ERROR(w, http.StatusNotFound, errors.New("composer not found"))
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, newComp)
+
 }
