@@ -31,3 +31,11 @@
 	width: 100%;
 	margin-top: 35px;
 }
+
+.composer-page button {
+	margin: 35px 10px 0px 0px;
+	font-size: large;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}

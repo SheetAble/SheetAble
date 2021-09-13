@@ -4,12 +4,13 @@ import { findComposerByPages } from '../../Utils/utils';
 
 import { connect } from 'react-redux';
 import { getSheetPage, setComposerPage, getComposerPage } from '../../Redux/Actions/dataActions'
-
+import EditIcon from '@material-ui/icons/Edit';
 
 import './Composer.css'
 
 import SideBar from '../Sidebar/SideBar'
 import SheetBox from '../SheetsPage/Components/SheetBox';
+import { IconButton } from '@material-ui/core';
 
 function Composer({ composerPages, getSheetPage, composers, composerPage, setComposerPage, getComposerPage, totalComposerPages }) {
 	const { composerName } = useParams();
@@ -80,9 +81,12 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 			<div className="home_content">
 				{!loading? (
 					<div className="composer-page">
-					<img src={composer.portrait_url} className="portrait-page" alt="Portrait"/>
-					<h5>{composer.name}</h5>
+					<img src={composer.portrait_url} className="portrait-page" alt="Portrait"/>					
+					<h5>{composer.name}</h5>					
 					<h6>{composer.epoch}</h6>
+					<IconButton>
+							<EditIcon />
+					</IconButton>
 					<ul className="all-sheets-container full-height">					
 						{composer.sheets === undefined?
 							getData() :
