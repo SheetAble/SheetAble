@@ -11,6 +11,8 @@ import './Composer.css'
 import SideBar from '../Sidebar/SideBar'
 import SheetBox from '../SheetsPage/Components/SheetBox';
 import { IconButton } from '@material-ui/core';
+import Modal from '../Sidebar/Modal/Modal';
+import ModalContent from './ModalContent';
 
 function Composer({ composerPages, getSheetPage, composers, composerPage, setComposerPage, getComposerPage, totalComposerPages }) {
 	const { composerName } = useParams();
@@ -74,6 +76,7 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 	});	
 	
 
+	const [modal, setModal] = useState(false)
 
 	return (
 		<Fragment>
@@ -84,9 +87,12 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 					<img src={composer.portrait_url} className="portrait-page" alt="Portrait"/>					
 					<h5>{composer.name}</h5>					
 					<h6>{composer.epoch}</h6>
-					<IconButton>
+					<IconButton onClick={() => setModal(true)}>
 							<EditIcon />
 					</IconButton>
+					<Modal title="Edit" onClose={() => setModal(false)} show={modal}>
+        				<ModalContent onClose={() => setModal(false)}/>
+      				</Modal>
 					<ul className="all-sheets-container full-height">					
 						{composer.sheets === undefined?
 							getData() :
