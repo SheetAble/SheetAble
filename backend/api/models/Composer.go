@@ -2,8 +2,10 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"html"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -99,9 +101,26 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	db.Debug().Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (composer = ?);", composerName)
 	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", composerName, "Unknown", "Unknown")
 
-	// Rename folder
-	path := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
-	os.Rename(path+composerName, path+"Unknown")
+	confPath := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
+
+	/* Move all files inside comp direcotry */
+	filepath.Walk(confPath+composerName,
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if !info.IsDir() {
+
+				pdfName := strings.Split(path, composerName)
+
+				os.Rename(path, confPath+"Unknown"+pdfName[1])
+				fmt.Println(path, info.Size())
+			}
+			return nil
+		})
+
+	/* Remove folder */
+	os.Remove(confPath + composerName)
 
 	return db.RowsAffected, nil
 }
@@ -117,11 +136,11 @@ func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 		c.SaveComposer(db)
 
 		//Create a folder/directory at a full qualified path
-		/*
-			err := os.Mkdir(os.Getenv("CONFIG_PATH")+"/sheets/uploaded-sheets/Unknown", 0755)
-			if err != nil {
-				log.Fatal(err)
-			}*/
+
+		err := os.Mkdir(os.Getenv("CONFIG_PATH")+"sheets/uploaded-sheets/Unknown", 0755)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 }
