@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import { findComposerByPages } from '../../Utils/utils';
 
 import { connect } from 'react-redux';
-import { getSheetPage, setComposerPage, getComposerPage } from '../../Redux/Actions/dataActions'
+import { getSheetPage, setComposerPage, getComposerPage, deleteComposer, resetData } from '../../Redux/Actions/dataActions'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import './Composer.css'
@@ -14,7 +14,7 @@ import { IconButton } from '@material-ui/core';
 import Modal from '../Sidebar/Modal/Modal';
 import ModalContent from './ModalContent';
 
-function Composer({ composerPages, getSheetPage, composers, composerPage, setComposerPage, getComposerPage, totalComposerPages }) {
+function Composer({ composerPages, getSheetPage, composers, composerPage, setComposerPage, getComposerPage, totalComposerPages, deleteComposer, resetData }) {
 	const { composerName } = useParams();
 
 	const [composer, setComposer] = useState(findComposerByPages(composerName, composerPages))
@@ -90,7 +90,10 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 					<IconButton onClick={() => setModal(true)} className="edit">
 							<EditIcon />
 					</IconButton>
-					<IconButton className="delete">
+					<IconButton className="delete" onClick={() => deleteComposer(composer.name, () => {
+						resetData()
+						window.location.replace("/")
+					})}>
 						<DeleteIcon />
 					</IconButton>
 					<Modal title="Edit" onClose={() => setModal(false)} show={modal}>
@@ -129,7 +132,9 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
     getSheetPage,
 	getComposerPage,
-	setComposerPage
+	setComposerPage,
+	deleteComposer,
+	resetData
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Composer)
