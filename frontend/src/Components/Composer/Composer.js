@@ -87,10 +87,10 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 					<img src={composer.portrait_url} className="portrait-page" alt="Portrait"/>					
 					<h5>{composer.name}</h5>					
 					<h6>{composer.epoch}</h6>
-					<IconButton onClick={() => setModal(true)} className="edit">
+					<IconButton onClick={() => setModal(true)} className="edit" disabled={composer.name == "Unknown"}>
 							<EditIcon />
 					</IconButton>
-					<IconButton className="delete" onClick={() => deleteComposer(composer.name, () => {
+					<IconButton className="delete" disabled={composer.name == "Unknown"} onClick={() => deleteComposer(composer.name, () => {
 						resetData()
 						window.location.replace("/")
 					})}>
@@ -99,7 +99,7 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 					<Modal title="Edit" onClose={() => setModal(false)} show={modal}>
         				<ModalContent onClose={() => setModal(false)} composer={composer} />
       				</Modal>
-					<ul className="all-sheets-container full-height">					
+					<ul className="all-sheets-container full-height">						
 						{composer.sheets === undefined?
 							getData() :
 							composer.sheets.map(sheet => {
