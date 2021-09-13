@@ -81,11 +81,28 @@ func (server *Server) UpdateComposer(w http.ResponseWriter, r *http.Request) {
 	newComp, err := composer.UpdateComposer(server.DB, composerName, r.FormValue("name"), r.FormValue("portrait_url"), r.FormValue("epoch"))
 	fmt.Println(err)
 	if err != nil {
-		fmt.Println("test")
 		responses.ERROR(w, http.StatusNotFound, errors.New("composer not found"))
 		return
 	}
 
 	responses.JSON(w, http.StatusOK, newComp)
 
+}
+
+func (server *Server) DeleteComposer(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	composerName := vars["composerName"]
+	if composerName == "" {
+		responses.ERROR(w, http.StatusBadRequest, errors.New("no composer given"))
+		return
+	}
+
+	composer := &models.Composer{}
+	_, err := composer.DeleteComposer(server.DB, composerName)
+	if err != nil {
+		responses.ERROR(w, http.StatusNotFound, errors.New("composer not found"))
+		return
+	}
+
+	responses.JSON(w, http.StatusOK, "Composer deleted successfully")
 }

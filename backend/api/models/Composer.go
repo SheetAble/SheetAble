@@ -81,6 +81,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 		return 0, err
 	}
 
+	// Delete Composer
 	db = db.Debug().Model(&Composer{}).Where("name = ?", composerName).Take(&Composer{}).Delete(&Composer{})
 
 	if db.Error != nil {
@@ -90,10 +91,39 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 		return 0, db.Error
 	}
 
-	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", composerName, "Unknown", composerName)
-	db.Model(&Sheet{}).Where("composer = ?", composerName).Update("composer", "Unknown")
+	// Create Unknown Composer if doesn't exist
+	c.CreateUnknownComposer(db)
+
+	// Swap sheets composer to Unknown
+	//	db.Debug().Model(&Sheet{}).Where("composer = ?", composerName).Update("composer", "Unknown")
+	db.Debug().Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (composer = ?);", composerName)
+	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", composerName, "Unknown", "Unknown")
+
+	// Rename folder
+	path := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
+	os.Rename(path+composerName, path+"Unknown")
 
 	return db.RowsAffected, nil
+}
+
+func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
+
+	_, err := c.FindComposerByID(db, "Unkown")
+	/* Unknown doesn't exist yet */
+	if err != nil {
+		c.Name = "Unknown"
+		c.Epoch = "Unknown"
+		c.PortraitURL = "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg"
+		c.SaveComposer(db)
+
+		//Create a folder/directory at a full qualified path
+		/*
+			err := os.Mkdir(os.Getenv("CONFIG_PATH")+"/sheets/uploaded-sheets/Unknown", 0755)
+			if err != nil {
+				log.Fatal(err)
+			}*/
+	}
+
 }
 
 func (c *Composer) FindComposerByID(db *gorm.DB, composerName string) (*Composer, error) {
