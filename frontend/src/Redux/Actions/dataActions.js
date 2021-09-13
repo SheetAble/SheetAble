@@ -92,7 +92,7 @@ export const getSheetPage = (data = {}, _callback) => dispatch => {
             _callback()
         })
         .catch(err => {
-            if (err.request.status === 401) {
+            if (err.request && err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }
@@ -240,6 +240,24 @@ export const deleteSheet = (origSheetName, _callback) => dispatch => {
         })
 }
 
+export const editComposer = (origName, name, epoch, _callback) => {
+    let bodyFormData = new FormData()
+    bodyFormData.append('name', name)
+    bodyFormData.append('epoch', epoch)
+    
+    
+    axios.put(`/composer/${origName}`, bodyFormData)
+    .then(() => {
+        _callback()
+    })
+    .catch(err => {
+            if (err.request.status === 401) {
+                store.dispatch(logoutUser())
+                window.location.href = '/login'
+            }
+            console.log(err);
+        })
+}
 
 
 export const resetData = () => dispatch => {

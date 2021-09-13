@@ -39,3 +39,19 @@
 	right: 0px;
 	top: 0px;
 }
+
+.composer-page .edit   {
+	margin: 35px 10px 0px 0px;
+	font-size: large;
+	position: absolute;
+	right: 35px;
+	top: 0px;
+}
+
+.composer-page .delete {
+	color:#8c85ff;
+}
+
+.edit-wrapper button {
+	margin-top: 55px;
+}

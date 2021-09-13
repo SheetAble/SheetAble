@@ -5,7 +5,7 @@ import { findComposerByPages } from '../../Utils/utils';
 import { connect } from 'react-redux';
 import { getSheetPage, setComposerPage, getComposerPage } from '../../Redux/Actions/dataActions'
 import EditIcon from '@material-ui/icons/Edit';
-
+import DeleteIcon from '@material-ui/icons/Delete';
 import './Composer.css'
 
 import SideBar from '../Sidebar/SideBar'
@@ -87,11 +87,14 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 					<img src={composer.portrait_url} className="portrait-page" alt="Portrait"/>					
 					<h5>{composer.name}</h5>					
 					<h6>{composer.epoch}</h6>
-					<IconButton onClick={() => setModal(true)}>
+					<IconButton onClick={() => setModal(true)} className="edit">
 							<EditIcon />
 					</IconButton>
+					<IconButton className="delete">
+						<DeleteIcon />
+					</IconButton>
 					<Modal title="Edit" onClose={() => setModal(false)} show={modal}>
-        				<ModalContent onClose={() => setModal(false)}/>
+        				<ModalContent onClose={() => setModal(false)} composer={composer} />
       				</Modal>
 					<ul className="all-sheets-container full-height">					
 						{composer.sheets === undefined?
