@@ -64,7 +64,10 @@ The backend is written in [Golang](https://golang.org/) and the frontend with [R
 
 <!-- GETTING STARTED -->
 ## Getting Started
-To get started please refer to the official [SheetAble Documentation](https://sheetable.net/).
+### Production Version
+To install the **production** version of SheetAble please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
+### Development Version
+To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
 <!-- ROADMAP -->
 ## Roadmap
 

@@ -87,10 +87,10 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 					<img src={composer.portrait_url} className="portrait-page" alt="Portrait"/>					
 					<h5>{composer.name}</h5>					
 					<h6>{composer.epoch}</h6>
-					<IconButton onClick={() => setModal(true)} className="edit" disabled={composer.name == "Unknown"}>
+					<IconButton onClick={() => setModal(true)} className="edit" disabled={composer.name === "Unknown"}>
 							<EditIcon />
 					</IconButton>
-					<IconButton className="delete" disabled={composer.name == "Unknown"} onClick={() => deleteComposer(composer.name, () => {
+					<IconButton className="delete" disabled={composer.name === "Unknown"} onClick={() => deleteComposer(composer.name, () => {
 						resetData()
 						window.location.replace("/")
 					})}>
