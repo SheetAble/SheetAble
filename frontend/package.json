@@ -29,6 +29,7 @@
     "react-topbar-progress-indicator": "^4.1.0",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "sharp": "^0.29.1",
     "sweetalert": "^2.1.2",
     "topbar": "^1.0.1",
     "web-vitals": "^1.1.2"

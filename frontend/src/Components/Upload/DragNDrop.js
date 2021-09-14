@@ -43,7 +43,7 @@ function DragNDrop({ giveModalData }) {
         }}}
         maxFiles={1}
         name="files"
-        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+        labelIdle='Drag & Drop your file or <span class="filepond--label-action">Browse</span>'
         credits={false}
         allowFileTypeValidation={true}
         acceptedFileTypes={['application/pdf']}
