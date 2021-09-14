@@ -105,14 +105,4 @@ function App() {
   );
 }
 
-/*
-function App() {
-  return(
-        <p>TESto</p>
-      
-  )
-}
-
-*/
-
 export default App;
