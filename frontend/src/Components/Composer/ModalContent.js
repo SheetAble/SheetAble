@@ -13,6 +13,7 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css'
+import axios from 'axios';
 
 
 registerPlugin(FilePondPluginFileValidateType);
@@ -49,7 +50,14 @@ function ModalContent(props) {
 
 	useEffect(async () => {
 		if (files[0] !== undefined){
-			console.log(dataURItoBlob(await readPhoto(files[0].file)))
+			const resizedImage= new File([dataURItoBlob(await readPhoto(files[0].file))], "name.png")
+			let formData = new FormData()
+			formData.append("file", resizedImage)
+			axios.post('http://127.0.0.1:5000/uploader', formData, {
+				headers: {
+				'Content-Type': 'multipart/form-data'
+				}
+			})
 		}
 		
 	}, [files])
@@ -69,7 +77,7 @@ function ModalContent(props) {
 		});
 
 		// draw image in canvas element
-		canvas.width = img.width;
+		canvas.width = 100;
 		canvas.height = img.height;
 		canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
 		let image = canvas.toDataURL("image/png")  
