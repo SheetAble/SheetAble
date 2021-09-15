@@ -77,8 +77,8 @@ function ModalContent(props) {
 		});
 
 		// draw image in canvas element
-		canvas.width = 100;
-		canvas.height = img.height;
+		canvas.width = 200;
+		canvas.height = 200;
 		canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
 		let image = canvas.toDataURL("image/png")  
 		return image;
@@ -131,10 +131,10 @@ function ModalContent(props) {
         		}}}
 				maxFiles={1}
 				name="files"
-				labelIdle='Drag & Drop your image or <span class="filepond--label-action">Browse</span>'
+				labelIdle='Drag & Drop your 200x200 image or <span class="filepond--label-action">Browse</span>'
 				credits={false}
 				allowFileTypeValidation={true}
-				acceptedFileTypes={['image/jpeg', 'image/png']}
+				acceptedFileTypes={['image/png']}
       		/>
 
 

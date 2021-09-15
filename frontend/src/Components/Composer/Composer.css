@@ -53,5 +53,9 @@
 }
 
 .edit-wrapper button {
-	margin-top: 55px;
+	margin-top: 25px;
+}
+
+.edit-wrapper .filepond--wrapper {
+	margin-top: 35px;
 }
