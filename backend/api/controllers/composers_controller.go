@@ -83,9 +83,9 @@ func (server *Server) UpdateComposer(w http.ResponseWriter, r *http.Request) {
 	// Uploads a portrait to the server if given
 	uploadSuccess := false
 	if r.FormValue("name") == "" {
-		uploadSuccess = uploadPortait(w, r, composerName)
+		uploadSuccess = uploadPortait(w, r, composerName, composerName)
 	} else {
-		uploadSuccess = uploadPortait(w, r, r.FormValue("name"))
+		uploadSuccess = uploadPortait(w, r, r.FormValue("name"), composerName)
 	}
 
 	newComp, err := composer.UpdateComposer(server.DB,
@@ -133,7 +133,7 @@ func (server *Server) ServePortraits(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"composer/"+name+".png")
 }
 
-func uploadPortait(w http.ResponseWriter, r *http.Request, compName string) bool {
+func uploadPortait(w http.ResponseWriter, r *http.Request, compName string, originalName string) bool {
 	/*
 		Upload a portrait
 		! Currently only PNG files supported
@@ -148,6 +148,9 @@ func uploadPortait(w http.ResponseWriter, r *http.Request, compName string) bool
 	// Create the composer Directory if it doesn't exist yet
 	dir := os.Getenv("CONFIG_PATH") + "composer"
 	path := os.Getenv("CONFIG_PATH") + "composer/" + compName + ".png"
+	if originalName != compName {
+		os.Remove(os.Getenv("CONFIG_PATH") + "composer/" + originalName + ".png")
+	}
 	utils.CreateDir(dir)
 
 	utils.OsCreateFile(path, w, portrait)
