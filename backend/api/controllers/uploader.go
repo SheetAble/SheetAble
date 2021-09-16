@@ -64,9 +64,9 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// Save composer in the database
 	comp := safeComposer(r, server)
 
-	createDir(prePath)
-	createDir(path)
-	createDir(thumbnailPath)
+	utils.CreateDir(prePath)
+	utils.CreateDir(path)
+	utils.CreateDir(thumbnailPath)
 
 	// Handle case where no author is given
 	path = checkAuthor(path, comp)
@@ -201,7 +201,7 @@ func checkAuthor(path string, comp Comp) string {
 	} else {
 		path += "/unknown"
 	}
-	createDir(path)
+	utils.CreateDir(path)
 	return path
 }
 
@@ -216,19 +216,7 @@ func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w 
 	sheet.Prepare()
 	sheet.SaveSheet(server.DB)
 
-	osCreateFile(fullpath, w, file)
-}
-
-func osCreateFile(fullpath string, w http.ResponseWriter, file multipart.File) {
-	// Create the file
-	f, err := os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE, 0666)
-	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
-	}
-
-	defer f.Close()
-	io.Copy(f, file)
+	utils.OsCreateFile(fullpath, w, file)
 }
 
 func createDate(date string) time.Time {
@@ -246,10 +234,4 @@ func checkFile(path string, thumbnailPath string, w http.ResponseWriter, r *http
 		return ""
 	}
 	return fullpath
-}
-
-func createDir(path string) {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		os.Mkdir(path, os.ModePerm)
-	}
 }

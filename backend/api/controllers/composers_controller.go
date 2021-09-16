@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
 )
 
 func (server *Server) GetComposersPage(w http.ResponseWriter, r *http.Request) {
@@ -79,6 +80,13 @@ func (server *Server) UpdateComposer(w http.ResponseWriter, r *http.Request) {
 
 	composer := &models.Composer{}
 
+	// Uploads a portrait to the server if given
+	if r.FormValue("name") == "" {
+		uploadPortait(w, r, composerName)
+	} else {
+		uploadPortait(w, r, r.FormValue("name"))
+	}
+
 	newComp, err := composer.UpdateComposer(server.DB, composerName, r.FormValue("name"), r.FormValue("portrait_url"), r.FormValue("epoch"))
 	fmt.Println(err)
 	if err != nil {
@@ -116,4 +124,26 @@ func (server *Server) ServePortraits(w http.ResponseWriter, r *http.Request) {
 
 	name := mux.Vars(r)["composerName"]
 	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"composer/"+name+".png")
+}
+
+func uploadPortait(w http.ResponseWriter, r *http.Request, compName string) bool {
+	/*
+		Upload a portrait
+		! Currently only PNG files supported
+	*/
+
+	portrait, _, err := r.FormFile("portrait")
+
+	if err != nil {
+		return false
+	}
+
+	// Create the composer Directory if it doesn't exist yet
+	dir := os.Getenv("CONFIG_PATH") + "composer"
+	path := os.Getenv("CONFIG_PATH") + "composer/" + compName + ".png"
+	utils.CreateDir(dir)
+
+	utils.OsCreateFile(path, w, portrait)
+
+	return true
 }
