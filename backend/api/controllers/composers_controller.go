@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -105,4 +106,14 @@ func (server *Server) DeleteComposer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responses.JSON(w, http.StatusOK, "Composer deleted successfully")
+}
+
+func (server *Server) ServePortraits(w http.ResponseWriter, r *http.Request) {
+	/*
+		Serve the Composer Portraits
+		Example request: /composer/portrait/Chopin
+	*/
+
+	name := mux.Vars(r)["composerName"]
+	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"composer/"+name+".png")
 }
