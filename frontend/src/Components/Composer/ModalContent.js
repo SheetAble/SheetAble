@@ -13,7 +13,6 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css'
-import axios from 'axios';
 
 
 registerPlugin(FilePondPluginFileValidateType);

@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router';
 import { getCompImgUrl } from '../../Utils/utils';
 
 import './Composers.css'
-
-import axios from 'axios';
 
 function Composers(props) {
 	const { composers } = props
