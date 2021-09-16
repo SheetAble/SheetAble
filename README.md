@@ -56,6 +56,8 @@
 Create Accounts for your friends or family to invite them to your library to use it as well or potentially upload sheets themselves.
 My goal is to have it available on all devices soon, so you can highlight or take notes on your sheet over your Tablet/iPad.  
 
+You may also suggest changes by forking this repo and creating a [pull request](https://github.com/SheetAble/SheetAble/compare) or opening an [issue](https://github.com/SheetAble/SheetAble/issues). Thanks to all the people who want to help expanding this project!
+
 
 ### Built With
 
