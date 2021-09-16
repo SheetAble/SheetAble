@@ -81,13 +81,20 @@ func (server *Server) UpdateComposer(w http.ResponseWriter, r *http.Request) {
 	composer := &models.Composer{}
 
 	// Uploads a portrait to the server if given
+	uploadSuccess := false
 	if r.FormValue("name") == "" {
-		uploadPortait(w, r, composerName)
+		uploadSuccess = uploadPortait(w, r, composerName)
 	} else {
-		uploadPortait(w, r, r.FormValue("name"))
+		uploadSuccess = uploadPortait(w, r, r.FormValue("name"))
 	}
 
-	newComp, err := composer.UpdateComposer(server.DB, composerName, r.FormValue("name"), r.FormValue("portrait_url"), r.FormValue("epoch"))
+	newComp, err := composer.UpdateComposer(server.DB,
+		composerName,
+		r.FormValue("name"),
+		r.FormValue("portrait_url"),
+		r.FormValue("epoch"),
+		uploadSuccess,
+	)
 	fmt.Println(err)
 	if err != nil {
 		responses.ERROR(w, http.StatusNotFound, errors.New("composer not found"))

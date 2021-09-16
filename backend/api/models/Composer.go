@@ -36,7 +36,7 @@ func (c *Composer) SaveComposer(db *gorm.DB) (*Composer, error) {
 	return c, nil
 }
 
-func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName string, portraitUrl string, epoch string) (*Composer, error) {
+func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName string, portraitUrl string, epoch string, uploadSuccess bool) (*Composer, error) {
 
 	composer, err := c.FindComposerByID(db, originalName)
 	if err != nil {
@@ -56,6 +56,9 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 	}
 	if epoch != "" {
 		composer.Epoch = epoch
+	}
+	if uploadSuccess {
+		composer.PortraitURL = "/composer/portrait/" + composer.Name
 	}
 
 	composer.UpdatedAt = time.Now()
