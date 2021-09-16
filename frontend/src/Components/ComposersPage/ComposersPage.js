@@ -17,6 +17,9 @@ function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, 
 	
 	useEffect(() => {
 		getData()
+		
+		// Change Page Title
+		document.title = `SheetAble - Your Composers`
 	}, [])
 	
 	

@@ -19,6 +19,9 @@ import NoSheets from '../NotFound/NoSheets'
 class HomePage extends Component {
     
     componentDidMount = () => {
+		// Change Page Title
+		document.title = `SheetAble - Home`
+	
         if ( this.props.sheets === undefined || this.props.sheets.length === 0) {
             this.props.getSheets()
         }

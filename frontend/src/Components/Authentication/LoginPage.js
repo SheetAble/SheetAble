@@ -19,6 +19,12 @@ class LoginPage extends Component {
         }
     }
 
+	componentDidMount() {
+		// Change Page Title
+		document.title = `SheetAble - Login`
+	}
+
+
     componentWillReceiveProps(nextProps){
         if(nextProps.UI.errors){
             this.setState({ errors: nextProps.UI.errors})

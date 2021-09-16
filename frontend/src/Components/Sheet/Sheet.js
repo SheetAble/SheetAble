@@ -39,11 +39,15 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 		setDesktop(nextDesktop);
 	};
 
-	useEffect(() => {
+	useEffect(() => {	
+		// Change Page Title
+		document.title = `SheetAble - ${sheetName == undefined ? "Sheet" : sheetName}`
+
 		window.addEventListener("resize", updateMedia);
 
 		return () => window.removeEventListener("resize", updateMedia);
 	});
+
 
 	let { sheetName, composerName } = useParams();
 

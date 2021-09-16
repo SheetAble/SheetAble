@@ -17,7 +17,10 @@ function SheetsPage({ getSheetPage, sheetPages, incrementSheetPage, setSheetPage
 	
 	useEffect(() => {
 		getData()		
+		// Change Page Title
+		document.title = `SheetAble - Your Library`
 	}, [])
+	
 	
 	const getData = () => {
 		if (sheetPage === undefined || sheetPages < 0 || sheetPages > totalSheetPages) {

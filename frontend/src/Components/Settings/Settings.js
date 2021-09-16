@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import SideBar from '../Sidebar/SideBar'
 
 import { connect } from 'react-redux'
@@ -16,6 +16,12 @@ function Settings(props) {
 	const [admin] = useState(props.userData.id === 1)
 
 	const [modal, setModal] = useState(false)
+
+
+	useEffect(() => {
+		// Change Page Title
+		document.title = `SheetAble - Settings`
+	}, [])
 
 	return (
 		<Fragment>
@@ -50,26 +56,6 @@ function Settings(props) {
 		</Fragment>
 	)
 }
-
-/*
-	<form noValidate autoComplete="off">
-						<TextField id="standard-basic" label="E-mail" name="E-Mail" />
-						<br />
-						<TextField
-							id="standard-password-input"
-							label="Password"
-							type="password"
-							autoComplete="new-password"
-						/>
-						<br />
-						<TextField
-							id="standard-password-input"
-							label="Confirm Password"
-							type="password"
-							autoComplete="new-password"
-						/>
-					</form>
-*/
 
 const mapStateToProps = (state) => ({
     userData: state.user.userData,

@@ -75,13 +75,15 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 		if (!loading) {
 			setImgUrl(getCompImgUrl(composer.portrait_url))
 		}
+
+		// Change Page Title
+		document.title = `SheetAble - ${composer == undefined ? "Composer" : composer.name}`
 	}, [loading])
 
 	useEffect(() => {
 		getData()
 	});	
 	
-
 	const [modal, setModal] = useState(false)
 
 
