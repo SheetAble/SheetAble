@@ -39,25 +39,19 @@ function ModalContent(props) {
 	}, [name, epoch])
 
 	const sendRequest = () => {
-		props.editComposer(props.composer.name, name, epoch, () => {
+		props.editComposer(props.composer.name, name, epoch, uploadFile, () => {
 			props.resetData()
 			window.location.replace("/")
 		})
 	}
 
 	const [files, setFiles] = useState([])
-
+	const [uploadFile, setUploadFile] = useState(undefined)
 
 	useEffect(async () => {
 		if (files[0] !== undefined){
 			const resizedImage= new File([dataURItoBlob(await readPhoto(files[0].file))], "name.png")
-			let formData = new FormData()
-			formData.append("file", resizedImage)
-			axios.post('http://127.0.0.1:5000/uploader', formData, {
-				headers: {
-				'Content-Type': 'multipart/form-data'
-				}
-			})
+			setUploadFile(resizedImage)
 		}
 		
 	}, [files])

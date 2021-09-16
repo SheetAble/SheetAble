@@ -1,3 +1,5 @@
+import axios from "axios";
+
 /* Split string by 'T' */
 export const displayTimeAsString = (str) => {
 	return str.split("T")[0]
@@ -33,4 +35,8 @@ export function findComposerByPages(composerName, composerPages) {
 /* Returns composer with composerName from composers */
 export function findComposerByComposers(composerName, composers) {
 	return composers.find(composer => composer.name === composerName);
+}
+
+export function getCompImgUrl(portraitURL) {
+	return portraitURL.includes("http") ? portraitURL : axios.defaults.baseURL + portraitURL
 }

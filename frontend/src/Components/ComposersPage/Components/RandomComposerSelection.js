@@ -2,24 +2,30 @@ import React, { useEffect, useState } from 'react'
 
 import LoadingAnimation from '../../../Images/Animations/Loading.svg'
 import { useHistory } from 'react-router';
+import { getCompImgUrl } from '../../../Utils/utils';
 
 function RandomComposerSelection({ composerPages, page }) {
 	
 	const [loading, setLoading] = useState(true)	
 	
 	const [composer, setComposer] = useState(undefined)
+	const [imgUrl, setImgUrl] = useState(undefined)
 
 	const [bubblyButton, setBubblyButton] = useState("bubbly-button")
 
 	const pickComposer = () => {
 		setLoading(true)
-		return composerPages[page][Math.floor(Math.random()*composerPages[page].length)];
+		const comp = composerPages[page][Math.floor(Math.random()*composerPages[page].length)];
+		setImgUrl(getCompImgUrl(comp.portrait_url))
+		return comp
 	}
 
 
 
 	useEffect(() => {
+		
 		setComposer(pickComposer())
+		
 		setLoading(false)
 	}, [])
 
@@ -43,7 +49,8 @@ function RandomComposerSelection({ composerPages, page }) {
 	};
 
 	let history = useHistory()
-
+	
+	
 	return (	
 		<div className="box rand-piece">
 
@@ -51,7 +58,7 @@ function RandomComposerSelection({ composerPages, page }) {
 			(
 				<div>
 					<div >
-						<img className="rand-img cursor" src={composer.portrait_url} alt="Portrait" onClick={() => history.push(`/composer/${composer.name}`)}/>
+						<img className="rand-img cursor" src={imgUrl} alt="Portrait" onClick={() => history.push(`/composer/${composer.name}`)}/>
 						<div className="sheet-name-container">
 							<span className="sheet-name">{composer.name}</span>
 						</div>

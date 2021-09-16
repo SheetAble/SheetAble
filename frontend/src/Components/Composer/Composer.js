@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect} from 'react'
 import { useParams } from 'react-router';
-import { findComposerByPages } from '../../Utils/utils';
-
+import { findComposerByPages, getCompImgUrl } from '../../Utils/utils';
 import { connect } from 'react-redux';
 import { getSheetPage, setComposerPage, getComposerPage, deleteComposer, resetData } from '../../Redux/Actions/dataActions'
 import EditIcon from '@material-ui/icons/Edit';
@@ -20,7 +19,7 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 	const [composer, setComposer] = useState(findComposerByPages(composerName, composerPages))
 
 	const [inRequest, setInRequest] = useState(false)
-
+	const [imgUrl, setImgUrl] = useState(undefined)
 
 	const [loading, setLoading] = useState(true)
 
@@ -71,6 +70,13 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 		}
 	}, [composerPages])
 
+
+	useEffect(() => {
+		if (!loading) {
+			setImgUrl(getCompImgUrl(composer.portrait_url))
+		}
+	}, [loading])
+
 	useEffect(() => {
 		getData()
 	});	
@@ -78,13 +84,16 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 
 	const [modal, setModal] = useState(false)
 
+
+	
+
 	return (
 		<Fragment>
 			<SideBar />
 			<div className="home_content">
 				{!loading? (
 					<div className="composer-page">
-					<img src={composer.portrait_url} className="portrait-page" alt="Portrait"/>					
+					<img src={imgUrl} className="portrait-page" alt="Portrait"/>					
 					<h5>{composer.name}</h5>					
 					<h6>{composer.epoch}</h6>
 					<IconButton onClick={() => setModal(true)} className="edit" disabled={composer.name === "Unknown"}>

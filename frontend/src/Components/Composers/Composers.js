@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router';
+import { getCompImgUrl } from '../../Utils/utils';
 
 import './Composers.css'
+
+import axios from 'axios';
 
 function Composers(props) {
 	const { composers } = props
@@ -9,10 +12,13 @@ function Composers(props) {
 	const history = useHistory()
 
 	const composerItems = composers.map((composer) => {
+
+		const imgUrl = getCompImgUrl(composer.portrait_url)
+
 		return (
 			<li key={composer.name} onClick={() => history.push(`/composer/${composer.name}`)}>
 				<div className="box-container-comp remove_shadow">
-					<img className="thumbnail-image-comp" src={composer.portrait_url} alt="Portrait" />
+					<img className="thumbnail-image-comp" src={imgUrl} alt="Portrait" />
 					<div className="comp-name-container">
 						<span className="comp-name">{composer.name}</span>
 					</div>

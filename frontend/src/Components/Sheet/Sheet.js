@@ -10,7 +10,7 @@ import './Sheet.css'
 import axios from 'axios'
 
 /* Utils */
-import { displayTimeAsString, findSheetByPages, findComposerByPages, findSheetBySheets, findComposerByComposers } from '../../Utils/utils'
+import { displayTimeAsString, findSheetByPages, findComposerByPages, findSheetBySheets, findComposerByComposers, getCompImgUrl } from '../../Utils/utils'
 
 /* Redux stuff */
 import { connect } from 'react-redux'
@@ -169,6 +169,10 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 	const [editModal, setEditModal] = useState(false)
 
+	const imgUrl = getCompImgUrl(composer.portrait_url)
+
+	
+
 	return (
 		 <Fragment>
 			<SideBar />
@@ -248,7 +252,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 
 						<div className="doc_box composer_info remove_shadow" onClick={() => history.push(`/composer/${composer.name}`)}>
-							<img className="composer_img" src={composer.portrait_url} alt="Portrait" />
+							<img className="composer_img" src={imgUrl} alt="Portrait" />
 							<div className="composer_info_text_wrapper">
 								<span>{composerName}</span>								
 								<span>{composer.epoch}</span>

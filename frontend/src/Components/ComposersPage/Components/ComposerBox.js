@@ -1,14 +1,16 @@
 import React from 'react'
 
 import { useHistory } from "react-router-dom";
+import { getCompImgUrl } from '../../../Utils/utils';
 
 function ComposerBox({ composer }) {
 	let history = useHistory();
-
+	const imgUrl = getCompImgUrl(composer.portrait_url)
+	
 	return (
 		<li key={composer.name} className="li-height" onClick={() => history.push(`/composer/${composer.name}`)}>
 			<div className="box-container remove_shadow" >
-					<img className="thumbnail-image" src={composer.portrait_url} alt="portrait" />
+					<img className="thumbnail-image" src={imgUrl} alt="portrait" />
 					<div className="sheet-name-container">
 						<span className="sheet-name">{composer.name}</span>
 					</div>

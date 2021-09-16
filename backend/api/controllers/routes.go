@@ -36,7 +36,7 @@ func (s *Server) initializeRoutes() {
 	api.HandleFunc("/composers", middlewares.SetMiddlewareAuthentication(s.GetComposersPage)).Methods("GET", "POST")
 	api.HandleFunc("/composer/{composerName}", middlewares.SetMiddlewareAuthentication(s.UpdateComposer)).Methods("PUT")
 	api.HandleFunc("/composer/{composerName}", middlewares.SetMiddlewareAuthentication(s.DeleteComposer)).Methods("DELETE")
-	api.HandleFunc("/composer/portrait/{composerName}", middlewares.SetMiddlewareAuthentication(s.ServePortraits)).Methods("GET")
+	api.HandleFunc("/composer/portrait/{composerName}", s.ServePortraits).Methods("GET")
 
 	// Serve React
 	appBox, err := rice.FindBox("../../../frontend/build")
