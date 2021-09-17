@@ -13,7 +13,8 @@ import (
 )
 
 type Composer struct {
-	Name        string    `gorm:"primary_key" json:"name"`
+	SafeName    string    `gorm:"primary_key" json:"safe_name"`
+	Name        string    `json:"name"`
 	PortraitURL string    `json:"portrait_url"`
 	Epoch       string    `json:"epoch"`
 	CreatedAt   time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`

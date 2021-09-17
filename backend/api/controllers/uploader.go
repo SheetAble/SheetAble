@@ -35,6 +35,7 @@ type Response struct {
 type Comp struct {
 	Name         string `json:"name"`
 	CompleteName string `json:"complete_name"`
+	SafeName     string `json:"safe_name"`
 	Birth        string `json:"birth"`
 	Death        string `json:"death"`
 	Epoch        string `json:"epoch"`
@@ -69,8 +70,8 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	utils.CreateDir(path)
 	utils.CreateDir(thumbnailPath)
 
-	// Handle case where no author is given
-	path = checkAuthor(path, comp)
+	// Handle case where no composer is given
+	path = checkComposer(path, comp)
 
 	// Check if the file already exists
 	fullpath := checkFile(path, w, r)
@@ -120,6 +121,13 @@ func getPortraitURL(composerName string) Comp {
 	resp, err := http.Get("https://api.openopus.org/composer/list/search/" + composerName + ".json")
 	if err != nil {
 		fmt.Println(err)
+
+		return Comp{
+			CompleteName: composerName,
+			SafeName:     sanitize.Name(composerName),
+			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
+			Epoch:        "Unknown",
+		}
 	}
 
 	defer resp.Body.Close()
@@ -153,9 +161,11 @@ func safeComposer(r *http.Request, server *Server) Comp {
 	compo := getPortraitURL(r.FormValue("composer"))
 	comp := models.Composer{
 		Name:        compo.CompleteName,
+		SafeName:    compo.SafeName,
 		PortraitURL: compo.Portrait,
 		Epoch:       compo.Epoch,
 	}
+	fmt.Println(comp.SafeName)
 	comp.Prepare()
 	comp.SaveComposer(server.DB)
 	return compo
@@ -194,11 +204,12 @@ func saveDivision(name string, division string, server *Server) {
 	div.SaveDivision(server.DB)
 }
 
-func checkAuthor(path string, comp Comp) string {
-	// Handle case where no author is given
-	author := comp.CompleteName
-	if author != "" {
-		path += "/" + author
+func checkComposer(path string, comp Comp) string {
+	// Handle case where no composer is given
+	composer := comp.SafeName
+	fmt.Println(composer)
+	if composer != "" {
+		path += "/" + composer
 	} else {
 		path += "/unknown"
 	}

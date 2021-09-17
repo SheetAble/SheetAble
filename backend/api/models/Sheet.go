@@ -14,6 +14,7 @@ import (
 type Sheet struct {
 	SafeSheetName string `gorm:"primary_key" json:"safe_sheet_name"`
 	SheetName     string `json:"sheet_name"`
+	SafeComposer  string `json:"safe_composer"`
 	Composer      string `json:"composer"`
 	ReleaseDate   time.Time
 	PdfUrl        string    `json:"pdf_url"`
@@ -25,6 +26,8 @@ type Sheet struct {
 func (s *Sheet) Prepare() {
 	s.SheetName = html.EscapeString(strings.TrimSpace(s.SheetName))
 	s.Composer = html.EscapeString(strings.TrimSpace(s.Composer))
+	s.SafeComposer = html.EscapeString(strings.TrimSpace(s.SafeComposer))
+	s.SafeSheetName = html.EscapeString(strings.TrimSpace(s.SafeSheetName))
 	s.CreatedAt = time.Now()
 	s.UpdatedAt = time.Now()
 	s.PdfUrl = "sheet/pdf/" + s.Composer + "/" + s.SafeSheetName
