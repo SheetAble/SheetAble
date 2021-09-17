@@ -11,6 +11,7 @@ require (
 	github.com/h2non/bimg v1.1.5 // indirect
 	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/joho/godotenv v1.3.0 // indirect
+	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/rs/cors v1.8.0 // indirect
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd // indirect
 )

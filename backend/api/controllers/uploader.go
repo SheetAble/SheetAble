@@ -18,6 +18,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/kennygrant/sanitize"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
@@ -72,7 +73,7 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	path = checkAuthor(path, comp)
 
 	// Check if the file already exists
-	fullpath := checkFile(path, thumbnailPath, w, r)
+	fullpath := checkFile(path, w, r)
 	if fullpath == "" {
 		return
 	}
@@ -84,7 +85,7 @@ func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
 	createFile(uid, r, server, fullpath, w, pdfFile, comp)
 
 	// Send POST request to python server for creating the thumbnail (first page of pdf as an image)
-	if !utils.RequestToPdfToImage(fullpath, r.FormValue("sheetName")) {
+	if !utils.RequestToPdfToImage(fullpath, sanitize.Name(r.FormValue("sheetName"))) {
 		return
 	}
 
@@ -208,14 +209,15 @@ func checkAuthor(path string, comp Comp) string {
 func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File, comp Comp) {
 	// Create database entry
 	sheet := models.Sheet{
-		SheetName:   r.FormValue("sheetName"),
-		Composer:    comp.CompleteName,
-		UploaderID:  uid,
-		ReleaseDate: createDate(r.FormValue("releaseDate")),
+		SafeSheetName: sanitize.Name(r.FormValue("sheetName")),
+		SheetName:     r.FormValue("sheetName"),
+		Composer:      comp.CompleteName,
+		UploaderID:    uid,
+		ReleaseDate:   createDate(r.FormValue("releaseDate")),
 	}
 	sheet.Prepare()
 	sheet.SaveSheet(server.DB)
-
+	fmt.Println(fullpath)
 	utils.OsCreateFile(fullpath, w, file)
 }
 
@@ -226,9 +228,9 @@ func createDate(date string) time.Time {
 	return t
 }
 
-func checkFile(path string, thumbnailPath string, w http.ResponseWriter, r *http.Request) string {
+func checkFile(path string, w http.ResponseWriter, r *http.Request) string {
 	// Check if the file already exists
-	fullpath := path + "/" + r.FormValue("sheetName") + ".pdf"
+	fullpath := path + "/" + sanitize.Name(r.FormValue("sheetName")) + ".pdf"
 	if _, err := os.Stat(fullpath); err == nil {
 		responses.ERROR(w, http.StatusInternalServerError, errors.New("file already exists"))
 		return ""
