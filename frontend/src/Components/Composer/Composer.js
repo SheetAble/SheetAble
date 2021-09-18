@@ -14,9 +14,9 @@ import Modal from '../Sidebar/Modal/Modal';
 import ModalContent from './ModalContent';
 
 function Composer({ composerPages, getSheetPage, composers, composerPage, setComposerPage, getComposerPage, totalComposerPages, deleteComposer, resetData }) {
-	const { composerName } = useParams();
+	const { safeComposerName } = useParams();
 
-	const [composer, setComposer] = useState(findComposerByPages(composerName, composerPages))
+	const [composer, setComposer] = useState(findComposerByPages(safeComposerName, composerPages))
 
 	const [inRequest, setInRequest] = useState(false)
 	const [imgUrl, setImgUrl] = useState(undefined)
@@ -41,11 +41,11 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 		const data = {
 				page: 1,
 				sortBy: "updated_at desc",
-				composer: composerName
+				composer: safeComposerName
 			}
 
 			getSheetPage(data, () => {
-				setComposer(findComposerByPages(composerName, composerPages))
+				setComposer(findComposerByPages(safeComposerName, composerPages))
 			})
 	}
 
@@ -63,7 +63,7 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 	}
 
 	useEffect(() => {	
-		setComposer(findComposerByPages(composerName, composerPages))
+		setComposer(findComposerByPages(safeComposerName, composerPages))
 		if (composer !== undefined && composer.sheets !== undefined) {
 			setInRequest(false)
 			setLoading(false)
@@ -83,6 +83,10 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 	useEffect(() => {
 		getData()
 	});	
+
+	useEffect(() => {
+		console.log(composer);
+	}, [composer])
 	
 	const [modal, setModal] = useState(false)
 
