@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"html"
 	"log"
 	"os"
 	"strings"
@@ -24,10 +23,10 @@ type Sheet struct {
 }
 
 func (s *Sheet) Prepare() {
-	s.SheetName = html.EscapeString(strings.TrimSpace(s.SheetName))
-	s.Composer = html.EscapeString(strings.TrimSpace(s.Composer))
-	s.SafeComposer = html.EscapeString(strings.TrimSpace(s.SafeComposer))
-	s.SafeSheetName = html.EscapeString(strings.TrimSpace(s.SafeSheetName))
+	s.SheetName = strings.TrimSpace(s.SheetName)
+	s.Composer = strings.TrimSpace(s.Composer)
+	s.SafeComposer = strings.TrimSpace(s.SafeComposer)
+	s.SafeSheetName = strings.TrimSpace(s.SafeSheetName)
 	s.CreatedAt = time.Now()
 	s.UpdatedAt = time.Now()
 	s.PdfUrl = "sheet/pdf/" + s.SafeComposer + "/" + s.SafeSheetName

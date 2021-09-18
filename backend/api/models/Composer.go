@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"fmt"
-	"html"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,10 +22,10 @@ type Composer struct {
 }
 
 func (c *Composer) Prepare() {
-	c.Name = html.EscapeString(strings.TrimSpace(c.Name))
-	c.SafeName = html.EscapeString(strings.TrimSpace(c.SafeName))
-	c.PortraitURL = html.EscapeString(strings.TrimSpace(c.PortraitURL))
-	c.Epoch = html.EscapeString(strings.TrimSpace(c.Epoch))
+	c.Name = strings.TrimSpace(c.Name)
+	c.SafeName = strings.TrimSpace(c.SafeName)
+	c.PortraitURL = strings.TrimSpace(c.PortraitURL)
+	c.Epoch = strings.TrimSpace(c.Epoch)
 	c.CreatedAt = time.Now()
 	c.UpdatedAt = time.Now()
 }
