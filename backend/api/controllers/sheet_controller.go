@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
-	"net/url"
 	"os"
 	"strconv"
 
@@ -69,15 +69,16 @@ func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
 	*/
 
 	vars := mux.Vars(r)
-	sheetName, err := url.Parse(vars["sheetName"])
-	if err != nil {
+	sheetName := vars["sheetName"]
+	if sheetName == "" {
 		responses.ERROR(w, http.StatusUnprocessableEntity, errors.New("missing URL parameter 'sheetName'"))
 		return
 	}
 
 	sheetModel := models.Sheet{}
+	fmt.Println(sheetName)
 
-	sheet, _ := sheetModel.FindSheetByID(server.DB, sheetName.RawPath)
+	sheet, _ := sheetModel.FindSheetBySafeName(server.DB, sheetName)
 
 	responses.JSON(w, http.StatusOK, sheet)
 }
@@ -121,7 +122,7 @@ func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the sheet exist
 	sheet := models.Sheet{}
-	err = server.DB.Model(models.Sheet{}).Where("sheet_name = ?", sheetName).Take(&sheet).Error
+	err = server.DB.Model(models.Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&sheet).Error
 	if err != nil {
 		responses.ERROR(w, http.StatusNotFound, errors.New("sheet not found"))
 		return

@@ -30,7 +30,7 @@ func (s *Sheet) Prepare() {
 	s.SafeSheetName = html.EscapeString(strings.TrimSpace(s.SafeSheetName))
 	s.CreatedAt = time.Now()
 	s.UpdatedAt = time.Now()
-	s.PdfUrl = "sheet/pdf/" + s.Composer + "/" + s.SafeSheetName
+	s.PdfUrl = "sheet/pdf/" + s.SafeComposer + "/" + s.SafeSheetName
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
@@ -43,7 +43,7 @@ func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
 
 func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 
-	sheet, err := s.FindSheetByID(db, sheetName)
+	sheet, err := s.FindSheetBySafeName(db, sheetName)
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			return 0, errors.New("Sheet not found")
@@ -52,8 +52,8 @@ func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 	}
 
 	paths := []string{
-		os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/" + sheet.Composer + "/" + sheet.SheetName + ".pdf",
-		os.Getenv("CONFIG_PATH") + "sheets/thumbnails/" + sheet.SheetName + ".png",
+		os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/" + sheet.SafeComposer + "/" + sheet.SafeSheetName + ".pdf",
+		os.Getenv("CONFIG_PATH") + "sheets/thumbnails/" + sheet.SafeSheetName + ".png",
 	}
 
 	for _, path := range paths {
@@ -63,7 +63,7 @@ func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 		}
 	}
 
-	db = db.Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&Sheet{}).Delete(&Sheet{})
+	db = db.Model(&Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&Sheet{}).Delete(&Sheet{})
 
 	if db.Error != nil {
 		if gorm.IsRecordNotFoundError(db.Error) {
@@ -90,13 +90,13 @@ func (s *Sheet) GetAllSheets(db *gorm.DB) (*[]Sheet, error) {
 	return &sheets, err
 }
 
-func (s *Sheet) FindSheetByID(db *gorm.DB, sheetName string) (*Sheet, error) {
+func (s *Sheet) FindSheetBySafeName(db *gorm.DB, sheetName string) (*Sheet, error) {
 	/*
-		Get information of one single sheet
+		Get information of one single sheet by the safe sheet name
 	*/
 
 	var err error
-	err = db.Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&s).Error
+	err = db.Model(&Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&s).Error
 	if err != nil {
 		return &Sheet{}, err
 	}

@@ -160,6 +160,11 @@ func getPortraitURL(composerName string) Comp {
 func safeComposer(r *http.Request, server *Server) Comp {
 
 	compo := getPortraitURL(r.FormValue("composer"))
+
+	if compo.SafeName == "" {
+		compo.SafeName = sanitize.Name(compo.CompleteName)
+	}
+
 	comp := models.Composer{
 		Name:        compo.CompleteName,
 		SafeName:    compo.SafeName,
