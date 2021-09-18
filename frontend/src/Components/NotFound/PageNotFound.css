@@ -61,7 +61,7 @@
     overflow: hidden;
 }
 
-.notfound p {
+.notfound p, a {
     font-family: montserrat,sans-serif;
     display: inline-block;
     font-weight: 700;
