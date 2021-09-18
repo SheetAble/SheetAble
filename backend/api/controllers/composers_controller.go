@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/kennygrant/sanitize"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
@@ -147,7 +148,7 @@ func uploadPortait(w http.ResponseWriter, r *http.Request, compName string, orig
 
 	// Create the composer Directory if it doesn't exist yet
 	dir := os.Getenv("CONFIG_PATH") + "composer"
-	path := os.Getenv("CONFIG_PATH") + "composer/" + compName + ".png"
+	path := os.Getenv("CONFIG_PATH") + "composer/" + sanitize.Name(compName) + ".png"
 	if originalName != compName {
 		os.Remove(os.Getenv("CONFIG_PATH") + "composer/" + originalName + ".png")
 	}

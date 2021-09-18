@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	"github.com/kennygrant/sanitize"
 )
 
 type Composer struct {
@@ -23,6 +24,7 @@ type Composer struct {
 
 func (c *Composer) Prepare() {
 	c.Name = html.EscapeString(strings.TrimSpace(c.Name))
+	c.SafeName = html.EscapeString(strings.TrimSpace(c.SafeName))
 	c.PortraitURL = html.EscapeString(strings.TrimSpace(c.PortraitURL))
 	c.Epoch = html.EscapeString(strings.TrimSpace(c.Epoch))
 	c.CreatedAt = time.Now()
@@ -39,7 +41,7 @@ func (c *Composer) SaveComposer(db *gorm.DB) (*Composer, error) {
 
 func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName string, portraitUrl string, epoch string, uploadSuccess bool) (*Composer, error) {
 
-	composer, err := c.FindComposerByID(db, originalName)
+	composer, err := c.FindComposerBySafeName(db, originalName)
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			return &Composer{}, errors.New("Composer not found")
@@ -51,6 +53,7 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 
 	if updatedName != "" {
 		composer.Name = updatedName
+		composer.SafeName = sanitize.Name(updatedName)
 	}
 	if portraitUrl != "" {
 		composer.PortraitURL = portraitUrl
@@ -59,7 +62,7 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 		composer.Epoch = epoch
 	}
 	if uploadSuccess {
-		composer.PortraitURL = "/composer/portrait/" + composer.Name
+		composer.PortraitURL = "/composer/portrait/" + composer.SafeName
 	}
 
 	composer.UpdatedAt = time.Now()
@@ -67,19 +70,19 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 	db.Save(&composer)
 
 	// Update Sheets with that composer
-	db.Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", originalName, updatedName, originalName)
-	db.Model(&Sheet{}).Where("composer = ?", originalName).Update("composer", updatedName)
-
+	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE safe_composer = ?;", originalName, sanitize.Name(updatedName), originalName)
+	db.Model(&Sheet{}).Where("safe_composer = ?", originalName).Update("safe_composer", sanitize.Name(updatedName))
+	db.Model(&Sheet{}).Where("safe_composer = ?", sanitize.Name(updatedName)).Update("composer", updatedName)
 	// Rename folder
 	path := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
-	os.Rename(path+originalName, path+updatedName)
+	os.Rename(path+originalName, path+sanitize.Name(updatedName))
 
 	return composer, nil
 }
 
 func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, error) {
 
-	_, err := c.FindComposerByID(db, composerName)
+	_, err := c.FindComposerBySafeName(db, composerName)
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			return 0, errors.New("composer not found")
@@ -88,7 +91,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	}
 
 	// Delete Composer
-	db = db.Model(&Composer{}).Where("name = ?", composerName).Take(&Composer{}).Delete(&Composer{})
+	db = db.Model(&Composer{}).Where("safe_name = ?", composerName).Take(&Composer{}).Delete(&Composer{})
 
 	if db.Error != nil {
 		if gorm.IsRecordNotFoundError(db.Error) {
@@ -102,8 +105,9 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 
 	// Swap sheets composer to Unknown
 	//	db.Model(&Sheet{}).Where("composer = ?", composerName).Update("composer", "Unknown")
-	db.Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (composer = ?);", composerName)
-	db.Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", composerName, "Unknown", "Unknown")
+	db.Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (safe_composer = ?);", composerName)
+	db.Exec("UPDATE 'sheets' SET 'safe_composer' = 'unknown' WHERE (composer = ?);", "Unknown")
+	db.Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE safe_composer = ?;", composerName, "unknown", "unknown")
 
 	confPath := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
 
@@ -117,8 +121,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 
 				pdfName := strings.Split(path, composerName)
 
-				os.Rename(path, confPath+"Unknown"+pdfName[1])
-				fmt.Println(path, info.Size())
+				os.Rename(path, confPath+"unknown"+pdfName[1])
 			}
 			return nil
 		})
@@ -131,17 +134,18 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 
 func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 
-	_, err := c.FindComposerByID(db, "Unkown")
+	_, err := c.FindComposerBySafeName(db, "unknown")
 	/* Unknown doesn't exist yet */
 	if err != nil {
 		c.Name = "Unknown"
+		c.SafeName = "unknown"
 		c.Epoch = "Unknown"
 		c.PortraitURL = "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg"
 		c.SaveComposer(db)
 
 		//Create a folder/directory at a full qualified path
 
-		err := os.Mkdir(os.Getenv("CONFIG_PATH")+"sheets/uploaded-sheets/Unknown", 0755)
+		err := os.Mkdir(os.Getenv("CONFIG_PATH")+"sheets/uploaded-sheets/unknown", 0755)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -149,13 +153,13 @@ func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 
 }
 
-func (c *Composer) FindComposerByID(db *gorm.DB, composerName string) (*Composer, error) {
+func (c *Composer) FindComposerBySafeName(db *gorm.DB, composerName string) (*Composer, error) {
 	/*
 		Get information of one single composer
 	*/
 
 	var err error
-	err = db.Model(&Composer{}).Where("name = ?", composerName).Take(&c).Error
+	err = db.Model(&Composer{}).Where("safe_name = ?", composerName).Take(&c).Error
 	if err != nil {
 		return &Composer{}, err
 	}
