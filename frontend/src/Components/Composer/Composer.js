@@ -77,16 +77,13 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 		}
 
 		// Change Page Title
-		document.title = `SheetAble - ${composer == undefined ? "Composer" : composer.name}`
+		document.title = `SheetAble - ${composer === undefined ? "Composer" : composer.name}`
 	}, [loading])
 
 	useEffect(() => {
 		getData()
 	});	
 
-	useEffect(() => {
-		console.log(composer);
-	}, [composer])
 	
 	const [modal, setModal] = useState(false)
 

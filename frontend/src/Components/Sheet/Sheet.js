@@ -45,16 +45,12 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 	useEffect(() => {	
 		// Change Page Title
-		document.title = `SheetAble - ${sheet.sheet_name == undefined ? "Sheet" : sheet.sheet_name}`
+		document.title = `SheetAble - ${sheet.sheet_name === undefined ? "Sheet" : sheet.sheet_name}`
 
 		window.addEventListener("resize", updateMedia);
 
 		return () => window.removeEventListener("resize", updateMedia);
 	});
-
-	useEffect(() => {
-		console.log(sheet);
-	}, [sheet])
 
 	let { safeSheetName, safeComposerName } = useParams();
 
