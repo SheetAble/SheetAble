@@ -65,6 +65,7 @@ func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
 	/*
 		Get PDF file and information about an individual sheet.
 		Example request: /sheet/Étude N. 1
+		Has to be safeName
 	*/
 
 	vars := mux.Vars(r)
@@ -85,6 +86,7 @@ func (server *Server) GetPDF(w http.ResponseWriter, r *http.Request) {
 	/*
 		Serve the PDF file
 		Example request: /sheet/pdf/Frédéric Chopin/Étude N. 1
+		sheetname and composer name have to be the safeName of them
 	*/
 
 	name := mux.Vars(r)["sheetName"]
@@ -95,6 +97,7 @@ func (server *Server) GetPDF(w http.ResponseWriter, r *http.Request) {
 func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 	/*
 		Serve the thumbnail file
+		name = safename of sheet
 	*/
 
 	name := mux.Vars(r)["name"]
@@ -102,6 +105,9 @@ func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 }
 
 func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
+	/*
+		Has to be safeName of the sheet
+	*/
 
 	vars := mux.Vars(r)
 	sheetName := vars["sheetName"]
@@ -115,7 +121,7 @@ func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the sheet exist
 	sheet := models.Sheet{}
-	err = server.DB.Debug().Model(models.Sheet{}).Where("sheet_name = ?", sheetName).Take(&sheet).Error
+	err = server.DB.Model(models.Sheet{}).Where("sheet_name = ?", sheetName).Take(&sheet).Error
 	if err != nil {
 		responses.ERROR(w, http.StatusNotFound, errors.New("sheet not found"))
 		return
@@ -127,5 +133,5 @@ func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responses.JSON(w, http.StatusOK, "Sheet was succesfully deleted")
+	responses.JSON(w, http.StatusOK, "Sheet was successfully deleted")
 }

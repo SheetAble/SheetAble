@@ -26,7 +26,7 @@ func (d *Division) Prepare() {
 
 func (d *Division) SaveDivision(db *gorm.DB) (*Division, error) {
 	var err error
-	err = db.Debug().Model(&Sheet{}).Create(&d).Error
+	err = db.Model(&Sheet{}).Create(&d).Error
 	if err != nil {
 		return &Division{}, err
 	}

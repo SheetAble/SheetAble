@@ -11,7 +11,7 @@ import (
 func Load(db *gorm.DB, email string, password string) {
 
 	/*
-		err := db.Debug().DropTableIfExists(&models.Post{}, &models.User{}, &models.Division{}).Error
+		err := db.DropTableIfExists(&models.Post{}, &models.User{}, &models.Division{}).Error
 		if err != nil {
 			log.Fatalf("cannot drop table: %v", err)
 		}

@@ -148,6 +148,7 @@ func getPortraitURL(composerName string) Comp {
 	if len(composers) == 0 || (!strings.EqualFold(composerName, composers[0].Name) && !strings.EqualFold(composerName, composers[0].CompleteName)) {
 		return Comp{
 			CompleteName: composerName,
+			SafeName:     sanitize.Name(composerName),
 			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
 			Epoch:        "Unknown",
 		}
@@ -222,6 +223,7 @@ func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w 
 	sheet := models.Sheet{
 		SafeSheetName: sanitize.Name(r.FormValue("sheetName")),
 		SheetName:     r.FormValue("sheetName"),
+		SafeComposer:  sanitize.Name(comp.CompleteName),
 		Composer:      comp.CompleteName,
 		UploaderID:    uid,
 		ReleaseDate:   createDate(r.FormValue("releaseDate")),

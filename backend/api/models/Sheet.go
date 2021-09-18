@@ -34,7 +34,7 @@ func (s *Sheet) Prepare() {
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
-	err := db.Debug().Model(&Sheet{}).Create(&s).Error
+	err := db.Model(&Sheet{}).Create(&s).Error
 	if err != nil {
 		return &Sheet{}, err
 	}
@@ -63,7 +63,7 @@ func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 		}
 	}
 
-	db = db.Debug().Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&Sheet{}).Delete(&Sheet{})
+	db = db.Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&Sheet{}).Delete(&Sheet{})
 
 	if db.Error != nil {
 		if gorm.IsRecordNotFoundError(db.Error) {
@@ -82,7 +82,7 @@ func (s *Sheet) GetAllSheets(db *gorm.DB) (*[]Sheet, error) {
 	var err error
 	sheets := []Sheet{}
 
-	err = db.Debug().Order("updated_at desc").Limit(20).Find(&sheets).Error
+	err = db.Order("updated_at desc").Limit(20).Find(&sheets).Error
 
 	if err != nil {
 		return &[]Sheet{}, err
@@ -96,7 +96,7 @@ func (s *Sheet) FindSheetByID(db *gorm.DB, sheetName string) (*Sheet, error) {
 	*/
 
 	var err error
-	err = db.Debug().Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&s).Error
+	err = db.Model(&Sheet{}).Where("sheet_name = ?", sheetName).Take(&s).Error
 	if err != nil {
 		return &Sheet{}, err
 	}

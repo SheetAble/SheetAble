@@ -30,7 +30,7 @@ func (c *Composer) Prepare() {
 }
 
 func (c *Composer) SaveComposer(db *gorm.DB) (*Composer, error) {
-	err := db.Debug().Model(&Sheet{}).Create(&c).Error
+	err := db.Model(&Sheet{}).Create(&c).Error
 	if err != nil {
 		return &Composer{}, err
 	}
@@ -67,7 +67,7 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 	db.Save(&composer)
 
 	// Update Sheets with that composer
-	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", originalName, updatedName, originalName)
+	db.Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", originalName, updatedName, originalName)
 	db.Model(&Sheet{}).Where("composer = ?", originalName).Update("composer", updatedName)
 
 	// Rename folder
@@ -88,7 +88,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	}
 
 	// Delete Composer
-	db = db.Debug().Model(&Composer{}).Where("name = ?", composerName).Take(&Composer{}).Delete(&Composer{})
+	db = db.Model(&Composer{}).Where("name = ?", composerName).Take(&Composer{}).Delete(&Composer{})
 
 	if db.Error != nil {
 		if gorm.IsRecordNotFoundError(db.Error) {
@@ -101,9 +101,9 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	c.CreateUnknownComposer(db)
 
 	// Swap sheets composer to Unknown
-	//	db.Debug().Model(&Sheet{}).Where("composer = ?", composerName).Update("composer", "Unknown")
-	db.Debug().Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (composer = ?);", composerName)
-	db.Debug().Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", composerName, "Unknown", "Unknown")
+	//	db.Model(&Sheet{}).Where("composer = ?", composerName).Update("composer", "Unknown")
+	db.Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (composer = ?);", composerName)
+	db.Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE composer = ?;", composerName, "Unknown", "Unknown")
 
 	confPath := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
 
@@ -155,7 +155,7 @@ func (c *Composer) FindComposerByID(db *gorm.DB, composerName string) (*Composer
 	*/
 
 	var err error
-	err = db.Debug().Model(&Composer{}).Where("name = ?", composerName).Take(&c).Error
+	err = db.Model(&Composer{}).Where("name = ?", composerName).Take(&c).Error
 	if err != nil {
 		return &Composer{}, err
 	}
@@ -170,7 +170,7 @@ func (c *Composer) GetAllComposer(db *gorm.DB) (*[]Composer, error) {
 	var err error
 	composers := []Composer{}
 
-	err = db.Debug().Order("updated_at desc").Limit(20).Find(&composers).Error
+	err = db.Order("updated_at desc").Limit(20).Find(&composers).Error
 
 	if err != nil {
 		return &[]Composer{}, err
