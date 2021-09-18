@@ -262,7 +262,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 						</div>	
 
 
-						<div className="doc_box composer_info remove_shadow" onClick={() => history.push(`/composer/${composer.name}`)}>
+						<div className="doc_box composer_info remove_shadow" onClick={() => history.push(`/composer/${composer.safe_name}`)}>
 							<img className="composer_img" src={imgUrl} alt="Portrait" />
 							<div className="composer_info_text_wrapper">
 								<span>{composer.name}</span>								

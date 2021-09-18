@@ -8,7 +8,7 @@ function ComposerBox({ composer }) {
 	const imgUrl = getCompImgUrl(composer.portrait_url)
 	
 	return (
-		<li key={composer.name} className="li-height" onClick={() => history.push(`/composer/${composer.name}`)}>
+		<li key={composer.name} className="li-height" onClick={() => history.push(`/composer/${composer.safe_name}`)}>
 			<div className="box-container remove_shadow" >
 					<img className="thumbnail-image" src={imgUrl} alt="portrait" />
 					<div className="sheet-name-container">
