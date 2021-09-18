@@ -38,7 +38,7 @@ function ModalContent(props) {
 	}, [name, epoch])
 
 	const sendRequest = () => {
-		props.editComposer(props.composer.name, name, epoch, uploadFile, () => {
+		props.editComposer(props.composer.safe_name, name, epoch, uploadFile, () => {
 			props.resetData()
 			window.location.replace("/")
 		})

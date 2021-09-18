@@ -94,7 +94,7 @@ function ModalContent(props) {
 		}
 
 		const makeCalls = (_callback) => {
-			props.updateSheet(newData, props.sheet.sheet_name, () => {
+			props.updateSheet(newData, props.sheet.safe_sheet_name, () => {
 				props.resetData()
 				props.onClose()
 				_callback()
