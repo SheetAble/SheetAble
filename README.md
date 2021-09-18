@@ -109,7 +109,3 @@ Organization Link: [github.com/SheetAble](https://github.com/SheetAble)
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 * [Open Opus API](https://www.webpagefx.com/tools/emoji-cheat-sheet) - Free, open metadata for classical music
-
-## Supporters
-[![Stargazers repo roster for @SheetAble/SheetAble](https://reporoster.com/stars/SheetAble/SheetAble)](https://github.com/SheetAble/SheetAble/stargazers)
-[![Forkers repo roster for @SheetAble/SheetAble](https://reporoster.com/forks/SheetAble/SheetAble)](https://github.com/SheetAble/SheetAble/network/members)
