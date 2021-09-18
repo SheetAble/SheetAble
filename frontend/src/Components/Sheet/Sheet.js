@@ -1,3 +1,7 @@
+/*
+	This file needs to be rewritten soon due to being not properly readable anymore
+*/
+
 
 import React, { useEffect, useState, Fragment } from 'react'
 import { useParams } from "react-router-dom";
@@ -41,15 +45,18 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 	useEffect(() => {	
 		// Change Page Title
-		document.title = `SheetAble - ${sheetName == undefined ? "Sheet" : sheetName}`
+		document.title = `SheetAble - ${sheet.sheet_name == undefined ? "Sheet" : sheet.sheet_name}`
 
 		window.addEventListener("resize", updateMedia);
 
 		return () => window.removeEventListener("resize", updateMedia);
 	});
 
+	useEffect(() => {
+		console.log(sheet);
+	}, [sheet])
 
-	let { sheetName, composerName } = useParams();
+	let { safeSheetName, safeComposerName } = useParams();
 
 	const getSheetDataReq = async (_callback) => {
 		
@@ -86,8 +93,8 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 	const [pdf, setpdf] = useState(undefined)
 
 
-	const bySheetPages = findSheetByPages(sheetName, sheetPages)
-	const bySheets = findSheetBySheets(sheetName, sheets)
+	const bySheetPages = findSheetByPages(safeSheetName, sheetPages)
+	const bySheets = findSheetBySheets(safeSheetName, sheets)
 
 
 	const [sheet] = useState( bySheetPages === undefined ?  
@@ -97,8 +104,8 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 	)
 	
 
-	const byComposerPages = findComposerByPages(composerName, composerPages)
-	const byComposers = findComposerByComposers(composerName, composers) 
+	const byComposerPages = findComposerByPages(safeComposerName, composerPages)
+	const byComposers = findComposerByComposers(safeComposerName, composers) 
 	
 
 	const [composer] = useState(
@@ -114,7 +121,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 
 	const pdfRequest = () => {
-		axios.get(`/sheet/pdf/${composerName}/${sheetName}`, {responseType: "arraybuffer"})
+		axios.get(`/sheet/pdf/${safeComposerName}/${safeSheetName}`, {responseType: "arraybuffer"})
 			.then(res => {
 				setpdf(res)
 			})
@@ -184,9 +191,9 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 				<div className="document_container">
 					<div className="doc_wrapper">
 						<div className="doc_header">
-							<span className="doc_sheet">{sheetName}</span>
+							<span className="doc_sheet">{sheet.sheet_name}</span>
 							<br />
-							<span className="doc_composer">{composerName}</span>
+							<span className="doc_composer">{sheet.composer}</span>
 						</div>
 
 						<div className="noselect document">
@@ -226,11 +233,11 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 							
 
 
-								<div class="tooltip">	
+								<div className="tooltip">	
 										<button className="sheet_info_button" onClick={handleClick}>
 											Share
 										</button>	
-									<span class="tooltiptext">{copyText}</span>
+									<span className="tooltiptext">{copyText}</span>
 								</div>
 							
 
@@ -258,7 +265,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 						<div className="doc_box composer_info remove_shadow" onClick={() => history.push(`/composer/${composer.name}`)}>
 							<img className="composer_img" src={imgUrl} alt="Portrait" />
 							<div className="composer_info_text_wrapper">
-								<span>{composerName}</span>								
+								<span>{composer.name}</span>								
 								<span>{composer.epoch}</span>
 							</div>
 						</div>

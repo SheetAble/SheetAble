@@ -84,8 +84,8 @@ function App() {
             
               <Route exact path="/" component={HomePageProvider} />
               <Route exact path="/upload" component={UploadPage} />
-              <Route exact path="/sheet/:composerName/:sheetName" component={Sheet} />
-              <Route exact path="/composer/:composerName" component={Composer} />
+              <Route exact path="/sheet/:safeComposerName/:safeSheetName" component={Sheet} />
+              <Route exact path="/composer/:safeComposerName" component={Composer} />
               <Route exact path="/sheets" component={SheetsPage} />
               <Route exact path="/composers" component={ComposersPage} />
               <Route exact path="/settings" component={Settings} />

@@ -6,35 +6,35 @@ export const displayTimeAsString = (str) => {
 }
 
 /* Returns sheet with sheetName from sheetPages */
-export function findSheetByPages(sheetName, sheetPages) {
+export function findSheetByPages(safeSheetName, sheetPages) {
 	for (let key in sheetPages) {
 		if (!sheetPages.hasOwnProperty(key)) continue;
 		const page = sheetPages[key]
-		const result = page.find(sheet => sheet.sheet_name === sheetName)
+		const result = page.find(sheet => sheet.safe_sheet_name === safeSheetName)
 
 		if (result !== undefined) return result
 	}
 }
 
 /* Returns sheet with sheetName from sheets */
-export function findSheetBySheets(sheetName, sheets) {
-	return sheets.find(sheet => sheet.sheet_name === sheetName);
+export function findSheetBySheets(safeSheetName, sheets) {
+	return sheets.find(sheet => sheet.safe_sheet_name === safeSheetName);
 }
 
 /* Returns composer with composerName from composerPages */
-export function findComposerByPages(composerName, composerPages) {
+export function findComposerByPages(safeComposerName, composerPages) {
 	for (let key in composerPages) {
 		if (!composerPages.hasOwnProperty(key)) continue;
 		const page = composerPages[key]
-		const result = page.find(composer => composer.name === composerName)
+		const result = page.find(composer => composer.safe_name === safeComposerName)
 
 		if (result !== undefined) return result
 	}
 }
 
 /* Returns composer with composerName from composers */
-export function findComposerByComposers(composerName, composers) {
-	return composers.find(composer => composer.name === composerName);
+export function findComposerByComposers(safeComposerName, composers) {
+	return composers.find(composer => composer.safe_name === safeComposerName);
 }
 
 export function getCompImgUrl(portraitURL) {
