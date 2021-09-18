@@ -51,6 +51,7 @@ function ModalContent(props) {
 		if (files[0] !== undefined){
 			const resizedImage= new File([dataURItoBlob(await readPhoto(files[0].file))], "name.png")
 			setUploadFile(resizedImage)
+			setDisabled(false)
 		}
 		
 	}, [files])
