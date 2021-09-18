@@ -124,6 +124,6 @@ func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagi
 func ComposerEqual(composer string) func(db *gorm.DB) *gorm.DB {
 	/* Scope that composer is equal to composer (if you only want sheets from a certain composer) */
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Where("composer = ?", composer)
+		return db.Where("safe_composer = ?", composer)
 	}
 }
