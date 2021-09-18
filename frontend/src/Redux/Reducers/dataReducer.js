@@ -86,7 +86,7 @@ export default function(state = initialState, action){
             for (let key in state.composerPages) {
                 if (!state.composerPages.hasOwnProperty(key)) continue;
                 const page = state.composerPages[key]
-                const result = page.find(composer => composer.name === action.composer)
+                const result = page.find(composer => composer.safe_name === action.composer)
 
                 if (result !== undefined) {
                     var index = page.indexOf(result);
