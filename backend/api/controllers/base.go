@@ -2,9 +2,11 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -21,44 +23,48 @@ import (
 type Server struct {
 	DB     *gorm.DB
 	Router *mux.Router
+	Config config.Config
 }
 
-func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) {
+func (server *Server) Initialize() {
 
 	var err error
 
-	if Dbdriver == "mysql" {
+	DbDriver := server.Config.Database.Driver
+	DbUser := server.Config.Database.User
+	DbPassword := server.Config.Database.Password
+	DbHost := server.Config.Database.Host
+	DbPort := server.Config.Database.Port
+	DbName := server.Config.Database.Name
+
+	switch DbDriver {
+	case "mysql":
 		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
-		server.DB, err = gorm.Open(Dbdriver, DBURL)
+		server.DB, err = gorm.Open(DbDriver, DBURL)
 		if err != nil {
-			fmt.Printf("Cannot connect to %s database", Dbdriver)
-			log.Fatal("This is the error:", err)
+			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database...", Dbdriver)
+			fmt.Printf("Connected to %s database...", DbDriver)
 		}
-	}
-	if Dbdriver == "postgres" {
+	case "postgres":
 		DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
-		server.DB, err = gorm.Open(Dbdriver, DBURL)
+		server.DB, err = gorm.Open(DbDriver, DBURL)
 		if err != nil {
-			fmt.Printf("Cannot connect to %s database", Dbdriver)
-			log.Fatal("This is the error:", err)
+			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database...", Dbdriver)
+			fmt.Printf("Connected to %s database...", DbDriver)
 		}
-	}
-	if Dbdriver == "sqlite" || Dbdriver == "" {
-		if _, err := os.Stat(os.Getenv("CONFIG_PATH")); os.IsNotExist(err) {
-			_ = os.Mkdir(os.Getenv("CONFIG_PATH"), os.ModePerm)
+	default:
+		if _, err := os.Stat(server.Config.ConfigPath); os.IsNotExist(err) {
+			_ = os.Mkdir(server.Config.ConfigPath, os.ModePerm)
 		}
 
-		server.DB, err = gorm.Open("sqlite3", os.Getenv("CONFIG_PATH")+"database.db")
+		server.DB, err = gorm.Open("sqlite3", path.Join(server.Config.ConfigPath, "database.db"))
 
 		if err != nil {
-			fmt.Printf("Cannot connect to %s database", Dbdriver)
-			log.Fatal("This is the error:", err)
+			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database...", Dbdriver)
+			fmt.Printf("Connected to %s database %s...", DbDriver, path.Join(server.Config.ConfigPath, "database.db"))
 		}
 	}
 

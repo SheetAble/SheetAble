@@ -2,63 +2,42 @@ package api
 
 import (
 	"fmt"
-	"os"
-
-	"github.com/joho/godotenv"
+	"github.com/golobby/config/v3"
+	"github.com/golobby/config/v3/pkg/feeder"
+	config2 "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/controllers"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/seed"
+	"log"
+	"strings"
 )
 
-var server = controllers.Server{}
+var (
+	server = controllers.Server{}
+)
+
 
 func Run() {
 
-	checkEnvs()
-
-	var err error
-	err = godotenv.Load()
+	server.Config = config2.NewConfig()
+	dotenvFeeder := feeder.DotEnv{Path: ".env"}
+	envFeeder := feeder.Env{}
+	err := config.New().AddFeeder(dotenvFeeder).AddFeeder(envFeeder).AddStruct(&server.Config).Feed()
 	if err != nil {
-		fmt.Println("Error getting env, not comming through, using sqlite instead")
-	} else {
-		fmt.Println("Env values loaded...")
-	}
-
-	server.Initialize(os.Getenv("DB_DRIVER"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_PORT"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME"))
-
-	seed.Load(server.DB, os.Getenv("ADMIN_EMAIL"), os.Getenv("ADMIN_PASSWORD"))
-
-	/* Check if started in development mode */
-	dev := false
-	if os.Getenv("DEV") == "1" {
-		dev = true
-	}
-
-	if os.Getenv("PORT") == "" {
-		server.Run("0.0.0.0:8080", dev)
-	} else {
-		server.Run("0.0.0.0:"+os.Getenv("PORT"), dev)
-	}
-
-}
-
-func checkEnvs() {
-	/*
-		Check admin login data and api secret, so if there is none the default will be set
-		default values:
-	*/
-
-	data := [4][2]string{
-		{"ADMIN_EMAIL", "admin@admin.com"},
-		{"ADMIN_PASSWORD", "sheetable"},
-		{"API_SECRET", "sheetable"},
-		{"CONFIG_PATH", "config/"},
-	}
-
-	godotenv.Load()
-
-	for _, vars := range data {
-		if os.Getenv(vars[0]) == "" {
-			os.Setenv(vars[0], vars[1])
+		if !strings.Contains(err.Error(), "no such file") {
+			log.Fatalf("error loading config from environment: %s", err.Error())
 		}
 	}
+
+	server.Initialize()
+
+	seed.Load(server.DB, server.Config.AdminEmail, server.Config.AdminPassword)
+
+	port := 8080
+	if server.Config.Port != 0 {
+		port = server.Config.Port
+	}
+
+	server.Run(fmt.Sprintf("0.0.0.0:%d", port), server.Config.Dev)
+
+
 }

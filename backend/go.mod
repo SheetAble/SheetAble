@@ -6,6 +6,7 @@ require (
 	github.com/GeertJohan/go.rice v1.0.2 // indirect
 	github.com/badoux/checkmail v1.2.1 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+	github.com/golobby/config/v3 v3.2.2 // indirect
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/h2non/bimg v1.1.5 // indirect
