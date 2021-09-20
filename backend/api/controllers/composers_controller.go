@@ -154,7 +154,9 @@ func uploadPortait(w http.ResponseWriter, r *http.Request, compName string, orig
 	}
 	utils.CreateDir(dir)
 
-	utils.OsCreateFile(path, w, portrait)
-
+	err = utils.OsCreateFile(path, portrait)
+	if err != nil {
+		return false
+	}
 	return true
 }

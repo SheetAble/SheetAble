@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"log"
 	"net/http"
@@ -9,7 +10,6 @@ import (
 	"path"
 	"time"
 
-	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"github.com/rs/cors"
 
@@ -22,7 +22,7 @@ import (
 
 type Server struct {
 	DB     *gorm.DB
-	Router *mux.Router
+	Router *gin.Engine
 	Config config.Config
 }
 
@@ -73,9 +73,7 @@ func (server *Server) Initialize() {
 
 	server.DB.AutoMigrate(&models.User{}, &models.Sheet{}) //database migration
 
-	server.Router = mux.NewRouter()
-
-	server.initializeRoutes()
+	server.SetupRouter()
 }
 
 func (server *Server) Run(addr string, dev bool) {

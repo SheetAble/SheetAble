@@ -3,6 +3,7 @@ package controllers
 import (
 	"errors"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
 	"strconv"
@@ -105,18 +106,18 @@ func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"sheets/thumbnails/"+name+".png")
 }
 
-func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
+func (server *Server) DeleteSheet(c *gin.Context) {
 	/*
 		Has to be safeName of the sheet
 	*/
 
-	vars := mux.Vars(r)
-	sheetName := vars["sheetName"]
+	sheetName := c.Param("sheetName")
 
 	// Is this user authenticated?
-	_, err := auth.ExtractTokenID(r)
+	token := extractToken(c)
+	_, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
@@ -124,15 +125,15 @@ func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
 	sheet := models.Sheet{}
 	err = server.DB.Model(models.Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&sheet).Error
 	if err != nil {
-		responses.ERROR(w, http.StatusNotFound, errors.New("sheet not found"))
+		c.String(http.StatusNotFound, "sheet not found")
 		return
 	}
 
 	_, err = sheet.DeleteSheet(server.DB, sheetName)
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	responses.JSON(w, http.StatusOK, "Sheet was successfully deleted")
+	c.JSON(http.StatusOK, "Sheet was successfully deleted")
 }

@@ -1,165 +1,162 @@
 package controllers
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
-	"io/ioutil"
+	"github.com/gin-gonic/gin"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
 	"net/http"
 	"strconv"
-
-	"github.com/gorilla/mux"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
 )
 
-func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
+func (server *Server) CreateUser(c *gin.Context) {
 
 	// Check for authentication
-	uid := utils.CheckAuthorization(w, r)
-	if uid != 1 {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("only Admins are able to persue this command"))
+	token := extractToken(c)
+	uid, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+	if uid != config.ADMIN_UID {
+		c.String(http.StatusUnauthorized, "only Admins are able to persue this command")
 		return
 	}
-	user := models.User{}
-	err = json.Unmarshal(body, &user)
+
+	var user models.User
+	err = c.BindJSON(&user)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		c.String(http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 	user.Prepare()
 	err = user.Validate("")
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		c.String(http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 	userCreated, err := user.SaveUser(server.DB)
 
 	if err != nil {
-
 		formattedError := formaterror.FormatError(err.Error())
-
-		responses.ERROR(w, http.StatusInternalServerError, formattedError)
+		c.String(http.StatusUnprocessableEntity, formattedError.Error())
 		return
 	}
-	w.Header().Set("Location", fmt.Sprintf("%s%s/%d", r.Host, r.RequestURI, userCreated.ID))
-	responses.JSON(w, http.StatusCreated, userCreated)
+	c.Header("Location", fmt.Sprintf("%s%s/%d", c.Request.Host, c.Request.RequestURI, userCreated.ID))
+	c.JSON(http.StatusCreated, userCreated)
 }
 
-func (server *Server) GetUsers(w http.ResponseWriter, r *http.Request) {
+func (server *Server) GetUsers(c *gin.Context) {
 
 	user := models.User{}
 
 	users, err := user.FindAllUsers(server.DB)
 	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
+		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	responses.JSON(w, http.StatusOK, users)
+	c.JSON(http.StatusOK, users)
 }
 
-func (server *Server) GetUser(w http.ResponseWriter, r *http.Request) {
+func (server *Server) GetUser(c *gin.Context) {
 
-	vars := mux.Vars(r)
-	uid, err := strconv.ParseUint(vars["id"], 10, 32)
+	uidString := c.Param("id")
+	uid, err := strconv.ParseUint(uidString, 10, 32)
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	var newUid uint32 = 0
 	if uid == 0 {
-		newUid = utils.CheckAuthorization(w, r)
+
+		token := extractToken(c)
+		newUid, err = auth.ExtractTokenID(token, server.Config.ApiSecret)
+		if err != nil {
+			c.String(http.StatusUnauthorized, "Unauthorized")
+		}
 	}
 
 	uid = uint64(newUid)
-
 	user := models.User{}
 	userGotten, err := user.FindUserByID(server.DB, uint32(uid))
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	responses.JSON(w, http.StatusOK, userGotten)
+	c.JSON(http.StatusOK, userGotten)
 }
 
-func (server *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
+func (server *Server) UpdateUser(c *gin.Context) {
 
-	vars := mux.Vars(r)
-	uid, err := strconv.ParseUint(vars["id"], 10, 32)
+	uidString := c.Param("id")
+	uid, err := strconv.ParseUint(uidString, 10, 32)
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	body, err := ioutil.ReadAll(r.Body)
+
+	var user models.User
+	err = c.BindJSON(&user)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		c.String(http.StatusUnprocessableEntity, err.Error())
 		return
 	}
-	user := models.User{}
-	err = json.Unmarshal(body, &user)
+
+	token := extractToken(c)
+	tokenID, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
-		return
-	}
-	tokenID, err := auth.ExtractTokenID(r)
-	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 	if tokenID != uint32(uid) {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		c.String(http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized))
 		return
 	}
 	user.Prepare()
 	err = user.Validate("update")
 	if err != nil {
-		responses.ERROR(w, http.StatusUnprocessableEntity, err)
+		c.String(http.StatusUnprocessableEntity, err.Error())
 		return
 	}
 	updatedUser, err := user.UpdateAUser(server.DB, uint32(uid))
 	if err != nil {
 		formattedError := formaterror.FormatError(err.Error())
-		responses.ERROR(w, http.StatusInternalServerError, formattedError)
+		c.String(http.StatusUnprocessableEntity, formattedError.Error())
 		return
 	}
-	responses.JSON(w, http.StatusOK, updatedUser)
+	c.JSON(http.StatusOK, updatedUser)
 }
 
-func (server *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
+func (server *Server) DeleteUser(c *gin.Context) {
 
-	vars := mux.Vars(r)
-
-	user := models.User{}
-
-	uid, err := strconv.ParseUint(vars["id"], 10, 32)
+	uidString := c.Param("id")
+	uid, err := strconv.ParseUint(uidString, 10, 32)
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	tokenID, err := auth.ExtractTokenID(r)
+
+	token := extractToken(c)
+	tokenID, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 	if tokenID != 0 && tokenID != uint32(uid) {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
+		c.String(http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized))
 		return
 	}
+
+	var user models.User
 	_, err = user.DeleteAUser(server.DB, uint32(uid))
 	if err != nil {
-		responses.ERROR(w, http.StatusInternalServerError, err)
+		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-	w.Header().Set("Entity", fmt.Sprintf("%d", uid))
-	responses.JSON(w, http.StatusNoContent, "")
+	c.Header("Entity", fmt.Sprint(uid))
+	c.JSON(http.StatusNoContent, gin.H{})
 }

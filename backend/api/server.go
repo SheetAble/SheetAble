@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/golobby/config/v3"
 	"github.com/golobby/config/v3/pkg/feeder"
-	config2 "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+	myconfig "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/controllers"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/seed"
 	"log"
@@ -15,10 +15,9 @@ var (
 	server = controllers.Server{}
 )
 
-
 func Run() {
 
-	server.Config = config2.NewConfig()
+	server.Config = myconfig.NewConfig()
 	dotenvFeeder := feeder.DotEnv{Path: ".env"}
 	envFeeder := feeder.Env{}
 	err := config.New().AddFeeder(dotenvFeeder).AddFeeder(envFeeder).AddStruct(&server.Config).Feed()

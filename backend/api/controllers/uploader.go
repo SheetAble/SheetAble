@@ -10,17 +10,18 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
 	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
+	"path"
 	"strings"
 	"time"
 
-	"github.com/gorilla/mux"
 	"github.com/kennygrant/sanitize"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
 )
 
@@ -42,78 +43,102 @@ type Comp struct {
 	Portrait     string `json:"portrait"`
 }
 
-func (server *Server) UploadFile(w http.ResponseWriter, r *http.Request) {
+func (server *Server) UploadFile(c *gin.Context) {
 	// Check for authentication
-	uid := utils.CheckAuthorization(w, r)
-	if uid == 0 {
+	token := extractToken(c)
+	uid, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	if err != nil || uid == 0 {
+		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
-	r.ParseMultipartForm(10 << 20)
-
-	pdfFile, _, err := r.FormFile("uploadFile")
-
+	pdfFile, err := c.FormFile("uploadFile")
 	if err != nil {
-		responses.ERROR(w, http.StatusNotFound, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	defer pdfFile.Close()
 
-	prePath := os.Getenv("CONFIG_PATH") + "sheets"
-	path := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets"
-	thumbnailPath := os.Getenv("CONFIG_PATH") + "sheets/thumbnails"
+	prePath := 	path.Join(server.Config.ConfigPath, "sheets")
+	uploadPath := path.Join(server.Config.ConfigPath, "sheets/uploaded-sheets")
+	thumbnailPath := path.Join(server.Config.ConfigPath, "sheets/thumbnails")
 
 	// Save composer in the database
-	comp := safeComposer(r, server)
+	composer := c.PostForm("composer")
+	comp := safeComposer(server, composer)
 
 	utils.CreateDir(prePath)
-	utils.CreateDir(path)
+	utils.CreateDir(uploadPath)
 	utils.CreateDir(thumbnailPath)
 
 	// Handle case where no composer is given
-	path = checkComposer(path, comp)
+	uploadPath = checkComposer(uploadPath, comp)
 
 	// Check if the file already exists
-	fullpath := checkFile(path, w, r)
-	if fullpath == "" {
+	sheetName := c.PostForm("sheetName")
+	releaseDate := c.PostForm("releaseDate")
+
+	fullpath, err := checkFile(uploadPath, sheetName)
+	if fullpath == "" || err != nil {
 		return
 	}
 
 	// Create all tags like genres categories etc
-	createDivisions(r, server)
+	divisions := []string{"categories", "tags", "genres"}
+	for _, div := range divisions {
+		formVal := c.PostForm(div)
+		if formVal == "" {
+			return
+		}
+
+		categories := strings.Split(formVal, ",")
+		for _, category := range categories {
+			saveDivision(category, div, server)
+		}
+	}
 
 	// Create file
-	createFile(uid, r, server, fullpath, w, pdfFile, comp)
+	theFile, err := pdfFile.Open()
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+	defer theFile.Close()
+	err = createFile(uid, server, fullpath, theFile, comp, sheetName, releaseDate)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
 
 	// Send POST request to python server for creating the thumbnail (first page of pdf as an image)
-	if !utils.RequestToPdfToImage(fullpath, sanitize.Name(r.FormValue("sheetName"))) {
+	if !utils.RequestToPdfToImage(fullpath, sanitize.Name(sheetName)) {
 		return
 	}
 
 	// return that we have successfully uploaded our file!
-	responses.JSON(w, http.StatusAccepted, "File uploaded succesfully")
+	c.JSON(http.StatusAccepted, "File uploaded successfully")
 }
 
-func (server *Server) UpdateSheet(w http.ResponseWriter, r *http.Request) {
+func (server *Server) UpdateSheet(c *gin.Context) {
 
 	// Check for authentication
-	uid := utils.CheckAuthorization(w, r)
-	if uid == 0 {
+	token := extractToken(c)
+	uid, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	if err != nil || uid == 0 {
+		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
-	vars := mux.Vars(r)
-	sheetName := vars["sheetName"]
+	sheetName := c.Param("sheetName")
 
 	// Delete Sheet
-	sheet := models.Sheet{}
-	_, err := sheet.DeleteSheet(server.DB, sheetName)
+	var sheet models.Sheet
+	_, err = sheet.DeleteSheet(server.DB, sheetName)
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	server.UploadFile(w, r)
+	server.UploadFile(c)
 
 }
 
@@ -157,9 +182,9 @@ func getPortraitURL(composerName string) Comp {
 	return composers[0]
 }
 
-func safeComposer(r *http.Request, server *Server) Comp {
+func safeComposer(server *Server, composer string) Comp {
 
-	compo := getPortraitURL(r.FormValue("composer"))
+	compo := getPortraitURL(composer)
 
 	if compo.SafeName == "" {
 		compo.SafeName = sanitize.Name(compo.CompleteName)
@@ -175,29 +200,6 @@ func safeComposer(r *http.Request, server *Server) Comp {
 	comp.Prepare()
 	comp.SaveComposer(server.DB)
 	return compo
-}
-
-func createDivisions(r *http.Request, server *Server) {
-	/*
-		This function handles the formvalues, these have to be seperated
-		by a comma example: categories | pop, kpop, jpop
-	*/
-	getDivisions(server, r, "categories")
-	getDivisions(server, r, "tags")
-	getDivisions(server, r, "genres")
-}
-
-func getDivisions(server *Server, r *http.Request, div string) {
-	// Gets the needed data from the request
-	formVal := r.FormValue(div)
-	if formVal == "" {
-		return
-	}
-
-	categories := strings.Split(formVal, ",")
-	for _, category := range categories {
-		saveDivision(category, div, server)
-	}
 }
 
 func saveDivision(name string, division string, server *Server) {
@@ -223,20 +225,24 @@ func checkComposer(path string, comp Comp) string {
 	return path
 }
 
-func createFile(uid uint32, r *http.Request, server *Server, fullpath string, w http.ResponseWriter, file multipart.File, comp Comp) {
+func createFile(uid uint32, server *Server, fullpath string, file multipart.File, comp Comp, sheetName string, releaseDate string) error {
 	// Create database entry
 	sheet := models.Sheet{
-		SafeSheetName: sanitize.Name(r.FormValue("sheetName")),
-		SheetName:     r.FormValue("sheetName"),
+		SafeSheetName: sanitize.Name(sheetName),
+		SheetName:     sheetName,
 		SafeComposer:  sanitize.Name(comp.CompleteName),
 		Composer:      comp.CompleteName,
 		UploaderID:    uid,
-		ReleaseDate:   createDate(r.FormValue("releaseDate")),
+		ReleaseDate:   createDate(releaseDate),
 	}
 	sheet.Prepare()
 	sheet.SaveSheet(server.DB)
 	fmt.Println(fullpath)
-	utils.OsCreateFile(fullpath, w, file)
+	err := utils.OsCreateFile(fullpath, file)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func createDate(date string) time.Time {
@@ -246,12 +252,11 @@ func createDate(date string) time.Time {
 	return t
 }
 
-func checkFile(path string, w http.ResponseWriter, r *http.Request) string {
+func checkFile(pathName string, sheetName string) (string, error) {
 	// Check if the file already exists
-	fullpath := path + "/" + sanitize.Name(r.FormValue("sheetName")) + ".pdf"
+	fullpath := fmt.Sprintf("%s/%s.pdf", pathName, sanitize.Name(sheetName))
 	if _, err := os.Stat(fullpath); err == nil {
-		responses.ERROR(w, http.StatusInternalServerError, errors.New("file already exists"))
-		return ""
+		return "", errors.New("file already exists")
 	}
-	return fullpath
+	return fullpath, nil
 }
