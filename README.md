@@ -108,4 +108,4 @@ Organization Link: [github.com/SheetAble](https://github.com/SheetAble)
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [Open Opus API](https://www.webpagefx.com/tools/emoji-cheat-sheet) - Free, open metadata for classical music
+* [Open Opus API](https://openopus.org) - Free, open metadata for classical music
