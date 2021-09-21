@@ -61,4 +61,14 @@ func checkEnvs() {
 			os.Setenv(vars[0], vars[1])
 		}
 	}
+
+	/*
+		Add "/" at the end of the config path if it doesn't have one yet
+		E.g
+		CONFIG_PATH = testpath
+		-> testpath/
+	*/
+	if os.Getenv("CONFIG_PATH")[len(os.Getenv("CONFIG_PATH"))-1:] != "/" {
+		os.Setenv("CONFIG_PATH", os.Getenv("CONFIG_PATH")+"/")
+	}
 }
