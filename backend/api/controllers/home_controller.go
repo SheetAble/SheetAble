@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
+	"github.com/SheetAble/SheetAble/api/responses"
 )
 
 func (server *Server) Home(w http.ResponseWriter, r *http.Request) {

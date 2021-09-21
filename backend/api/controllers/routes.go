@@ -6,7 +6,7 @@ import (
 	"time"
 
 	rice "github.com/GeertJohan/go.rice"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/middlewares"
+	"github.com/SheetAble/SheetAble/api/middlewares"
 )
 
 func (s *Server) initializeRoutes() {

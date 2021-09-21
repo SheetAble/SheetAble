@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api"
+	"github.com/SheetAble/SheetAble/api"
 )
 
 func main() {

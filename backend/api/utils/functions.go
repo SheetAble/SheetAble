@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
+	"github.com/SheetAble/SheetAble/api/auth"
+	"github.com/SheetAble/SheetAble/api/responses"
 )
 
 func CheckAuthorization(w http.ResponseWriter, r *http.Request) uint32 {

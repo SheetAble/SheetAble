@@ -7,11 +7,11 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/SheetAble/SheetAble/api/models"
+	"github.com/SheetAble/SheetAble/api/responses"
+	"github.com/SheetAble/SheetAble/api/utils"
 	"github.com/gorilla/mux"
 	"github.com/kennygrant/sanitize"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
 )
 
 func (server *Server) GetComposersPage(w http.ResponseWriter, r *http.Request) {

@@ -8,12 +8,12 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/SheetAble/SheetAble/api/auth"
+	"github.com/SheetAble/SheetAble/api/models"
+	"github.com/SheetAble/SheetAble/api/responses"
+	"github.com/SheetAble/SheetAble/api/utils"
+	"github.com/SheetAble/SheetAble/api/utils/formaterror"
 	"github.com/gorilla/mux"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
 )
 
 func (server *Server) CreateUser(w http.ResponseWriter, r *http.Request) {

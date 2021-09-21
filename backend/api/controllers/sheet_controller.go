@@ -7,10 +7,10 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/SheetAble/SheetAble/api/auth"
+	"github.com/SheetAble/SheetAble/api/models"
+	"github.com/SheetAble/SheetAble/api/responses"
 	"github.com/gorilla/mux"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 )
 
 func (server *Server) GetSheetsPage(w http.ResponseWriter, r *http.Request) {

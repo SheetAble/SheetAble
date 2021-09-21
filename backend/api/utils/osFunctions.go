@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
+	"github.com/SheetAble/SheetAble/api/responses"
 )
 
 func CreateDir(path string) {
