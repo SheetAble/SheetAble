@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
 	"net/http"
 	"os"
 	"strconv"
@@ -14,28 +15,39 @@ import (
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 )
 
-func (server *Server) GetSheetsPage(w http.ResponseWriter, r *http.Request) {
-	/*
-		This endpoint will return all sheets in Page like style.
-		Meaning POST request will have 3 attributes:
-			- sort_by: (how is it sorted)
-			- page: (what page)
-			- limit: (limit number)
-			- composer: (what composer)
+type GetSheetsPageRequest struct {
+	SortBy string `form:"sort_by"`
+	Limit int `form:"limit"`
+	Page int `form:"page"`
+	Composer string `form:"composer"`
+}
 
-		Return:
-			- sheets: [...]
-			- page_max: [7] // How many pages there are
-			- page_current: [1] // Which page is currently selected
-	*/
+/*
+	This endpoint will return all sheets in Page like style.
+	Meaning POST request will have 3 attributes:
+		- sort_by: (how is it sorted)
+		- page: (what page)
+		- limit: (limit number)
+		- composer: (what composer)
 
-	sortBy := r.FormValue("sort_by")
+	Return:
+		- sheets: [...]
+		- page_max: [7] // How many pages there are
+		- page_current: [1] // Which page is currently selected
+*/
+func (server *Server) GetSheetsPage(c *gin.Context) {
+	var form GetSheetsPageRequest
+	// TODO(jj) - finish refactoring this function to use gin
+	if c.ShouldBind(&form) == nil {
+		fmt.Printf("it worked the binding yay %+v\n", form)
+	}
+	sortBy := c.PostForm("sort_by")
 	if sortBy == "" {
 		sortBy = "updated_at desc"
 	}
 
 	limitInt := 0
-	limit := r.FormValue("limit")
+	limit := c.PostForm("limit")
 	if limit == "" {
 		limitInt = 10
 	} else {
@@ -43,7 +55,7 @@ func (server *Server) GetSheetsPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pageInt := 0
-	page := r.FormValue("page")
+	page := c.PostForm("page")
 	if page == "" {
 		pageInt = 1
 	} else {
@@ -56,10 +68,12 @@ func (server *Server) GetSheetsPage(w http.ResponseWriter, r *http.Request) {
 		Page:  pageInt,
 	}
 
-	sheet := models.Sheet{}
-	pageNew, _ := sheet.List(server.DB, pagination, r.FormValue("composer"))
-
-	responses.JSON(w, http.StatusOK, pageNew)
+	var sheet models.Sheet
+	pageNew, err := sheet.List(server.DB, pagination, c.PostForm("composer"))
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, err)
+	}
+	c.JSON(http.StatusOK, pageNew)
 }
 
 func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {

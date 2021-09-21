@@ -17,6 +17,7 @@ func (s *Server) SetupRouter() {
 		c.JSON(http.StatusOK, gin.H{"status": "OK"})
 	})
 
+	// TODO(jj) - add auth middleware for some routes
 
 	api := r.Group("/api")
 
@@ -32,15 +33,16 @@ func (s *Server) SetupRouter() {
 
 	// Sheet routes
 	api.POST("/upload", s.UploadFile)
+	api.GET("/sheets", s.GetSheetsPage)
+	api.POST("/sheets", s.GetSheetsPage)
 
 	// Serve React
 	appBox, err := rice.FindBox("../../../frontend/build")
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	r.StaticFS("/static", appBox.HTTPBox())
-	r.GET("/", gin.WrapF(serveAppHandler(appBox)))
+	r.NoRoute(gin.WrapF(serveAppHandler(appBox)))
 
 	s.Router = r
 }
