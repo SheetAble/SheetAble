@@ -36,6 +36,10 @@ func (s *Server) SetupRouter() {
 	api.GET("/sheets", s.GetSheetsPage)
 	api.POST("/sheets", s.GetSheetsPage)
 	api.GET("/sheet/thumbnail/:name", s.GetThumbnail)
+	api.GET("/sheet/pdf/:composer/:sheetName", s.GetPDF)
+	api.GET("/sheet/:sheetName", s.GetSheet)
+	api.PUT("/sheet/:sheetName", s.UpdateSheet)
+	api.DELETE("/sheet/:sheetName", s.DeleteSheet)
 
 
 	// Serve React

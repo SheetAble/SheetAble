@@ -4,14 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/mux"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/forms"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
 	"net/http"
-	"os"
 	"path"
 )
 
@@ -50,38 +47,38 @@ func (server *Server) GetSheetsPage(c *gin.Context) {
 	c.JSON(http.StatusOK, pageNew)
 }
 
-func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
-	/*
-		Get PDF file and information about an individual sheet.
-		Example request: /sheet/Étude N. 1
-		Has to be safeName
-	*/
 
-	vars := mux.Vars(r)
-	sheetName := vars["sheetName"]
+//	Get PDF file and information about an individual sheet.
+//	Example request:
+//		GET /sheet/Étude N. 1
+//	Has to be safeName
+func (server *Server) GetSheet(c *gin.Context) {
+	sheetName := c.Param("sheetName")
 	if sheetName == "" {
-		responses.ERROR(w, http.StatusUnprocessableEntity, errors.New("missing URL parameter 'sheetName'"))
+		utils.DoError(c, http.StatusBadRequest, errors.New("missing URL parameter 'sheetName'"))
 		return
 	}
 
-	sheetModel := models.Sheet{}
-	fmt.Println(sheetName)
-
-	sheet, _ := sheetModel.FindSheetBySafeName(server.DB, sheetName)
-
-	responses.JSON(w, http.StatusOK, sheet)
+	var sheetModel models.Sheet
+	sheet, err := sheetModel.FindSheetBySafeName(server.DB, sheetName)
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, fmt.Errorf("unable to get sheet %s: %s", sheetName, err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, sheet)
 }
 
-func (server *Server) GetPDF(w http.ResponseWriter, r *http.Request) {
-	/*
-		Serve the PDF file
-		Example request: /sheet/pdf/Frédéric Chopin/Étude N. 1
-		sheetname and composer name have to be the safeName of them
-	*/
-
-	name := mux.Vars(r)["sheetName"]
-	composer := mux.Vars(r)["composer"]
-	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"sheets/uploaded-sheets/"+composer+"/"+name+".pdf")
+//
+//	Serve the PDF file
+//	Example request:
+//		GET /sheet/pdf/Frédéric Chopin/Étude N. 1
+//	sheetname and composer name have to be the safeName of them
+//
+func (server *Server) GetPDF(c *gin.Context) {
+	sheetName := c.Param("sheetName") + ".pdf"
+	composer := c.Param("sheetName")
+	filePath := path.Join(server.Config.ConfigPath, "sheets/uploaded-sheets", composer, sheetName)
+	c.File(filePath)
 }
 
 /*
@@ -94,11 +91,10 @@ func (server *Server) GetThumbnail(c *gin.Context) {
 	c.File(filePath)
 }
 
+/*
+	Has to be safeName of the sheet
+*/
 func (server *Server) DeleteSheet(c *gin.Context) {
-	/*
-		Has to be safeName of the sheet
-	*/
-
 	sheetName := c.Param("sheetName")
 
 	// Is this user authenticated?
