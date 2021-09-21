@@ -4,23 +4,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/forms"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
 	"net/http"
 	"os"
-	"strconv"
-
-	"github.com/gorilla/mux"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/responses"
+	"path"
 )
-
-type GetSheetsPageRequest struct {
-	SortBy string `form:"sort_by"`
-	Limit int `form:"limit"`
-	Page int `form:"page"`
-	Composer string `form:"composer"`
-}
 
 /*
 	This endpoint will return all sheets in Page like style.
@@ -36,42 +29,23 @@ type GetSheetsPageRequest struct {
 		- page_current: [1] // Which page is currently selected
 */
 func (server *Server) GetSheetsPage(c *gin.Context) {
-	var form GetSheetsPageRequest
-	// TODO(jj) - finish refactoring this function to use gin
-	if c.ShouldBind(&form) == nil {
-		fmt.Printf("it worked the binding yay %+v\n", form)
-	}
-	sortBy := c.PostForm("sort_by")
-	if sortBy == "" {
-		sortBy = "updated_at desc"
-	}
-
-	limitInt := 0
-	limit := c.PostForm("limit")
-	if limit == "" {
-		limitInt = 10
-	} else {
-		limitInt, _ = strconv.Atoi(limit)
-	}
-
-	pageInt := 0
-	page := c.PostForm("page")
-	if page == "" {
-		pageInt = 1
-	} else {
-		pageInt, _ = strconv.Atoi(page)
+	var form forms.GetSheetsPageRequest
+	if err := c.ShouldBind(&form); err != nil {
+		utils.DoError(c, http.StatusBadRequest, err)
+		return
 	}
 
 	pagination := models.Pagination{
-		Sort:  sortBy,
-		Limit: limitInt,
-		Page:  pageInt,
+		Sort:  form.SortBy,
+		Limit: form.Limit,
+		Page:  form.Page,
 	}
 
 	var sheet models.Sheet
-	pageNew, err := sheet.List(server.DB, pagination, c.PostForm("composer"))
+	pageNew, err := sheet.List(server.DB, pagination, form.Composer)
 	if err != nil {
 		utils.DoError(c, http.StatusInternalServerError, err)
+		return
 	}
 	c.JSON(http.StatusOK, pageNew)
 }
@@ -110,14 +84,14 @@ func (server *Server) GetPDF(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"sheets/uploaded-sheets/"+composer+"/"+name+".pdf")
 }
 
-func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
-	/*
-		Serve the thumbnail file
-		name = safename of sheet
-	*/
-
-	name := mux.Vars(r)["name"]
-	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"sheets/thumbnails/"+name+".png")
+/*
+	Serve the thumbnail file
+	name = safename of sheet
+*/
+func (server *Server) GetThumbnail(c *gin.Context) {
+	name := c.Param("name") + ".png"
+	filePath := path.Join(server.Config.ConfigPath, "sheets/thumbnails", name)
+	c.File(filePath)
 }
 
 func (server *Server) DeleteSheet(c *gin.Context) {

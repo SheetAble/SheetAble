@@ -35,6 +35,8 @@ func (s *Server) SetupRouter() {
 	api.POST("/upload", s.UploadFile)
 	api.GET("/sheets", s.GetSheetsPage)
 	api.POST("/sheets", s.GetSheetsPage)
+	api.GET("/sheet/thumbnail/:name", s.GetThumbnail)
+
 
 	// Serve React
 	appBox := rice.MustFindBox("../../../frontend/build")
