@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
+	"path"
 	"time"
 
 	rice "github.com/GeertJohan/go.rice"
@@ -37,11 +37,19 @@ func (s *Server) SetupRouter() {
 	api.POST("/sheets", s.GetSheetsPage)
 
 	// Serve React
-	appBox, err := rice.FindBox("../../../frontend/build")
-	if err != nil {
-		log.Fatal(err)
-	}
-	r.StaticFS("/static", appBox.HTTPBox())
+	appBox := rice.MustFindBox("../../../frontend/build")
+
+	//r.StaticFS("/static", appBox.HTTPBox())
+	r.GET("/static/*filepath", func(c *gin.Context) {
+		filepath := c.Request.URL.String()
+		file, err := appBox.Open(filepath)
+		if err != nil {
+			c.String(http.StatusBadRequest, err.Error())
+			return
+		}
+		http.ServeContent(c.Writer, c.Request, path.Base(filepath), time.Time{}, file)
+
+	})
 	r.NoRoute(gin.WrapF(serveAppHandler(appBox)))
 
 	s.Router = r
@@ -93,7 +101,6 @@ func serveAppHandler(app *rice.Box) http.HandlerFunc {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return
 		}
-
 		http.ServeContent(w, r, "index.html", time.Time{}, indexFile)
 	}
 }
