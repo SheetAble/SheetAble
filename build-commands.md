@@ -3,10 +3,11 @@ Here is the guide for building the project (feel free to contribute for working 
 
 1. Build frontend
    - ```cd frontend```
+   - ```npm install```
    - ```npm run build```
 2. Create the rice-box.go file
     - Install [rice.go](https://github.com/GeertJohan/go.rice) binary
-    - ```cd bakcend/api/controllers```
+    - ```cd backend/api/controllers```
     - ```rice embed-go```
 3. Run go build commands (only for windows amd, darwin arm/amd)
    - ```env GOOS="windows" GOARCH="amd64" CGO_ENABLED="1" CC="x86_64-w64-mingw32-gcc" CGO_CFLAGS_ALLOW="-Xpreprocessor" go build -o ../build/sheetable-x.y-windows.exe```
