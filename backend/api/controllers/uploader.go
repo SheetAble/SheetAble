@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/forms"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -53,9 +54,9 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 
-	pdfFile, err := c.FormFile("uploadFile")
-	if err != nil {
-		c.String(http.StatusBadRequest, err.Error())
+	var uploadForm forms.UploadRequest
+	if err = c.ShouldBind(&uploadForm); err != nil {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad upload request: %v", err))
 		return
 	}
 
@@ -64,8 +65,7 @@ func (server *Server) UploadFile(c *gin.Context) {
 	thumbnailPath := path.Join(Config().ConfigPath, "sheets/thumbnails")
 
 	// Save composer in the database
-	composer := c.PostForm("composer")
-	comp := safeComposer(server, composer)
+	comp := safeComposer(server, uploadForm.Composer)
 
 	utils.CreateDir(prePath)
 	utils.CreateDir(uploadPath)
@@ -75,8 +75,8 @@ func (server *Server) UploadFile(c *gin.Context) {
 	uploadPath = checkComposer(uploadPath, comp)
 
 	// Check if the file already exists
-	sheetName := c.PostForm("sheetName")
-	releaseDate := c.PostForm("releaseDate")
+	sheetName := uploadForm.SheetName
+	releaseDate := uploadForm.ReleaseDate
 
 	fullpath, err := checkFile(uploadPath, sheetName)
 	if fullpath == "" || err != nil {
@@ -84,17 +84,16 @@ func (server *Server) UploadFile(c *gin.Context) {
 	}
 
 	// Create all tags like genres categories etc
-	divisions := []string{"categories", "tags", "genres"}
+	divisions := []string{uploadForm.Categories, uploadForm.Tags, uploadForm.Genres}
 	for _, div := range divisions {
-		formVal := c.PostForm(div)
-		categories := strings.Split(formVal, ",")
+		categories := strings.Split(div, ",")
 		for _, category := range categories {
 			saveDivision(category, div, server)
 		}
 	}
 
 	// Create file
-	theFile, err := pdfFile.Open()
+	theFile, err := uploadForm.File.Open()
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
