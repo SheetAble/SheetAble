@@ -1,5 +1,5 @@
 # Build Commands
-Here is the guide for building the project (feel free to contribute for working commands for other systems)
+Here is the guide for building the project (feel free to contribute for working commands on other systems)
 
 1. Build frontend
    - ```cd frontend```
