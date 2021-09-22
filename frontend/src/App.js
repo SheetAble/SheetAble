@@ -34,6 +34,7 @@ import './App.css'
 
 // eslint-disable-next-line
 import Logo from './Images/logo.png'
+import SearchPage from './Components/SearchPage/SearchPage';
 
 
 // Check if started in development mode, so you can modify baseURL accordingly
@@ -85,6 +86,7 @@ function App() {
               <Route exact path="/" component={HomePageProvider} />
               <Route exact path="/upload" component={UploadPage} />
               <Route exact path="/sheet/:safeComposerName/:safeSheetName" component={Sheet} />
+              <Route exact path="/search" component={SearchPage} />
               <Route exact path="/composer/:safeComposerName" component={Composer} />
               <Route exact path="/sheets" component={SheetsPage} />
               <Route exact path="/composers" component={ComposersPage} />
