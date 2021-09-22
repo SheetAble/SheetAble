@@ -8,6 +8,7 @@ import (
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/forms"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
+	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"net/http"
 	"path"
 )
@@ -77,7 +78,7 @@ func (server *Server) GetSheet(c *gin.Context) {
 func (server *Server) GetPDF(c *gin.Context) {
 	sheetName := c.Param("sheetName") + ".pdf"
 	composer := c.Param("composer")
-	filePath := path.Join(server.Config.ConfigPath, "sheets/uploaded-sheets", composer, sheetName)
+	filePath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets", composer, sheetName)
 	c.File(filePath)
 }
 
@@ -87,7 +88,7 @@ func (server *Server) GetPDF(c *gin.Context) {
 */
 func (server *Server) GetThumbnail(c *gin.Context) {
 	name := c.Param("name") + ".png"
-	filePath := path.Join(server.Config.ConfigPath, "sheets/thumbnails", name)
+	filePath := path.Join(Config().ConfigPath, "sheets/thumbnails", name)
 	c.File(filePath)
 }
 
@@ -99,7 +100,7 @@ func (server *Server) DeleteSheet(c *gin.Context) {
 
 	// Is this user authenticated?
 	token := extractToken(c)
-	_, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	_, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized")
 		return

@@ -6,6 +6,7 @@ import (
 
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
+	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -47,5 +48,5 @@ func (server *Server) SignIn(email, password string) (string, error) {
 	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
 		return "", err
 	}
-	return auth.CreateToken(user.ID, server.Config.ApiSecret)
+	return auth.CreateToken(user.ID, Config().ApiSecret)
 }

@@ -23,6 +23,7 @@ import (
 	"github.com/kennygrant/sanitize"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
+	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 )
 
 /*
@@ -46,7 +47,7 @@ type Comp struct {
 func (server *Server) UploadFile(c *gin.Context) {
 	// Check for authentication
 	token := extractToken(c)
-	uid, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil || uid == 0 {
 		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
@@ -58,9 +59,9 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 
-	prePath := 	path.Join(server.Config.ConfigPath, "sheets")
-	uploadPath := path.Join(server.Config.ConfigPath, "sheets/uploaded-sheets")
-	thumbnailPath := path.Join(server.Config.ConfigPath, "sheets/thumbnails")
+	prePath := 	path.Join(Config().ConfigPath, "sheets")
+	uploadPath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets")
+	thumbnailPath := path.Join(Config().ConfigPath, "sheets/thumbnails")
 
 	// Save composer in the database
 	composer := c.PostForm("composer")
@@ -118,7 +119,7 @@ func (server *Server) UpdateSheet(c *gin.Context) {
 
 	// Check for authentication
 	token := extractToken(c)
-	uid, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil || uid == 0 {
 		c.String(http.StatusUnauthorized, "Unauthorized")
 		return

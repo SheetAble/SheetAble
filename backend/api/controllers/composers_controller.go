@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/kennygrant/sanitize"
+	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/forms"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
@@ -81,7 +82,7 @@ func (server *Server) UpdateComposer(c *gin.Context) {
 		return
 	}
 	uploadSuccess := false
-	uploadSuccess = server.uploadPortait(theFile, uploadComposerName, composerName)
+	uploadSuccess = uploadPortait(theFile, uploadComposerName, composerName)
 
 	composer := &models.Composer{}
 	newComp, err := composer.UpdateComposer(server.DB,
@@ -120,15 +121,15 @@ func (server *Server) DeleteComposer(c *gin.Context) {
 //		GET /composer/portrait/Chopin
 func (server *Server) ServePortraits(c *gin.Context) {
 	name := c.Param("composerName")
-	filePath := path.Join(server.Config.ConfigPath, "composer", name + ".png")
+	filePath := path.Join(Config().ConfigPath, "composer", name + ".png")
 	c.File(filePath)
 }
 
 //	Upload a portrait
 //	! Currently only PNG files supported
-func (server *Server) uploadPortait(portrait multipart.File, compName string, originalName string) bool {
+func uploadPortait(portrait multipart.File, compName string, originalName string) bool {
 	// Create the composer Directory if it doesn't exist yet
-	dir := path.Join(server.Config.ConfigPath,"composer")
+	dir := path.Join(Config().ConfigPath,"composer")
 	fullpath := path.Join(dir, sanitize.Name(compName) + ".png")
 	if originalName != compName {
 		os.Remove(path.Join(dir, originalName + ".png"))

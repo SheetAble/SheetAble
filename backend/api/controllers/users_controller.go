@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
+	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+
 	"net/http"
 	"strconv"
 )
@@ -15,13 +16,13 @@ func (server *Server) CreateUser(c *gin.Context) {
 
 	// Check for authentication
 	token := extractToken(c)
-	uid, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
-	if uid != config.ADMIN_UID {
+	if uid != ADMIN_UID {
 		c.String(http.StatusUnauthorized, "only Admins are able to persue this command")
 		return
 	}
@@ -74,7 +75,7 @@ func (server *Server) GetUser(c *gin.Context) {
 	if uid == 0 {
 
 		token := extractToken(c)
-		newUid, err = auth.ExtractTokenID(token, server.Config.ApiSecret)
+		newUid, err = auth.ExtractTokenID(token, Config().ApiSecret)
 		if err != nil {
 			c.String(http.StatusUnauthorized, "Unauthorized")
 		}
@@ -107,7 +108,7 @@ func (server *Server) UpdateUser(c *gin.Context) {
 	}
 
 	token := extractToken(c)
-	tokenID, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	tokenID, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
@@ -141,7 +142,7 @@ func (server *Server) DeleteUser(c *gin.Context) {
 	}
 
 	token := extractToken(c)
-	tokenID, err := auth.ExtractTokenID(token, server.Config.ApiSecret)
+	tokenID, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized")
 		return

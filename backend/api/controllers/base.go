@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"log"
 	"net/http"
 	"os"
@@ -23,19 +23,18 @@ import (
 type Server struct {
 	DB     *gorm.DB
 	Router *gin.Engine
-	Config config.Config_T
 }
 
 func (server *Server) Initialize() {
 
 	var err error
 
-	DbDriver := server.Config.Database.Driver
-	DbUser := server.Config.Database.User
-	DbPassword := server.Config.Database.Password
-	DbHost := server.Config.Database.Host
-	DbPort := server.Config.Database.Port
-	DbName := server.Config.Database.Name
+	DbDriver := Config().Database.Driver
+	DbUser := Config().Database.User
+	DbPassword := Config().Database.Password
+	DbHost := Config().Database.Host
+	DbPort := Config().Database.Port
+	DbName := Config().Database.Name
 
 	switch DbDriver {
 	case "mysql":
@@ -55,16 +54,16 @@ func (server *Server) Initialize() {
 			fmt.Printf("Connected to %s database...", DbDriver)
 		}
 	default:
-		if _, err := os.Stat(server.Config.ConfigPath); os.IsNotExist(err) {
-			_ = os.Mkdir(server.Config.ConfigPath, os.ModePerm)
+		if _, err := os.Stat(Config().ConfigPath); os.IsNotExist(err) {
+			_ = os.Mkdir(Config().ConfigPath, os.ModePerm)
 		}
 
-		server.DB, err = gorm.Open("sqlite3", path.Join(server.Config.ConfigPath, "database.db"))
+		server.DB, err = gorm.Open("sqlite3", path.Join(Config().ConfigPath, "database.db"))
 
 		if err != nil {
 			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database %s...", DbDriver, path.Join(server.Config.ConfigPath, "database.db"))
+			fmt.Printf("Connected to %s database %s...", DbDriver, path.Join(Config().ConfigPath, "database.db"))
 		}
 	}
 
