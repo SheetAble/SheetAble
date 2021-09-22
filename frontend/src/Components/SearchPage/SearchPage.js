@@ -13,6 +13,13 @@ function SearchPage() {
 						<input type="text" name="text" placeholder="Search for sheets or composers"/>
 						<i class='bx bx-search-alt-2'></i>
 					</div>
+
+					<div className="result_wrapper">
+						<div className="span_wrapper">
+							<span>No results found yet...</span>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</Fragment>
