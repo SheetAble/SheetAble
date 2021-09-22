@@ -5,10 +5,10 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/SheetAble/SheetAble/api/auth"
-	"github.com/SheetAble/SheetAble/api/models"
-	"github.com/SheetAble/SheetAble/api/responses"
-	"github.com/SheetAble/SheetAble/api/utils/formaterror"
+	"github.com/SheetAble/SheetAble/backend/api/auth"
+	"github.com/SheetAble/SheetAble/backend/api/models"
+	"github.com/SheetAble/SheetAble/backend/api/responses"
+	"github.com/SheetAble/SheetAble/backend/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
 )
 

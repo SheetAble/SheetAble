@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/SheetAble/SheetAble/api/auth"
-	"github.com/SheetAble/SheetAble/api/responses"
+	"github.com/SheetAble/SheetAble/backend/api/auth"
+	"github.com/SheetAble/SheetAble/backend/api/responses"
 )
 
 func SetMiddlewareJSON(next http.HandlerFunc) http.HandlerFunc {

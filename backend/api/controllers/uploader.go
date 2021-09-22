@@ -17,9 +17,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/SheetAble/SheetAble/api/models"
-	"github.com/SheetAble/SheetAble/api/responses"
-	"github.com/SheetAble/SheetAble/api/utils"
+	"github.com/SheetAble/SheetAble/backend/api/models"
+	"github.com/SheetAble/SheetAble/backend/api/responses"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
 	"github.com/gorilla/mux"
 	"github.com/kennygrant/sanitize"
 )

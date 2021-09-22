@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/SheetAble/SheetAble/api/controllers"
-	"github.com/SheetAble/SheetAble/api/seed"
+	"github.com/SheetAble/SheetAble/backend/api/controllers"
+	"github.com/SheetAble/SheetAble/backend/api/seed"
 	"github.com/joho/godotenv"
 )
 

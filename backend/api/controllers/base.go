@@ -11,7 +11,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/rs/cors"
 
-	"github.com/SheetAble/SheetAble/api/models"
+	"github.com/SheetAble/SheetAble/backend/api/models"
 	"github.com/gorilla/handlers"
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver

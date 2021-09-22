@@ -7,9 +7,9 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/SheetAble/SheetAble/api/auth"
-	"github.com/SheetAble/SheetAble/api/models"
-	"github.com/SheetAble/SheetAble/api/responses"
+	"github.com/SheetAble/SheetAble/backend/api/auth"
+	"github.com/SheetAble/SheetAble/backend/api/models"
+	"github.com/SheetAble/SheetAble/backend/api/responses"
 	"github.com/gorilla/mux"
 )
 
