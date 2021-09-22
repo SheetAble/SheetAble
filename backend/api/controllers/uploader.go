@@ -59,6 +59,10 @@ func (server *Server) UploadFile(c *gin.Context) {
 		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad upload request: %v", err))
 		return
 	}
+	if err = uploadForm.ValidateForm(); err != nil {
+		utils.DoError(c, http.StatusBadRequest, err)
+		return
+	}
 
 	prePath := 	path.Join(Config().ConfigPath, "sheets")
 	uploadPath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets")
