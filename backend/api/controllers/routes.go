@@ -42,6 +42,13 @@ func (s *Server) SetupRouter() {
 	api.DELETE("/sheet/:sheetName", s.DeleteSheet)
 
 
+	// Composer routes
+	api.GET("/composers", s.GetComposersPage)
+	api.POST("/composers", s.GetComposersPage)
+	api.PUT("/composers/:composerName", s.UpdateComposer)
+	api.DELETE("/composer/:composerName", s.DeleteComposer)
+	api.GET("/composer/portrait/:composerName", s.ServePortraits)
+
 	// Serve React
 	appBox := rice.MustFindBox("../../../frontend/build")
 
