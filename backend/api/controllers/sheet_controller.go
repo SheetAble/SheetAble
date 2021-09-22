@@ -76,7 +76,7 @@ func (server *Server) GetSheet(c *gin.Context) {
 //
 func (server *Server) GetPDF(c *gin.Context) {
 	sheetName := c.Param("sheetName") + ".pdf"
-	composer := c.Param("sheetName")
+	composer := c.Param("composer")
 	filePath := path.Join(server.Config.ConfigPath, "sheets/uploaded-sheets", composer, sheetName)
 	c.File(filePath)
 }

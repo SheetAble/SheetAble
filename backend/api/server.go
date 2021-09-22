@@ -26,6 +26,7 @@ func Run() {
 			log.Fatalf("error loading config from environment: %s", err.Error())
 		}
 	}
+	myconfig.Config = server.Config
 
 	server.Initialize()
 

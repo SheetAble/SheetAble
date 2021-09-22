@@ -8,7 +8,7 @@ import (
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/forms"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
-	"io"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"path"
@@ -126,7 +126,7 @@ func (server *Server) ServePortraits(c *gin.Context) {
 
 //	Upload a portrait
 //	! Currently only PNG files supported
-func (server *Server) uploadPortait(portrait io.Reader, compName string, originalName string) bool {
+func (server *Server) uploadPortait(portrait multipart.File, compName string, originalName string) bool {
 	// Create the composer Directory if it doesn't exist yet
 	dir := path.Join(server.Config.ConfigPath,"composer")
 	fullpath := path.Join(dir, sanitize.Name(compName) + ".png")

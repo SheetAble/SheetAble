@@ -4,12 +4,14 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 	"io"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
 	"net/http/httputil"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -102,7 +104,7 @@ func Upload(client *http.Client, url string, values map[string]io.Reader, name s
 
 	// Save response
 	defer res.Body.Close()
-	out, err := os.Create(os.Getenv("CONFIG_PATH") + "sheets/thumbnails/" + name + ".png")
+	out, err := os.Create(path.Join( config.Config.ConfigPath, "sheets/thumbnails",  name+".png"))
 	if err != nil {
 		return
 	}

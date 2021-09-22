@@ -86,10 +86,6 @@ func (server *Server) UploadFile(c *gin.Context) {
 	divisions := []string{"categories", "tags", "genres"}
 	for _, div := range divisions {
 		formVal := c.PostForm(div)
-		if formVal == "" {
-			return
-		}
-
 		categories := strings.Split(formVal, ",")
 		for _, category := range categories {
 			saveDivision(category, div, server)
@@ -236,9 +232,12 @@ func createFile(uid uint32, server *Server, fullpath string, file multipart.File
 		ReleaseDate:   createDate(releaseDate),
 	}
 	sheet.Prepare()
-	sheet.SaveSheet(server.DB)
+	_, err := sheet.SaveSheet(server.DB)
+	if err != nil {
+		return err
+	}
 	fmt.Println(fullpath)
-	err := utils.OsCreateFile(fullpath, file)
+	err = utils.OsCreateFile(fullpath, file)
 	if err != nil {
 		return err
 	}

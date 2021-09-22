@@ -23,7 +23,7 @@ import (
 type Server struct {
 	DB     *gorm.DB
 	Router *gin.Engine
-	Config config.Config
+	Config config.Config_T
 }
 
 func (server *Server) Initialize() {
