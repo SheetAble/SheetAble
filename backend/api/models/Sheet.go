@@ -120,6 +120,15 @@ func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagi
 	return &pagination, nil
 }
 
+func (s *Sheet) Search(db *gorm.DB, search_value string) ([]*Sheet, error) {
+	/*
+		Search for sheets with containing string
+	*/
+	var sheets []*Sheet
+	db.Where("sheet_name LIKE ?", search_value).Find(&sheets)
+	return sheets, nil
+}
+
 func ComposerEqual(composer string) func(db *gorm.DB) *gorm.DB {
 	/* Scope that composer is equal to composer (if you only want sheets from a certain composer) */
 	return func(db *gorm.DB) *gorm.DB {
