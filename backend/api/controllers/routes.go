@@ -38,6 +38,9 @@ func (s *Server) initializeRoutes() {
 	api.HandleFunc("/composer/{composerName}", middlewares.SetMiddlewareAuthentication(s.DeleteComposer)).Methods("DELETE")
 	api.HandleFunc("/composer/portrait/{composerName}", s.ServePortraits).Methods("GET")
 
+	// Sheet & Composer (combined) routes
+	api.HandleFunc("/search/{searchValue}", middlewares.SetMiddlewareAuthentication(s.Search)).Methods("GET")
+
 	// Serve React
 	appBox, err := rice.FindBox("../../../frontend/build")
 	if err != nil {

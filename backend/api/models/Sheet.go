@@ -120,12 +120,12 @@ func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagi
 	return &pagination, nil
 }
 
-func (s *Sheet) Search(db *gorm.DB, search_value string) ([]*Sheet, error) {
+func (s *Sheet) Search(db *gorm.DB, searchValue string) ([]*Sheet, error) {
 	/*
 		Search for sheets with containing string
 	*/
 	var sheets []*Sheet
-	db.Where("sheet_name LIKE ?", search_value).Find(&sheets)
+	db.Where("sheet_name LIKE ?", searchValue).Find(&sheets)
 	return sheets, nil
 }
 
