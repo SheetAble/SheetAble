@@ -48,7 +48,6 @@ func (server *Server) GetSheetsPage(c *gin.Context) {
 	c.JSON(http.StatusOK, pageNew)
 }
 
-
 //	Get PDF file and information about an individual sheet.
 //	Example request:
 //		GET /sheet/Étude N. 1

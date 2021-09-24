@@ -9,12 +9,12 @@ import (
 )
 
 var (
-	serverConfig     ServerConfig
-	configOnce sync.Once
+	serverConfig ServerConfig
+	configOnce   sync.Once
 )
 
 type configBuilder struct {
-	dotenvFile string
+	dotenvFile           string
 	errorOnMissingDotenv bool
 }
 

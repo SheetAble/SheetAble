@@ -44,7 +44,6 @@ func (server *Server) SetupRouter() {
 	secureApi.PUT("/sheet/:sheetName", server.UpdateSheet)
 	secureApi.DELETE("/sheet/:sheetName", server.DeleteSheet)
 
-
 	// Composer routes
 	secureApi.GET("/composers", server.GetComposersPage)
 	secureApi.POST("/composers", server.GetComposersPage)

@@ -53,8 +53,8 @@ func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 	}
 
 	paths := []string{
-		path.Join(Config().ConfigPath, "sheets/uploaded-sheets", sheet.SafeComposer, sheet.SafeSheetName + ".pdf"),
-		path.Join(Config().ConfigPath, "sheets/thumbnails", sheet.SafeSheetName + ".png"),
+		path.Join(Config().ConfigPath, "sheets/uploaded-sheets", sheet.SafeComposer, sheet.SafeSheetName+".pdf"),
+		path.Join(Config().ConfigPath, "sheets/thumbnails", sheet.SafeSheetName+".png"),
 	}
 
 	for _, path := range paths {

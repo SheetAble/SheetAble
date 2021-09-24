@@ -7,8 +7,8 @@ type GetComposersPageRequest struct {
 }
 
 type UpdateComposersRequest struct {
-	Name string `form:"name"`
-	PortraitUrl string `form:"portrait_url"`
-	Epoch string `form:"epoch"`
-	File *multipart.FileHeader `form:"file"`
+	Name        string                `form:"name"`
+	PortraitUrl string                `form:"portrait_url"`
+	Epoch       string                `form:"epoch"`
+	File        *multipart.FileHeader `form:"file"`
 }

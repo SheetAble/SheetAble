@@ -2,10 +2,10 @@ package middlewares
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/SheetAble/SheetAble/backend/api/auth"
 	"github.com/SheetAble/SheetAble/backend/api/config"
 	"github.com/SheetAble/SheetAble/backend/api/utils"
+	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
@@ -18,7 +18,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	secret := config.Config().ApiSecret
 
 	return func(c *gin.Context) {
-		err := auth.TokenValid(utils.ExtractToken(c) ,secret)
+		err := auth.TokenValid(utils.ExtractToken(c), secret)
 		if err != nil {
 			c.AbortWithError(http.StatusUnauthorized, fmt.Errorf("Unauthorized: %v", err))
 			return
@@ -26,4 +26,3 @@ func AuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
-

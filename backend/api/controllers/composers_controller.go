@@ -121,7 +121,7 @@ func (server *Server) DeleteComposer(c *gin.Context) {
 //		GET /composer/portrait/Chopin
 func (server *Server) ServePortraits(c *gin.Context) {
 	name := c.Param("composerName")
-	filePath := path.Join(Config().ConfigPath, "composer", name + ".png")
+	filePath := path.Join(Config().ConfigPath, "composer", name+".png")
 	c.File(filePath)
 }
 
@@ -129,10 +129,10 @@ func (server *Server) ServePortraits(c *gin.Context) {
 //	! Currently only PNG files supported
 func uploadPortait(portrait multipart.File, compName string, originalName string) bool {
 	// Create the composer Directory if it doesn't exist yet
-	dir := path.Join(Config().ConfigPath,"composer")
-	fullpath := path.Join(dir, sanitize.Name(compName) + ".png")
+	dir := path.Join(Config().ConfigPath, "composer")
+	fullpath := path.Join(dir, sanitize.Name(compName)+".png")
 	if originalName != compName {
-		os.Remove(path.Join(dir, originalName + ".png"))
+		os.Remove(path.Join(dir, originalName+".png"))
 	}
 	utils.CreateDir(dir)
 

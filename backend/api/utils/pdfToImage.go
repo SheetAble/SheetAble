@@ -104,7 +104,7 @@ func Upload(client *http.Client, url string, values map[string]io.Reader, name s
 
 	// Save response
 	defer res.Body.Close()
-	out, err := os.Create(path.Join( Config().ConfigPath, "sheets/thumbnails",  name+".png"))
+	out, err := os.Create(path.Join(Config().ConfigPath, "sheets/thumbnails", name+".png"))
 	if err != nil {
 		return
 	}

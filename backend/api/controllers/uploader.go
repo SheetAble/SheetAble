@@ -64,7 +64,7 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 
-	prePath := 	path.Join(Config().ConfigPath, "sheets")
+	prePath := path.Join(Config().ConfigPath, "sheets")
 	uploadPath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets")
 	thumbnailPath := path.Join(Config().ConfigPath, "sheets/thumbnails")
 
