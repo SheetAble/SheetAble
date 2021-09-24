@@ -1,4 +1,4 @@
-module github.com/vallezw/SheetUploader-Selfhosted/backend
+module github.com/SheetAble/SheetAble/backend
 
 go 1.16
 

@@ -6,7 +6,7 @@ RUN apk add build-base
 RUN apk add git
 
 # Add Maintainer Info
-LABEL maintainer="<>"
+LABEL maintainer="vallezw"
 
 RUN mkdir /app
 ADD . /app

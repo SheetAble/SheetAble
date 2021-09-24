@@ -2,7 +2,7 @@ package models
 
 import (
 	"errors"
-	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"log"
 	"os"
 	"path"
@@ -120,6 +120,15 @@ func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagi
 	pagination.Rows = sheets
 
 	return &pagination, nil
+}
+
+func (s *Sheet) Search(db *gorm.DB, searchValue string) ([]*Sheet, error) {
+	/*
+		Search for sheets with containing string
+	*/
+	var sheets []*Sheet
+	db.Where("sheet_name LIKE ?", searchValue).Find(&sheets)
+	return sheets, nil
 }
 
 func ComposerEqual(composer string) func(db *gorm.DB) *gorm.DB {

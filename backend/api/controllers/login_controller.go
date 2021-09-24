@@ -4,10 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
+	"github.com/SheetAble/SheetAble/backend/api/auth"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/models"
+	"github.com/SheetAble/SheetAble/backend/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
 )
 

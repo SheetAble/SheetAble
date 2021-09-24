@@ -2,12 +2,12 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/SheetAble/SheetAble/backend/api/auth"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/models"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
+	"github.com/SheetAble/SheetAble/backend/api/utils/formaterror"
 	"github.com/gin-gonic/gin"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
-	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 
 	"net/http"
 	"strconv"

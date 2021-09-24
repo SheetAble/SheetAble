@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
-	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"io"
 	"mime/multipart"
 	"net/http"

@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"github.com/SheetAble/SheetAble/backend/api/middlewares"
 	"github.com/gin-gonic/gin"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/middlewares"
 	"net/http"
 	"path"
 	"time"
@@ -10,7 +10,7 @@ import (
 	rice "github.com/GeertJohan/go.rice"
 )
 
-func (s *Server) SetupRouter() {
+func (server *Server) SetupRouter() {
 	r := gin.Default()
 
 	// health checks
@@ -20,37 +20,40 @@ func (s *Server) SetupRouter() {
 
 	api := r.Group("/api")
 
-	// secureApi is still rooted at /api/... but it has the auth middleware so it's routes check token on each call
+	// secureApi is still rooted at /api/... but it has the auth middleware so it'server routes check token on each call
 	secureApi := api.Group("")
 	secureApi.Use(middlewares.AuthMiddleware())
 
 	// Login routes
-	api.POST("/login", s.Login)
+	api.POST("/login", server.Login)
 
 	// Users routes
-	api.POST("/users", s.CreateUser)
-	api.GET("/users", s.GetUsers)
-	api.GET("/users/:id", s.GetUser)
-	secureApi.PUT("/users/:id", s.UpdateUser)
-	secureApi.DELETE("/users/:id", s.DeleteUser)
+	api.POST("/users", server.CreateUser)
+	api.GET("/users", server.GetUsers)
+	api.GET("/users/:id", server.GetUser)
+	secureApi.PUT("/users/:id", server.UpdateUser)
+	secureApi.DELETE("/users/:id", server.DeleteUser)
 
 	// Sheet routes
-	secureApi.POST("/upload", s.UploadFile)
-	secureApi.GET("/sheets", s.GetSheetsPage)
-	secureApi.POST("/sheets", s.GetSheetsPage)
-	api.GET("/sheet/thumbnail/:name", s.GetThumbnail)
-	secureApi.GET("/sheet/pdf/:composer/:sheetName", s.GetPDF)
-	secureApi.GET("/sheet/:sheetName", s.GetSheet)
-	secureApi.PUT("/sheet/:sheetName", s.UpdateSheet)
-	secureApi.DELETE("/sheet/:sheetName", s.DeleteSheet)
+	secureApi.POST("/upload", server.UploadFile)
+	secureApi.GET("/sheets", server.GetSheetsPage)
+	secureApi.POST("/sheets", server.GetSheetsPage)
+	api.GET("/sheet/thumbnail/:name", server.GetThumbnail)
+	secureApi.GET("/sheet/pdf/:composer/:sheetName", server.GetPDF)
+	secureApi.GET("/sheet/:sheetName", server.GetSheet)
+	secureApi.PUT("/sheet/:sheetName", server.UpdateSheet)
+	secureApi.DELETE("/sheet/:sheetName", server.DeleteSheet)
 
 
 	// Composer routes
-	secureApi.GET("/composers", s.GetComposersPage)
-	secureApi.POST("/composers", s.GetComposersPage)
-	secureApi.PUT("/composers/:composerName", s.UpdateComposer)
-	secureApi.DELETE("/composer/:composerName", s.DeleteComposer)
-	api.GET("/composer/portrait/:composerName", s.ServePortraits)
+	secureApi.GET("/composers", server.GetComposersPage)
+	secureApi.POST("/composers", server.GetComposersPage)
+	secureApi.PUT("/composers/:composerName", server.UpdateComposer)
+	secureApi.DELETE("/composer/:composerName", server.DeleteComposer)
+	api.GET("/composer/portrait/:composerName", server.ServePortraits)
+
+	// Sheet & Composer (combined) routes
+	secureApi.GET("/search/:searchValue", server.Search)
 
 	// Serve React
 	appBox := rice.MustFindBox("../../../frontend/build")
@@ -68,7 +71,7 @@ func (s *Server) SetupRouter() {
 	})
 	r.NoRoute(gin.WrapF(serveAppHandler(appBox)))
 
-	s.Router = r
+	server.Router = r
 }
 
 func serveAppHandler(app *rice.Box) http.HandlerFunc {

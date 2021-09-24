@@ -30,7 +30,7 @@ function ModalContent(props) {
 
 	const [pdfChange, setPdfChange] = useState(false)
 
-	const [uploadFile, setUploadFile] = useState(dataURLtoFile(arrayBufferToBase64(props.uploadFile.data, "pdf"), `${props.sheet.sheet_name}.pdf`))
+	const [uploadFile, setUploadFile] = useState(dataURLtoFile(arrayBufferToBase64(props.uploadFile.data, "pdf"), `${props.sheet.safe_sheet_name}.pdf`))
 
 	useEffect(() => {
 		if (requestData.composer !== props.sheet.composer || requestData.sheetName !== props.sheet.sheet_name || pdfChange){
@@ -106,7 +106,7 @@ function ModalContent(props) {
 	
 	const sendDeleteRequest = () => {
 		const makeCalls = (_callback) => {
-			props.deleteSheet(props.sheet.sheet_name, () => {
+			props.deleteSheet(props.sheet.safe_sheet_name, () => {
 				props.resetData()
 				props.onClose()
 				_callback()

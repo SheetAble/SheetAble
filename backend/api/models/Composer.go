@@ -3,7 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
-	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"os"
 	"path"
 	"path/filepath"

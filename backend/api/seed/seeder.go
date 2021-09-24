@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/SheetAble/SheetAble/backend/api/models"
 	"github.com/jinzhu/gorm"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 )
 
 func Load(db *gorm.DB, email string, password string) {

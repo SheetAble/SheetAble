@@ -3,9 +3,9 @@ package middlewares
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
+	"github.com/SheetAble/SheetAble/backend/api/auth"
+	"github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
 	"net/http"
 )
 

@@ -53,6 +53,14 @@ function SideBar(props) {
 				</a>
 				<span className="tooltip">Composer</span>
 			</li>
+
+			<li>
+				<a href="/search">
+					<i className='bx bx-search-alt-2'></i>
+					<span className="links_name">Search</span>
+				</a>
+				<span className="tooltip">Search</span>
+			</li>
 			<li>
 				<p onClick={() => setUploadModal(true)} className="cursor">
 				<Modal title="Upload" onClose={() => setUploadModal(false)} show={uploadModal}>

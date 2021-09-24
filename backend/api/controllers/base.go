@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"log"
 	"net/http"
 	"os"
@@ -13,11 +13,11 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/rs/cors"
 
+	"github.com/SheetAble/SheetAble/backend/api/models"
 	"github.com/gorilla/handlers"
 	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
 )
 
 type Server struct {

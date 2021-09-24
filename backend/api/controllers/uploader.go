@@ -10,9 +10,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/SheetAble/SheetAble/backend/api/auth"
+	"github.com/SheetAble/SheetAble/backend/api/forms"
 	"github.com/gin-gonic/gin"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/forms"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -21,10 +21,10 @@ import (
 	"strings"
 	"time"
 
+	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/models"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
 	"github.com/kennygrant/sanitize"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
-	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 )
 
 /*

@@ -1,10 +1,11 @@
 package api
 
+
 import (
 	"fmt"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/controllers"
-	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/seed"
-	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/controllers"
+	"github.com/SheetAble/SheetAble/backend/api/seed"
 )
 
 var (
@@ -22,6 +23,4 @@ func Run() {
 	}
 
 	server.Run(fmt.Sprintf("0.0.0.0:%d", port), Config().Dev)
-
-
 }
