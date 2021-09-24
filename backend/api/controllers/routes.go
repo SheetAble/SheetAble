@@ -11,7 +11,8 @@ import (
 )
 
 func (server *Server) SetupRouter() {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Recovery())
 
 	// health checks
 	r.GET("/health", func(c *gin.Context) {
