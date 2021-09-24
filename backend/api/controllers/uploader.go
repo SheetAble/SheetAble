@@ -47,7 +47,7 @@ type Comp struct {
 
 func (server *Server) UploadFile(c *gin.Context) {
 	// Check for authentication
-	token := extractToken(c)
+	token := utils.ExtractToken(c)
 	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil || uid == 0 {
 		c.String(http.StatusUnauthorized, "Unauthorized")
@@ -121,7 +121,7 @@ func (server *Server) UploadFile(c *gin.Context) {
 func (server *Server) UpdateSheet(c *gin.Context) {
 
 	// Check for authentication
-	token := extractToken(c)
+	token := utils.ExtractToken(c)
 	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil || uid == 0 {
 		c.String(http.StatusUnauthorized, "Unauthorized")

@@ -99,7 +99,7 @@ func (server *Server) DeleteSheet(c *gin.Context) {
 	sheetName := c.Param("sheetName")
 
 	// Is this user authenticated?
-	token := extractToken(c)
+	token := utils.ExtractToken(c)
 	_, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized")

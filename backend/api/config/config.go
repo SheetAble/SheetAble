@@ -13,17 +13,51 @@ var (
 	configOnce sync.Once
 )
 
+type configBuilder struct {
+	dotenvFile string
+	errorOnMissingDotenv bool
+}
+
+func ConfigBuilder() configBuilder {
+	return configBuilder{}
+}
+
+func (b configBuilder) WithDotenvFile(file string) configBuilder {
+	b.dotenvFile = file
+	return b
+}
+
+func (b configBuilder) PanicOnMissingDotenv(status bool) configBuilder {
+	b.errorOnMissingDotenv = status
+	return b
+}
+
+func (b configBuilder) Build() ServerConfig {
+	serverConfig = NewConfig()
+
+	dotenvFile := ".env"
+	if b.dotenvFile != "" {
+		dotenvFile = b.dotenvFile
+	}
+	dotenvFeeder := feeder.DotEnv{Path: dotenvFile}
+	envFeeder := feeder.Env{}
+
+	err := config.New().AddStruct(&serverConfig).AddFeeder(dotenvFeeder).Feed()
+	if err != nil {
+		if strings.Contains(err.Error(), "no such file") && b.errorOnMissingDotenv {
+			log.Fatalf("error loading config from dotenv file %s: %s", dotenvFile, err.Error())
+		}
+	}
+	err = config.New().AddStruct(&serverConfig).AddFeeder(envFeeder).Feed()
+	if err != nil {
+		log.Fatalf("error loding config from environemnt: %s", err.Error())
+	}
+	return serverConfig
+}
+
 func Config() ServerConfig {
 	configOnce.Do(func() {
-		serverConfig = NewConfig()
-		dotenvFeeder := feeder.DotEnv{Path: ".env"}
-		envFeeder := feeder.Env{}
-		err := config.New().AddFeeder(dotenvFeeder).AddFeeder(envFeeder).AddStruct(&serverConfig).Feed()
-		if err != nil {
-			if !strings.Contains(err.Error(), "no such file") {
-				log.Fatalf("error loading config from environment: %s", err.Error())
-			}
-		}
+		serverConfig = ConfigBuilder().Build()
 	})
 	return serverConfig
 }

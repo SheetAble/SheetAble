@@ -38,7 +38,7 @@ func (server *Server) Initialize() {
 
 	switch DbDriver {
 	case "mysql":
-		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
+		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
 		server.DB, err = gorm.Open(DbDriver, DBURL)
 		if err != nil {
 			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
@@ -46,7 +46,7 @@ func (server *Server) Initialize() {
 			fmt.Printf("Connected to %s database...", DbDriver)
 		}
 	case "postgres":
-		DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
+		DBURL := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
 		server.DB, err = gorm.Open(DbDriver, DBURL)
 		if err != nil {
 			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())

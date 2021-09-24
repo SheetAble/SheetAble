@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/auth"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/models"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils"
 	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/utils/formaterror"
 	. "github.com/vallezw/SheetUploader-Selfhosted/backend/api/config"
 
@@ -15,7 +16,7 @@ import (
 func (server *Server) CreateUser(c *gin.Context) {
 
 	// Check for authentication
-	token := extractToken(c)
+	token := utils.ExtractToken(c)
 	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized")
@@ -74,7 +75,7 @@ func (server *Server) GetUser(c *gin.Context) {
 	var newUid uint32 = 0
 	if uid == 0 {
 
-		token := extractToken(c)
+		token := utils.ExtractToken(c)
 		newUid, err = auth.ExtractTokenID(token, Config().ApiSecret)
 		if err != nil {
 			c.String(http.StatusUnauthorized, "Unauthorized")
@@ -107,7 +108,7 @@ func (server *Server) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	token := extractToken(c)
+	token := utils.ExtractToken(c)
 	tokenID, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized")
@@ -141,7 +142,7 @@ func (server *Server) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	token := extractToken(c)
+	token := utils.ExtractToken(c)
 	tokenID, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized")

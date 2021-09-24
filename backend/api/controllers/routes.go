@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/vallezw/SheetUploader-Selfhosted/backend/api/middlewares"
 	"net/http"
 	"path"
 	"time"
@@ -17,9 +18,11 @@ func (s *Server) SetupRouter() {
 		c.JSON(http.StatusOK, gin.H{"status": "OK"})
 	})
 
-	// TODO(jj) - add auth middleware for some routes
-
 	api := r.Group("/api")
+
+	// secureApi is still rooted at /api/... but it has the auth middleware so it's routes check token on each call
+	secureApi := api.Group("")
+	secureApi.Use(middlewares.AuthMiddleware())
 
 	// Login routes
 	api.POST("/login", s.Login)
@@ -28,25 +31,25 @@ func (s *Server) SetupRouter() {
 	api.POST("/users", s.CreateUser)
 	api.GET("/users", s.GetUsers)
 	api.GET("/users/:id", s.GetUser)
-	api.PUT("/users/:id", s.UpdateUser)
-	api.DELETE("/users/:id", s.DeleteUser)
+	secureApi.PUT("/users/:id", s.UpdateUser)
+	secureApi.DELETE("/users/:id", s.DeleteUser)
 
 	// Sheet routes
-	api.POST("/upload", s.UploadFile)
-	api.GET("/sheets", s.GetSheetsPage)
-	api.POST("/sheets", s.GetSheetsPage)
+	secureApi.POST("/upload", s.UploadFile)
+	secureApi.GET("/sheets", s.GetSheetsPage)
+	secureApi.POST("/sheets", s.GetSheetsPage)
 	api.GET("/sheet/thumbnail/:name", s.GetThumbnail)
-	api.GET("/sheet/pdf/:composer/:sheetName", s.GetPDF)
-	api.GET("/sheet/:sheetName", s.GetSheet)
-	api.PUT("/sheet/:sheetName", s.UpdateSheet)
-	api.DELETE("/sheet/:sheetName", s.DeleteSheet)
+	secureApi.GET("/sheet/pdf/:composer/:sheetName", s.GetPDF)
+	secureApi.GET("/sheet/:sheetName", s.GetSheet)
+	secureApi.PUT("/sheet/:sheetName", s.UpdateSheet)
+	secureApi.DELETE("/sheet/:sheetName", s.DeleteSheet)
 
 
 	// Composer routes
-	api.GET("/composers", s.GetComposersPage)
-	api.POST("/composers", s.GetComposersPage)
-	api.PUT("/composers/:composerName", s.UpdateComposer)
-	api.DELETE("/composer/:composerName", s.DeleteComposer)
+	secureApi.GET("/composers", s.GetComposersPage)
+	secureApi.POST("/composers", s.GetComposersPage)
+	secureApi.PUT("/composers/:composerName", s.UpdateComposer)
+	secureApi.DELETE("/composer/:composerName", s.DeleteComposer)
 	api.GET("/composer/portrait/:composerName", s.ServePortraits)
 
 	// Serve React
@@ -67,45 +70,6 @@ func (s *Server) SetupRouter() {
 
 	s.Router = r
 }
-
-//func (s *Server) initializeRoutes() {
-//
-//	api := s.Router.PathPrefix("/api/").Subrouter()
-//
-//	// Login Route
-//	api.HandleFunc("/login", middlewares.SetMiddlewareJSON(s.Login)).Methods("POST", http.MethodOptions)
-//
-//	// Users routes
-//	api.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.CreateUser)).Methods("POST")
-//	api.HandleFunc("/users", middlewares.SetMiddlewareJSON(s.GetUsers)).Methods("GET")
-//	api.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(s.GetUser)).Methods("GET") // If ID == 0 you will get own user
-//	api.HandleFunc("/users/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdateUser))).Methods("PUT")
-//	api.HandleFunc("/users/{id}", middlewares.SetMiddlewareAuthentication(s.DeleteUser)).Methods("DELETE")
-//
-//	// Sheet routes
-//	api.HandleFunc("/upload", middlewares.SetMiddlewareAuthentication(s.UploadFile)).Methods("POST")
-//	api.HandleFunc("/sheets", middlewares.SetMiddlewareAuthentication(s.GetSheetsPage)).Methods("GET", "POST")
-//	api.HandleFunc("/sheet/thumbnail/{name}", s.GetThumbnail).Methods("GET")
-//	api.HandleFunc("/sheet/pdf/{composer}/{sheetName}", middlewares.SetMiddlewareAuthentication(s.GetPDF)).Methods("GET")
-//	api.HandleFunc("/sheet/{sheetName}", middlewares.SetMiddlewareAuthentication(s.GetSheet)).Methods("GET")
-//	api.HandleFunc("/sheet/{sheetName}", middlewares.SetMiddlewareAuthentication(s.UpdateSheet)).Methods("PUT")
-//	api.HandleFunc("/sheet/{sheetName}", middlewares.SetMiddlewareAuthentication(s.DeletSheet)).Methods("DELETE")
-//
-//	// Composer routes
-//	api.HandleFunc("/composers", middlewares.SetMiddlewareAuthentication(s.GetComposersPage)).Methods("GET", "POST")
-//	api.HandleFunc("/composer/{composerName}", middlewares.SetMiddlewareAuthentication(s.UpdateComposer)).Methods("PUT")
-//	api.HandleFunc("/composer/{composerName}", middlewares.SetMiddlewareAuthentication(s.DeleteComposer)).Methods("DELETE")
-//	api.HandleFunc("/composer/portrait/{composerName}", s.ServePortraits).Methods("GET")
-//
-//	// Serve React
-//	appBox, err := rice.FindBox("../../../frontend/build")
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	s.Router.PathPrefix("/static/").Handler(http.FileServer(appBox.HTTPBox()))
-//	s.Router.PathPrefix("/").HandlerFunc(serveAppHandler(appBox))
-//}
 
 func serveAppHandler(app *rice.Box) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
