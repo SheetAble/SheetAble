@@ -2,14 +2,10 @@ package controllers
 
 import (
 	"fmt"
-	"net/http"
-
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
-func (server *Server) Search(w http.ResponseWriter, r *http.Request) {
-
-	vars := mux.Vars(r)
-	searchValue := vars["searchValue"]
+func (server *Server) Search(c *gin.Context) {
+	searchValue := c.Param("searchValue")
 	fmt.Println(searchValue)
 }

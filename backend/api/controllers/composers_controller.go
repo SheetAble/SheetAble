@@ -3,158 +3,142 @@ package controllers
 import (
 	"errors"
 	"fmt"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/forms"
+	"github.com/SheetAble/SheetAble/backend/api/models"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
+	"github.com/gin-gonic/gin"
+	"github.com/kennygrant/sanitize"
+	"mime/multipart"
 	"net/http"
 	"os"
-	"strconv"
-
-	"github.com/SheetAble/SheetAble/backend/api/models"
-	"github.com/SheetAble/SheetAble/backend/api/responses"
-	"github.com/SheetAble/SheetAble/backend/api/utils"
-	"github.com/gorilla/mux"
-	"github.com/kennygrant/sanitize"
+	"path"
 )
 
-func (server *Server) GetComposersPage(w http.ResponseWriter, r *http.Request) {
-	/*
-		This endpoint will return all composers in Page like style.
-		Meaning POST request will have 3 attributes:
-			- sort_by: (how is it sorted)
-			- page: (what page)
-			- limit: (limit number)
-
-		Return:
-			- composers: [...]
-			- page_max: [7] // How many pages there are
-			- page_current: [1] // Which page is currently selected
-	*/
-
-	sortBy := r.FormValue("sort_by")
-	if sortBy == "" {
-		sortBy = "updated_at desc"
-	}
-
-	limitInt := 0
-	limit := r.FormValue("limit")
-	if limit == "" {
-		limitInt = 10
-	} else {
-		limitInt, _ = strconv.Atoi(limit)
-	}
-
-	pageInt := 0
-	page := r.FormValue("page")
-	if page == "" {
-		pageInt = 1
-	} else {
-		pageInt, _ = strconv.Atoi(page)
+//
+//	This endpoint will return all composers in Page like style.
+//	Meaning POST request will have 3 attributes:
+//		- sort_by: (how is it sorted)
+//		- page: (what page)
+//		- limit: (limit number)
+//
+//	Return:
+//		- composers: [...]
+//		- page_max: [7] // How many pages there are
+//		- page_current: [1] // Which page is currently selected
+//
+func (server *Server) GetComposersPage(c *gin.Context) {
+	var form forms.GetComposersPageRequest
+	if err := c.ShouldBind(&form); err != nil {
+		utils.DoError(c, http.StatusBadRequest, err)
+		return
 	}
 
 	pagination := models.Pagination{
-		Sort:  sortBy,
-		Limit: limitInt,
-		Page:  pageInt,
+		Sort:  form.SortBy,
+		Limit: form.Limit,
+		Page:  form.Page,
 	}
 
-	composer := models.Composer{}
-	pageNew, _ := composer.List(server.DB, pagination)
-
-	responses.JSON(w, http.StatusOK, pageNew)
+	var composer models.Composer
+	pageNew, err := composer.List(server.DB, pagination)
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, err)
+		return
+	}
+	c.JSON(http.StatusOK, pageNew)
 }
 
-func (server *Server) UpdateComposer(w http.ResponseWriter, r *http.Request) {
-
-	/*
-		Update a composer via PUT request
-		body - formdata
-		example:
-			- name: Chopin
-			- portrait_url: url
-			- epoch: romance
-	*/
-
-	vars := mux.Vars(r)
-	composerName := vars["composerName"]
+//
+//	Update a composer via PUT request
+//	body - formdata
+//	example:
+//		- name: Chopin
+//		- portrait_url: url
+//		- epoch: romance
+//
+func (server *Server) UpdateComposer(c *gin.Context) {
+	composerName := c.Param("composerName")
 	if composerName == "" {
-		responses.ERROR(w, http.StatusBadRequest, errors.New("no composer given"))
+		utils.DoError(c, http.StatusBadRequest, errors.New("no composer given"))
 		return
 	}
 
-	composer := &models.Composer{}
+	var form forms.UpdateComposersRequest
+	if err := c.ShouldBind(&form); err != nil {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("unable to parse form: %v", err))
+		return
+	}
+
+	uploadComposerName := composerName
+	if form.Name != "" {
+		uploadComposerName = form.Name
+	}
 
 	// Uploads a portrait to the server if given
-	uploadSuccess := false
-	if r.FormValue("name") == "" {
-		uploadSuccess = uploadPortait(w, r, composerName, composerName)
-	} else {
-		uploadSuccess = uploadPortait(w, r, r.FormValue("name"), composerName)
-	}
-
-	newComp, err := composer.UpdateComposer(server.DB,
-		composerName,
-		r.FormValue("name"),
-		r.FormValue("portrait_url"),
-		r.FormValue("epoch"),
-		uploadSuccess,
-	)
-	fmt.Println(err)
+	theFile, err := form.File.Open()
 	if err != nil {
-		responses.ERROR(w, http.StatusNotFound, errors.New("composer not found"))
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("unable to open form file: %v", err))
 		return
 	}
+	uploadSuccess := false
+	uploadSuccess = uploadPortait(theFile, uploadComposerName, composerName)
 
-	responses.JSON(w, http.StatusOK, newComp)
-
+	composer := &models.Composer{}
+	newComp, err := composer.UpdateComposer(server.DB,
+		composerName,
+		form.Name,
+		form.PortraitUrl,
+		form.Epoch,
+		uploadSuccess,
+	)
+	if err != nil {
+		utils.DoError(c, http.StatusNotFound, fmt.Errorf("composer not found: %v", err))
+		return
+	}
+	c.JSON(http.StatusOK, newComp)
 }
 
-func (server *Server) DeleteComposer(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	composerName := vars["composerName"]
+func (server *Server) DeleteComposer(c *gin.Context) {
+	composerName := c.Param("composerName")
 	if composerName == "" {
-		responses.ERROR(w, http.StatusBadRequest, errors.New("no composer given"))
+		utils.DoError(c, http.StatusBadRequest, errors.New("no composer given"))
 		return
 	}
 
 	composer := &models.Composer{}
 	_, err := composer.DeleteComposer(server.DB, composerName)
 	if err != nil {
-		responses.ERROR(w, http.StatusNotFound, errors.New("composer not found"))
+		utils.DoError(c, http.StatusNotFound, fmt.Errorf("failed to delete composer, composer not found: %v", err))
 		return
 	}
 
-	responses.JSON(w, http.StatusOK, "Composer deleted successfully")
+	c.JSON(http.StatusOK, "Composer deleted successfully")
 }
 
-func (server *Server) ServePortraits(w http.ResponseWriter, r *http.Request) {
-	/*
-		Serve the Composer Portraits
-		Example request: /composer/portrait/Chopin
-	*/
-
-	name := mux.Vars(r)["composerName"]
-	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"composer/"+name+".png")
+//	Serve the Composer Portraits
+//	Example request:
+//		GET /composer/portrait/Chopin
+func (server *Server) ServePortraits(c *gin.Context) {
+	name := c.Param("composerName")
+	filePath := path.Join(Config().ConfigPath, "composer", name+".png")
+	c.File(filePath)
 }
 
-func uploadPortait(w http.ResponseWriter, r *http.Request, compName string, originalName string) bool {
-	/*
-		Upload a portrait
-		! Currently only PNG files supported
-	*/
-
-	portrait, _, err := r.FormFile("portrait")
-
-	if err != nil {
-		return false
-	}
-
+//	Upload a portrait
+//	! Currently only PNG files supported
+func uploadPortait(portrait multipart.File, compName string, originalName string) bool {
 	// Create the composer Directory if it doesn't exist yet
-	dir := os.Getenv("CONFIG_PATH") + "composer"
-	path := os.Getenv("CONFIG_PATH") + "composer/" + sanitize.Name(compName) + ".png"
+	dir := path.Join(Config().ConfigPath, "composer")
+	fullpath := path.Join(dir, sanitize.Name(compName)+".png")
 	if originalName != compName {
-		os.Remove(os.Getenv("CONFIG_PATH") + "composer/" + originalName + ".png")
+		os.Remove(path.Join(dir, originalName+".png"))
 	}
 	utils.CreateDir(dir)
 
-	utils.OsCreateFile(path, w, portrait)
-
+	err := utils.OsCreateFile(fullpath, portrait)
+	if err != nil {
+		return false
+	}
 	return true
 }

@@ -3,7 +3,9 @@ package models
 import (
 	"errors"
 	"fmt"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 	"time"
@@ -73,8 +75,8 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 	db.Model(&Sheet{}).Where("safe_composer = ?", originalName).Update("safe_composer", sanitize.Name(updatedName))
 	db.Model(&Sheet{}).Where("safe_composer = ?", sanitize.Name(updatedName)).Update("composer", updatedName)
 	// Rename folder
-	path := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
-	os.Rename(path+originalName, path+sanitize.Name(updatedName))
+	p := path.Join(Config().ConfigPath, "sheets/uploaded-sheets/")
+	os.Rename(p+originalName, p+sanitize.Name(updatedName))
 
 	return composer, nil
 }
@@ -108,7 +110,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	db.Exec("UPDATE 'sheets' SET 'safe_composer' = 'unknown' WHERE (composer = ?);", "Unknown")
 	db.Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE safe_composer = ?;", composerName, "unknown", "unknown")
 
-	confPath := os.Getenv("CONFIG_PATH") + "sheets/uploaded-sheets/"
+	confPath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets/")
 
 	/* Move all files inside comp direcotry */
 	filepath.Walk(confPath+composerName,
@@ -144,7 +146,7 @@ func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 
 		//Create a folder/directory at a full qualified path
 
-		err := os.Mkdir(os.Getenv("CONFIG_PATH")+"sheets/uploaded-sheets/unknown", 0755)
+		err := os.Mkdir(path.Join(Config().ConfigPath, "sheets/uploaded-sheets/unknown"), 0755)
 		if err != nil {
 			fmt.Println(err)
 		}

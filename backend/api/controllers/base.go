@@ -2,12 +2,14 @@ package controllers
 
 import (
 	"fmt"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"time"
 
-	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	"github.com/rs/cors"
 
@@ -20,45 +22,48 @@ import (
 
 type Server struct {
 	DB     *gorm.DB
-	Router *mux.Router
+	Router *gin.Engine
 }
 
-func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, DbName string) {
+func (server *Server) Initialize() {
 
 	var err error
 
-	if Dbdriver == "mysql" {
-		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
-		server.DB, err = gorm.Open(Dbdriver, DBURL)
+	DbDriver := Config().Database.Driver
+	DbUser := Config().Database.User
+	DbPassword := Config().Database.Password
+	DbHost := Config().Database.Host
+	DbPort := Config().Database.Port
+	DbName := Config().Database.Name
+
+	switch DbDriver {
+	case "mysql":
+		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
+		server.DB, err = gorm.Open(DbDriver, DBURL)
 		if err != nil {
-			fmt.Printf("Cannot connect to %s database", Dbdriver)
-			log.Fatal("This is the error:", err)
+			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database...", Dbdriver)
+			fmt.Printf("Connected to %s database...", DbDriver)
 		}
-	}
-	if Dbdriver == "postgres" {
-		DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
-		server.DB, err = gorm.Open(Dbdriver, DBURL)
+	case "postgres":
+		DBURL := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
+		server.DB, err = gorm.Open(DbDriver, DBURL)
 		if err != nil {
-			fmt.Printf("Cannot connect to %s database", Dbdriver)
-			log.Fatal("This is the error:", err)
+			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database...", Dbdriver)
+			fmt.Printf("Connected to %s database...", DbDriver)
 		}
-	}
-	if Dbdriver == "sqlite" || Dbdriver == "" {
-		if _, err := os.Stat(os.Getenv("CONFIG_PATH")); os.IsNotExist(err) {
-			_ = os.Mkdir(os.Getenv("CONFIG_PATH"), os.ModePerm)
+	default:
+		if _, err := os.Stat(Config().ConfigPath); os.IsNotExist(err) {
+			_ = os.Mkdir(Config().ConfigPath, os.ModePerm)
 		}
 
-		server.DB, err = gorm.Open("sqlite3", os.Getenv("CONFIG_PATH")+"database.db")
+		server.DB, err = gorm.Open("sqlite3", path.Join(Config().ConfigPath, "database.db"))
 
 		if err != nil {
-			fmt.Printf("Cannot connect to %s database", Dbdriver)
-			log.Fatal("This is the error:", err)
+			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database...", Dbdriver)
+			fmt.Printf("Connected to %s database %s...", DbDriver, path.Join(Config().ConfigPath, "database.db"))
 		}
 	}
 
@@ -67,9 +72,7 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 
 	server.DB.AutoMigrate(&models.User{}, &models.Sheet{}) //database migration
 
-	server.Router = mux.NewRouter()
-
-	server.initializeRoutes()
+	server.SetupRouter()
 }
 
 func (server *Server) Run(addr string, dev bool) {

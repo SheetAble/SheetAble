@@ -3,120 +3,105 @@ package controllers
 import (
 	"errors"
 	"fmt"
-	"net/http"
-	"os"
-	"strconv"
-
 	"github.com/SheetAble/SheetAble/backend/api/auth"
+	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/forms"
 	"github.com/SheetAble/SheetAble/backend/api/models"
-	"github.com/SheetAble/SheetAble/backend/api/responses"
-	"github.com/gorilla/mux"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"path"
 )
 
-func (server *Server) GetSheetsPage(w http.ResponseWriter, r *http.Request) {
-	/*
-		This endpoint will return all sheets in Page like style.
-		Meaning POST request will have 3 attributes:
-			- sort_by: (how is it sorted)
-			- page: (what page)
-			- limit: (limit number)
-			- composer: (what composer)
+/*
+	This endpoint will return all sheets in Page like style.
+	Meaning POST request will have 3 attributes:
+		- sort_by: (how is it sorted)
+		- page: (what page)
+		- limit: (limit number)
+		- composer: (what composer)
 
-		Return:
-			- sheets: [...]
-			- page_max: [7] // How many pages there are
-			- page_current: [1] // Which page is currently selected
-	*/
-
-	sortBy := r.FormValue("sort_by")
-	if sortBy == "" {
-		sortBy = "updated_at desc"
-	}
-
-	limitInt := 0
-	limit := r.FormValue("limit")
-	if limit == "" {
-		limitInt = 10
-	} else {
-		limitInt, _ = strconv.Atoi(limit)
-	}
-
-	pageInt := 0
-	page := r.FormValue("page")
-	if page == "" {
-		pageInt = 1
-	} else {
-		pageInt, _ = strconv.Atoi(page)
-	}
-
-	pagination := models.Pagination{
-		Sort:  sortBy,
-		Limit: limitInt,
-		Page:  pageInt,
-	}
-
-	sheet := models.Sheet{}
-	pageNew, _ := sheet.List(server.DB, pagination, r.FormValue("composer"))
-
-	responses.JSON(w, http.StatusOK, pageNew)
-}
-
-func (server *Server) GetSheet(w http.ResponseWriter, r *http.Request) {
-	/*
-		Get PDF file and information about an individual sheet.
-		Example request: /sheet/Étude N. 1
-		Has to be safeName
-	*/
-
-	vars := mux.Vars(r)
-	sheetName := vars["sheetName"]
-	if sheetName == "" {
-		responses.ERROR(w, http.StatusUnprocessableEntity, errors.New("missing URL parameter 'sheetName'"))
+	Return:
+		- sheets: [...]
+		- page_max: [7] // How many pages there are
+		- page_current: [1] // Which page is currently selected
+*/
+func (server *Server) GetSheetsPage(c *gin.Context) {
+	var form forms.GetSheetsPageRequest
+	if err := c.ShouldBind(&form); err != nil {
+		utils.DoError(c, http.StatusBadRequest, err)
 		return
 	}
 
-	sheetModel := models.Sheet{}
-	fmt.Println(sheetName)
+	pagination := models.Pagination{
+		Sort:  form.SortBy,
+		Limit: form.Limit,
+		Page:  form.Page,
+	}
 
-	sheet, _ := sheetModel.FindSheetBySafeName(server.DB, sheetName)
-
-	responses.JSON(w, http.StatusOK, sheet)
+	var sheet models.Sheet
+	pageNew, err := sheet.List(server.DB, pagination, form.Composer)
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, err)
+		return
+	}
+	c.JSON(http.StatusOK, pageNew)
 }
 
-func (server *Server) GetPDF(w http.ResponseWriter, r *http.Request) {
-	/*
-		Serve the PDF file
-		Example request: /sheet/pdf/Frédéric Chopin/Étude N. 1
-		sheetname and composer name have to be the safeName of them
-	*/
+//	Get PDF file and information about an individual sheet.
+//	Example request:
+//		GET /sheet/Étude N. 1
+//	Has to be safeName
+func (server *Server) GetSheet(c *gin.Context) {
+	sheetName := c.Param("sheetName")
+	if sheetName == "" {
+		utils.DoError(c, http.StatusBadRequest, errors.New("missing URL parameter 'sheetName'"))
+		return
+	}
 
-	name := mux.Vars(r)["sheetName"]
-	composer := mux.Vars(r)["composer"]
-	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"sheets/uploaded-sheets/"+composer+"/"+name+".pdf")
+	var sheetModel models.Sheet
+	sheet, err := sheetModel.FindSheetBySafeName(server.DB, sheetName)
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, fmt.Errorf("unable to get sheet %s: %s", sheetName, err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, sheet)
 }
 
-func (server *Server) GetThumbnail(w http.ResponseWriter, r *http.Request) {
-	/*
-		Serve the thumbnail file
-		name = safename of sheet
-	*/
-
-	name := mux.Vars(r)["name"]
-	http.ServeFile(w, r, os.Getenv("CONFIG_PATH")+"sheets/thumbnails/"+name+".png")
+//
+//	Serve the PDF file
+//	Example request:
+//		GET /sheet/pdf/Frédéric Chopin/Étude N. 1
+//	sheetname and composer name have to be the safeName of them
+//
+func (server *Server) GetPDF(c *gin.Context) {
+	sheetName := c.Param("sheetName") + ".pdf"
+	composer := c.Param("composer")
+	filePath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets", composer, sheetName)
+	c.File(filePath)
 }
 
-func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
-	/*
-		Has to be safeName of the sheet
-	*/
+/*
+	Serve the thumbnail file
+	name = safename of sheet
+*/
+func (server *Server) GetThumbnail(c *gin.Context) {
+	name := c.Param("name") + ".png"
+	filePath := path.Join(Config().ConfigPath, "sheets/thumbnails", name)
+	c.File(filePath)
+}
 
-	vars := mux.Vars(r)
-	sheetName := vars["sheetName"]
+/*
+	Has to be safeName of the sheet
+*/
+func (server *Server) DeleteSheet(c *gin.Context) {
+	sheetName := c.Param("sheetName")
 
 	// Is this user authenticated?
-	_, err := auth.ExtractTokenID(r)
+	token := utils.ExtractToken(c)
+	_, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil {
-		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
+		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
@@ -124,15 +109,15 @@ func (server *Server) DeletSheet(w http.ResponseWriter, r *http.Request) {
 	sheet := models.Sheet{}
 	err = server.DB.Model(models.Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&sheet).Error
 	if err != nil {
-		responses.ERROR(w, http.StatusNotFound, errors.New("sheet not found"))
+		c.String(http.StatusNotFound, "sheet not found")
 		return
 	}
 
 	_, err = sheet.DeleteSheet(server.DB, sheetName)
 	if err != nil {
-		responses.ERROR(w, http.StatusBadRequest, err)
+		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	responses.JSON(w, http.StatusOK, "Sheet was successfully deleted")
+	c.JSON(http.StatusOK, "Sheet was successfully deleted")
 }

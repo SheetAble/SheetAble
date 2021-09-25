@@ -1,12 +1,10 @@
 package controllers
 
 import (
+	"github.com/gin-gonic/gin"
 	"net/http"
-
-	"github.com/SheetAble/SheetAble/backend/api/responses"
 )
 
-func (server *Server) Home(w http.ResponseWriter, r *http.Request) {
-	responses.JSON(w, http.StatusOK, "Welcome To This Awesome API")
-
+func (server *Server) Home(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"data": "Welcome To This Awesome API"})
 }
