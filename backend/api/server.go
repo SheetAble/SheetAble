@@ -6,6 +6,7 @@ import (
 	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"github.com/SheetAble/SheetAble/backend/api/controllers"
 	"github.com/SheetAble/SheetAble/backend/api/seed"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
 )
 
 var (
@@ -13,8 +14,10 @@ var (
 )
 
 func Run() {
+
 	server.Initialize()
 
+	utils.PrintAsciiVersion()
 	seed.Load(server.DB, Config().AdminEmail, Config().AdminPassword)
 
 	port := 8080
