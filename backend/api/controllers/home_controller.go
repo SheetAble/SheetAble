@@ -1,10 +1,11 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (server *Server) Home(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"data": "Welcome To This Awesome API"})
+	c.JSON(http.StatusOK, gin.H{"data": "Welcome To The SheetAble API"})
 }

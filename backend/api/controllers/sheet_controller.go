@@ -49,10 +49,11 @@ func (server *Server) GetSheetsPage(c *gin.Context) {
 	c.JSON(http.StatusOK, pageNew)
 }
 
-//	Get PDF file and information about an individual sheet.
-//	Example request:
-//		GET /sheet/Étude N. 1
-//	Has to be safeName
+/*	Get PDF file and information about an individual sheet.
+	Example request:
+		GET /sheet/Étude N. 1
+	Has to be safeName
+*/
 func (server *Server) GetSheet(c *gin.Context) {
 	sheetName := c.Param("sheetName")
 	if sheetName == "" {
@@ -69,12 +70,12 @@ func (server *Server) GetSheet(c *gin.Context) {
 	c.JSON(http.StatusOK, sheet)
 }
 
-//
-//	Serve the PDF file
-//	Example request:
-//		GET /sheet/pdf/Frédéric Chopin/Étude N. 1
-//	sheetname and composer name have to be the safeName of them
-//
+/*
+	Serve the PDF file
+	Example request:
+		GET /sheet/pdf/Frédéric Chopin/Étude N. 1
+	sheetname and composer name have to be the safeName of them
+*/
 func (server *Server) GetPDF(c *gin.Context) {
 	sheetName := c.Param("sheetName") + ".pdf"
 	composer := c.Param("composer")

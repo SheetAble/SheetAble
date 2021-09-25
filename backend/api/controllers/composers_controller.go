@@ -16,18 +16,18 @@ import (
 	"github.com/kennygrant/sanitize"
 )
 
-//
-//	This endpoint will return all composers in Page like style.
-//	Meaning POST request will have 3 attributes:
-//		- sort_by: (how is it sorted)
-//		- page: (what page)
-//		- limit: (limit number)
-//
-//	Return:
-//		- composers: [...]
-//		- page_max: [7] // How many pages there are
-//		- page_current: [1] // Which page is currently selected
-//
+/*
+	This endpoint will return all composers in Page like style.
+	Meaning POST request will have 3 attributes:
+		- sort_by: (how is it sorted)
+		- page: (what page)
+		- limit: (limit number)
+
+	Return:
+		- composers: [...]
+		- page_max: [7] // How many pages there are
+		- page_current: [1] // Which page is currently selected
+*/
 func (server *Server) GetComposersPage(c *gin.Context) {
 	var form forms.GetComposersPageRequest
 	if err := c.ShouldBind(&form); err != nil {
@@ -50,14 +50,14 @@ func (server *Server) GetComposersPage(c *gin.Context) {
 	c.JSON(http.StatusOK, pageNew)
 }
 
-//
-//	Update a composer via PUT request
-//	body - formdata
-//	example:
-//		- name: Chopin
-//		- portrait_url: url
-//		- epoch: romance
-//
+/*
+	Update a composer via PUT request
+	body - formdata
+	example:
+		- name: Chopin
+		- portrait_url: url
+		- epoch: romance
+*/
 func (server *Server) UpdateComposer(c *gin.Context) {
 	composerName := c.Param("composerName")
 	if composerName == "" {
@@ -117,17 +117,19 @@ func (server *Server) DeleteComposer(c *gin.Context) {
 	c.JSON(http.StatusOK, "Composer deleted successfully")
 }
 
-//	Serve the Composer Portraits
-//	Example request:
-//		GET /composer/portrait/Chopin
+/*	Serve the Composer Portraits
+	Example request:
+		GET /composer/portrait/Chopin
+*/
 func (server *Server) ServePortraits(c *gin.Context) {
 	name := c.Param("composerName")
 	filePath := path.Join(Config().ConfigPath, "composer", name+".png")
 	c.File(filePath)
 }
 
-//	Upload a portrait
-//	! Currently only PNG files supported
+/*	Upload a portrait
+	! Currently only PNG files supported
+*/
 func uploadPortait(portrait multipart.File, compName string, originalName string) bool {
 	// Create the composer Directory if it doesn't exist yet
 	dir := path.Join(Config().ConfigPath, "composer")

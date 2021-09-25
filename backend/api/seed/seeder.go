@@ -9,15 +9,6 @@ import (
 )
 
 func Load(db *gorm.DB, email string, password string) {
-
-	/*
-		err := db.DropTableIfExists(&models.Post{}, &models.User{}, &models.Division{}).Error
-		if err != nil {
-			log.Fatalf("cannot drop table: %v", err)
-		}
-
-	*/
-
 	err := db.AutoMigrate(&models.User{}, &models.Sheet{}, &models.Division{}, &models.Composer{}).Error
 	if err != nil {
 		log.Fatalf("cannot migrate table: %v", err)

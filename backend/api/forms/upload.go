@@ -12,8 +12,10 @@ type UploadRequest struct {
 	Genres      string                `form:"genres"`
 }
 
-// currently a no-op but enables us to add any custom form validation in
-// without having to change any calling code
+/*
+	currently a no-op but enables us to add any custom form validation in
+ 	without having to change any calling code
+*/
 func (req *UploadRequest) ValidateForm() error {
 	return nil
 }

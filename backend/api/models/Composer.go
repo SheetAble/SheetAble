@@ -106,7 +106,6 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	c.CreateUnknownComposer(db)
 
 	// Swap sheets composer to Unknown
-	//	db.Model(&Sheet{}).Where("composer = ?", composerName).Update("composer", "Unknown")
 	db.Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (safe_composer = ?);", composerName)
 	db.Exec("UPDATE 'sheets' SET 'safe_composer' = 'unknown' WHERE (composer = ?);", "Unknown")
 	db.Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE safe_composer = ?;", composerName, "unknown", "unknown")
@@ -156,9 +155,7 @@ func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 }
 
 func (c *Composer) FindComposerBySafeName(db *gorm.DB, composerName string) (*Composer, error) {
-	/*
-		Get information of one single composer
-	*/
+	/* Get information of one single composer */
 
 	var err error
 	err = db.Model(&Composer{}).Where("safe_name = ?", composerName).Take(&c).Error

@@ -1,5 +1,7 @@
-// Divisons are categories, genres, tags
-
+/*
+	Divisons are categories, genres, tags
+	! Not implemented into the web overflow yet
+*/
 package models
 
 import (

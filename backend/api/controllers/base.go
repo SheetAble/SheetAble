@@ -71,7 +71,8 @@ func (server *Server) Initialize() {
 	/* Silence the logger */
 	server.DB.LogMode(false)
 
-	server.DB.AutoMigrate(&models.User{}, &models.Sheet{}) //database migration
+	/* Migrate DBs */
+	server.DB.AutoMigrate(&models.User{}, &models.Sheet{})
 
 	server.SetupRouter()
 }
@@ -102,6 +103,7 @@ func (server *Server) Run(addr string, dev bool) {
 		AllowCredentials: true,
 	})
 
+	/* Check if run in dev mode, so you can enable CORS or not */
 	srvHandler := handlers.LoggingHandler(os.Stdout, server.Router)
 
 	if dev {
@@ -109,9 +111,8 @@ func (server *Server) Run(addr string, dev bool) {
 	}
 
 	srv := &http.Server{
-		Handler: srvHandler,
-		Addr:    addr,
-		// Good practice: enforce timeouts for servers you create!
+		Handler:      srvHandler,
+		Addr:         addr,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
