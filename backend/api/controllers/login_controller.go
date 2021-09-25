@@ -1,8 +1,9 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 
 	"github.com/SheetAble/SheetAble/backend/api/auth"
 	. "github.com/SheetAble/SheetAble/backend/api/config"

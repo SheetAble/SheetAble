@@ -1,12 +1,13 @@
 package utils
 
 import (
-	"github.com/google/uuid"
-	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"os"
 	"path"
 	"testing"
+
+	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateDirNew(t *testing.T) {

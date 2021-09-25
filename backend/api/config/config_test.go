@@ -1,12 +1,13 @@
 package config
 
 import (
-	"github.com/go-playground/assert/v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDefaultConfig(t *testing.T) {
