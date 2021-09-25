@@ -30,6 +30,11 @@ func (server *Server) Initialize() {
 
 	var err error
 
+	/* Set Release Mode */
+	if !Config().Dev {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	DbDriver := Config().Database.Driver
 	DbUser := Config().Database.User
 	DbPassword := Config().Database.Password
@@ -44,7 +49,7 @@ func (server *Server) Initialize() {
 		if err != nil {
 			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database...", DbDriver)
+			fmt.Printf("Connected to %s database...\n", DbDriver)
 		}
 	case "postgres":
 		DBURL := fmt.Sprintf("host=%s port=%d user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
@@ -52,7 +57,7 @@ func (server *Server) Initialize() {
 		if err != nil {
 			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database...", DbDriver)
+			fmt.Printf("Connected to %s database...\n", DbDriver)
 		}
 	default:
 		if _, err := os.Stat(Config().ConfigPath); os.IsNotExist(err) {
@@ -64,7 +69,7 @@ func (server *Server) Initialize() {
 		if err != nil {
 			log.Fatalf("error conencting to %s database: %s", DbDriver, err.Error())
 		} else {
-			fmt.Printf("Connected to %s database %s...", DbDriver, path.Join(Config().ConfigPath, "database.db"))
+			fmt.Printf("Connected to %s database %s...\n", DbDriver, path.Join(Config().ConfigPath, "database.db"))
 		}
 	}
 
@@ -104,10 +109,10 @@ func (server *Server) Run(addr string, dev bool) {
 	})
 
 	/* Check if run in dev mode, so you can enable CORS or not */
-	srvHandler := handlers.LoggingHandler(os.Stdout, server.Router)
+	srvHandler := handlers.LoggingHandler(os.Stdout, c.Handler(server.Router))
 
-	if dev {
-		srvHandler = handlers.LoggingHandler(os.Stdout, c.Handler(server.Router))
+	if !dev {
+		srvHandler = handlers.LoggingHandler(os.Stdout, server.Router)
 	}
 
 	srv := &http.Server{
