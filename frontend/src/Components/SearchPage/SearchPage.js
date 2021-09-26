@@ -2,12 +2,17 @@ import React, { Fragment, useState } from 'react'
 import SideBar from '../Sidebar/SideBar'
 import './SearchPage.css'
 
-function SearchPage() {
+import { searchData } from '../../Redux/Actions/dataActions'
+import { connect } from 'react-redux'
+
+function SearchPage({ searchData }) {
 	
 	const [searchValue, setSearchValue] = useState("")
 
 	const handleSubmit = () => {
-		console.log(searchValue);
+		if (searchValue !== "") {
+			searchData(searchValue)
+		}
 	}
 	
 	/* Checks if Enter is pressed while in input */
@@ -48,4 +53,13 @@ function SearchPage() {
 	)
 }
 
-export default SearchPage
+
+const mapStateToProps = (state) => ({
+    
+})
+
+const mapActionsToProps = {
+    searchData
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(SearchPage)
