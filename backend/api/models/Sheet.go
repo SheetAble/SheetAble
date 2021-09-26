@@ -2,12 +2,13 @@ package models
 
 import (
 	"errors"
-	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"log"
 	"os"
 	"path"
 	"strings"
 	"time"
+
+	. "github.com/SheetAble/SheetAble/backend/api/config"
 
 	"github.com/jinzhu/gorm"
 )
@@ -122,13 +123,15 @@ func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagi
 	return &pagination, nil
 }
 
-func (s *Sheet) Search(db *gorm.DB, searchValue string) ([]*Sheet, error) {
+func SearchSheet(db *gorm.DB, searchValue string) []*Sheet {
 	/*
 		Search for sheets with containing string
 	*/
+
 	var sheets []*Sheet
-	db.Where("sheet_name LIKE ?", searchValue).Find(&sheets)
-	return sheets, nil
+	searchValue = "%" + searchValue + "%"
+	db.Debug().Where("sheet_name LIKE ?", searchValue).Find(&sheets)
+	return sheets
 }
 
 func ComposerEqual(composer string) func(db *gorm.DB) *gorm.DB {
