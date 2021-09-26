@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/SheetAble/SheetAble/backend/api/auth"
@@ -23,7 +22,8 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		err := auth.TokenValid(utils.ExtractToken(c), secret)
 		if err != nil {
-			c.AbortWithError(http.StatusUnauthorized, fmt.Errorf("Unauthorized: %v", err))
+
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 			return
 		}
 		c.Next()
