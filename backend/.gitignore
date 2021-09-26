@@ -8,3 +8,4 @@ backend
 rice
 build/
 ./config/
+config/
