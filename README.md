@@ -1,8 +1,11 @@
-<!-- PROJECT LOGO -->
+<p align="center">
+<img src="https://img.shields.io/github/forks/SheetAble/SheetAble?color=bf616a&labelColor=3b4252&style=for-the-badge"> <img src="https://img.shields.io/github/stars/SheetAble/SheetAble?color=d08770&labelColor=3b4252&style=for-the-badge"> <img src="https://img.shields.io/github/issues-raw/SheetAble/SheetAble?color=a3be8c&labelColor=3b4252&style=for-the-badge"> <a href="./LICENSE"> <img src="https://img.shields.io/static/v1?label=license&message=AGPL&color=81a1c1&labelColor=3b4252&style=for-the-badge"> </a>
+</p>
+
 <br />
 <p align="center">
   <a href="https://github.com/SheetAble">
-    <img src="docs/SheetAbleNoBackground.png" alt="Logo" width="80" height="80" >
+    <img src="docs/SheetAbleNoBackground.png" alt="Logo" width="110" height="110" >
   </a>
 
   <h3 align="center">SheetAble</h3>
