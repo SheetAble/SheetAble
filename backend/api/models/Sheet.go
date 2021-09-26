@@ -130,7 +130,7 @@ func SearchSheet(db *gorm.DB, searchValue string) []*Sheet {
 
 	var sheets []*Sheet
 	searchValue = "%" + searchValue + "%"
-	db.Debug().Where("sheet_name LIKE ?", searchValue).Find(&sheets)
+	db.Where("sheet_name LIKE ?", searchValue).Find(&sheets)
 	return sheets
 }
 
