@@ -274,10 +274,10 @@ export const deleteComposer = (name, _callback) => {
     })
 }
 
-export const searchData = (searchValue) => dispatch => {
+export const searchData = (searchValue, _callback) => dispatch => {
     axios.get(`/search/${searchValue}`)
         .then((res) => {
-            console.log(res.data);
+            _callback(res.data)
         })
         .catch(err => {
             if (err.request.status === 401) {
