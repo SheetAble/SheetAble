@@ -29,10 +29,12 @@ function NoResults() {
 
 function Results({ searchResponse }) {
 	return (
-		<div className="span_wrapper">
-			<SheetBox sheet={searchResponse[0]}/>
-		</div>
-	)
+    <div>
+      {		searchResponse.map((sheet) => {
+            return <SheetBox sheet={sheet} key={sheet.sheet_name} />;
+          })}
+    </div>
+  );
 }
 
 export default ResultBox
