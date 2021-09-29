@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
 import SheetBox from '../SheetsPage/Components/SheetBox';
 
-function ResultBox({ searchResponse }) {
+import SearchSvg from '../../Images/Taken.svg'
 
-	useEffect(() => {
-		console.log(searchResponse);
-	}, [searchResponse])
+function ResultBox({ searchResponse }) {
 
 	return (
 		<div className="result_wrapper">
@@ -22,9 +20,11 @@ function ResultBox({ searchResponse }) {
 function NoResults() {
 	return (
 		<div className="no_results">
-			<span>No results found yet...</span>
+			<img src={SearchSvg} />
+			<br />
+			<span>There were no results found</span>
 		</div>
-  	);
+  );
 }
 
 function Results({ searchResponse }) {

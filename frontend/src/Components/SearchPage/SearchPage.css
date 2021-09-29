@@ -5,7 +5,7 @@
 .search_input_box {
 	background-color: white;
 	position: relative;
-	margin: 20px auto;
+	margin: 50px auto;
 	width: 450px;
 	padding: 8px 0px 8px 15px;
 	border: none;
@@ -29,5 +29,19 @@
 }
 
 .no_results {
-	
+	text-align: center;
+	display: block;
+	margin: auto;
+	margin-top: 130px;
+}
+
+.no_results img {
+	width: 350px;
+	margin-bottom: 20px;
+}
+
+.no_results span {
+	font-size: 23px;
+	font-family: 'Poppins';
+	font-weight: 300;
 }

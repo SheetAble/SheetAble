@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import SideBar from '../Sidebar/SideBar'
 import './SearchPage.css'
 
@@ -20,7 +20,7 @@ function SearchPage({ searchData }) {
 			});
 		}
 	}
-	
+
 	/* Checks if Enter is pressed while in input */
 	const handleKeyDown = (event) => {
 		if (event.key === 'Enter') {
@@ -38,7 +38,7 @@ function SearchPage({ searchData }) {
               <input
                 type="text"
                 name="text"
-                placeholder="Search for sheets or composers"
+                placeholder="Search for sheets"
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
                 onKeyDown={handleKeyDown}
