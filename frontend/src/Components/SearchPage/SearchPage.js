@@ -16,9 +16,8 @@ function SearchPage({ searchData }) {
 		if (searchValue !== "") {
 			searchData(searchValue, (data) => {
 				setSearchResponse(data);
+        
 			});
-			
-			
 		}
 	}
 	

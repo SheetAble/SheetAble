@@ -21,7 +21,7 @@ function ResultBox({ searchResponse }) {
 
 function NoResults() {
 	return (
-		<div className="span_wrapper">
+		<div className="no_results">
 			<span>No results found yet...</span>
 		</div>
   	);

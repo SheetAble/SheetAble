@@ -1,12 +1,11 @@
 .search_wrapper {
-	display: block !important;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 50px;
+	width: 100%;
 }
 
 .search_input_box {
 	background-color: white;
+	position: relative;
+	margin: 20px auto;
 	width: 450px;
 	padding: 8px 0px 8px 15px;
 	border: none;
@@ -26,5 +25,9 @@
 }
 
 .result_wrapper {
-	margin: 50px;
+	margin: 30px;
+}
+
+.no_results {
+	
 }
