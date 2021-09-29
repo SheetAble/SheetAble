@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import SheetBox from '../SheetsPage/Components/SheetBox';
 
 import SearchSvg from '../../Images/Taken.svg'
@@ -7,7 +7,7 @@ function ResultBox({ searchResponse }) {
 
 	return (
 		<div className="result_wrapper">
-			{searchResponse.length == 0 ? 
+			{searchResponse.length === 0 ? 
 				<NoResults />
 				:
 				<Results searchResponse={searchResponse}/>
@@ -20,7 +20,7 @@ function ResultBox({ searchResponse }) {
 function NoResults() {
 	return (
 		<div className="no_results">
-			<img src={SearchSvg} />
+			<img src={SearchSvg} alt="No results"/>
 			<br />
 			<span>There were no results found</span>
 		</div>

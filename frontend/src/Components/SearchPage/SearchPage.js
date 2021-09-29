@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import SideBar from '../Sidebar/SideBar'
 import './SearchPage.css'
 
