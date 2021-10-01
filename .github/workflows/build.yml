@@ -17,6 +17,8 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+        with:
+          config: .github/buildkitd.toml
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -32,5 +34,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./backend
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: vallezw/sheetable:${{ steps.get_version.outputs.VERSION }}, vallezw/sheetable:latest
