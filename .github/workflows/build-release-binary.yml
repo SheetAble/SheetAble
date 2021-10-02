@@ -21,7 +21,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: GCC multilib
-        run: sudo apt update && sudo apt install gcc-multilib g++-multilib mingw-w64 clang-12
+        run: sudo apt update && sudo apt install gcc-multilib g++-multilib gcc-mingw-w64 clang-12
+
+      - name: OSXCross for CGO Support
+        run: |
+          mkdir ../../osxcross
+          git clone https://github.com/plentico/osxcross-target.git ../../osxcross/target
 
       - name: Set windows compiler
         if: ${{ matrix.goos == 'windows' }}
@@ -31,12 +36,12 @@ jobs:
       - name: Set darwin compiler amd64
         if: ${{ matrix.goos == 'darwin' && matrix.goarch == 'amd64' }}
         run: |
-          echo CC="o64-clang" >> $GITHUB_ENV
+          echo CC="/home/runner/work/osxcross/target/bin/o64-clang" >> $GITHUB_ENV
       
       - name: Set darwin compiler arm64
         if: ${{ matrix.goos == 'darwin' && matrix.goarch == 'arm64' }}
         run: |
-          echo CC="aarch64-apple-darwin20.2-clang" >> $GITHUB_ENV
+          echo CC="/home/runner/work/osxcross/target/bin/aarch64-apple-darwin20.4-clang" >> $GITHUB_ENV
 
       - name: Go Build Release
         env:
