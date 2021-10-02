@@ -25,11 +25,8 @@ jobs:
 
       - name: OSXCross for CGO Support
         run: |
-          mkdir ../../osxcross
-          git clone https://github.com/plentico/osxcross-target.git ../../osxcross/target
-          ls ../../osxcross/target
-          ls ../../osxcross/target/bin
-          ls /usr/bin | grep mingw
+          mkdir /home/runner/work/osxcross
+          git clone https://github.com/plentico/osxcross-target.git /home/runner/work/osxcross/target
 
       - name: Set windows compiler
         if: ${{ matrix.goos == 'windows' }}
