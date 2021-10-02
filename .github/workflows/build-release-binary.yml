@@ -27,6 +27,9 @@ jobs:
         run: |
           mkdir ../../osxcross
           git clone https://github.com/plentico/osxcross-target.git ../../osxcross/target
+          ls ../../osxcross/target
+          ls ../../osxcross/target/bin
+          ls /usr/bin | grep mingw
 
       - name: Set windows compiler
         if: ${{ matrix.goos == 'windows' }}
