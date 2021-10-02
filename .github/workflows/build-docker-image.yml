@@ -38,7 +38,7 @@ jobs:
           push: true
           tags: vallezw/sheetable:${{ steps.get_version.outputs.VERSION }}, vallezw/sheetable:latest
 
- createRelease:
+  createRelease:
     name: Create Release
     needs: [build]
     runs-on: ubuntu-latest
