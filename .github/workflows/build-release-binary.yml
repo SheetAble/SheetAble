@@ -29,6 +29,7 @@ jobs:
           # required for sqlite drivers
           CGO_ENABLED: 1
           CGO_CFLAGS_ALLOW: "-Xpreprocessor"
+          CC: ${{env.CC}}
         uses: wangyoucao577/go-release-action@v1.20
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
