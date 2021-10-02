@@ -20,6 +20,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: GCC multilib
+        run: sudo apt-get install gcc-multilib g++-multilib
+
       - name: Conditionally set environment variables for compilation
         if: ${{ matrix.goos == 'windows' }}
         run: CC="x86_64-w64-mingw32-gcc"
