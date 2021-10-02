@@ -5,12 +5,19 @@ on:
 name: Build and Release Go Binaries
 jobs:
   goreleaser:
-    runs-on: ubuntu-18.04 #https://githubmemory.com/repo/plentico/plenti/issues/148
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      # https://githubmemory.com/repo/plentico/osxcross-target/issues/2
+      - name: Downgrade libssl
+        run: |
+          echo 'deb http://security.ubuntu.com/ubuntu bionic-security main' | sudo tee -a /etc/apt/sources.list
+          sudo apt update && apt-cache policy libssl1.0-dev
+          sudo apt-get install libssl1.0-dev
 
       - name: OSXCross for CGO Support
         run: |
