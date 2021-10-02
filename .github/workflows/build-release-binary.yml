@@ -20,6 +20,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Conditionally set environment variables for compilation
+        if: ${{ matrix.goos == 'windows' }}
+        run: CC="x86_64-w64-mingw32-gcc"
+
       - name: Go Build Release
         env:
           # required for sqlite drivers
