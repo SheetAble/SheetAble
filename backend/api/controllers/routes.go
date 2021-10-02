@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"github.com/SheetAble/SheetAble/backend/api/middlewares"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"path"
 	"time"
+
+	"github.com/SheetAble/SheetAble/backend/api/middlewares"
+	"github.com/gin-gonic/gin"
 
 	rice "github.com/GeertJohan/go.rice"
 )
@@ -68,6 +69,7 @@ func (server *Server) SetupRouter() {
 			c.String(http.StatusBadRequest, err.Error())
 			return
 		}
+
 		http.ServeContent(c.Writer, c.Request, path.Base(filepath), time.Time{}, file)
 
 	})
