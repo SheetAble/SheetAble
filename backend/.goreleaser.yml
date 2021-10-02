@@ -1,5 +1,6 @@
 builds:
 - id: linux-build
+  binary: sheetable
   env:
   - CGO_ENABLED=1
   goos:
@@ -10,6 +11,7 @@ builds:
   - goos: linux
     goarch: arm64
 - id: darwin-build
+  binary: sheetable
   ldflags:
   - -s
   env:
@@ -21,3 +23,17 @@ builds:
   ignore:
   - goos: darwin
     goarch: 386
+- id: windows-build
+  binary: sheetable
+  ldflags: -buildmode=exe
+  env:
+    - CGO_ENABLED=1
+    - CC=x86_64-w64-mingw32-gcc
+    - CXX=x86_64-w64-mingw32-g++
+  goos:
+    - windows
+  goarch:
+    - amd64
+
+changelog:
+  skip: true
