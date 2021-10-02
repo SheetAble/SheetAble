@@ -5,7 +5,7 @@ on:
 name: Build and Release Go Binaries
 jobs:
   goreleaser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04 #https://githubmemory.com/repo/plentico/plenti/issues/148
     steps:
       - name: Checkout
         uses: actions/checkout@v2
