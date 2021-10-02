@@ -1,0 +1,35 @@
+on:
+  release:
+    types: [created]
+
+name: Build and Release Go Binaries
+jobs:
+  buildReleaseBinaries:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # build and publish in for multiple machine architectures in parallel:
+        goos: [linux, windows, darwin]
+        goarch: [amd64, arm64]
+        exclude:
+          # exclude this combo as results in unsupported GOOS/GOARCH pair windows/arm64
+          - goos: windows
+            goarch: arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Go Build Release
+        env:
+          # required for sqlite drivers
+          CGO_ENABLED: 1
+          CGO_CFLAGS_ALLOW: "-Xpreprocessor"
+        uses: wangyoucao577/go-release-action@v1.20
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
+          goversion: 1.16
+          project_path: "./backend"
+          binary_name: "sheetable"
