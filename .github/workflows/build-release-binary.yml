@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: GCC multilib
-        run: sudo apt-get install gcc-multilib g++-multilib mingw-64 clang-12
+        run: sudo apt update && sudo apt install gcc-multilib g++-multilib mingw-w64 clang-12
 
       - name: Set windows compiler
         if: ${{ matrix.goos == 'windows' }}
