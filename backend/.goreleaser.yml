@@ -1,0 +1,21 @@
+builds:
+- id: linux-build
+  env:
+  - CGO_ENABLED=1
+  goos:
+  - linux
+  ignore:
+  - goos: linux
+    goarch: 386
+- id: darwin-build
+  ldflags:
+  - -s
+  env:
+  - CGO_ENABLED=1
+  - CC=/home/runner/work/osxcross/target/bin/o64-clang
+  - CXX=/home/runner/work/osxcross/target/bin/o64-clang++
+  goos:
+  - darwin
+  ignore:
+  - goos: darwin
+    goarch: 386

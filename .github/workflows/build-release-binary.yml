@@ -4,56 +4,22 @@ on:
 
 name: Build and Release Go Binaries
 jobs:
-  buildReleaseBinaries:
+  goreleaser:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # build and publish in for multiple machine architectures in parallel:
-        goos: [linux, windows, darwin]
-        goarch: [amd64, arm64]
-        exclude:
-          # exclude this combo as results in unsupported GOOS/GOARCH pair windows/arm64
-          - goos: windows
-            goarch: arm64
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: GCC multilib
-        run: sudo apt update && sudo apt install gcc-multilib g++-multilib gcc-mingw-w64 clang-12
-
-      - name: OSXCross for CGO Support
-        run: |
-          mkdir /home/runner/work/osxcross
-          git clone https://github.com/plentico/osxcross-target.git /home/runner/work/osxcross/target
-
-      - name: Set windows compiler
-        if: ${{ matrix.goos == 'windows' }}
-        run: |
-          echo CC="x86_64-w64-mingw32-gcc" >> $GITHUB_ENV
-
-      - name: Set darwin compiler amd64
-        if: ${{ matrix.goos == 'darwin' && matrix.goarch == 'amd64' }}
-        run: |
-          echo CC="/home/runner/work/osxcross/target/bin/o64-clang" >> $GITHUB_ENV
-      
-      - name: Set darwin compiler arm64
-        if: ${{ matrix.goos == 'darwin' && matrix.goarch == 'arm64' }}
-        run: |
-          echo CC="/home/runner/work/osxcross/target/bin/aarch64-apple-darwin20.4-clang" >> $GITHUB_ENV
-
-      - name: Go Build Release
-        env:
-          # required for sqlite drivers
-          CGO_ENABLED: 1
-          CGO_CFLAGS_ALLOW: "-Xpreprocessor"
-          CC: ${{env.CC}}
-        uses: wangyoucao577/go-release-action@v1.20
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: ${{ matrix.goos }}
-          goarch: ${{ matrix.goarch }}
-          goversion: 1.16
-          project_path: "./backend"
-          binary_name: "sheetable"
+          fetch-depth: 0
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
