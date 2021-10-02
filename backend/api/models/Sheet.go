@@ -9,6 +9,7 @@ import (
 	"time"
 
 	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/lib/pq"
 
 	"github.com/jinzhu/gorm"
 )
@@ -23,6 +24,8 @@ type Sheet struct {
 	UploaderID    uint32    `gorm:"not null" json:"uploader_id"`
 	CreatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+
+	Tags pq.StringArray `gorm:"type:text[]" json:"tags"`
 }
 
 func (s *Sheet) Prepare() {
@@ -33,6 +36,8 @@ func (s *Sheet) Prepare() {
 	s.CreatedAt = time.Now()
 	s.UpdatedAt = time.Now()
 	s.PdfUrl = "sheet/pdf/" + s.SafeComposer + "/" + s.SafeSheetName
+
+	s.Tags = pq.StringArray{"test", "test2"}
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
