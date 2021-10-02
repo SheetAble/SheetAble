@@ -25,15 +25,18 @@ jobs:
 
       - name: Set windows compiler
         if: ${{ matrix.goos == 'windows' }}
-        run: CC="x86_64-w64-mingw32-gcc"
+        run: |
+          echo CC="x86_64-w64-mingw32-gcc" >> $GITHUB_ENV
 
       - name: Set darwin compiler amd64
         if: ${{ matrix.goos == 'darwin' && matrix.goarch == 'amd64' }}
-        run: CC=o64-clang
+        run: |
+          echo CC="o64-clang" >> $GITHUB_ENV
       
       - name: Set darwin compiler arm64
         if: ${{ matrix.goos == 'darwin' && matrix.goarch == 'arm64' }}
-        run: CC=aarch64-apple-darwin20.2-clang
+        run: |
+          echo CC="aarch64-apple-darwin20.2-clang" >> $GITHUB_ENV
 
       - name: Go Build Release
         env:
