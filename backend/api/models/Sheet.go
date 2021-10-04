@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"path"
@@ -38,6 +37,7 @@ func (s *Sheet) Prepare() {
 	s.UpdatedAt = time.Now()
 	s.PdfUrl = "sheet/pdf/" + s.SafeComposer + "/" + s.SafeSheetName
 	s.Tags = pq.StringArray{"test", "test2"}
+
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
@@ -105,7 +105,7 @@ func (s *Sheet) FindSheetBySafeName(db *gorm.DB, sheetName string) (*Sheet, erro
 	var err error
 	err = db.Model(&Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&s).Error
 
-	fmt.Println(s.Tags.Scan("test"))
+	s.Tags = append(s.Tags, "tatt")
 
 	if err != nil {
 		return &Sheet{}, err
@@ -151,5 +151,8 @@ func ComposerEqual(composer string) func(db *gorm.DB) *gorm.DB {
 
 func (s *Sheet) AppendTag(appendTag string) {
 	s.Tags = append(s.Tags, appendTag)
+}
+
+func (s *Sheet) DelteTag(value string) {
 
 }
