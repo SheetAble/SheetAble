@@ -147,8 +147,14 @@ func ComposerEqual(composer string) func(db *gorm.DB) *gorm.DB {
 	}
 }
 
-func (s *Sheet) AppendTag(appendTag string) {
-	s.Tags = append(s.Tags, appendTag)
+func (s *Sheet) AppendTag(db *gorm.DB, appendTag string) {
+	/*
+		Append a new tag to a sheet
+	*/
+
+	newArray := append(s.Tags, appendTag)
+
+	db.Model(&s).Update(Sheet{Tags: newArray})
 }
 
 func (s *Sheet) DelteTag(db *gorm.DB, value string) bool {

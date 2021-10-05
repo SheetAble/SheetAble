@@ -12,6 +12,7 @@ import (
 	"github.com/SheetAble/SheetAble/backend/api/models"
 	"github.com/SheetAble/SheetAble/backend/api/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 )
 
 /*
@@ -125,22 +126,14 @@ func (server *Server) DeleteSheet(c *gin.Context) {
 }
 
 func (server *Server) DeleteTag(c *gin.Context) {
-	sheetName := c.Param("sheetName")
-	if sheetName == "" {
-		utils.DoError(c, http.StatusBadRequest, errors.New("missing URL parameter 'sheetName'"))
+	sheet := getSheet(server.DB, c)
+	if sheet == nil {
 		return
 	}
 
-	var updateTagForm forms.UpdateTagRequest
+	var updateTagForm forms.TagRequest
 	if err := c.ShouldBind(&updateTagForm); err != nil {
 		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad upload request: %v", err))
-		return
-	}
-
-	var sheetModel models.Sheet
-	sheet, err := sheetModel.FindSheetBySafeName(server.DB, sheetName)
-	if err != nil {
-		utils.DoError(c, http.StatusInternalServerError, fmt.Errorf("unable to get sheet %s: %s", sheetName, err.Error()))
 		return
 	}
 
@@ -151,4 +144,42 @@ func (server *Server) DeleteTag(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, "Tag: ["+updateTagForm.TagValue+"] was successfully deleted")
+}
+
+func (server *Server) AppendTag(c *gin.Context) {
+	sheet := getSheet(server.DB, c)
+	if sheet == nil {
+		return
+	}
+
+	var tagForm forms.TagRequest
+	if err := c.ShouldBind(&tagForm); err != nil {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad upload request: %v", err))
+		return
+	}
+
+	sheet.AppendTag(server.DB, tagForm.TagValue)
+
+	c.JSON(http.StatusOK, "Tag: ["+tagForm.TagValue+"] was successfully appended")
+}
+
+func getSheet(db *gorm.DB, c *gin.Context) *models.Sheet {
+	/*
+		Find a sheet by its name
+	*/
+
+	sheetName := c.Param("sheetName")
+	if sheetName == "" {
+		utils.DoError(c, http.StatusBadRequest, errors.New("missing URL parameter 'sheetName'"))
+		return nil
+	}
+
+	var sheetModel models.Sheet
+	sheet, err := sheetModel.FindSheetBySafeName(db, sheetName)
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, fmt.Errorf("unable to get sheet %s: %s", sheetName, err.Error()))
+		return nil
+	}
+
+	return sheet
 }

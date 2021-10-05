@@ -1,5 +1,5 @@
 package forms
 
-type UpdateTagRequest struct {
+type TagRequest struct {
 	TagValue string `form:"tagValue"`
 }
