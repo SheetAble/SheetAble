@@ -88,15 +88,6 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 
-	// Create all tags like genres categories etc
-	divisions := []string{uploadForm.Categories, uploadForm.Tags, uploadForm.Genres}
-	for _, div := range divisions {
-		categories := strings.Split(div, ",")
-		for _, category := range categories {
-			saveDivision(category, div, server)
-		}
-	}
-
 	// Create file
 	theFile, err := uploadForm.File.Open()
 	if err != nil {
@@ -201,16 +192,6 @@ func safeComposer(server *Server, composer string) Comp {
 	comp.Prepare()
 	comp.SaveComposer(server.DB)
 	return compo
-}
-
-func saveDivision(name string, division string, server *Server) {
-	// Saving the division to the database
-	div := models.Division{
-		Name:         name,
-		DivisionName: division,
-	}
-	div.Prepare()
-	div.SaveDivision(server.DB)
 }
 
 func checkComposer(path string, comp Comp) string {

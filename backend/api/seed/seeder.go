@@ -9,7 +9,7 @@ import (
 )
 
 func Load(db *gorm.DB, email string, password string) {
-	err := db.AutoMigrate(&models.User{}, &models.Sheet{}, &models.Division{}, &models.Composer{}).Error
+	err := db.AutoMigrate(&models.User{}, &models.Sheet{}, &models.Composer{}).Error
 	if err != nil {
 		log.Fatalf("cannot migrate table: %v", err)
 	}
