@@ -218,11 +218,12 @@ func createFile(uid uint32, server *Server, fullpath string, file multipart.File
 		ReleaseDate:   createDate(releaseDate),
 	}
 	sheet.Prepare()
+
 	_, err := sheet.SaveSheet(server.DB)
 	if err != nil {
 		return err
 	}
-	fmt.Println(fullpath)
+
 	err = utils.OsCreateFile(fullpath, file)
 	if err != nil {
 		return err

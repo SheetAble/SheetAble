@@ -47,6 +47,8 @@ func (server *Server) SetupRouter() {
 	secureApi.GET("/sheet/:sheetName", server.GetSheet)
 	secureApi.PUT("/sheet/:sheetName", server.UpdateSheet)
 	secureApi.DELETE("/sheet/:sheetName", server.DeleteSheet)
+	secureApi.GET("/search/:searchValue", server.Search)
+	secureApi.DELETE("/tag/sheet/:sheetName", server.DeleteTag)
 
 	// Composer routes
 	secureApi.GET("/composers", server.GetComposersPage)
@@ -54,9 +56,6 @@ func (server *Server) SetupRouter() {
 	secureApi.PUT("/composers/:composerName", server.UpdateComposer)
 	secureApi.DELETE("/composer/:composerName", server.DeleteComposer)
 	api.GET("/composer/portrait/:composerName", server.ServePortraits)
-
-	// Sheet & Composer (combined) routes
-	secureApi.GET("/search/:searchValue", server.Search)
 
 	// Serve React
 	appBox := rice.MustFindBox("../../../frontend/build")

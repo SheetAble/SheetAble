@@ -9,6 +9,7 @@ import (
 	"time"
 
 	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
 	"github.com/lib/pq"
 
 	"github.com/jinzhu/gorm"
@@ -37,7 +38,6 @@ func (s *Sheet) Prepare() {
 	s.UpdatedAt = time.Now()
 	s.PdfUrl = "sheet/pdf/" + s.SafeComposer + "/" + s.SafeSheetName
 	s.Tags = pq.StringArray{"test", "test2"}
-
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
@@ -105,8 +105,6 @@ func (s *Sheet) FindSheetBySafeName(db *gorm.DB, sheetName string) (*Sheet, erro
 	var err error
 	err = db.Model(&Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&s).Error
 
-	s.Tags = append(s.Tags, "tatt")
-
 	if err != nil {
 		return &Sheet{}, err
 	}
@@ -153,6 +151,8 @@ func (s *Sheet) AppendTag(appendTag string) {
 	s.Tags = append(s.Tags, appendTag)
 }
 
-func (s *Sheet) DelteTag(value string) {
+func (s *Sheet) DelteTag(db *gorm.DB, value string) {
+	newArray := pq.StringArray(utils.RemoveElementOfSlice(s.Tags, 0))
 
+	db.Model(&s).Update(Sheet{Tags: newArray})
 }

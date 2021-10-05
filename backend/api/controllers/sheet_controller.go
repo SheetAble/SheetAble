@@ -123,3 +123,20 @@ func (server *Server) DeleteSheet(c *gin.Context) {
 
 	c.JSON(http.StatusOK, "Sheet was successfully deleted")
 }
+
+func (server *Server) DeleteTag(c *gin.Context) {
+	sheetName := c.Param("sheetName")
+	if sheetName == "" {
+		utils.DoError(c, http.StatusBadRequest, errors.New("missing URL parameter 'sheetName'"))
+		return
+	}
+
+	var sheetModel models.Sheet
+	sheet, err := sheetModel.FindSheetBySafeName(server.DB, sheetName)
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, fmt.Errorf("unable to get sheet %s: %s", sheetName, err.Error()))
+		return
+	}
+
+	sheet.DelteTag(server.DB, "test")
+}
