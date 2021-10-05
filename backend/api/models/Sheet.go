@@ -151,8 +151,21 @@ func (s *Sheet) AppendTag(appendTag string) {
 	s.Tags = append(s.Tags, appendTag)
 }
 
-func (s *Sheet) DelteTag(db *gorm.DB, value string) {
-	newArray := pq.StringArray(utils.RemoveElementOfSlice(s.Tags, 0))
+func (s *Sheet) DelteTag(db *gorm.DB, value string) bool {
+
+	/*
+		Deleting a tag by it's value
+	*/
+
+	index := utils.FindIndexByValue(s.Tags, value)
+
+	if index == -1 {
+		return false
+	}
+
+	newArray := pq.StringArray(utils.RemoveElementOfSlice(s.Tags, index))
 
 	db.Model(&s).Update(Sheet{Tags: newArray})
+
+	return true
 }

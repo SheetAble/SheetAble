@@ -131,6 +131,12 @@ func (server *Server) DeleteTag(c *gin.Context) {
 		return
 	}
 
+	var updateTagForm forms.UpdateTagRequest
+	if err := c.ShouldBind(&updateTagForm); err != nil {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad upload request: %v", err))
+		return
+	}
+
 	var sheetModel models.Sheet
 	sheet, err := sheetModel.FindSheetBySafeName(server.DB, sheetName)
 	if err != nil {
@@ -138,5 +144,11 @@ func (server *Server) DeleteTag(c *gin.Context) {
 		return
 	}
 
-	sheet.DelteTag(server.DB, "test")
+	tagNotFound := sheet.DelteTag(server.DB, updateTagForm.TagValue)
+	if !tagNotFound {
+		utils.DoError(c, http.StatusNotFound, fmt.Errorf("unable to find tag: %s", updateTagForm.TagValue))
+		return
+	}
+
+	c.JSON(http.StatusOK, "Tag: ["+updateTagForm.TagValue+"] was successfully deleted")
 }

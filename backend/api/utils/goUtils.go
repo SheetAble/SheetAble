@@ -7,3 +7,16 @@ func RemoveElementOfSlice(slice []string, index int) []string {
 
 	return append(slice[:index], slice[index+1:]...)
 }
+
+func FindIndexByValue(slice []string, value string) int {
+	/*
+		Return Index of a specific value in a slice
+	*/
+
+	for p, v := range slice {
+		if v == value {
+			return p
+		}
+	}
+	return -1
+}
