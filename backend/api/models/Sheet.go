@@ -37,7 +37,7 @@ func (s *Sheet) Prepare() {
 	s.CreatedAt = time.Now()
 	s.UpdatedAt = time.Now()
 	s.PdfUrl = "sheet/pdf/" + s.SafeComposer + "/" + s.SafeSheetName
-	s.Tags = pq.StringArray{"test", "test2"}
+	s.Tags = pq.StringArray{}
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
