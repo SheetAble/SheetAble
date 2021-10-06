@@ -21,12 +21,11 @@ type Sheet struct {
 	SafeComposer  string `json:"safe_composer"`
 	Composer      string `json:"composer"`
 	ReleaseDate   time.Time
-	PdfUrl        string    `json:"pdf_url"`
-	UploaderID    uint32    `gorm:"not null" json:"uploader_id"`
-	CreatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
-
-	Tags pq.StringArray `gorm:"type:text[]" json:"tags"`
+	PdfUrl        string         `json:"pdf_url"`
+	UploaderID    uint32         `gorm:"not null" json:"uploader_id"`
+	CreatedAt     time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt     time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	Tags          pq.StringArray `gorm:"type:text[]" json:"tags"`
 }
 
 func (s *Sheet) Prepare() {
@@ -158,7 +157,6 @@ func (s *Sheet) AppendTag(db *gorm.DB, appendTag string) {
 }
 
 func (s *Sheet) DelteTag(db *gorm.DB, value string) bool {
-
 	/*
 		Deleting a tag by it's value
 	*/

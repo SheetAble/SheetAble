@@ -126,6 +126,12 @@ func (server *Server) DeleteSheet(c *gin.Context) {
 }
 
 func (server *Server) DeleteTag(c *gin.Context) {
+	/*
+		This endpoint will delete a given Tag
+		Example Request
+		DELETE /api/tag/sheet/fuer-elise
+	*/
+
 	sheet := getSheet(server.DB, c)
 	if sheet == nil {
 		return
@@ -147,6 +153,15 @@ func (server *Server) DeleteTag(c *gin.Context) {
 }
 
 func (server *Server) AppendTag(c *gin.Context) {
+	/*
+		This endpoint will append a new Tag
+		Example Request
+		POST /api/tag/sheet/fuer-elise
+			Body (FormValue):
+			- tagValue: New Tag
+
+	*/
+
 	sheet := getSheet(server.DB, c)
 	if sheet == nil {
 		return
