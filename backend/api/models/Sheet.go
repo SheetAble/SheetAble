@@ -173,3 +173,19 @@ func (s *Sheet) DelteTag(db *gorm.DB, value string) bool {
 
 	return true
 }
+
+func FindSheetByTag(db *gorm.DB, tag string) []*Sheet {
+
+	var allSheets []*Sheet
+	var affectedSheets []*Sheet
+
+	db.Find(&allSheets)
+
+	for _, sheet := range allSheets {
+		if utils.CheckSliceContains(sheet.Tags, "test") {
+			affectedSheets = append(affectedSheets, sheet)
+		}
+	}
+
+	return affectedSheets
+}

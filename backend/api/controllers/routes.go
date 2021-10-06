@@ -52,6 +52,7 @@ func (server *Server) SetupRouter() {
 	// Sheet tag routes
 	secureApi.DELETE("/tag/sheet/:sheetName", server.DeleteTag)
 	secureApi.POST("/tag/sheet/:sheetName", server.AppendTag)
+	secureApi.GET("/tag", server.FindSheetsByTag)
 
 	// Composer routes
 	secureApi.GET("/composers", server.GetComposersPage)

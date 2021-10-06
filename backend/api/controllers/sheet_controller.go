@@ -172,10 +172,22 @@ func (server *Server) AppendTag(c *gin.Context) {
 		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad upload request: %v", err))
 		return
 	}
+	if tagForm.TagValue == "" {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("No tagValue given"))
+		return
+	}
 
 	sheet.AppendTag(server.DB, tagForm.TagValue)
 
 	c.JSON(http.StatusOK, "Tag: ["+tagForm.TagValue+"] was successfully appended")
+}
+
+func (server *Server) FindSheetsByTag(c *gin.Context) {
+	sheets := models.FindSheetByTag(server.DB, "test")
+	fmt.Println(sheets)
+
+	c.JSON(http.StatusOK, sheets)
+
 }
 
 func getSheet(db *gorm.DB, c *gin.Context) *models.Sheet {
