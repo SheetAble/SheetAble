@@ -183,8 +183,18 @@ func (server *Server) AppendTag(c *gin.Context) {
 }
 
 func (server *Server) FindSheetsByTag(c *gin.Context) {
-	sheets := models.FindSheetByTag(server.DB, "test")
-	fmt.Println(sheets)
+
+	var tagForm forms.TagRequest
+	if err := c.ShouldBind(&tagForm); err != nil {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad upload request: %v", err))
+		return
+	}
+	if tagForm.TagValue == "" {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("No tagValue given"))
+		return
+	}
+
+	sheets := models.FindSheetByTag(server.DB, tagForm.TagValue)
 
 	c.JSON(http.StatusOK, sheets)
 

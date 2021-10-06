@@ -182,7 +182,7 @@ func FindSheetByTag(db *gorm.DB, tag string) []*Sheet {
 	db.Find(&allSheets)
 
 	for _, sheet := range allSheets {
-		if utils.CheckSliceContains(sheet.Tags, "test") {
+		if utils.CheckSliceContains(sheet.Tags, tag) {
 			affectedSheets = append(affectedSheets, sheet)
 		}
 	}
