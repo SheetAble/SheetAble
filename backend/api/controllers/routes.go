@@ -48,6 +48,7 @@ func (server *Server) SetupRouter() {
 	secureApi.PUT("/sheet/:sheetName", server.UpdateSheet)
 	secureApi.DELETE("/sheet/:sheetName", server.DeleteSheet)
 	secureApi.GET("/search/:searchValue", server.Search)
+	secureApi.PUT("/sheet/:sheetName/info", server.UpdateSheetInformationText)
 
 	// Sheet tag routes
 	secureApi.DELETE("/tag/sheet/:sheetName", server.DeleteTag)

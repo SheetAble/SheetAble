@@ -175,6 +175,13 @@ func (s *Sheet) DelteTag(db *gorm.DB, value string) bool {
 	return true
 }
 
+func (S *Sheet) UpdateSheetInformationText(db *gorm.DB, value string, sheet *Sheet) *Sheet {
+	sheet.InformationText = value
+	db.Save(sheet)
+
+	return sheet
+}
+
 func FindSheetByTag(db *gorm.DB, tag string) []*Sheet {
 
 	var allSheets []*Sheet

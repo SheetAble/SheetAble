@@ -200,6 +200,35 @@ func (server *Server) FindSheetsByTag(c *gin.Context) {
 
 }
 
+func (server *Server) UpdateSheetInformationText(c *gin.Context) {
+	/*
+		This endpoint will update a sheet information text
+		Example Request
+		POST /api/sheet/fuer-elise/info
+			Body (FormValue):
+			- informationText: This is Für Elise made by Beethoven
+	*/
+
+	sheet := getSheet(server.DB, c)
+	if sheet == nil {
+		return
+	}
+
+	var informationForm forms.InformationTextRequest
+	if err := c.ShouldBind(&informationForm); err != nil {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad upload request: %v", err))
+		return
+	}
+	if informationForm.InformationText == "" {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("No informationForm given"))
+		return
+	}
+
+	newSheet := sheet.UpdateSheetInformationText(server.DB, informationForm.InformationText, sheet)
+
+	c.JSON(http.StatusOK, newSheet)
+}
+
 func getSheet(db *gorm.DB, c *gin.Context) *models.Sheet {
 	/*
 		Find a sheet by its name
