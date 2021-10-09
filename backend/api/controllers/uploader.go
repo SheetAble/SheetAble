@@ -95,7 +95,7 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 	defer theFile.Close()
-	err = createFile(uid, server, fullpath, theFile, comp, sheetName, releaseDate)
+	err = createFile(uid, server, fullpath, theFile, comp, sheetName, releaseDate, uploadForm.InformationText)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -207,15 +207,16 @@ func checkComposer(path string, comp Comp) string {
 	return path
 }
 
-func createFile(uid uint32, server *Server, fullpath string, file multipart.File, comp Comp, sheetName string, releaseDate string) error {
+func createFile(uid uint32, server *Server, fullpath string, file multipart.File, comp Comp, sheetName string, releaseDate string, informationText string) error {
 	// Create database entry
 	sheet := models.Sheet{
-		SafeSheetName: sanitize.Name(sheetName),
-		SheetName:     sheetName,
-		SafeComposer:  sanitize.Name(comp.CompleteName),
-		Composer:      comp.CompleteName,
-		UploaderID:    uid,
-		ReleaseDate:   createDate(releaseDate),
+		SafeSheetName:   sanitize.Name(sheetName),
+		SheetName:       sheetName,
+		SafeComposer:    sanitize.Name(comp.CompleteName),
+		Composer:        comp.CompleteName,
+		UploaderID:      uid,
+		ReleaseDate:     createDate(releaseDate),
+		InformationText: informationText,
 	}
 	sheet.Prepare()
 

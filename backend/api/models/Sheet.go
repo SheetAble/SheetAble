@@ -16,16 +16,17 @@ import (
 )
 
 type Sheet struct {
-	SafeSheetName string `gorm:"primary_key" json:"safe_sheet_name"`
-	SheetName     string `json:"sheet_name"`
-	SafeComposer  string `json:"safe_composer"`
-	Composer      string `json:"composer"`
-	ReleaseDate   time.Time
-	PdfUrl        string         `json:"pdf_url"`
-	UploaderID    uint32         `gorm:"not null" json:"uploader_id"`
-	CreatedAt     time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt     time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
-	Tags          pq.StringArray `gorm:"type:text[]" json:"tags"`
+	SafeSheetName   string `gorm:"primary_key" json:"safe_sheet_name"`
+	SheetName       string `json:"sheet_name"`
+	SafeComposer    string `json:"safe_composer"`
+	Composer        string `json:"composer"`
+	ReleaseDate     time.Time
+	PdfUrl          string         `json:"pdf_url"`
+	UploaderID      uint32         `gorm:"not null" json:"uploader_id"`
+	CreatedAt       time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt       time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	Tags            pq.StringArray `gorm:"type:text[]" json:"tags"`
+	InformationText string         `json:"information_text"`
 }
 
 func (s *Sheet) Prepare() {
