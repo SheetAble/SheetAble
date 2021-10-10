@@ -25,6 +25,7 @@ import { useHistory } from 'react-router-dom'
 
 import Modal from '../Sidebar/Modal/Modal'
 import ModalContent from './ModalContent'
+import InformationCard from './InformationCard';
 
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -270,12 +271,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 						}	
 						
 
-						<div className="video_player">
-							<span className="coming_soon">Media Player Coming Soon</span>
-							<div>
-								<span><a href="/newsletter" target="_blank">Sign up</a> for the newsletter, so you don't miss any updates</span>
-							</div>
-						</div>				
+						<InformationCard />			
 					</div>											
 				</div>
 			</div>
