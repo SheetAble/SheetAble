@@ -1,18 +1,18 @@
 import React from 'react'
+import './InformationCard.css'
+
 
 function InformationCard() {
 	return (
-    <div className="video_player">
-      <span className="coming_soon">Media Player Coming Soon</span>
-      <div>
-        <span>
-          <a href="/newsletter" target="_blank">
-            Sign up
-          </a>{" "}
-          for the newsletter, so you don't miss any updates
-        </span>
-      </div>
-    </div>
+	<div className="information_card">
+		<div className="header_wrapper">
+			<h1>Information</h1>
+			<div>
+				<span className="dot" />
+				<span>depressed</span>
+			</div>
+		</div>
+	</div>
   );
 }
 

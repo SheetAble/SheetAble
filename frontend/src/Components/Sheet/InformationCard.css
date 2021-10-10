@@ -1,0 +1,54 @@
+.information_card {
+    background-color: white;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
+    margin-top: 449px; 
+    margin-left: 6vw;
+    margin-right: 15px;
+
+    border-radius: 15px;
+    
+	height: 240px;
+
+}
+
+@media screen and (min-height: 840px) {
+    .information_card {
+        background-color: white;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
+        margin-top: 80px;
+        margin-left: 6vw;
+        margin-right: 15px;
+        border-radius: 15px;
+        height: 300px;
+    }
+}
+
+.information_card h1 {
+    font-size: 23px;    
+    font-family: 'Open Sans';
+    font-weight: 700;
+	padding-left: 15px;
+}
+
+.information_card .header_wrapper {
+	padding-top: 10px;
+	display: flex;
+}
+
+.information_card .header_wrapper span{
+	padding-top: 9px;
+	
+	font-size: 12px;	
+}
+
+.information_card .header_wrapper .dot {
+	margin-top: 12px;
+	margin-right: 5px;
+	margin-left: 15px;
+
+	height: 10px;
+	width: 10px;
+	background-color: #FF6A6A;
+	border-radius: 50%;
+	display: inline-block;
+}
