@@ -24,8 +24,8 @@ import { getComposerPage, getSheetPage, setSheetPage, setComposerPage } from '..
 import { useHistory } from 'react-router-dom'
 
 import Modal from '../Sidebar/Modal/Modal'
-import ModalContent from './ModalContent'
-import InformationCard from './InformationCard';
+import ModalContent from './Components/ModalContent'
+import InformationCard from './Components/InformationCard';
 
 /* Activate global worker for displaying the pdf properly */
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;

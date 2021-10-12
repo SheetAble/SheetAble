@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { connect } from 'react-redux'
-import { updateSheet, resetData, deleteSheet } from '../../Redux/Actions/dataActions'
+import { updateSheet, resetData, deleteSheet } from '../../../Redux/Actions/dataActions'
 
 // Import React FilePond
 import { FilePond } from 'react-filepond'
