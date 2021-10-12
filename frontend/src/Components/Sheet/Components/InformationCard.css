@@ -52,3 +52,10 @@
 	border-radius: 50%;
 	display: inline-block;
 }
+
+.info_text {
+  margin-left: 15px;
+  margin-top: 2px;
+  font-size: 14px;
+  color: #5e5e5e;
+}
