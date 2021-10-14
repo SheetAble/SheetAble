@@ -37,8 +37,8 @@
 
 .information_card .header_wrapper span{
 	padding-top: 9px;
-	
-	font-size: 12px;	
+	font-size: 12px;
+ 
 }
 
 .information_card .header_wrapper .dot {
@@ -48,7 +48,6 @@
 
 	height: 10px;
 	width: 10px;
-	
 	border-radius: 50%;
 	display: inline-block;
 }
@@ -58,4 +57,10 @@
   margin-top: 2px;
   font-size: 14px;
   color: #5e5e5e;
+}
+
+.information_card .header_wrapper div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
