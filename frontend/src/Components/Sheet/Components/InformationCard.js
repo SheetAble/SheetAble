@@ -21,7 +21,7 @@ function InformationCard({ infoText, tags }) {
       <div className="header_wrapper">
         <h1>Information</h1>
         {tags.map((tag) => (
-          <div className="tag_tooltip" onClick={() => history.push("/tags")}>
+          <div className="tag_tooltip" onClick={() => history.push(`/tag/${encodeURIComponent(tag)}`)}>
             <span
               className="dot"
               style={{

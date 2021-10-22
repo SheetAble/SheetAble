@@ -35,6 +35,7 @@ import './App.css'
 // eslint-disable-next-line
 import Logo from './Images/logo.png'
 import SearchPage from './Components/SearchPage/SearchPage';
+import TagsPage from './Components/TagsPage/TagsPage';
 
 
 // Check if started in development mode, so you can modify baseURL accordingly
@@ -92,6 +93,7 @@ function App() {
               <Route exact path="/composers" component={ComposersPage} />
               <Route exact path="/settings" component={Settings} />
               <Route exact path="/ping" component={Ping} />
+              <Route exact path="/tag/:tagName" component={TagsPage} />
               <Route component={PageNotFound} />
             </Switch> 
             :
