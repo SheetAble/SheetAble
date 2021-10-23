@@ -1,5 +1,5 @@
 .tags_page .dot {
-	margin-top: 17px;
+	margin-top: 18px;
 	margin-right: 15px;
 	height: 15px;
 	width: 15px;
@@ -8,7 +8,7 @@
 }
 
 .tags_page .header {
-	margin-top: 10px;
+	margin-top: 20px;
 	display: flex;
 	width: 50%;
 	margin-left: 42%;
@@ -17,7 +17,7 @@
 
 .tags_page .header h1{
 	font-family: "Poppins";
-	font-weight: 600;
+	font-weight: 300;
 }
 
 .tags_page {
