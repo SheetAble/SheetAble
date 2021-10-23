@@ -1,13 +1,23 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import SideBar from '../Sidebar/SideBar'
+import { getTagSheets } from '../../Redux/Actions/dataActions';
+import { connect } from 'react-redux';
 
-function TagsPage() {
+
+function TagsPage({ getTagSheets }) {
 	
 	const { tagName } = useParams();	
 	const decoded = decodeURIComponent(tagName)
 	console.log(decoded);
 
+	const [sheets, setSheets ] = useState([])
+
+	useEffect(() => {
+		getTagSheets(decoded, (data) => {
+			setSheets(data)
+		})
+	}, [])
 
 	return (
 		<Fragment>
@@ -19,4 +29,12 @@ function TagsPage() {
   );
 }
 
-export default TagsPage
+const mapStateToProps = (state) => ({
+  
+});
+
+const mapActionsToProps = {
+	getTagSheets
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(TagsPage);

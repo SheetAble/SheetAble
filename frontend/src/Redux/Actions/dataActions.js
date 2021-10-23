@@ -288,6 +288,26 @@ export const searchData = (searchValue, _callback) => dispatch => {
         })
 }
 
+export const getTagSheets = (tagName, _callback) => dispatch => {
+    
+    let bodyFormData = new FormData();
+    bodyFormData.append("tagValue", tagName);
+
+    axios.post("/tag", bodyFormData)
+    .then((res) => {
+      console.log(res);
+      _callback(res.data);
+    })
+    .catch(err => {
+            if (err.request.status === 401) {
+                store.dispatch(logoutUser())
+                window.location.href = '/login'
+            }
+            console.log(err);
+        })
+
+}
+
 
 export const resetData = () => dispatch => {
     dispatch({ type: RESET_DATA})
