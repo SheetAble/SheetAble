@@ -19,3 +19,12 @@
 	font-family: "Poppins";
 	font-weight: 600;
 }
+
+.tags_page {
+	display: block;
+}
+
+.tags_page .marg {
+	margin-left: 15px;
+	margin-right: 15px;
+}

@@ -5,6 +5,7 @@ import { getTagSheets } from '../../Redux/Actions/dataActions';
 import { connect } from 'react-redux';
 import { dominantColors } from '../../Utils/colors';
 import './TagsPage.css'
+import SheetBox from '../SheetsPage/Components/SheetBox';
 
 
 function TagsPage({ getTagSheets }) {
@@ -34,13 +35,18 @@ function TagsPage({ getTagSheets }) {
 			/>
 			<h1>{decoded}</h1>
 		</div>
-        {sheets.length != 0 ? (
-          <div>
-            <span>{sheets[0].safe_sheet_name}</span>
-          </div>
-        ) : (
-          <p>loading</p>
-        )}
+		<div className="marg">
+			{sheets.length != 0 ? (
+			sheets.map(sheet => {
+				return (
+					<SheetBox sheet={sheet} key={sheet.sheet_name}/>
+				) 
+			}
+			)) 
+			: 
+			<p>loading</p>
+			}
+		</div>
       </div>
     </Fragment>
   );
