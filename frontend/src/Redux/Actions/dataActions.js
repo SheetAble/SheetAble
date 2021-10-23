@@ -295,7 +295,6 @@ export const getTagSheets = (tagName, _callback) => dispatch => {
 
     axios.post("/tag", bodyFormData)
     .then((res) => {
-      console.log(res);
       _callback(res.data);
     })
     .catch(err => {

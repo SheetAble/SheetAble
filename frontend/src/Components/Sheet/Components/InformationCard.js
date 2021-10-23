@@ -1,19 +1,9 @@
 import React from 'react'
 import './InformationCard.css'
 import { useHistory } from 'react-router'
+import { dominantColors } from '../../../Utils/colors';
 
 function InformationCard({ infoText, tags }) {
-
-  const colors = [
-    "#FF6A6A",
-    "#0DAB76",
-    "#00E5E8",
-    "#5C5D8D",
-    "#99B2DD",
-    "#9381FF",
-    "#B8B8FF",
-  ]; // list of dominant colors for the tags
-
   const history = useHistory()
 
   return (
@@ -26,7 +16,7 @@ function InformationCard({ infoText, tags }) {
               className="dot"
               style={{
                 backgroundColor:
-                  colors[Math.floor(Math.random() * colors.length)],
+                  dominantColors[Math.floor(Math.random() * dominantColors.length)],
               }}
             />
 
