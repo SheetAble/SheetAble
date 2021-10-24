@@ -107,3 +107,8 @@
   margin-top: -7px;
   padding-right: 15px;
 }
+
+.add_tag form {
+  margin-bottom: 20px;
+  padding: 0px 15px;
+}

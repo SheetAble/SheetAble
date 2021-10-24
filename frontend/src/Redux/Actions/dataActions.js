@@ -294,10 +294,10 @@ export const getTagSheets = (tagName, _callback) => dispatch => {
     bodyFormData.append("tagValue", tagName);
 
     axios.post("/tag", bodyFormData)
-    .then((res) => {
-      _callback(res.data);
-    })
-    .catch(err => {
+        .then((res) => {
+        _callback(res.data);
+        })
+        .catch(err => {
             if (err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
@@ -307,6 +307,26 @@ export const getTagSheets = (tagName, _callback) => dispatch => {
 
 }
 
+export const addNewTag = (tagName, sheetName, _callback) => dispatch => {
+    
+    let bodyFormData = new FormData();
+    bodyFormData.append("tagValue", tagName);
+
+    axios
+      .post(`/tag/sheet/${sheetName}`, bodyFormData)
+      .then((res) => {
+        store.dispatch(resetData())
+        window.location.reload()
+
+      })
+      .catch((err) => {
+        if (err.request.status === 401) {
+          store.dispatch(logoutUser());
+          window.location.href = "/login";
+        }
+        console.log(err);
+      });
+}
 
 export const resetData = () => dispatch => {
     dispatch({ type: RESET_DATA})

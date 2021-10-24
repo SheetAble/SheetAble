@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './InformationCard.css'
 import { dominantColors } from '../../../Utils/colors';
 import { IconButton } from '@material-ui/core';
 import AddIcon from "@material-ui/icons/Add";
 
-function InformationCard({ infoText, tags }) {
+import Modal from '../../Sidebar/Modal/Modal';
+import ModalContent from './ModalContentTag.js'
+
+function InformationCard({ infoText, tags, sheetName }) {
+
+  const [modal, setModal] = useState(false)
 
   return (
     <div className="information_card">
@@ -31,11 +36,14 @@ function InformationCard({ infoText, tags }) {
           </div>
         ))}
         <span>&nbsp;&nbsp;</span>
-        <div className="add">
+        <div className="add" onClick={() => setModal(true)}>
           <IconButton>
             <AddIcon />
           </IconButton>
         </div>
+        <Modal title="Add Tag" onClose={() => setModal(false)} show={modal}>
+          <ModalContent onClose={() => setModal(false)} sheetName={sheetName} />
+        </Modal>
       </div>
       <div className="info_text">
         <span>{infoText}</span>

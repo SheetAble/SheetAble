@@ -271,7 +271,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 						}	
 						
 
-						<InformationCard infoText={sheet.information_text} tags={sheet.tags}/>			
+						<InformationCard infoText={sheet.information_text} tags={sheet.tags} sheetName={sheet.safe_sheet_name}/>			
 					</div>											
 				</div>
 			</div>
