@@ -36,7 +36,7 @@
 }
 
 .information_card .header_wrapper span{
-	padding-top: 9px;
+	/*padding-top: 9px;*/
 	font-size: 12px;
  
 }
@@ -101,4 +101,9 @@
 .tag_tooltip:hover .tag_tooltiptext {
   visibility: visible;
   
+}
+
+.information_card .add {
+  margin-top: -7px;
+  padding-right: 15px;
 }
