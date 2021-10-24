@@ -3,7 +3,7 @@ import './InformationCard.css'
 import { dominantColors } from '../../../Utils/colors';
 import { IconButton } from '@material-ui/core';
 import AddIcon from "@material-ui/icons/Add";
-
+import DelteIcon from "@material-ui/icons/Delete";
 import Modal from '../../Sidebar/Modal/Modal';
 import ModalContent from './ModalContentTag.js'
 
@@ -39,6 +39,11 @@ function InformationCard({ infoText, tags, sheetName }) {
         <div className="add" onClick={() => setModal(true)}>
           <IconButton>
             <AddIcon />
+          </IconButton>
+        </div>
+        <div className="add delete" onClick={() => setModal(true)}>
+          <IconButton>
+            <DelteIcon />
           </IconButton>
         </div>
         <Modal title="Add Tag" onClose={() => setModal(false)} show={modal}>
