@@ -295,10 +295,10 @@ export const getTagSheets = (tagName, _callback) => dispatch => {
 
     axios.post("/tag", bodyFormData)
         .then((res) => {
-        _callback(res.data);
+            _callback(res.data);
         })
         .catch(err => {
-            if (err.request.status === 401) {
+            if (err.request && err.request.status === 401) {
                 store.dispatch(logoutUser())
                 window.location.href = '/login'
             }

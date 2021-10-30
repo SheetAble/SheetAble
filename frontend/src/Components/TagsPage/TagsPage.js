@@ -16,6 +16,7 @@ function TagsPage({ getTagSheets }) {
 	const [sheets, setSheets ] = useState([])
 
 	useEffect(() => {
+		console.log(sheets.length);
 		getTagSheets(decoded, (data) => {
 			setSheets(data)
 		})
@@ -36,15 +37,13 @@ function TagsPage({ getTagSheets }) {
 			<h1>{decoded}</h1>
 		</div>
 		<div className="marg">
-			{sheets.length != 0 ? (
-			sheets.map(sheet => {
-				return (
-					<SheetBox sheet={sheet} key={sheet.sheet_name}/>
-				) 
-			}
+			{sheets.length === 0 ? <p>loading</p> : (
+				sheets.map(sheet => {
+					return (
+						<SheetBox sheet={sheet} key={sheet.sheet_name}/>
+					) 
+				}
 			)) 
-			: 
-			<p>loading</p>
 			}
 		</div>
       </div>

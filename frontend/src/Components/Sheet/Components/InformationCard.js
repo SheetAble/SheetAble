@@ -2,17 +2,13 @@ import React, { useState } from 'react'
 import './InformationCard.css'
 import { dominantColors } from '../../../Utils/colors';
 import { IconButton } from '@material-ui/core';
-import AddIcon from "@material-ui/icons/Add";
-import DelteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import Modal from '../../Sidebar/Modal/Modal';
 import ModalContent from './ModalContentTag.js'
-import DeleteModalContent from './DeleteModalContent';
 
 function InformationCard({ infoText, tags, sheetName }) {
 
   const [modal, setModal] = useState(false)
-  const [deleteModal, setDeleteModal] = useState(false)
-
 
   return (
     <div className="information_card">
@@ -41,30 +37,15 @@ function InformationCard({ infoText, tags, sheetName }) {
         <span>&nbsp;&nbsp;</span>
         <div className="add" onClick={() => setModal(true)}>
           <IconButton>
-            <AddIcon />
+            <EditIcon />
           </IconButton>
         </div>
-        <div className="add delete" onClick={() => setDeleteModal(true)}>
-          <IconButton>
-            <DelteIcon />
-          </IconButton>
-        </div>
-        <Modal title="Add Tag" onClose={() => setModal(false)} show={modal}>
-          <ModalContent onClose={() => setModal(false)} sheetName={sheetName} />
-        </Modal>
-        <Modal title="Delete Tag" onClose={() => setDeleteModal(false)} show={deleteModal}>
-            <DeleteModalContent tags={tags} sheetName={sheetName}/>
+        <Modal title="Edit Tag" onClose={() => setModal(false)} show={modal}>
+          <ModalContent onClose={() => setModal(false)} sheetName={sheetName} tags={tags} />
         </Modal>
       </div>
       <div className="info_text">
         <span>{infoText}</span>
-        <br />
-        <div className="tag_tooltip">
-          <span>test</span>
-
-          <span className="tag_tooltiptext">test</span>
-          
-        </div>
       </div>
     </div>
   );
