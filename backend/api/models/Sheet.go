@@ -98,10 +98,8 @@ func (s *Sheet) GetAllSheets(db *gorm.DB) (*[]Sheet, error) {
 }
 
 func (s *Sheet) FindSheetBySafeName(db *gorm.DB, sheetName string) (*Sheet, error) {
-	/*
-		Get information of one single sheet by the safe sheet name
-	*/
 
+	// Get information of one single sheet by the safe sheet name
 	var err error
 	err = db.Model(&Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&s).Error
 
@@ -113,9 +111,8 @@ func (s *Sheet) FindSheetBySafeName(db *gorm.DB, sheetName string) (*Sheet, erro
 }
 
 func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagination, error) {
-	/*
-		For pagination
-	*/
+
+	// For pagination
 
 	var sheets []*Sheet
 	if composer != "" {
@@ -130,10 +127,8 @@ func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagi
 }
 
 func SearchSheet(db *gorm.DB, searchValue string) []*Sheet {
-	/*
-		Search for sheets with containing string
-	*/
 
+	// Search for sheets with containing string
 	var sheets []*Sheet
 	searchValue = "%" + searchValue + "%"
 	db.Where("sheet_name LIKE ?", searchValue).Find(&sheets)
@@ -141,27 +136,24 @@ func SearchSheet(db *gorm.DB, searchValue string) []*Sheet {
 }
 
 func ComposerEqual(composer string) func(db *gorm.DB) *gorm.DB {
-	/* Scope that composer is equal to composer (if you only want sheets from a certain composer) */
+
+	// Scope that composer is equal to composer (if you only want sheets from a certain composer)
 	return func(db *gorm.DB) *gorm.DB {
 		return db.Where("safe_composer = ?", composer)
 	}
 }
 
 func (s *Sheet) AppendTag(db *gorm.DB, appendTag string) {
-	/*
-		Append a new tag to a sheet
-	*/
 
+	// Append a new tag to a sheet
 	newArray := append(s.Tags, appendTag)
 
 	db.Model(&s).Update(Sheet{Tags: newArray})
 }
 
 func (s *Sheet) DelteTag(db *gorm.DB, value string) bool {
-	/*
-		Deleting a tag by it's value
-	*/
 
+	// Deleting a tag by it's value
 	index := utils.FindIndexByValue(s.Tags, value)
 
 	if index == -1 {

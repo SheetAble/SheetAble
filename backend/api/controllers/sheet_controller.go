@@ -50,7 +50,8 @@ func (server *Server) GetSheetsPage(c *gin.Context) {
 	c.JSON(http.StatusOK, pageNew)
 }
 
-/*	Get PDF file and information about an individual sheet.
+/*	
+	Get PDF file and information about an individual sheet.
 	Example request:
 		GET /sheet/Étude N. 1
 	Has to be safeName
@@ -94,9 +95,8 @@ func (server *Server) GetThumbnail(c *gin.Context) {
 	c.File(filePath)
 }
 
-/*
-	Has to be safeName of the sheet
-*/
+
+// Has to be safeName of the sheet
 func (server *Server) DeleteSheet(c *gin.Context) {
 	sheetName := c.Param("sheetName")
 
@@ -159,7 +159,6 @@ func (server *Server) AppendTag(c *gin.Context) {
 		POST /api/tag/sheet/fuer-elise
 			Body (FormValue):
 			- tagValue: New Tag
-
 	*/
 
 	sheet := getSheet(server.DB, c)
@@ -230,10 +229,8 @@ func (server *Server) UpdateSheetInformationText(c *gin.Context) {
 }
 
 func getSheet(db *gorm.DB, c *gin.Context) *models.Sheet {
-	/*
-		Find a sheet by its name
-	*/
-
+	
+	// Find a sheet by its name
 	sheetName := c.Param("sheetName")
 	if sheetName == "" {
 		utils.DoError(c, http.StatusBadRequest, errors.New("missing URL parameter 'sheetName'"))

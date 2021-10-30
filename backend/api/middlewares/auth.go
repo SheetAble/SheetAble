@@ -11,11 +11,11 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	/*
-		do any initial setup for the middleware once here
+		Do any initial setup for the middleware once here
 
-		- load config value in case config management
-		- changes implementation where it could be a slow operation to fetch values
-		- like fetching over the net to a vault/secrets server
+		- Load config value in case config management
+		- Changes implementation where it could be a slow operation to fetch values
+		- Like fetching over the net to a vault/secrets server
 	*/
 	secret := config.Config().ApiSecret
 
