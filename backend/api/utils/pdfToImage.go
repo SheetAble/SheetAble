@@ -26,7 +26,7 @@ func sendRequest(path string, name string, remoteURL string) {
 
 	var client *http.Client
 	{
-		//setup a mocked http client.
+		// Setup a mocked http client.
 		ts := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			b, err := httputil.DumpRequest(r, true)
 			if err != nil {
@@ -43,7 +43,7 @@ func sendRequest(path string, name string, remoteURL string) {
 	// Add InsecureSkipVerify because otherwise there would be an error
 	client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
-	//prepare the reader instances to encode
+	// Prepare the reader instances to encode
 	values := map[string]io.Reader{
 		"file": mustOpen(path), // lets assume its this file
 		"name": strings.NewReader(name),
@@ -79,8 +79,10 @@ func Upload(client *http.Client, url string, values map[string]io.Reader, name s
 		}
 
 	}
-	// Don't forget to close the multipart writer.
-	// If you don't close it, your request will be missing the terminating boundary.
+	/* 
+		Don't forget to close the multipart writer.
+		If you don't close it, your request will be missing the terminating boundary.
+	*/
 	w.Close()
 
 	// Now that you have a form, you can submit it to your handler.

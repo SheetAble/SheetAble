@@ -112,7 +112,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 
 	confPath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets/")
 
-	/* Move all files inside comp direcotry */
+	// Move all files inside comp direcotry
 	filepath.Walk(confPath+composerName,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -127,7 +127,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 			return nil
 		})
 
-	/* Remove folder */
+	// Remove folder 
 	os.Remove(confPath + composerName)
 
 	return db.RowsAffected, nil
@@ -136,7 +136,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 
 	_, err := c.FindComposerBySafeName(db, "unknown")
-	/* Unknown doesn't exist yet */
+	// Unknown doesn't exist yet 
 	if err != nil {
 		c.Name = "Unknown"
 		c.SafeName = "unknown"
@@ -144,8 +144,7 @@ func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 		c.PortraitURL = "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg"
 		c.SaveComposer(db)
 
-		//Create a folder/directory at a full qualified path
-
+		// Create a folder/directory at a full qualified path
 		err := os.Mkdir(path.Join(Config().ConfigPath, "sheets/uploaded-sheets/unknown"), 0755)
 		if err != nil {
 			fmt.Println(err)
@@ -155,8 +154,8 @@ func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 }
 
 func (c *Composer) FindComposerBySafeName(db *gorm.DB, composerName string) (*Composer, error) {
-	/* Get information of one single composer */
-
+	
+	// Get information of one single composer
 	var err error
 	err = db.Model(&Composer{}).Where("safe_name = ?", composerName).Take(&c).Error
 	if err != nil {
@@ -182,10 +181,8 @@ func (c *Composer) GetAllComposer(db *gorm.DB) (*[]Composer, error) {
 }
 
 func (c *Composer) List(db *gorm.DB, pagination Pagination) (*Pagination, error) {
-	/*
-		For pagination
-	*/
 
+	// For pagination
 	var composers []*Composer
 	db.Scopes(paginate(composers, &pagination, db)).Find(&composers)
 	pagination.Rows = composers

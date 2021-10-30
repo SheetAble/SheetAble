@@ -15,7 +15,7 @@ func (server *Server) SetupRouter() {
 	r := gin.New()
 	r.Use(gin.Recovery())
 
-	// health checks
+	// Health checks
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "OK"})
 	})
@@ -24,7 +24,7 @@ func (server *Server) SetupRouter() {
 
 	api.GET("", server.Home)
 
-	// secureApi is still rooted at /api/... but it has the auth middleware so it'server routes check token on each call
+	// SecureApi is still rooted at /api/... but it has the auth middleware so it'server routes check token on each call
 	secureApi := api.Group("")
 	secureApi.Use(middlewares.AuthMiddleware())
 
@@ -66,7 +66,7 @@ func (server *Server) SetupRouter() {
 	// Serve React
 	appBox := rice.MustFindBox("../../../frontend/build")
 
-	//r.StaticFS("/static", appBox.HTTPBox())
+	// r.StaticFS("/static", appBox.HTTPBox())
 	r.GET("/static/*filepath", func(c *gin.Context) {
 		filepath := c.Request.URL.String()
 		file, err := appBox.Open(filepath)

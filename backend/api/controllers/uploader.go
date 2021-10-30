@@ -1,7 +1,7 @@
 /*
 	This file is for handeling the basic upload of sheets.
 	It will upload given file in the uploaded sheets folder either under
-	the unknown subfolder or under the author's name subfolder, depending on wheter an author is given or not.
+	the unknown subfolder or under the author's name subfolder, depending on whether an author is given or not.
 */
 
 package controllers
@@ -28,9 +28,9 @@ import (
 	"github.com/kennygrant/sanitize"
 )
 
-/*
-	Structs for handling the response on the Open Opus API
-*/
+
+// Structs for handling the response on the Open Opus API
+
 
 type Response struct {
 	Composers *[]Comp `json: "composers"`
@@ -106,7 +106,7 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 
-	// return that we have successfully uploaded our file!
+	// Return that we have successfully uploaded our file!
 	c.JSON(http.StatusAccepted, "File uploaded successfully")
 }
 
@@ -159,9 +159,8 @@ func getPortraitURL(composerName string) Comp {
 	err_new := json.Unmarshal([]byte(string(body)), response)
 	fmt.Println(err_new)
 	composers := *response.Composers
-	/*
-		Check if the given name and the name from the API are alike
-	*/
+	
+	// Check if the given name and the name from the API are alike
 	if len(composers) == 0 || (!strings.EqualFold(composerName, composers[0].Name) && !strings.EqualFold(composerName, composers[0].CompleteName)) {
 		return Comp{
 			CompleteName: composerName,

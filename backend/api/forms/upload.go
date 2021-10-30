@@ -12,10 +12,9 @@ type UploadRequest struct {
 	InformationText string                `form:"informationText"`
 }
 
-/*
-	currently a no-op but enables us to add any custom form validation in
- 	without having to change any calling code
-*/
+
+// Currently a no-op but enables us to add any custom form validation in without having to change any calling code.
+
 func (req *UploadRequest) ValidateForm() error {
 	return nil
 }

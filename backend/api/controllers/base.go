@@ -16,8 +16,8 @@ import (
 
 	"github.com/SheetAble/SheetAble/backend/api/models"
 	"github.com/gorilla/handlers"
-	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
-	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
+	_ "github.com/jinzhu/gorm/dialects/mysql"    // mysql database driver
+	_ "github.com/jinzhu/gorm/dialects/postgres" // postgres database driver
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
@@ -30,7 +30,7 @@ func (server *Server) Initialize() {
 
 	var err error
 
-	/* Set Release Mode */
+	// Set Release Mode
 	if !Config().Dev {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -73,10 +73,10 @@ func (server *Server) Initialize() {
 		}
 	}
 
-	/* Silence the logger */
+	// Silence the logger
 	server.DB.LogMode(false)
 
-	/* Migrate DBs */
+	// Migrate DBs
 	server.DB.AutoMigrate(&models.User{}, &models.Sheet{})
 
 	server.SetupRouter()
@@ -84,10 +84,11 @@ func (server *Server) Initialize() {
 
 func (server *Server) Run(addr string, dev bool) {
 	fmt.Printf("Listening to port %v\n", addr)
-	// cors.Default() setup the middleware with default options being
-	// all origins accepted with simple methods (GET, POST). See
-	// documentation below for more options.
-
+	/* 
+		cors.Default() setup the middleware with default options being
+		all origins accepted with simple methods (GET, POST).
+		See documentation below for more options.
+	*/
 	c := cors.New(cors.Options{
 		// Enable Debugging for testing, consider disabling in production
 		AllowedHeaders: []string{
@@ -108,7 +109,7 @@ func (server *Server) Run(addr string, dev bool) {
 		AllowCredentials: true,
 	})
 
-	/* Check if run in dev mode, so you can enable CORS or not */
+	// Check if run in dev mode, so you can enable CORS or not 
 	srvHandler := handlers.LoggingHandler(os.Stdout, c.Handler(server.Router))
 
 	if !dev {
