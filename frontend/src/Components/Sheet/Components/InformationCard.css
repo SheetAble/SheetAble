@@ -116,3 +116,11 @@
 .delete {
   margin-left: 1px;
 }
+
+.delete_tag select {
+  display: block;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
