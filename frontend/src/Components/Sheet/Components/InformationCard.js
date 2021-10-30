@@ -53,7 +53,7 @@ function InformationCard({ infoText, tags, sheetName }) {
           <ModalContent onClose={() => setModal(false)} sheetName={sheetName} />
         </Modal>
         <Modal title="Delete Tag" onClose={() => setDeleteModal(false)} show={deleteModal}>
-            <DeleteModalContent tags={tags}/>
+            <DeleteModalContent tags={tags} sheetName={sheetName}/>
         </Modal>
       </div>
       <div className="info_text">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { addNewTag } from "../../../Redux/Actions/dataActions";
+import { deleteTag } from "../../../Redux/Actions/dataActions";
 import { connect } from "react-redux";
 
 function DeleteModalContent(props) {
@@ -21,7 +21,7 @@ function DeleteModalContent(props) {
         variant="contained"
         color="primary"
         disabled={value == ""}
-        onClick={() => props.addNewTag(tagName, props.sheetName)}
+        onClick={() => props.deleteTag(value, props.sheetName)}
       >
         Delete Tag
       </Button>
@@ -30,7 +30,7 @@ function DeleteModalContent(props) {
 }
 
 const mapActionsToProps = {
-  addNewTag,
+  deleteTag,
 };
 
 const mapStateToProps = (state) => ({});
