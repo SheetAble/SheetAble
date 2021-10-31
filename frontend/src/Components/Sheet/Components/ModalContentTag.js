@@ -8,7 +8,7 @@ function ModalContent(props) {
 	
 	const [tagName, setTagName] = useState("")
   const [infoText, setInfoText] = useState("Write a short information text about your sheet.")
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(props.tags[0]);
   const [showInfoEdit, setShowInfoEdit] = useState(false)
  
   const infoEdit = (
@@ -89,7 +89,7 @@ function ModalContent(props) {
           <Button
             variant="contained"
             color="primary"
-            disabled={value == ""}
+            
             onClick={() => props.deleteTag(value, props.sheetName)}
           >
             Delete Tag

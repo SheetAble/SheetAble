@@ -117,7 +117,7 @@ func (server *Server) DeleteComposer(c *gin.Context) {
 	c.JSON(http.StatusOK, "Composer deleted successfully")
 }
 
-/*	
+/*
 	Serve the Composer Portraits
 	Example request:
 		GET /composer/portrait/Chopin
@@ -128,12 +128,12 @@ func (server *Server) ServePortraits(c *gin.Context) {
 	c.File(filePath)
 }
 
-/*	
+/*
 	Upload a portrait
 	! Currently only PNG files supported
 */
 func uploadPortait(portrait multipart.File, compName string, originalName string) bool {
-	
+
 	// Create the composer Directory if it doesn't exist yet
 	dir := path.Join(Config().ConfigPath, "composer")
 	fullpath := path.Join(dir, sanitize.Name(compName)+".png")

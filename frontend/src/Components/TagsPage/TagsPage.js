@@ -16,7 +16,6 @@ function TagsPage({ getTagSheets }) {
 	const [sheets, setSheets ] = useState([])
 
 	useEffect(() => {
-		console.log(sheets.length);
 		getTagSheets(decoded, (data) => {
 			setSheets(data)
 		})
