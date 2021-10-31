@@ -46,7 +46,6 @@ function InformationCard({ infoText, tags, sheetName }) {
       </div>
       <div className="info_text">
         <span>{infoText}</span>
-        
       </div>
     </div>
   );

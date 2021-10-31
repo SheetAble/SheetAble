@@ -347,6 +347,25 @@ export const deleteTag = (tagName, sheetName, _callback) => (dispatch) => {
     });
 };
 
+export const editInfoText = (infoText, sheetName, _callback) => (dispatch) => {
+  let bodyFormData = new FormData();
+  bodyFormData.append("informationText", infoText);
+
+  axios
+    .post(`/sheet/${sheetName}/info`, bodyFormData)
+    .then(() => {
+      store.dispatch(resetData());
+      window.location.reload();
+    })
+    .catch((err) => {
+      if (err.request.status === 401) {
+        store.dispatch(logoutUser());
+        window.location.href = "/login";
+      }
+      console.log(err);
+    });
+};
+
 
 export const resetData = () => dispatch => {
     dispatch({ type: RESET_DATA})

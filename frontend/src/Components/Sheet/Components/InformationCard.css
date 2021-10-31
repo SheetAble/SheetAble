@@ -125,3 +125,7 @@
   margin-bottom: 20px;
   margin-top: 40px;
 }
+
+.add_tag .buttons {
+  display: flex;
+}
