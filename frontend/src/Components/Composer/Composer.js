@@ -102,7 +102,7 @@ function Composer({ composerPages, getSheetPage, composers, composerPage, setCom
 					<IconButton onClick={() => setModal(true)} className="edit" disabled={composer.name === "Unknown"}>
 							<EditIcon />
 					</IconButton>
-					<IconButton className="delete" disabled={composer.name === "Unknown"} onClick={() => deleteComposer(composer.name, () => {
+					<IconButton className="delete" disabled={composer.name === "Unknown"} onClick={() => deleteComposer(composer.safe_name, () => {
 						resetData()
 						window.location.replace("/")
 					})}>

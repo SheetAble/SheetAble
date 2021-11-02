@@ -260,7 +260,7 @@ export const editComposer = (origName, name, epoch, file, _callback) => {
         })
 }
 
-export const deleteComposer = (name, _callback) => {
+export const deleteComposer = (name, _callback) => dispatch =>{
     axios.delete(`/composer/${name}`)
     .then(() => {
         _callback()
