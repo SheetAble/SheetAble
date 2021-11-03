@@ -77,7 +77,7 @@ func (c *Composer) UpdateComposer(db *gorm.DB, originalName string, updatedName 
 	db.Model(&Sheet{}).Where("safe_composer = ?", sanitize.Name(updatedName)).Update("composer", updatedName)
 	// Rename folder
 	p := path.Join(Config().ConfigPath, "sheets/uploaded-sheets/")
-	os.Rename(p+originalName, p+sanitize.Name(updatedName))
+	os.Rename(p+"/"+originalName, p+"/"+sanitize.Name(updatedName))
 
 	return composer, nil
 }
@@ -113,7 +113,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	confPath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets/")
 
 	// Move all files inside comp direcotry
-	filepath.Walk(confPath+composerName,
+	filepath.Walk(confPath+"/"+composerName,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -122,12 +122,12 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 
 				pdfName := strings.Split(path, composerName)
 
-				os.Rename(path, confPath+"unknown"+pdfName[1])
+				os.Rename(path, confPath+"/"+"unknown"+pdfName[1])
 			}
 			return nil
 		})
 
-	// Remove folder 
+	// Remove folder
 	os.Remove(confPath + composerName)
 
 	return db.RowsAffected, nil
@@ -136,7 +136,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 
 	_, err := c.FindComposerBySafeName(db, "unknown")
-	// Unknown doesn't exist yet 
+	// Unknown doesn't exist yet
 	if err != nil {
 		c.Name = "Unknown"
 		c.SafeName = "unknown"
@@ -154,7 +154,7 @@ func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
 }
 
 func (c *Composer) FindComposerBySafeName(db *gorm.DB, composerName string) (*Composer, error) {
-	
+
 	// Get information of one single composer
 	var err error
 	err = db.Model(&Composer{}).Where("safe_name = ?", composerName).Take(&c).Error
