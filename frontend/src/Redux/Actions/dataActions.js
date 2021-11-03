@@ -240,7 +240,7 @@ export const deleteSheet = (origSheetName, _callback) => dispatch => {
         })
 }
 
-export const editComposer = (origName, name, epoch, file, _callback) => {
+export const editComposer = (origName, name, epoch, file, _callback) => dispatch =>{
     let bodyFormData = new FormData()
     bodyFormData.append('name', name)
     bodyFormData.append('epoch', epoch)

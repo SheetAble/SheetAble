@@ -62,7 +62,7 @@ func (server *Server) SetupRouter() {
 	// Composer routes
 	secureApi.GET("/composers", server.GetComposersPage)
 	secureApi.POST("/composers", server.GetComposersPage)
-	secureApi.PUT("/composers/:composerName", server.UpdateComposer)
+	secureApi.PUT("/composer/:composerName", server.UpdateComposer)
 	secureApi.DELETE("/composer/:composerName", server.DeleteComposer)
 	api.GET("/composer/portrait/:composerName", server.ServePortraits)
 

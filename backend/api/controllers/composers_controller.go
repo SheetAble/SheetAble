@@ -3,7 +3,6 @@ package controllers
 import (
 	"errors"
 	"fmt"
-	"mime/multipart"
 	"net/http"
 	"os"
 	"path"
@@ -77,13 +76,8 @@ func (server *Server) UpdateComposer(c *gin.Context) {
 	}
 
 	// Uploads a portrait to the server if given
-	theFile, err := form.File.Open()
-	if err != nil {
-		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("unable to open form file: %v", err))
-		return
-	}
 	uploadSuccess := false
-	uploadSuccess = uploadPortait(theFile, uploadComposerName, composerName)
+	uploadSuccess = uploadPortait(form, uploadComposerName, composerName)
 
 	composer := &models.Composer{}
 	newComp, err := composer.UpdateComposer(server.DB,
@@ -132,7 +126,17 @@ func (server *Server) ServePortraits(c *gin.Context) {
 	Upload a portrait
 	! Currently only PNG files supported
 */
-func uploadPortait(portrait multipart.File, compName string, originalName string) bool {
+func uploadPortait(form forms.UpdateComposersRequest, compName string, originalName string) bool {
+
+	if form.File == nil {
+		return false
+	}
+	portrait, err := form.File.Open()
+	if err != nil {
+		return false
+	}
+
+	defer portrait.Close()
 
 	// Create the composer Directory if it doesn't exist yet
 	dir := path.Join(Config().ConfigPath, "composer")
@@ -142,7 +146,7 @@ func uploadPortait(portrait multipart.File, compName string, originalName string
 	}
 	utils.CreateDir(dir)
 
-	err := utils.OsCreateFile(fullpath, portrait)
+	err = utils.OsCreateFile(fullpath, portrait)
 	if err != nil {
 		return false
 	}
