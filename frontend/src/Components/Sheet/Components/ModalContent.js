@@ -93,27 +93,17 @@ function ModalContent(props) {
 			uploadFile: uploadFile
 		}
 
-		const makeCalls = (_callback) => {
-			props.updateSheet(newData, props.sheet.safe_sheet_name, () => {
-				props.resetData()
-				props.onClose()
-				_callback()
-			})
-		}
-		
-		makeCalls(() => window.location.replace("/"))
+		props.updateSheet(newData, props.sheet.safe_sheet_name, () => {
+			props.resetData();
+			props.onClose();
+    	});
 	}
 	
 	const sendDeleteRequest = () => {
-		const makeCalls = (_callback) => {
-			props.deleteSheet(props.sheet.safe_sheet_name, () => {
-				props.resetData()
-				props.onClose()
-				_callback()
-			})
-		}
-		
-		makeCalls(() => window.location.replace("/"))
+		props.deleteSheet(props.sheet.safe_sheet_name, () => {
+			props.resetData();
+			props.onClose();
+		});
 	}
 		
 	const uploadFinish = (files) => {

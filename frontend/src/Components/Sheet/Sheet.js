@@ -127,6 +127,9 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 					store.dispatch(logoutUser())
 					window.location.href = '/login'
 				}
+				if (err.request.status == 404) {
+					window.location.href = "/"
+				}
 			})	
 		return pdf
 	}
