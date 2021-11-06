@@ -10,5 +10,5 @@ type UpdateComposersRequest struct {
 	Name        string                `form:"name"`
 	PortraitUrl string                `form:"portrait_url"`
 	Epoch       string                `form:"epoch"`
-	File        *multipart.FileHeader `form:"file"`
+	File        *multipart.FileHeader `form:"portrait"`
 }
