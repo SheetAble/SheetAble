@@ -1,6 +1,8 @@
 on:
+  workflow_dispatch:
   release:
-    types: [created]
+    types: [created]    
+  
 
 name: Build and Release Go Binaries
 jobs:
