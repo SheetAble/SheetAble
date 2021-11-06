@@ -107,7 +107,9 @@ function ModalContent(props) {
 	}
 		
 	const uploadFinish = (files) => {
-		setUploadFile(files[0] === undefined ? undefined : files[0].file)
+		if (files[0] != undefined) {
+			setUploadFile(files[0].file)
+		}
 	}
 
 
