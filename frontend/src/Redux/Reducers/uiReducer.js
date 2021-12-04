@@ -1,8 +1,9 @@
-import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, STOP_LOADING_UI, SET_SIDEBAR } from '../types'
+import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, STOP_LOADING_UI, SET_SIDEBAR, SET_VERSION } from '../types'
 
 const initialState = {
     loading: false,
     sidebar: true,
+    version: "v0.1",
     errors: null
 }
 
@@ -36,6 +37,12 @@ export default function(state = initialState, action){
                 ...state,
                 loading: false
             }
+        case SET_VERSION:
+            return {
+                ...state,
+                version: action.payload
+            }
+
         default: 
             return state
     }

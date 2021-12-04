@@ -1,7 +1,7 @@
-import React, {Fragment, useState} from 'react'
+import React, { Fragment, useEffect, useState} from 'react'
 import './SideBar.css'
 
-import { setSidebar } from '../../Redux/Actions/uiActions';
+import { setSidebar, getVersion } from '../../Redux/Actions/uiActions';
 import { getSheets, getComposers, getComposerPage, getSheetPage, resetData } from '../../Redux/Actions/dataActions';
 import { logoutUser } from '../../Redux/Actions/userActions';
 import { connect } from 'react-redux'
@@ -20,12 +20,17 @@ function SideBar(props) {
 		props.setSidebar()
 	}
 
+    useEffect(() =>{
+        props.getVersion()
+        console.log(props.version)
+    }, [])
+
 	return (
 		<Fragment>
 		 <div className={sidebar ? "sidebar" : "sidebar active"}>
 			<div  className="logo_content">
 			<div className="logo" >
-				<div className="logo_name" >SheetAble</div>
+		      <div className="logo_name" >SheetAble <span>{props.version}</span></div>
 			</div>
 			<i className={sidebar? 'bx bx-menu' : "bx bx-menu-alt-right"} id="btn" onClick={onClickBtn} ></i>
 			</div>
@@ -113,7 +118,8 @@ function SideBar(props) {
 
 const mapStateToProps = (state) => ({
 	sidebar: state.UI.sidebar,
-	userData: state.user.userData
+	userData: state.user.userData,
+    version: state.UI.version
 })
 
 const mapActionsToProps = {
@@ -123,7 +129,8 @@ const mapActionsToProps = {
 	logoutUser,
 	getComposerPage, 
 	getSheetPage,
-	resetData
+	resetData,
+    getVersion
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar)

@@ -23,7 +23,7 @@ func (server *Server) SetupRouter() {
 	api := r.Group("/api")
 
 	api.GET("", server.Home)
-
+	api.GET("/version", server.Version)
 	// SecureApi is still rooted at /api/... but it has the auth middleware so it'server routes check token on each call
 	secureApi := api.Group("")
 	secureApi.Use(middlewares.AuthMiddleware())
