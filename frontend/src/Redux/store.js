@@ -24,7 +24,7 @@ const reducers = combineReducers({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 /*
-Create a persisted sotre to keep the store whlie refreshing the page 
+Create a persisted store to keep the store whlie refreshing the page 
 */
 
 

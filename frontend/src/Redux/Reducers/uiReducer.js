@@ -3,7 +3,7 @@ import { SET_ERRORS, CLEAR_ERRORS, LOADING_UI, STOP_LOADING_UI, SET_SIDEBAR, SET
 const initialState = {
     loading: false,
     sidebar: true,
-    version: "v0.1",
+    
     errors: null
 }
 

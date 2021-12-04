@@ -1,5 +1,5 @@
 // React Router Import
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Pages and Components
@@ -81,28 +81,36 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
-          {store.getState().user.authenticated? 
+          {store.getState().user.authenticated ? (
+            <Fragment>
+              <Switch>
+                <Route exact path="/" component={HomePageProvider} />
+                <Route exact path="/upload" component={UploadPage} />
+                <Route
+                  exact
+                  path="/sheet/:safeComposerName/:safeSheetName"
+                  component={Sheet}
+                />
+                <Route exact path="/search" component={SearchPage} />
+                <Route
+                  exact
+                  path="/composer/:safeComposerName"
+                  component={Composer}
+                />
+                <Route exact path="/sheets" component={SheetsPage} />
+                <Route exact path="/composers" component={ComposersPage} />
+                <Route exact path="/settings" component={Settings} />
+                <Route exact path="/ping" component={Ping} />
+                <Route exact path="/tag/:tagName" component={TagsPage} />
+                <Route component={PageNotFound} />
+              </Switch>
+            </Fragment>
+          ) : (
             <Switch>
-            
-              <Route exact path="/" component={HomePageProvider} />
-              <Route exact path="/upload" component={UploadPage} />
-              <Route exact path="/sheet/:safeComposerName/:safeSheetName" component={Sheet} />
-              <Route exact path="/search" component={SearchPage} />
-              <Route exact path="/composer/:safeComposerName" component={Composer} />
-              <Route exact path="/sheets" component={SheetsPage} />
-              <Route exact path="/composers" component={ComposersPage} />
-              <Route exact path="/settings" component={Settings} />
-              <Route exact path="/ping" component={Ping} />
-              <Route exact path="/tag/:tagName" component={TagsPage} />
-              <Route component={PageNotFound} />
-            </Switch> 
-            :
-            <Switch>
-               <Route exact path="/login" component={LoginPage} />
-               <Route component={Redirect} /> 
+              <Route exact path="/login" component={LoginPage} />
+              <Route component={Redirect} />
             </Switch>
-          }
-          
+          )}
         </Router>
       </PersistGate>
     </Provider>

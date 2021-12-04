@@ -19,7 +19,7 @@ export const getVersion = () => dispatch => {
         })
         .catch(err => {
             if (err.request.status === 401) {
-                store.dispatch(logoutUser())
+                dispatch(logoutUser())
                 window.location.href = '/login'
             }
             console.log(err)
