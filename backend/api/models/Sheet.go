@@ -70,6 +70,10 @@ func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 		}
 	}
 
+	if sheet.SafeComposer == "unknown" {
+		CheckAndDeleteUnknownComposer(db)
+	}
+
 	db = db.Model(&Sheet{}).Where("safe_sheet_name = ?", sheetName).Take(&Sheet{}).Delete(&Sheet{})
 
 	if db.Error != nil {

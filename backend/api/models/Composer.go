@@ -189,3 +189,18 @@ func (c *Composer) List(db *gorm.DB, pagination Pagination) (*Pagination, error)
 
 	return &pagination, nil
 }
+
+func CheckAndDeleteUnknownComposer(db *gorm.DB) {
+	/*
+		Method to check and delete the unknown composer.
+		So if there are no sheets in unknown composer it will get deleted.
+	*/
+
+	var sheets []Sheet
+
+	result := db.Model(&Sheet{}).Where("safe_composer = ?", "unknown").Find(&sheets)
+
+	if result.RowsAffected <= 1 {
+		db = db.Model(&Composer{}).Where("safe_name = ?", "unknown").Take(&Composer{}).Delete(&Composer{})
+	}
+}

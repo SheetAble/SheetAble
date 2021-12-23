@@ -45,6 +45,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 	};
 
 	useEffect(() => {	
+
 		// Change Page Title
 		document.title = `SheetAble - ${sheet.sheet_name === undefined ? "Sheet" : sheet.sheet_name}`
 
@@ -180,6 +181,7 @@ function Sheet({ sheetPages, composerPages, sheets, composers, sheetPage, getShe
 
 	const [editModal, setEditModal] = useState(false)
 
+	if (composer.portrait_url == undefined) {window.location.replace("/")}
 	const imgUrl = getCompImgUrl(composer.portrait_url)
 
 	
