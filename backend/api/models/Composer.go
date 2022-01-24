@@ -92,6 +92,9 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 		return 0, err
 	}
 
+	// Create Unknown Composer if doesn't exist
+	c.ProperComposerCheck(db, composerName)
+
 	// Delete Composer
 	db = db.Model(&Composer{}).Where("safe_name = ?", composerName).Take(&Composer{}).Delete(&Composer{})
 
@@ -101,9 +104,6 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 		}
 		return 0, db.Error
 	}
-
-	// Create Unknown Composer if doesn't exist
-	c.CreateUnknownComposer(db)
 
 	// Swap sheets composer to Unknown
 	db.Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (safe_composer = ?);", composerName)
@@ -130,7 +130,28 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	// Remove folder
 	os.Remove(confPath + composerName)
 
+	// Add Check for Unknown composer
+	CheckAndDeleteUnknownComposer(db)
+
 	return db.RowsAffected, nil
+}
+
+func (c *Composer) ProperComposerCheck(db *gorm.DB, composerName string) {
+	/*
+		Check how many sheets the composer has before deletion and if none dont create an unknown composer
+		if yes create an unknown composer
+	*/
+
+	var sheets []Sheet
+
+	result := db.Model(&Sheet{}).Where("safe_composer = ?", composerName).Find(&sheets)
+	fmt.Println("erennn")
+	fmt.Println("results etc etc")
+	fmt.Println(result.RowsAffected)
+	if result.RowsAffected >= 1 {
+		// Create Unknown Composer if doesn't exist
+		c.CreateUnknownComposer(db)
+	}
 }
 
 func (c *Composer) CreateUnknownComposer(db *gorm.DB) {
