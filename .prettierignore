@@ -1,0 +1,9 @@
+backend/go.sum
+backend/go.mod
+backend/.goreleaser.yml
+backend/.env.sample
+backend/api/controllers/rice-box.go
+.github
+
+frontend/node_modules
+frontend/public

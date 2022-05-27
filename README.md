@@ -25,8 +25,6 @@
   </p>
 </p>
 
-
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
@@ -49,39 +47,42 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 <img src="docs/SheetAbleShowcase.gif" alt="Example Gif" style="border-radius: 5px;">
 
-**SheetAble** is an easy-to-use music sheet organizer for all the music enthusiasts out there. You can upload and organize your sheets for any kind of instrument you use! 
+**SheetAble** is an easy-to-use music sheet organizer for all the music enthusiasts out there. You can upload and organize your sheets for any kind of instrument you use!
 Create Accounts for your friends or family to invite them to your library to use it as well or potentially upload sheets themselves.
-My goal is to have it available on all devices soon, so you can highlight or take notes on your sheet over your Tablet/iPad.  
+My goal is to have it available on all devices soon, so you can highlight or take notes on your sheet over your Tablet/iPad.
 
 You may also suggest changes by forking this repo and creating a [pull request](https://github.com/SheetAble/SheetAble/compare) or opening an [issue](https://github.com/SheetAble/SheetAble/issues). Thanks to all the people who want to help expanding this project!
-
 
 ### Built With
 
 The backend is written in [Golang](https://golang.org/) and the frontend with [React.js](https://reactjs.org/).
 
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
+
 ### Production Version
+
 To install the **production** version of SheetAble please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
+
 ### Development Version
+
 To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
+
 <!-- ROADMAP -->
+
 ## Roadmap
 
 See the [open issues](https://github.com/SheetAble/SheetAble/issues) for a list of proposed features (and known issues).
 
-
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -92,24 +93,22 @@ Contributions are what make the open-source community such an amazing place to l
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a [Pull Request](https://github.com/SheetAble/SheetAble/compare)
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the AGPL License. See `LICENSE` for more information.
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Valentin Zwerschke - [@vallezw](https://github.com/vallezw)
 
 Organization Link: [github.com/SheetAble](https://github.com/SheetAble)
 
-
-
 <!-- ACKNOWLEDGEMENTS -->
+
 ## Acknowledgements
-* [Open Opus API](https://openopus.org) - Free, open metadata for classical music
+
+- [Open Opus API](https://openopus.org) - Free, open metadata for classical music

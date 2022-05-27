@@ -1,55 +1,54 @@
 .information_card {
-    background-color: white;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
-    margin-top: 449px; 
-    margin-left: 6vw;
-    margin-right: 15px;
+  background-color: white;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 449px;
+  margin-left: 6vw;
+  margin-right: 15px;
 
-    border-radius: 15px;
-    
-	height: 240px;
-    width: 533px;
+  border-radius: 15px;
+
+  height: 240px;
+  width: 533px;
 }
 
 @media screen and (min-height: 840px) {
-    .information_card {
-        background-color: white;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);    
-        margin-top: 80px;
-        margin-left: 6vw;
-        margin-right: 15px;
-        border-radius: 15px;
-        height: 300px;
-    }
+  .information_card {
+    background-color: white;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-top: 80px;
+    margin-left: 6vw;
+    margin-right: 15px;
+    border-radius: 15px;
+    height: 300px;
+  }
 }
 
 .information_card h1 {
-    font-size: 23px;    
-    font-family: 'Open Sans';
-    font-weight: 700;
-	  padding-left: 15px;
+  font-size: 23px;
+  font-family: "Open Sans";
+  font-weight: 700;
+  padding-left: 15px;
 }
 
 .information_card .header_wrapper {
-	padding-top: 10px;
-	display: flex;
+  padding-top: 10px;
+  display: flex;
 }
 
-.information_card .header_wrapper span{
-	/*padding-top: 9px;*/
-	font-size: 12px;
- 
+.information_card .header_wrapper span {
+  /*padding-top: 9px;*/
+  font-size: 12px;
 }
 
 .information_card .header_wrapper .dot {
-	margin-top: 12px;
-	margin-right: 5px;
-	margin-left: 15px;
+  margin-top: 12px;
+  margin-right: 5px;
+  margin-left: 15px;
 
-	height: 10px;
-	width: 10px;
-	border-radius: 50%;
-	display: inline-block;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .info_text {
@@ -59,13 +58,13 @@
   color: #5e5e5e;
 }
 
-.information_card .header_wrapper div {  
+.information_card .header_wrapper div {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.information_card .header_wrapper div:hover {  
+.information_card .header_wrapper div:hover {
   cursor: pointer;
 }
 
@@ -85,22 +84,20 @@
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
- 
+
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
 
-    width: 120px;
+  width: 120px;
   bottom: 100%;
   left: 50%;
   margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
-
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .tag_tooltip:hover .tag_tooltiptext {
   visibility: visible;
-  
 }
 
 .information_card .add {

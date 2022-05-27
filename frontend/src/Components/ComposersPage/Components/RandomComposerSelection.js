@@ -1,80 +1,78 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 
-import LoadingAnimation from '../../../Images/Animations/Loading.svg'
-import { useHistory } from 'react-router';
-import { getCompImgUrl } from '../../../Utils/utils';
+import LoadingAnimation from "../../../Images/Animations/Loading.svg";
+import { useHistory } from "react-router";
+import { getCompImgUrl } from "../../../Utils/utils";
 
 function RandomComposerSelection({ composerPages, page }) {
-	
-	const [loading, setLoading] = useState(true)	
-	
-	const [composer, setComposer] = useState(undefined)
-	const [imgUrl, setImgUrl] = useState(undefined)
+  const [loading, setLoading] = useState(true);
 
-	const [bubblyButton, setBubblyButton] = useState("bubbly-button")
+  const [composer, setComposer] = useState(undefined);
+  const [imgUrl, setImgUrl] = useState(undefined);
 
-	const pickComposer = () => {
-		setLoading(true)
-		const comp = composerPages[page][Math.floor(Math.random()*composerPages[page].length)];
-		setImgUrl(getCompImgUrl(comp.portrait_url))
-		return comp
-	}
+  const [bubblyButton, setBubblyButton] = useState("bubbly-button");
 
+  const pickComposer = () => {
+    setLoading(true);
+    const comp =
+      composerPages[page][
+        Math.floor(Math.random() * composerPages[page].length)
+      ];
+    setImgUrl(getCompImgUrl(comp.portrait_url));
+    return comp;
+  };
 
+  useEffect(() => {
+    setComposer(pickComposer());
 
-	useEffect(() => {
-		
-		setComposer(pickComposer())
-		
-		setLoading(false)
-	}, [])
+    setLoading(false);
+  }, []);
 
+  var animateButton = function (e) {
+    e.preventDefault();
+    //reset animation
 
-	var animateButton = function(e) {
+    setBubblyButton("bubbly-button");
 
-		e.preventDefault();
-		//reset animation
-		
-		setBubblyButton("bubbly-button")
-		
-		setBubblyButton("bubbly-button animate")
+    setBubblyButton("bubbly-button animate");
 
+    setComposer(pickComposer());
+    setLoading(false);
 
-		setComposer(pickComposer())
-		setLoading(false)
+    setTimeout(function () {
+      setBubblyButton("bubbly-button");
+    }, 700);
+  };
 
-		setTimeout(function(){
-			setBubblyButton("bubbly-button")
-		},700);
-	};
+  let history = useHistory();
 
-	let history = useHistory()
-	
-	
-	return (	
-		<div className="box rand-piece">
-
-			{loading? <img className="loading-animation-rand" src={LoadingAnimation} alt=""/> :
-			(
-				<div>
-					<div >
-						<img className="rand-img cursor" src={imgUrl} alt="Portrait" onClick={() => history.push(`/composer/${composer.safe_name}`)}/>
-						<div className="sheet-name-container">
-							<span className="sheet-name">{composer.name}</span>
-						</div>
-						<div className="sheet-composer-container">
-							<span className="sheet-composer">{composer.epoch}</span>
-						</div>
-					</div>
-					<button onClick={animateButton} className={bubblyButton}>
-						Shuffle
-					</button>
-				</div>
-			)
-			}
-			
-		</div>
-	)
+  return (
+    <div className="box rand-piece">
+      {loading ? (
+        <img className="loading-animation-rand" src={LoadingAnimation} alt="" />
+      ) : (
+        <div>
+          <div>
+            <img
+              className="rand-img cursor"
+              src={imgUrl}
+              alt="Portrait"
+              onClick={() => history.push(`/composer/${composer.safe_name}`)}
+            />
+            <div className="sheet-name-container">
+              <span className="sheet-name">{composer.name}</span>
+            </div>
+            <div className="sheet-composer-container">
+              <span className="sheet-composer">{composer.epoch}</span>
+            </div>
+          </div>
+          <button onClick={animateButton} className={bubblyButton}>
+            Shuffle
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default RandomComposerSelection
+export default RandomComposerSelection;

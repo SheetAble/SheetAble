@@ -1,136 +1,186 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from "react";
 
-import SideBar from '../Sidebar/SideBar'
-import ComposerBox from './Components/ComposerBox'
+import SideBar from "../Sidebar/SideBar";
+import ComposerBox from "./Components/ComposerBox";
 
-import { connect } from 'react-redux'
-import { getComposerPage, incrementComposerPage, setComposerPage, decrementComposerPage } from '../../Redux/Actions/dataActions'
+import { connect } from "react-redux";
+import {
+  getComposerPage,
+  incrementComposerPage,
+  setComposerPage,
+  decrementComposerPage,
+} from "../../Redux/Actions/dataActions";
 
-import './ComposersPage.css'
-import RandomComposerSelection from './Components/RandomComposerSelection'
-import NoSheets from '../NotFound/NoSheets'
+import "./ComposersPage.css";
+import RandomComposerSelection from "./Components/RandomComposerSelection";
+import NoSheets from "../NotFound/NoSheets";
 
+function ComposersPage({
+  getComposerPage,
+  composerPages,
+  incrementComposerPage,
+  setComposerPage,
+  decrementComposerPage,
+  composerPage,
+  totalComposerPages,
+}) {
+  const [loading, setLoading] = useState(true);
 
-function ComposersPage({ getComposerPage, composerPages, incrementComposerPage, setComposerPage, decrementComposerPage, composerPage, totalComposerPages } ) {	
-	
-	const [loading, setLoading] = useState(true)
-	
-	useEffect(() => {
-		getData()
-		
-		// Change Page Title
-		document.title = `SheetAble - Your Composers`
-	}, [])
-	
-	
+  useEffect(() => {
+    getData();
 
-	const getData = () => {
-		if (composerPage === undefined || composerPage < 0 || composerPage > totalComposerPages ) {
-			setComposerPage(1)
-		}
+    // Change Page Title
+    document.title = `SheetAble - Your Composers`;
+  }, []);
 
-		const data = {
-			page: composerPage,
-			sortBy: "updated_at desc"
-		}
-		
-		if (composerPages === undefined || composerPages[composerPage] === undefined) {
-			getComposerPage(data, () => setLoading(false))
-		}
-	}
+  const getData = () => {
+    if (
+      composerPage === undefined ||
+      composerPage < 0 ||
+      composerPage > totalComposerPages
+    ) {
+      setComposerPage(1);
+    }
 
-	const svgDec = (e) => {
-		e.preventDefault()
-		if (composerPage !== 1) {
-			decrementComposerPage() 
-			getData()
-		} 	
-	}
+    const data = {
+      page: composerPage,
+      sortBy: "updated_at desc",
+    };
 
-	const svgInc = (e) => {
-		e.preventDefault()
-		if (composerPage !== totalComposerPages) {
-			incrementComposerPage()  
-			getData()
-		}
-		
-	}
+    if (
+      composerPages === undefined ||
+      composerPages[composerPage] === undefined
+    ) {
+      getComposerPage(data, () => setLoading(false));
+    }
+  };
 
+  const svgDec = (e) => {
+    e.preventDefault();
+    if (composerPage !== 1) {
+      decrementComposerPage();
+      getData();
+    }
+  };
 
-	return (
-		<Fragment>
-			<SideBar />
-			<div id={(composerPages !== undefined && composerPages[composerPage] !== undefined && composerPages[composerPage].length !== 0) ? "" : "notfound"} className="home_content">
-				{!loading || (composerPages !== undefined && composerPages[composerPage] !== undefined) ?
-				(composerPages !== undefined && composerPages[composerPage] !== undefined && composerPages[composerPage].length !== 0) ?
+  const svgInc = (e) => {
+    e.preventDefault();
+    if (composerPage !== totalComposerPages) {
+      incrementComposerPage();
+      getData();
+    }
+  };
 
-				(
-				<div className="sheets-wrapper composer-wrapper">
-					<div className="doc_header auto-margin">
-						<span className="doc_sheet ">Composers in your library</span>
-						<br />
-						<span className="doc_composer">Recently Added</span>
-					</div>
-					<div className="middle-part-container">
-						<ul className="all-sheets-container full-height">					
-							{
-								composerPages[composerPage] === undefined? getData():
-								composerPages[composerPage].map(composer => {
-									return (
-										<ComposerBox composer={composer} key={composer.name}/>
-									) 
-							})}
-						</ul>
-						<RandomComposerSelection composerPages={composerPages} page={composerPage}/>
-					</div>
-					
-					<div className="page-info-wrapper">
-						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgDec}
-						 className={composerPage !== 1? "" : "disabled"}>
-  							<path id="ic_chevron_right_24px" d="M14.59,6,16,7.41,11.42,12,16,16.59,14.59,18l-6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
-						</svg>
+  return (
+    <Fragment>
+      <SideBar />
+      <div
+        id={
+          composerPages !== undefined &&
+          composerPages[composerPage] !== undefined &&
+          composerPages[composerPage].length !== 0
+            ? ""
+            : "notfound"
+        }
+        className="home_content"
+      >
+        {!loading ||
+        (composerPages !== undefined &&
+          composerPages[composerPage] !== undefined) ? (
+          composerPages !== undefined &&
+          composerPages[composerPage] !== undefined &&
+          composerPages[composerPage].length !== 0 ? (
+            <div className="sheets-wrapper composer-wrapper">
+              <div className="doc_header auto-margin">
+                <span className="doc_sheet ">Composers in your library</span>
+                <br />
+                <span className="doc_composer">Recently Added</span>
+              </div>
+              <div className="middle-part-container">
+                <ul className="all-sheets-container full-height">
+                  {composerPages[composerPage] === undefined
+                    ? getData()
+                    : composerPages[composerPage].map((composer) => {
+                        return (
+                          <ComposerBox
+                            composer={composer}
+                            key={composer.name}
+                          />
+                        );
+                      })}
+                </ul>
+                <RandomComposerSelection
+                  composerPages={composerPages}
+                  page={composerPage}
+                />
+              </div>
 
-						<span>Page <b>{composerPage}</b> of <b>{totalComposerPages}</b></span>
-						<svg xmlns="http://www.w3.org/2000/svg" width="8" height="11.5" viewBox="0 0 7.41 12" onClick={svgInc} className={composerPage !== totalComposerPages ? "svg-2" : "svg-2 disabled"}>
-  							<path id="ic_chevron_right_24px" d="M10,6,8.59,7.41,13.17,12,8.59,16.59,10,18l6-6Z" transform="translate(-8.59 -6)" fill="#464646"/>
-						</svg>	
+              <div className="page-info-wrapper">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="8"
+                  height="11.5"
+                  viewBox="0 0 7.41 12"
+                  onClick={svgDec}
+                  className={composerPage !== 1 ? "" : "disabled"}
+                >
+                  <path
+                    id="ic_chevron_right_24px"
+                    d="M14.59,6,16,7.41,11.42,12,16,16.59,14.59,18l-6-6Z"
+                    transform="translate(-8.59 -6)"
+                    fill="#464646"
+                  />
+                </svg>
 
-					</div>
-				</div>
-				)
-				: 
-				(
-					<NoSheets />
-				)
-
-				: 
-				(
-					<p>Loading...</p>
-				)
-			
-			}
-				
-			</div>
-		</Fragment>
-	)
+                <span>
+                  Page <b>{composerPage}</b> of <b>{totalComposerPages}</b>
+                </span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="8"
+                  height="11.5"
+                  viewBox="0 0 7.41 12"
+                  onClick={svgInc}
+                  className={
+                    composerPage !== totalComposerPages
+                      ? "svg-2"
+                      : "svg-2 disabled"
+                  }
+                >
+                  <path
+                    id="ic_chevron_right_24px"
+                    d="M10,6,8.59,7.41,13.17,12,8.59,16.59,10,18l6-6Z"
+                    transform="translate(-8.59 -6)"
+                    fill="#464646"
+                  />
+                </svg>
+              </div>
+            </div>
+          ) : (
+            <NoSheets />
+          )
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
+    </Fragment>
+  );
 }
 
 const mapStateToProps = (state) => ({
-	composerPages: state.data.composerPages,
-	composerPage: state.data.composerPage,
-	totalComposerPages: state.data.totalComposerPages,
-})
+  composerPages: state.data.composerPages,
+  composerPage: state.data.composerPage,
+  totalComposerPages: state.data.totalComposerPages,
+});
 
 const mapActionsToProps = {
-    getComposerPage,
- 	incrementComposerPage, 
-	setComposerPage,
-	decrementComposerPage
-}
+  getComposerPage,
+  incrementComposerPage,
+  setComposerPage,
+  decrementComposerPage,
+};
 
-export default connect(mapStateToProps, mapActionsToProps)(ComposersPage)
-
-
+export default connect(mapStateToProps, mapActionsToProps)(ComposersPage);
 
 /*
 	data:

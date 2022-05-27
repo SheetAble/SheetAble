@@ -1,42 +1,40 @@
 .settings {
-	display: block !important;
+  display: block !important;
 }
 
 .settings .MuiFormControl-root {
-	min-width: 234px;	
+  min-width: 234px;
 }
 
 .settings b {
-	font-weight: 400;
+  font-weight: 400;
 }
 
-
 .settings form {
-	margin-bottom: 45px;
+  margin-bottom: 45px;
 }
 
 /* Positioning */
-.admin-wrapper .MuiButtonBase-root{
-	margin: 0;
-	position: absolute;
-	top: 45%;
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
-	left: 46%;
-	-ms-transform: translateX(-50%);
-	transform: translateX(-50%);
+.admin-wrapper .MuiButtonBase-root {
+  margin: 0;
+  position: absolute;
+  top: 45%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 46%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 
-
 .non-admin-wrapper img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
 }
 
 .no-settings {
-	padding-top: 4px;
-	font-weight: 300;
-	font-size: 12px;
+  padding-top: 4px;
+  font-weight: 300;
+  font-size: 12px;
 }

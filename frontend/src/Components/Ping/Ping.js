@@ -1,29 +1,29 @@
-import React, { useState } from 'react'
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const Ping = () => {
-    const [notification, setNotification] = useState('');
+  const [notification, setNotification] = useState("");
 
-    const handlePing = async () => {
-        try {
-            const response = await axios.get(`${axios.defaults.baseURL}/pin`);
-            setNotification(`Successful ping with response: ${response.data}`);
-        } catch (e) {
-            setNotification('Failed to ping');
-        }
-
-        setTimeout(() => setNotification(''), 2000);
+  const handlePing = async () => {
+    try {
+      const response = await axios.get(`${axios.defaults.baseURL}/pin`);
+      setNotification(`Successful ping with response: ${response.data}`);
+    } catch (e) {
+      setNotification("Failed to ping");
     }
 
-    return (
-        <div>
-            <div>
-                <p>{notification}</p>
+    setTimeout(() => setNotification(""), 2000);
+  };
 
-                <button onClick={handlePing}>Ping</button>
-            </div>
-        </div>
-    );
+  return (
+    <div>
+      <div>
+        <p>{notification}</p>
+
+        <button onClick={handlePing}>Ping</button>
+      </div>
+    </div>
+  );
 };
 
-export default Ping
+export default Ping;

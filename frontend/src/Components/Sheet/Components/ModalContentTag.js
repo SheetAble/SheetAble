@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { addNewTag, deleteTag, editInfoText } from "../../../Redux/Actions/dataActions";
+import {
+  addNewTag,
+  deleteTag,
+  editInfoText,
+} from "../../../Redux/Actions/dataActions";
 import { connect } from "react-redux";
 
 function ModalContent(props) {
-	
-	const [tagName, setTagName] = useState("")
-  const [infoText, setInfoText] = useState("Write a short information text about your sheet.")
+  const [tagName, setTagName] = useState("");
+  const [infoText, setInfoText] = useState(
+    "Write a short information text about your sheet."
+  );
   const [value, setValue] = useState(props.tags[0]);
-  const [showInfoEdit, setShowInfoEdit] = useState(false)
- 
+  const [showInfoEdit, setShowInfoEdit] = useState(false);
+
   const infoEdit = (
     <div className="add_tag">
       <form noValidate autoComplete="off">
@@ -37,7 +42,9 @@ function ModalContent(props) {
         <Button
           variant="contained"
           color="primary"
-          disabled={infoText == "Write a short information text about your sheet."}
+          disabled={
+            infoText == "Write a short information text about your sheet."
+          }
           onClick={() => props.editInfoText(infoText, props.sheetName)}
         >
           Edit Info Box
@@ -89,7 +96,6 @@ function ModalContent(props) {
           <Button
             variant="contained"
             color="primary"
-            
             onClick={() => props.deleteTag(value, props.sheetName)}
           >
             Delete Tag
@@ -98,15 +104,13 @@ function ModalContent(props) {
       </div>
     );
   }
-  return infoEdit
+  return infoEdit;
 }
-
-
 
 const mapActionsToProps = {
   addNewTag,
   deleteTag,
-  editInfoText
+  editInfoText,
 };
 
 const mapStateToProps = (state) => ({});

@@ -1,37 +1,31 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 // Redux stuff
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
 // Pages
-import HomePage from './HomePage'
+import HomePage from "./HomePage";
 
 import { Redirect } from "react-router-dom";
 
 class HomePageProvider extends Component {
-    
-    render() {
-        const loggedIn = this.props.authenticated
-        if (loggedIn) {            
-            return (
-                <HomePage history={this.props.history}/>
-            )
-        }
+  render() {
+    const loggedIn = this.props.authenticated;
+    if (loggedIn) {
+      return <HomePage history={this.props.history} />;
+    }
 
-        return(
-            <Redirect to="/login" />
-        )
-    }	
-
+    return <Redirect to="/login" />;
+  }
 }
 
 HomePageProvider.propTypes = {
-    authenticated: PropTypes.bool.isRequired
-}
+  authenticated: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = (state) => ({
-    authenticated: state.user.authenticated
-})
+  authenticated: state.user.authenticated,
+});
 
-export default connect(mapStateToProps)(HomePageProvider)
+export default connect(mapStateToProps)(HomePageProvider);

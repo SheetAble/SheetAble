@@ -1,30 +1,29 @@
 .false-version {
-	background-color: #1d1b31;
-	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: #1d1b31;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
-	padding: 7px;
-	padding-left: 85px;
-	
-	display: flex;
+  padding: 7px;
+  padding-left: 85px;
 
+  display: flex;
 
-	font-size: 16px;
-	color: white;
+  font-size: 16px;
+  color: white;
 }
 
 .false-version a {
-	color: turquoise;
+  color: turquoise;
 }
 
 .false-version i {
-	margin-left: auto;
-	font-size: 24px;
+  margin-left: auto;
+  font-size: 24px;
 }
 
 .false-version i:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
-.false-active{
-	padding-left: 245px !important;
+.false-active {
+  padding-left: 245px !important;
 }

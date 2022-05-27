@@ -1,80 +1,73 @@
 // React Router Import
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Pages and Components
 import LoginPage from "./Components/Authentication/LoginPage";
 import HomePageProvider from "./Components/Home/HomePageProvider";
-import UploadPage from './Components/Upload/UploadPage';
-import Sheet from './Components/Sheet/Sheet';
-import SheetsPage from './Components/SheetsPage/SheetsPage';
-import ComposersPage from './Components/ComposersPage/ComposersPage';
-import Composer from './Components/Composer/Composer';
-import Settings from './Components/Settings/Settings';
-import Ping from './Components/Ping/Ping';
-import PageNotFound from './Components/NotFound/PageNotFound';
-import Redirect from './Components/Redirect/Redirect'
+import UploadPage from "./Components/Upload/UploadPage";
+import Sheet from "./Components/Sheet/Sheet";
+import SheetsPage from "./Components/SheetsPage/SheetsPage";
+import ComposersPage from "./Components/ComposersPage/ComposersPage";
+import Composer from "./Components/Composer/Composer";
+import Settings from "./Components/Settings/Settings";
+import Ping from "./Components/Ping/Ping";
+import PageNotFound from "./Components/NotFound/PageNotFound";
+import Redirect from "./Components/Redirect/Redirect";
 
 // Redux
-import { Provider } from 'react-redux'
-import { store, persistor } from './Redux/store';
-import { logoutUser } from './Redux/Actions/userActions'
-import { SET_AUTHENTICATED } from './Redux/types'
-import { PersistGate } from 'redux-persist/integration/react'
-
+import { Provider } from "react-redux";
+import { store, persistor } from "./Redux/store";
+import { logoutUser } from "./Redux/Actions/userActions";
+import { SET_AUTHENTICATED } from "./Redux/types";
+import { PersistGate } from "redux-persist/integration/react";
 
 // Axios
-import axios from 'axios';
+import axios from "axios";
 
 // JWT
-import jwtDecode from 'jwt-decode'
+import jwtDecode from "jwt-decode";
 
 // CSS
-import './App.css'
+import "./App.css";
 
 // eslint-disable-next-line
-import Logo from './Images/logo.png'
-import SearchPage from './Components/SearchPage/SearchPage';
-import TagsPage from './Components/TagsPage/TagsPage';
-
+import Logo from "./Images/logo.png";
+import SearchPage from "./Components/SearchPage/SearchPage";
+import TagsPage from "./Components/TagsPage/TagsPage";
 
 // Check if started in development mode, so you can modify baseURL accordingly
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    axios.defaults.baseURL = "http://localhost:8080/api"
+if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+  axios.defaults.baseURL = "http://localhost:8080/api";
 } else {
-    axios.defaults.baseURL = "/api"
+  axios.defaults.baseURL = "/api";
 }
 
-
-
 // Load token from localstorage and check it
-const token = localStorage.FBIdToken
-if(token){
-  let decodedToken = undefined
+const token = localStorage.FBIdToken;
+if (token) {
+  let decodedToken = undefined;
   try {
-    decodedToken = jwtDecode(token)
+    decodedToken = jwtDecode(token);
+  } catch {
+    decodedToken = undefined;
   }
-  catch {
-    decodedToken = undefined
-  }
-  
+
   if (decodedToken !== undefined) {
-    const ts = Date.now()
-    const currentTime = Math.floor(ts/1000) - 7200
-    if(decodedToken.exp < currentTime){
-      store.dispatch(logoutUser())
-      window.location.href = '/login'
+    const ts = Date.now();
+    const currentTime = Math.floor(ts / 1000) - 7200;
+    if (decodedToken.exp < currentTime) {
+      store.dispatch(logoutUser());
+      window.location.href = "/login";
     } else {
-      store.dispatch({ type: SET_AUTHENTICATED })
-      axios.defaults.headers.common['Authorization'] = token
+      store.dispatch({ type: SET_AUTHENTICATED });
+      axios.defaults.headers.common["Authorization"] = token;
     }
   } else {
-    store.dispatch(logoutUser())
-    window.location.href = '/login'
+    store.dispatch(logoutUser());
+    window.location.href = "/login";
   }
-  
-  
-} 
+}
 
 function App() {
   return (

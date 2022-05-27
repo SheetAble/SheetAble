@@ -1,18 +1,15 @@
 .seperator {
-    border-top: 1px solid #ccc;
-    margin-left: 15px;
-	width: 287px;
+  border-top: 1px solid #ccc;
+  margin-left: 15px;
+  width: 287px;
 }
 
 .space {
-    padding-top: 12px;
+  padding-top: 12px;
 }
 
-
-
-
 .home-page-wrapper {
-    word-wrap: break-word;
-    overflow-x: auto;
-    width: 100%;
+  word-wrap: break-word;
+  overflow-x: auto;
+  width: 100%;
 }

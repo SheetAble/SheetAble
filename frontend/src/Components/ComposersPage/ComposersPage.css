@@ -1,18 +1,18 @@
 .composer-wrapper .thumbnail-image {
-	max-width: none;
-	height: 170px;
+  max-width: none;
+  height: 170px;
 }
 
 .composer-wrapper .box-container {
-	width: 170px;
-	
-	min-height: 235px;
+  width: 170px;
+
+  min-height: 235px;
 }
 
 .composer-wrapper .rand-piece {
-	height: 340px !important;
+  height: 340px !important;
 }
 
 .composer-wrapper .bubbly-button {
-	margin-top: 8px !important;
+  margin-top: 8px !important;
 }

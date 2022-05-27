@@ -1,51 +1,50 @@
 .box-container-comp {
-	background-color: #E8E8E8;
-	width: 150px;
-	margin-left: 15px;
-	margin-right: 5px;
-	margin-top: 20px;
-	padding-bottom: 0px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	border-radius: 15px;
-	min-height: 230px;
-	cursor: pointer;
+  background-color: #e8e8e8;
+  width: 150px;
+  margin-left: 15px;
+  margin-right: 5px;
+  margin-top: 20px;
+  padding-bottom: 0px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 15px;
+  min-height: 230px;
+  cursor: pointer;
 }
 
-.thumbnail-image-comp{
-	max-width: 150px;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
+.thumbnail-image-comp {
+  max-width: 150px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 .comp-name-container {
-	text-align: left;
-	margin-left: 10px;
-	margin-top: 2px;
-	line-height: 100%;
+  text-align: left;
+  margin-left: 10px;
+  margin-top: 2px;
+  line-height: 100%;
 }
 
 .comp-name {
-	color: #404040;
-	font-weight: 300;
-	
+  color: #404040;
+  font-weight: 300;
 }
 
 .life-container {
-	text-align: left;
-	margin-left: 10px;
-	line-height: 100%;
+  text-align: left;
+  margin-left: 10px;
+  line-height: 100%;
 }
 
 .life-text {
-	color: grey;
-	font-size: small;
-	font-weight: 300;
+  color: grey;
+  font-size: small;
+  font-weight: 300;
 }
 
 .all-comp-container {
-	display: flex;
-	padding-bottom: 25px;
-	overflow-x: auto;
-	overflow-y: hidden;
-	list-style: none;	
+  display: flex;
+  padding-bottom: 25px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  list-style: none;
 }

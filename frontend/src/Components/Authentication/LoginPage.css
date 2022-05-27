@@ -1,32 +1,25 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
 
-
-
-
-.all-container-pos{
-  
-  
+.all-container-pos {
   position: absolute;
-  
-  
+
   top: 50%;
   left: 50%;
-  margin: -250px 0 0 -187px;  
+  margin: -250px 0 0 -187px;
 
-  
   /* background: linear-gradient(-135deg, #c850c0, #4158d0); */
 }
-::selection{
-  background: #0047AB;
+::selection {
+  background: #0047ab;
   color: #fff;
 }
-.wrapper{   
+.wrapper {
   width: 380px;
   background: #fff;
   border-radius: 15px;
-  box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
 }
-.wrapper .title{
+.wrapper .title {
   font-size: 35px;
   font-weight: 600;
   text-align: center;
@@ -37,16 +30,16 @@
   /*background: linear-gradient(-135deg, #c850c0, #4158d0);*/
   background-color: #11101d;
 }
-.wrapper form{
+.wrapper form {
   padding: 10px 30px 50px 30px;
 }
-.wrapper form .field{
+.wrapper form .field {
   height: 50px;
   width: 100%;
   margin-top: 20px;
   position: relative;
 }
-.wrapper form .field input{
+.wrapper form .field input {
   height: 100%;
   width: 100%;
   outline: none;
@@ -57,16 +50,16 @@
   transition: all 0.3s ease;
 }
 .wrapper form .field input:focus,
-form .field input:valid{
-  border-color: #0047AB;
+form .field input:valid {
+  border-color: #0047ab;
 }
 
 .wrapper form .field-wrong input:focus,
-form .field-wrong input:valid{
+form .field-wrong input:valid {
   border-color: tomato;
 }
 
-.wrapper form .field label{
+.wrapper form .field label {
   position: absolute;
   top: 50%;
   left: 20px;
@@ -78,14 +71,14 @@ form .field-wrong input:valid{
   transition: all 0.3s ease;
 }
 form .field input:focus ~ label,
-form .field input:valid ~ label{
+form .field input:valid ~ label {
   top: 0%;
   font-size: 16px;
-  color: #0047AB;
+  color: #0047ab;
   background: #fff;
   transform: translateY(-50%);
 }
-form .content{
+form .content {
   display: flex;
   width: 100%;
   height: 50px;
@@ -93,25 +86,25 @@ form .content{
   align-items: center;
   justify-content: space-around;
 }
-form .content .checkbox{
+form .content .checkbox {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-form .content input{
+form .content input {
   width: 15px;
   height: 15px;
   background: red;
 }
-form .content label{
+form .content label {
   color: #262626;
   user-select: none;
   padding-left: 5px;
 }
-form .content .pass-link{
+form .content .pass-link {
   color: "";
 }
-form .field input[type="submit"]{
+form .field input[type="submit"] {
   color: #fff;
   border: none;
   padding-left: 0;
@@ -120,47 +113,52 @@ form .field input[type="submit"]{
   font-weight: 500;
   cursor: pointer;
   /*background: linear-gradient(-135deg, #c850c0, #4158d0);*/
-  background-color: #0047AB;
+  background-color: #0047ab;
   transition: all 0.3s ease;
 }
-form .field input[type="submit"]:active{
+form .field input[type="submit"]:active {
   transform: scale(0.95);
 }
-form .signup-link{
+form .signup-link {
   color: #262626;
   margin-top: 34px;
   text-align: center;
   font-weight: 300;
 }
 form .pass-link a,
-form .signup-link a{
-  color: #0047AB;
+form .signup-link a {
+  color: #0047ab;
   text-decoration: none;
 }
 form .pass-link a:hover,
-form .signup-link a:hover{
+form .signup-link a:hover {
   text-decoration: underline;
 }
 
 .shake {
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: translate3d(0, 0, 0);
 }
 
 @keyframes shake {
-  10%, 90% {
+  10%,
+  90% {
     transform: translate3d(-1px, 0, 0);
   }
-  
-  20%, 80% {
+
+  20%,
+  80% {
     transform: translate3d(2px, 0, 0);
   }
 
-  30%, 50%, 70% {
+  30%,
+  50%,
+  70% {
     transform: translate3d(-4px, 0, 0);
   }
 
-  40%, 60% {
+  40%,
+  60% {
     transform: translate3d(4px, 0, 0);
   }
 }

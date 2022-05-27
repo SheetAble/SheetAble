@@ -1,17 +1,16 @@
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
 
 /* No highlight selection */
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
-}           
+}
 
 .box {
   background-color: white;
@@ -22,19 +21,17 @@
   height: 150px;
 }
 
-.home_content{
+.home_content {
   position: absolute;
   height: 100%;
   width: calc(100% - 78px);
   left: 78px;
   background: whitesmoke;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2px);
   transition: all 0.5s ease;
 
-
   display: flex;
-	overflow: auto; 
-	
+  overflow: auto;
 }
 
 .overflow-scroll {
@@ -43,7 +40,7 @@
   overflow-y: hidden;
 }
 
-.home_content .text{
+.home_content .text {
   font-size: 25px;
   font-weight: 500;
   color: #1d1b31;
@@ -61,14 +58,13 @@
   transition: background 0.8s;
 }
 .ripple:hover {
-  cursor: pointer; 
+  cursor: pointer;
 }
 .ripple:active {
-  background-color: #DCDCDC;
+  background-color: #dcdcdc;
   background-size: 100%;
   transition: background 0s;
 }
-
 
 /* Remove Shadow Effect */
 .remove_shadow:hover {
@@ -82,7 +78,6 @@
 .box_shadow {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 
 /* Tooltip container */
 .tooltip {
@@ -114,7 +109,6 @@
   /* Font */
   font-size: 12px;
   font-weight: 400;
-  
 }
 
 /* Tooltip arrow */

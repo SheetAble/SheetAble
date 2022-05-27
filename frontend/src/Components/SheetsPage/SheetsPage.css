@@ -1,100 +1,97 @@
 li {
-	display: inline-block;
-	whitespace: normal;
+  display: inline-block;
+  whitespace: normal;
 }
 
 .middle-part-container {
-	display: flex;
-	min-height: 80%;
+  display: flex;
+  min-height: 80%;
 }
 
 .auto-margin {
-	margin-left: auto;
-	margin-right: auto;
-	width: 97%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 97%;
 }
 
 .sheets-wrapper {
-	word-wrap:break-word;
-	overflow-x: auto;
-	width: 1000%;
-	
+  word-wrap: break-word;
+  overflow-x: auto;
+  width: 1000%;
 }
 
 .full-height {
-	display: block;
-	width: 1000%;
-	
-	margin-left: auto;
-	margin-right: auto;
+  display: block;
+  width: 1000%;
+
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .page-info-wrapper {
-	text-align: center;
-	padding-bottom: 15px;
+  text-align: center;
+  padding-bottom: 15px;
 }
 
 .page-info-wrapper span {
-	font-weight: 300;
+  font-weight: 300;
 }
 
 .page-info-wrapper b {
-	font-weight: 500;
+  font-weight: 500;
 }
 
 .page-info-wrapper svg {
-	margin-right: 5px;
+  margin-right: 5px;
 }
 
 .page-info-wrapper svg:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .disabled {
-	cursor: no-drop !important;
+  cursor: no-drop !important;
 }
 
 .svg-2 {
-	margin-right: 0;
-	margin-left: 5px;
+  margin-right: 0;
+  margin-left: 5px;
 }
 
 .rand-piece {
+  margin-right: 15px;
+  margin-top: 18px;
+  background-color: #e8e8e8 !important;
 
-	margin-right: 15px;
-	margin-top: 18px;
-	background-color: #E8E8E8 !important;
-	
-	width: 230px !important;
-	height: 430px !important;
-	text-align: center;
+  width: 230px !important;
+  height: 430px !important;
+  text-align: center;
 }
 
-.rand-piece-span{
-	padding-top: 15px;
-	color: #464646;
-    font-size: 22px;
-    font-weight: 300;
+.rand-piece-span {
+  padding-top: 15px;
+  color: #464646;
+  font-size: 22px;
+  font-weight: 300;
 }
 
 .loading-animation-rand {
-	display: block;
-	
-	margin: auto;
-	margin-top: 30%;
-	width: 100px;
+  display: block;
+
+  margin: auto;
+  margin-top: 30%;
+  width: 100px;
 }
 
 .rand-img {
-	width: 230px;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
-	
+  width: 230px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 .rand-piece .sheet-name {
-	font-size: 17px;
+  font-size: 17px;
 }
 
 .rand-piece .sheet-composer {
-	font-size: 13px;
+  font-size: 13px;
 }

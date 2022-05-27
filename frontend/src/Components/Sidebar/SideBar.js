@@ -1,38 +1,42 @@
-import React, { Fragment, useEffect, useState} from 'react'
-import './SideBar.css'
+import React, { Fragment, useEffect, useState } from "react";
+import "./SideBar.css";
 
-import { setSidebar, getVersion } from '../../Redux/Actions/uiActions';
-import { getSheets, getComposers, getComposerPage, getSheetPage, resetData } from '../../Redux/Actions/dataActions';
-import { logoutUser } from '../../Redux/Actions/userActions';
-import { connect } from 'react-redux'
-import Modal from './Modal/Modal';
-import ModalContent from './Modal/ModalContent';
-import "./FalseVersion.css"
-
+import { setSidebar, getVersion } from "../../Redux/Actions/uiActions";
+import {
+  getSheets,
+  getComposers,
+  getComposerPage,
+  getSheetPage,
+  resetData,
+} from "../../Redux/Actions/dataActions";
+import { logoutUser } from "../../Redux/Actions/userActions";
+import { connect } from "react-redux";
+import Modal from "./Modal/Modal";
+import ModalContent from "./Modal/ModalContent";
+import "./FalseVersion.css";
 
 function SideBar(props) {
+  const [uploadModal, setUploadModal] = useState(false);
+  const [falseVersion, setFalseVersion] = useState(false);
 
-	const [uploadModal, setUploadModal] = useState(false)
-	const [falseVersion, setFalseVersion] = useState(false) 
+  const { sidebar } = props;
 
-	const { sidebar } = props
-	
-	const onClickBtn = () => {
-		props.setSidebar()
-	}
+  const onClickBtn = () => {
+    props.setSidebar();
+  };
 
-    useEffect(() =>{
-        props.getVersion()
-		fetch("https://api.github.com/repos/SheetAble/SheetAble/releases/latest")
-			.then(res => {
-				return res.json()
-			})
-			.then(data => {
-				setFalseVersion(props.version != data.tag_name); 
-			})
-    }, [])
+  useEffect(() => {
+    props.getVersion();
+    fetch("https://api.github.com/repos/SheetAble/SheetAble/releases/latest")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setFalseVersion(props.version != data.tag_name);
+      });
+  }, []);
 
-	return (
+  return (
     <Fragment>
       {falseVersion && (
         <div
@@ -161,20 +165,20 @@ function SideBar(props) {
 }
 
 const mapStateToProps = (state) => ({
-	sidebar: state.UI.sidebar,
-	userData: state.user.userData,
-    version: state.UI.version
-})
+  sidebar: state.UI.sidebar,
+  userData: state.user.userData,
+  version: state.UI.version,
+});
 
 const mapActionsToProps = {
-    setSidebar,
-	getSheets,
-	getComposers,
-	logoutUser,
-	getComposerPage, 
-	getSheetPage,
-	resetData,
-    getVersion
-}
+  setSidebar,
+  getSheets,
+  getComposers,
+  logoutUser,
+  getComposerPage,
+  getSheetPage,
+  resetData,
+  getVersion,
+};
 
-export default connect(mapStateToProps, mapActionsToProps)(SideBar)
+export default connect(mapStateToProps, mapActionsToProps)(SideBar);

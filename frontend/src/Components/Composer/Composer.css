@@ -1,61 +1,61 @@
 .composer-page {
-	width: 100%;
-	text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .portrait-page {
-	width: 150px;
-	display: block;
-  	margin-left: auto;
-  	margin-right: auto;
-	border-radius: 350px;
-  	width: 230px;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.19);
-	margin-top: 35px;
+  width: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 350px;
+  width: 230px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 35px;
 }
 
 .composer-page h5 {
-	font-size: 23px;
-	font-weight: 300;
-	font-family: 'Poppins';
+  font-size: 23px;
+  font-weight: 300;
+  font-family: "Poppins";
 }
 
 .composer-page h6 {
-	font-size: 18px;
-	font-weight: 200;
-	line-height: 0.2em;
-	color: rgb(71, 71, 71);
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 0.2em;
+  color: rgb(71, 71, 71);
 }
 
 .composer-page .full-height {
-	width: 100%;
-	margin-top: 35px;
+  width: 100%;
+  margin-top: 35px;
 }
 
 .composer-page button {
-	margin: 35px 10px 0px 0px;
-	font-size: large;
-	position: absolute;
-	right: 0px;
-	top: 0px;
+  margin: 35px 10px 0px 0px;
+  font-size: large;
+  position: absolute;
+  right: 0px;
+  top: 0px;
 }
 
-.composer-page .edit   {
-	margin: 35px 10px 0px 0px;
-	font-size: large;
-	position: absolute;
-	right: 35px;
-	top: 0px;
+.composer-page .edit {
+  margin: 35px 10px 0px 0px;
+  font-size: large;
+  position: absolute;
+  right: 35px;
+  top: 0px;
 }
 
 .composer-page .delete {
-	color:#8c85ff;
+  color: #8c85ff;
 }
 
 .edit-wrapper button {
-	margin-top: 25px;
+  margin-top: 25px;
 }
 
 .edit-wrapper .filepond--wrapper {
-	margin-top: 35px;
+  margin-top: 35px;
 }

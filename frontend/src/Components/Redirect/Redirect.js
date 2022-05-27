@@ -1,10 +1,8 @@
-import React from 'react'
-import { Redirect } from 'react-router'
+import React from "react";
+import { Redirect } from "react-router";
 
 function LoginRedirect() {
-	return (
-		<Redirect to="/login" />
-	)
+  return <Redirect to="/login" />;
 }
 
-export default LoginRedirect
+export default LoginRedirect;

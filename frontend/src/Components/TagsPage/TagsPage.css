@@ -1,30 +1,30 @@
 .tags_page .dot {
-	margin-top: 18px;
-	margin-right: 15px;
-	height: 15px;
-	width: 15px;
-	border-radius: 50%;
-	display: inline-block;
+  margin-top: 18px;
+  margin-right: 15px;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .tags_page .header {
-	margin-top: 20px;
-	display: flex;
-	width: 50%;
-	margin-left: 42%;
-	margin-right: 50%;
+  margin-top: 20px;
+  display: flex;
+  width: 50%;
+  margin-left: 42%;
+  margin-right: 50%;
 }
 
-.tags_page .header h1{
-	font-family: "Poppins";
-	font-weight: 300;
+.tags_page .header h1 {
+  font-family: "Poppins";
+  font-weight: 300;
 }
 
 .tags_page {
-	display: block;
+  display: block;
 }
 
 .tags_page .marg {
-	margin-left: 15px;
-	margin-right: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
 }

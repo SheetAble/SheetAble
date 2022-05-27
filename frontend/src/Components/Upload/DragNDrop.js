@@ -1,71 +1,74 @@
-import React from 'react'
+import React from "react";
 
 // Import React FilePond
-import { FilePond, registerPlugin } from 'react-filepond'
+import { FilePond, registerPlugin } from "react-filepond";
 
 // Import the plugin code
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 
 // Import FilePond styles
-import 'filepond/dist/filepond.min.css'
+import "filepond/dist/filepond.min.css";
 
 // Redux Imports
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { uploadSheet } from '../../Redux/Actions/dataActions'
-
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { uploadSheet } from "../../Redux/Actions/dataActions";
 
 registerPlugin(FilePondPluginFileValidateType);
 
-
 function DragNDrop({ giveModalData }) {
   //const [files, setFiles] = useState(undefined)
-  
+
   const uploadFinish = (files) => {
-    giveModalData(files[0].file)
-  }
-  
+    giveModalData(files[0].file);
+  };
+
   const removeFile = () => {
-    giveModalData(undefined)
-  }
+    giveModalData(undefined);
+  };
 
   return (
     <div className="upload-container">
       <FilePond
         onupdatefiles={(files) => {
-          uploadFinish(files)  
+          uploadFinish(files);
         }}
         onremovefile={removeFile}
         allowMultiple={false}
-        server={ {
-          process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-            load()
-        }}}
+        server={{
+          process: (
+            fieldName,
+            file,
+            metadata,
+            load,
+            error,
+            progress,
+            abort,
+            transfer,
+            options
+          ) => {
+            load();
+          },
+        }}
         maxFiles={1}
         name="files"
         labelIdle='Drag & Drop your file or <span class="filepond--label-action">Browse</span>'
         credits={false}
         allowFileTypeValidation={true}
-        acceptedFileTypes={['application/pdf']}
+        acceptedFileTypes={["application/pdf"]}
       />
-    </div> 
-  )
+    </div>
+  );
 }
-
-
-
 
 DragNDrop.propTypes = {
-    uploadSheet: PropTypes.func.isRequired,
-}
-
+  uploadSheet: PropTypes.func.isRequired,
+};
 
 const mapActionsToProps = {
-    uploadSheet
-}
+  uploadSheet,
+};
 
-const mapStateToProps = (state) => ({
-})
+const mapStateToProps = (state) => ({});
 
-
-export default connect(mapStateToProps, mapActionsToProps)(DragNDrop)
+export default connect(mapStateToProps, mapActionsToProps)(DragNDrop);

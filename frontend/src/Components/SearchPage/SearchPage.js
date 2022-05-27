@@ -1,34 +1,32 @@
-import React, { Fragment, useState } from 'react'
-import SideBar from '../Sidebar/SideBar'
-import './SearchPage.css'
+import React, { Fragment, useState } from "react";
+import SideBar from "../Sidebar/SideBar";
+import "./SearchPage.css";
 
-import { searchData } from '../../Redux/Actions/dataActions'
-import { connect } from 'react-redux'
-import ResultBox from './ResultBox'
+import { searchData } from "../../Redux/Actions/dataActions";
+import { connect } from "react-redux";
+import ResultBox from "./ResultBox";
 
 function SearchPage({ searchData }) {
-	
-	const [searchValue, setSearchValue] = useState("")
+  const [searchValue, setSearchValue] = useState("");
 
-	const [searchResponse, setSearchResponse] = useState([])
+  const [searchResponse, setSearchResponse] = useState([]);
 
-	const handleSubmit = () => {
-		if (searchValue !== "") {
-			searchData(searchValue, (data) => {
-				setSearchResponse(data);
-        
-			});
-		}
-	}
+  const handleSubmit = () => {
+    if (searchValue !== "") {
+      searchData(searchValue, (data) => {
+        setSearchResponse(data);
+      });
+    }
+  };
 
-	/* Checks if Enter is pressed while in input */
-	const handleKeyDown = (event) => {
-		if (event.key === 'Enter') {
-      		handleSubmit()
-    	}
-	}
-	
-	return (
+  /* Checks if Enter is pressed while in input */
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
+  return (
     <div>
       <Fragment>
         <SideBar />
@@ -57,13 +55,10 @@ function SearchPage({ searchData }) {
   );
 }
 
-
-const mapStateToProps = (state) => ({
-    
-})
+const mapStateToProps = (state) => ({});
 
 const mapActionsToProps = {
-    searchData
-}
+  searchData,
+};
 
-export default connect(mapStateToProps, mapActionsToProps)(SearchPage)
+export default connect(mapStateToProps, mapActionsToProps)(SearchPage);

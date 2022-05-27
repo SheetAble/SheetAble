@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
-import './InformationCard.css'
-import { dominantColors } from '../../../Utils/colors';
-import { IconButton } from '@material-ui/core';
+import React, { useState } from "react";
+import "./InformationCard.css";
+import { dominantColors } from "../../../Utils/colors";
+import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import Modal from '../../Sidebar/Modal/Modal';
-import ModalContent from './ModalContentTag.js'
+import Modal from "../../Sidebar/Modal/Modal";
+import ModalContent from "./ModalContentTag.js";
 
 function InformationCard({ infoText, tags, sheetName }) {
-
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState(false);
 
   return (
     <div className="information_card">
@@ -41,7 +40,11 @@ function InformationCard({ infoText, tags, sheetName }) {
           </IconButton>
         </div>
         <Modal title="Edit Tag" onClose={() => setModal(false)} show={modal}>
-          <ModalContent onClose={() => setModal(false)} sheetName={sheetName} tags={tags} />
+          <ModalContent
+            onClose={() => setModal(false)}
+            sheetName={sheetName}
+            tags={tags}
+          />
         </Modal>
       </div>
       <div className="info_text">
@@ -51,4 +54,4 @@ function InformationCard({ infoText, tags, sheetName }) {
   );
 }
 
-export default InformationCard
+export default InformationCard;
