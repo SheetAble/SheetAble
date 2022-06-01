@@ -201,6 +201,15 @@ func (c *Composer) GetAllComposer(db *gorm.DB) (*[]Composer, error) {
 	return &composers, err
 }
 
+func SearchComposer(db *gorm.DB, searchValue string) []*Composer {
+
+	// Search for sheets with containing string
+	var composers []*Composer
+	searchValue = "%" + searchValue + "%"
+	db.Where("safe_name LIKE ?", searchValue).Find(&composers)
+	return composers
+}
+
 func (c *Composer) List(db *gorm.DB, pagination Pagination) (*Pagination, error) {
 
 	// For pagination

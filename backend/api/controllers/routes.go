@@ -47,7 +47,8 @@ func (server *Server) SetupRouter() {
 	secureApi.GET("/sheet/:sheetName", server.GetSheet)
 	secureApi.PUT("/sheet/:sheetName", server.UpdateSheet)
 	secureApi.DELETE("/sheet/:sheetName", server.DeleteSheet)
-	secureApi.GET("/search/:searchValue", server.Search)
+	secureApi.GET("/search/:searchValue", server.SearchSheets)
+	secureApi.GET("/search/composers/:searchValue", server.SearchComposers)
 	secureApi.PUT("/sheet/:sheetName/info", server.UpdateSheetInformationText)
 	secureApi.POST("/sheet/:sheetName/info", server.UpdateSheetInformationText)
 
