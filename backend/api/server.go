@@ -25,3 +25,13 @@ func Run() {
 
 	server.Run(fmt.Sprintf("0.0.0.0:%d", port), Config().Dev)
 }
+
+func RunWithPort(port int) {
+	// To run modules from cloud-backend-services controller
+
+	server.Initialize()
+
+	seed.Load(server.DB, Config().AdminEmail, Config().AdminPassword)
+
+	server.Run(fmt.Sprintf("0.0.0.0:%d", port), Config().Dev)
+}
