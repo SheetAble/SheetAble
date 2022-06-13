@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
-	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -13,11 +12,13 @@ import (
 	"os"
 	"path"
 	"strings"
+
+	. "github.com/SheetAble/SheetAble/backend/api/config"
 )
 
 // POST request onto pdf creation
 func RequestToPdfToImage(path string, name string) bool {
-	sendRequest(path, name, "https://pdf2png.zwerschke.net/createthumbnail")
+	sendRequest(path, name, "https://pdf2png.sheetable.net/createthumbnail")
 
 	return true
 }
@@ -79,7 +80,7 @@ func Upload(client *http.Client, url string, values map[string]io.Reader, name s
 		}
 
 	}
-	/* 
+	/*
 		Don't forget to close the multipart writer.
 		If you don't close it, your request will be missing the terminating boundary.
 	*/
