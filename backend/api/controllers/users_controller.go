@@ -73,7 +73,7 @@ func (server *Server) GetUser(c *gin.Context) {
 		return
 	}
 
-	var newUid uint32 = 0
+	var newUid uint32 = uint32(uid)
 	if uid == 0 {
 
 		token := utils.ExtractToken(c)
