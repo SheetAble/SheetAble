@@ -15,7 +15,6 @@ func Load(db *gorm.DB, email string, password string) {
 	}
 
 	err = db.Model(&models.User{}).Create(&models.User{
-		Nickname: email,
 		Email:    email,
 		Password: password,
 	}).Error

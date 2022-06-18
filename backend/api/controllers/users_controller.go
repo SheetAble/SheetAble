@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/SheetAble/SheetAble/backend/api/auth"
 	. "github.com/SheetAble/SheetAble/backend/api/config"
@@ -94,6 +95,15 @@ func (server *Server) GetUser(c *gin.Context) {
 }
 
 func (server *Server) UpdateUser(c *gin.Context) {
+	/*
+		To update a user go to endpoint:
+		PUT: /api/users/:id
+		Body: {
+			"email": "your-updated-email"
+			"password": "your updated password"
+		}
+
+	*/
 
 	uidString := c.Param("id")
 	uid, err := strconv.ParseUint(uidString, 10, 32)
@@ -103,6 +113,8 @@ func (server *Server) UpdateUser(c *gin.Context) {
 	}
 
 	var user models.User
+	// Set updated At param
+	user.UpdatedAt = time.Now()
 	err = c.BindJSON(&user)
 	if err != nil {
 		c.String(http.StatusUnprocessableEntity, err.Error())
@@ -127,6 +139,7 @@ func (server *Server) UpdateUser(c *gin.Context) {
 	}
 	updatedUser, err := user.UpdateAUser(server.DB, uint32(uid))
 	if err != nil {
+		fmt.Println(err)
 		formattedError := formaterror.FormatError(err.Error())
 		c.String(http.StatusUnprocessableEntity, formattedError.Error())
 		return

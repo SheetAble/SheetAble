@@ -52,7 +52,6 @@ export const logoutUser = () => (dispatch) => {
 
 export const createUser = (userData) => (dispatch) => {
   const data = {
-    nickname: userData.email,
     email: userData.email,
     password: userData.password,
   };
