@@ -28,9 +28,7 @@ import (
 	"github.com/kennygrant/sanitize"
 )
 
-
 // Structs for handling the response on the Open Opus API
-
 
 type Response struct {
 	Composers *[]Comp `json: "composers"`
@@ -159,7 +157,7 @@ func getPortraitURL(composerName string) Comp {
 	err_new := json.Unmarshal([]byte(string(body)), response)
 	fmt.Println(err_new)
 	composers := *response.Composers
-	
+
 	// Check if the given name and the name from the API are alike
 	if len(composers) == 0 || (!strings.EqualFold(composerName, composers[0].Name) && !strings.EqualFold(composerName, composers[0].CompleteName)) {
 		return Comp{

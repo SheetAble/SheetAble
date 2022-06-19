@@ -6,6 +6,7 @@ import (
 
 	"github.com/SheetAble/SheetAble/backend/api/auth"
 	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/forms"
 	"github.com/SheetAble/SheetAble/backend/api/models"
 	"github.com/SheetAble/SheetAble/backend/api/utils"
 	"github.com/SheetAble/SheetAble/backend/api/utils/formaterror"
@@ -100,7 +101,7 @@ func (server *Server) UpdateUser(c *gin.Context) {
 		PUT: /api/users/:id
 		Body: {
 			"email": "your-updated-email"
-			"password": "your updated password"
+			"password": "your-updated-password"
 		}
 
 	*/
@@ -175,4 +176,24 @@ func (server *Server) DeleteUser(c *gin.Context) {
 	}
 	c.Header("Entity", fmt.Sprint(uid))
 	c.JSON(http.StatusNoContent, gin.H{})
+}
+
+func (server *Server) ResetPassword(c *gin.Context) {
+	var form forms.ResetPasswordRequest
+	if err := c.ShouldBind(&form); err != nil {
+		utils.DoError(c, http.StatusBadRequest, err)
+		return
+	}
+	if err := form.ValidateForm(); err != nil {
+		utils.DoError(c, http.StatusBadRequest, err)
+		return
+	}
+
+	user, err := models.ResetPassword(server.DB, form.PasswordResetId, form.Password)
+	if err != nil {
+		c.JSON(http.StatusNotFound, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }

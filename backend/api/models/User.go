@@ -2,22 +2,25 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"html"
 	"log"
 	"strings"
 	"time"
 
+	"github.com/SheetAble/SheetAble/backend/api/utils"
 	"github.com/badoux/checkmail"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	ID        uint32    `gorm:"primary_key;auto_increment" json:"id"` // If ID == 1: user = admin
-	Email     string    `gorm:"size:100;not null;unique" json:"email"`
-	Password  string    `gorm:"size:100;not null;" json:"password"`
-	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	ID            uint32    `gorm:"primary_key;auto_increment" json:"id"` // If ID == 1: user = admin
+	Email         string    `gorm:"size:100;not null;unique" json:"email"`
+	Password      string    `gorm:"size:100;not null;" json:"password"`
+	PasswordReset string    `gorm:"size:10;unique" json:"password_reset"` /* Random 8 char string for resetting the password (prob not the best implementation of a password reset so it could be redone)*/
+	CreatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func Hash(password string) ([]byte, error) {
@@ -40,6 +43,7 @@ func (u *User) BeforeSave() error {
 func (u *User) Prepare() {
 	u.ID = 0
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
+	u.PasswordReset = utils.CreateRandString(10)
 	u.CreatedAt = time.Now()
 	u.UpdatedAt = time.Now()
 }
@@ -116,6 +120,18 @@ func (u *User) FindUserByID(db *gorm.DB, uid uint32) (*User, error) {
 	return u, err
 }
 
+func (u *User) FindUserByPasswordResetId(db *gorm.DB, passwordResetId string) (*User, error) {
+	var err error
+	err = db.Model(User{}).Where("password_reset = ?", passwordResetId).Take(&u).Error
+	if err != nil {
+		return &User{}, err
+	}
+	if gorm.IsRecordNotFoundError(err) {
+		return &User{}, errors.New("User Not Found")
+	}
+	return u, err
+}
+
 func (u *User) UpdateAUser(db *gorm.DB, uid uint32) (*User, error) {
 	// To hash the password
 	err := u.BeforeSave()
@@ -132,7 +148,7 @@ func (u *User) UpdateAUser(db *gorm.DB, uid uint32) (*User, error) {
 	if db.Error != nil {
 		return &User{}, db.Error
 	}
-	// This is the display the updated user
+	// This is to display the updated user
 	err = db.Model(&User{}).Where("id = ?", uid).Take(&u).Error
 	if err != nil {
 		return &User{}, err
@@ -148,4 +164,30 @@ func (u *User) DeleteAUser(db *gorm.DB, uid uint32) (int64, error) {
 		return 0, db.Error
 	}
 	return db.RowsAffected, nil
+}
+
+func ResetPassword(db *gorm.DB, passwordResetId string, updatedPassword string) (*User, error) {
+	user := User{}
+	_, err := user.FindUserByPasswordResetId(db, passwordResetId)
+	if gorm.IsRecordNotFoundError(err) {
+		return &User{}, errors.New("This passwordResetId is invalid.")
+	}
+
+	user.Password = updatedPassword
+
+	user.BeforeSave() /* This will hash the password */
+
+	db = db.Model(&User{}).Where("password_reset = ?", passwordResetId).Take(&User{}).UpdateColumns(
+		map[string]interface{}{
+			"password":   user.Password,
+			"updated_at": time.Now(),
+		},
+	)
+	if db.Error != nil {
+		return &User{}, db.Error
+	}
+
+	fmt.Println("Update user passsword")
+
+	return &user, nil
 }

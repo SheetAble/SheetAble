@@ -1,5 +1,10 @@
 package utils
 
+import (
+	"math/rand"
+	"time"
+)
+
 func RemoveElementOfSlice(slice []string, index int) []string {
 
 	// Remove element of string slice by index
@@ -7,7 +12,7 @@ func RemoveElementOfSlice(slice []string, index int) []string {
 }
 
 func FindIndexByValue(slice []string, value string) int {
-	
+
 	// Return Index of a specific value in a slice
 	for p, v := range slice {
 		if v == value {
@@ -24,4 +29,19 @@ func CheckSliceContains(slice []string, e string) bool {
 		}
 	}
 	return false
+}
+
+func CreateRandString(n int) string {
+	/*
+		Create rand n char string
+	*/
+	rand.Seed(time.Now().UnixNano())
+
+	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
 }
