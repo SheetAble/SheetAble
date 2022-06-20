@@ -189,9 +189,9 @@ func (server *Server) ResetPassword(c *gin.Context) {
 		return
 	}
 
-	user, err := models.ResetPassword(server.DB, form.PasswordResetId, form.Password)
+	user, err, statusCode := models.ResetPassword(server.DB, form.PasswordResetId, form.Password)
 	if err != nil {
-		c.JSON(http.StatusNotFound, err.Error())
+		c.JSON(statusCode, err.Error())
 		return
 	}
 

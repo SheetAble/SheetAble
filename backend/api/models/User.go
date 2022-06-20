@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html"
 	"log"
+	"net/http"
 	"strings"
 	"time"
 
@@ -15,12 +16,13 @@ import (
 )
 
 type User struct {
-	ID            uint32    `gorm:"primary_key;auto_increment" json:"id"` // If ID == 1: user = admin
-	Email         string    `gorm:"size:100;not null;unique" json:"email"`
-	Password      string    `gorm:"size:100;not null;" json:"password"`
-	PasswordReset string    `gorm:"size:10;unique" json:"password_reset"` /* Random 8 char string for resetting the password (prob not the best implementation of a password reset so it could be redone)*/
-	CreatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt     time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	ID                  uint32    `gorm:"primary_key;auto_increment" json:"id"` // If ID == 1: user = admin
+	Email               string    `gorm:"size:100;not null;unique" json:"email"`
+	Password            string    `gorm:"size:100;not null;" json:"password"`
+	PasswordReset       string    `gorm:"size:10;unique" json:"password_reset"` /* Random 8 char string for resetting the password (prob not the best implementation of a password reset so it could be redone)*/
+	PasswordResetExpire time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"password_reset_expire"`
+	CreatedAt           time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt           time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func Hash(password string) ([]byte, error) {
@@ -44,6 +46,7 @@ func (u *User) Prepare() {
 	u.ID = 0
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
 	u.PasswordReset = utils.CreateRandString(10)
+	u.PasswordResetExpire = time.Now()
 	u.CreatedAt = time.Now()
 	u.UpdatedAt = time.Now()
 }
@@ -166,11 +169,14 @@ func (u *User) DeleteAUser(db *gorm.DB, uid uint32) (int64, error) {
 	return db.RowsAffected, nil
 }
 
-func ResetPassword(db *gorm.DB, passwordResetId string, updatedPassword string) (*User, error) {
+func ResetPassword(db *gorm.DB, passwordResetId string, updatedPassword string) (*User, error, int) {
 	user := User{}
 	_, err := user.FindUserByPasswordResetId(db, passwordResetId)
 	if gorm.IsRecordNotFoundError(err) {
-		return &User{}, errors.New("This passwordResetId is invalid.")
+		return &User{}, errors.New("This passwordResetId is invalid."), http.StatusNotFound
+	}
+	if user.PasswordResetExpire.Before(time.Now()) {
+		return &User{}, errors.New("PasswordResetId has already expired."), http.StatusForbidden
 	}
 
 	user.Password = updatedPassword
@@ -184,10 +190,10 @@ func ResetPassword(db *gorm.DB, passwordResetId string, updatedPassword string) 
 		},
 	)
 	if db.Error != nil {
-		return &User{}, db.Error
+		return &User{}, db.Error, 0
 	}
 
 	fmt.Println("Update user passsword")
 
-	return &user, nil
+	return &user, nil, 0
 }
