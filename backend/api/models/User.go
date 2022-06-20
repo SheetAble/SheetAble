@@ -123,6 +123,18 @@ func (u *User) FindUserByID(db *gorm.DB, uid uint32) (*User, error) {
 	return u, err
 }
 
+func (u *User) FindUserByEmail(db *gorm.DB, email string) (*User, error) {
+	var err error
+	err = db.Model(User{}).Where("email = ?", email).Take(&u).Error
+	if err != nil {
+		return &User{}, err
+	}
+	if gorm.IsRecordNotFoundError(err) {
+		return &User{}, errors.New("User Not Found")
+	}
+	return u, err
+}
+
 func (u *User) FindUserByPasswordResetId(db *gorm.DB, passwordResetId string) (*User, error) {
 	var err error
 	err = db.Model(User{}).Where("password_reset = ?", passwordResetId).Take(&u).Error
@@ -167,6 +179,26 @@ func (u *User) DeleteAUser(db *gorm.DB, uid uint32) (int64, error) {
 		return 0, db.Error
 	}
 	return db.RowsAffected, nil
+}
+
+func RequestPasswordReset(db *gorm.DB, email string) (string, error) {
+	user := User{}
+	_, err := user.FindUserByEmail(db, email)
+	if gorm.IsRecordNotFoundError(err) {
+		return "", errors.New("Email doesn't exist in the server.")
+	}
+
+	passwordReset := utils.CreateRandString(10)
+
+	db = db.Model(&User{}).Where("email = ?", email).Take(&User{}).UpdateColumns(
+		map[string]interface{}{
+			"password_reset":        passwordReset,
+			"password_reset_expire": time.Now().Add(time.Hour * time.Duration(1)), // Set new expire date to 1h
+		},
+	)
+
+	// TODO: send passwordResetId via email and not as return status
+	return passwordReset, nil
 }
 
 func ResetPassword(db *gorm.DB, passwordResetId string, updatedPassword string) (*User, error, int) {

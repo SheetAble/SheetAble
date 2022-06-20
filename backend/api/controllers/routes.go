@@ -38,6 +38,7 @@ func (server *Server) SetupRouter() {
 	secureApi.PUT("/users/:id", server.UpdateUser)
 	secureApi.DELETE("/users/:id", server.DeleteUser)
 	api.POST("/reset_password", server.ResetPassword)
+	api.POST("/request_password_reset", server.RequestPasswordReset)
 
 	// Sheet routes
 	secureApi.POST("/upload", server.UploadFile)

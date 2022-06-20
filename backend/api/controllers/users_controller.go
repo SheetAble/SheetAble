@@ -197,3 +197,23 @@ func (server *Server) ResetPassword(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
+
+func (server *Server) RequestPasswordReset(c *gin.Context) {
+	var form forms.RequestResetPasswordRequest
+	if err := c.ShouldBind(&form); err != nil {
+		utils.DoError(c, http.StatusBadRequest, err)
+		return
+	}
+	if err := form.ValidateForm(); err != nil {
+		utils.DoError(c, http.StatusBadRequest, err)
+		return
+	}
+
+	resetPasswordId, err := models.RequestPasswordReset(server.DB, form.Email)
+	if err != nil {
+		c.JSON(http.StatusNotFound, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, resetPasswordId)
+}

@@ -7,13 +7,23 @@ type ResetPasswordRequest struct {
 	Password        string `form:"password"`
 }
 
-// Currently a no-op but enables us to add any custom form validation in without having to change any calling code.
+type RequestResetPasswordRequest struct {
+	Email string `form:"email"`
+}
+
 func (req *ResetPasswordRequest) ValidateForm() error {
 	if req.Password == "" {
 		return errors.New("You need to give an updated password (formField:password).")
 	}
 	if req.PasswordResetId == "" {
 		return errors.New("You need to give a passwordResetId.")
+	}
+	return nil
+}
+
+func (req *RequestResetPasswordRequest) ValidateForm() error {
+	if req.Email == "" {
+		return errors.New("You need to give an email.")
 	}
 	return nil
 }
