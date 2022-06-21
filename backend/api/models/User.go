@@ -45,7 +45,7 @@ func (u *User) BeforeSave() error {
 func (u *User) Prepare() {
 	u.ID = 0
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
-	u.PasswordReset = utils.CreateRandString(10)
+	u.PasswordReset = utils.CreateRandString(40)
 	u.PasswordResetExpire = time.Now()
 	u.CreatedAt = time.Now()
 	u.UpdatedAt = time.Now()
@@ -188,7 +188,7 @@ func RequestPasswordReset(db *gorm.DB, email string) (string, error) {
 		return "", errors.New("Email doesn't exist in the server.")
 	}
 
-	passwordReset := utils.CreateRandString(10)
+	passwordReset := utils.CreateRandString(40)
 
 	db = db.Model(&User{}).Where("email = ?", email).Take(&User{}).UpdateColumns(
 		map[string]interface{}{
@@ -197,7 +197,6 @@ func RequestPasswordReset(db *gorm.DB, email string) (string, error) {
 		},
 	)
 
-	// TODO: send passwordResetId via email and not as return status
 	return passwordReset, nil
 }
 

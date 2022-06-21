@@ -215,5 +215,6 @@ func (server *Server) RequestPasswordReset(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, resetPasswordId)
+	utils.SendPasswordResetEmail(resetPasswordId)
+	c.JSON(http.StatusOK, "Sent email successfully")
 }
