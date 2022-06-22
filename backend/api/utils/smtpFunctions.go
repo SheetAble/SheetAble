@@ -8,7 +8,7 @@ import (
 	gomail "gopkg.in/mail.v2"
 )
 
-func SendPasswordResetEmail(resetPasswordId string) {
+func SendPasswordResetEmail(resetPasswordId string, emailAdress string) {
 	if config.Config().Smtp.Enabled == "0" {
 		return
 	}
@@ -18,13 +18,13 @@ func SendPasswordResetEmail(resetPasswordId string) {
 	m.SetHeader("From", config.Config().Smtp.From)
 
 	// Set E-Mail receivers
-	m.SetHeader("To", "v.zwerschke@mail.de")
+	m.SetHeader("To", emailAdress)
 
 	// Set E-Mail subject
-	m.SetHeader("Subject", "Gomail test subject")
+	m.SetHeader("Subject", "Password Reset Request")
 
 	// Set E-Mail body. You can set plain text or html with text/html
-	m.SetBody("text/plain", resetPasswordId)
+	m.SetBody("text/plain", "Hey there was a password reset request to your accout. Your Reset id is: "+resetPasswordId) // TODO: Make HTML + make resetPasswordId a frontend URL
 
 	// Settings for SMTP server
 	d := gomail.NewDialer(config.Config().Smtp.HostServerAddr,
@@ -43,7 +43,7 @@ func SendPasswordResetEmail(resetPasswordId string) {
 		panic(err)
 	}
 
-	fmt.Println("Sent email")
+	fmt.Println("Sent password reset request email to: " + emailAdress)
 
 	return
 }
