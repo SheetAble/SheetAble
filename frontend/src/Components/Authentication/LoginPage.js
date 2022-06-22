@@ -78,13 +78,14 @@ class LoginPage extends Component {
 								<label for="remember-me">Remember me</label>
 							</div>
 							
-							
-							<div class="pass-link">
-								<a href="/forgot-password">Forgot password?</a>
-							</div>
+
 							*
 						</div>
 						*/}
+            							
+							<div class="pass-link">
+								<a href="/forgot-password">Forgot password?</a>
+							</div>
               <div class="field">
                 <input
                   type="submit"

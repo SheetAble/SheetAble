@@ -67,6 +67,7 @@ type ServerConfig struct {
 	AdminEmail    string `env:"ADMIN_EMAIL"`
 	AdminPassword string `env:"ADMIN_PASSWORD"`
 	ApiSecret     string `env:"API_SECRET"`
+	ServerUrl     string `env:"SERVER_URL"`
 	ConfigPath    string `env:"CONFIG_PATH"`
 
 	Dev  bool `env:"DEV"`
@@ -82,6 +83,7 @@ func NewConfig() ServerConfig {
 		AdminEmail:    "admin@admin.com",
 		AdminPassword: "sheetable",
 		ApiSecret:     "sheetable",
+		ServerUrl:     "http://localhost:8080",
 		ConfigPath:    "./config/",
 		Database: DatabaseConfig{
 			Driver: "sqlite",

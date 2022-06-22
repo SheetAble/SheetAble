@@ -35,6 +35,7 @@ import "./App.css";
 import Logo from "./Images/logo.png";
 import SearchPage from "./Components/SearchPage/SearchPage";
 import TagsPage from "./Components/TagsPage/TagsPage";
+import ForgotPassword from "./Components/Authentication/ForgotPassword";
 
 // Check if started in development mode, so you can modify baseURL accordingly
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
@@ -101,6 +102,7 @@ function App() {
           ) : (
             <Switch>
               <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/forgot-password" component={ForgotPassword} />
               <Route component={Redirect} />
             </Switch>
           )}
