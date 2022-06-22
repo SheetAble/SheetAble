@@ -1,11 +1,12 @@
 package config
 
 import (
-	"github.com/golobby/config/v3"
-	"github.com/golobby/config/v3/pkg/feeder"
 	"log"
 	"strings"
 	"sync"
+
+	"github.com/golobby/config/v3"
+	"github.com/golobby/config/v3/pkg/feeder"
 )
 
 var (
@@ -72,6 +73,7 @@ type ServerConfig struct {
 	Port int  `env:"PORT"`
 
 	Database DatabaseConfig
+	Smtp     SmtpConfig
 }
 
 // Bootstrap the application Config struct with the default config
@@ -84,7 +86,19 @@ func NewConfig() ServerConfig {
 		Database: DatabaseConfig{
 			Driver: "sqlite",
 		},
+		Smtp: SmtpConfig{
+			Enabled: "0",
+		},
 	}
+}
+
+type SmtpConfig struct {
+	Enabled        string `env:"SMTP_ENABLED"`
+	From           string `env:"SMTP_FROM"`
+	HostServerAddr string `env:"SMTP_SERVER_ADDR"`
+	HostServerPort int    `env:"SMTP_HOST_SERVER_PORT"`
+	Username       string `env:"SMTP_USERNAME"`
+	Password       string `env:"SMTP_PASSWORD"`
 }
 
 type DatabaseConfig struct {

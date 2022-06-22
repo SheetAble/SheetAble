@@ -4,14 +4,18 @@ import (
 	"crypto/tls"
 	"fmt"
 
+	"github.com/SheetAble/SheetAble/backend/api/config"
 	gomail "gopkg.in/mail.v2"
 )
 
 func SendPasswordResetEmail(resetPasswordId string) {
+	if config.Config().Smtp.Enabled == "0" {
+		return
+	}
 	m := gomail.NewMessage()
 
 	// Set E-Mail sender
-	m.SetHeader("From", "vallezw@sheetable.net")
+	m.SetHeader("From", config.Config().Smtp.From)
 
 	// Set E-Mail receivers
 	m.SetHeader("To", "v.zwerschke@mail.de")
@@ -23,7 +27,11 @@ func SendPasswordResetEmail(resetPasswordId string) {
 	m.SetBody("text/plain", resetPasswordId)
 
 	// Settings for SMTP server
-	d := gomail.NewDialer("smtp.strato.de", 587, "vallezw@sheetable.net", "")
+	d := gomail.NewDialer(config.Config().Smtp.HostServerAddr,
+		config.Config().Smtp.HostServerPort,
+		config.Config().Smtp.Username,
+		config.Config().Smtp.Password,
+	)
 
 	// This is only needed when SSL/TLS certificate is not valid on server.
 	// In production this should be set to false.
