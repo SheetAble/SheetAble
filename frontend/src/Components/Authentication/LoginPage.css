@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
-
+body {
+  background-color: whitesmoke;
+}
 .all-container-pos {
   position: absolute;
   background-color: whitesmoke;
