@@ -24,8 +24,9 @@ class LoginPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
+    if (nextProps.UI.errors) {      
+      this.setState({ errors: {
+        error: nextProps.UI.errors }});
     }
   }
 
@@ -46,7 +47,7 @@ class LoginPage extends Component {
 
   render() {
     const { errors } = this.state;
-
+    
     return (
       <div className="all-container-pos">
         <div class="wrapper">
@@ -116,7 +117,7 @@ class LoginPage extends Component {
               </div>
               <div
                 class={
-                  errors.error === "Incorrect Password"
+                  errors.error === "Incorrect Details"
                     ? "field field-wrong shake"
                     : "field"
                 }
