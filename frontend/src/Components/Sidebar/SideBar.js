@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import Modal from "./Modal/Modal";
 import ModalContent from "./Modal/ModalContent";
 import "./FalseVersion.css";
+import axios from "axios";
 
 function SideBar(props) {
   const [uploadModal, setUploadModal] = useState(false);
@@ -27,12 +28,17 @@ function SideBar(props) {
 
   useEffect(() => {
     props.getVersion();
+
     fetch("https://api.github.com/repos/SheetAble/SheetAble/releases/latest")
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        setFalseVersion(props.version != data.tag_name);
+        axios
+          .get("/version")
+          .then((versionRes) => {
+            setFalseVersion(versionRes.data.data != data.tag_name);    
+          })
       });
   }, []);
 
