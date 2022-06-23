@@ -33,8 +33,8 @@ func (server *Server) SetupRouter() {
 
 	// Users routes
 	api.POST("/users", server.CreateUser)
-	api.GET("/users", server.GetUsers)
-	api.GET("/users/:id", server.GetUser)
+	secureApi.GET("/users", server.GetUsers)
+	secureApi.GET("/users/:id", server.GetUser)
 	secureApi.PUT("/users/:id", server.UpdateUser)
 	secureApi.DELETE("/users/:id", server.DeleteUser)
 	api.POST("/reset_password", server.ResetPassword)

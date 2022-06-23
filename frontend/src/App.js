@@ -99,6 +99,7 @@ function App() {
                 <Route exact path="/ping" component={Ping} />
                 <Route exact path="/tag/:tagName" component={TagsPage} />
                 <Route component={PageNotFound} />
+                <Route exact path="/reset-password/:resetPasswordId" component={ResetPasswordPage} />
               </Switch>
             </Fragment>
           ) : (

@@ -216,8 +216,9 @@ func ResetPassword(db *gorm.DB, passwordResetId string, updatedPassword string) 
 
 	db = db.Model(&User{}).Where("password_reset = ?", passwordResetId).Take(&User{}).UpdateColumns(
 		map[string]interface{}{
-			"password":   user.Password,
-			"updated_at": time.Now(),
+			"password":              user.Password,
+			"updated_at":            time.Now(),
+			"password_reset_expire": time.Now(), /* So it cannot be used a 2nd time */
 		},
 	)
 	if db.Error != nil {

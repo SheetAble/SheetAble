@@ -56,6 +56,18 @@ func (server *Server) CreateUser(c *gin.Context) {
 
 func (server *Server) GetUsers(c *gin.Context) {
 
+	// Check for authentication
+	token := utils.ExtractToken(c)
+	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+	if uid != ADMIN_UID {
+		c.String(http.StatusUnauthorized, "Only admins are able to persue this command")
+		return
+	}
+
 	user := models.User{}
 
 	users, err := user.FindAllUsers(server.DB)
@@ -67,7 +79,6 @@ func (server *Server) GetUsers(c *gin.Context) {
 }
 
 func (server *Server) GetUser(c *gin.Context) {
-
 	uidString := c.Param("id")
 	uid, err := strconv.ParseUint(uidString, 10, 32)
 	if err != nil {
@@ -75,14 +86,24 @@ func (server *Server) GetUser(c *gin.Context) {
 		return
 	}
 
+	token := utils.ExtractToken(c)
+	userId, err := auth.ExtractTokenID(token, Config().ApiSecret)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized")
+	}
+
 	var newUid uint32 = uint32(uid)
 	if uid == 0 {
+		/*
+			make it the details about own user
+		*/
+		newUid = userId
+	}
 
-		token := utils.ExtractToken(c)
-		newUid, err = auth.ExtractTokenID(token, Config().ApiSecret)
-		if err != nil {
-			c.String(http.StatusUnauthorized, "Unauthorized")
-		}
+	// Check for admin
+	if uid != 0 && userId != ADMIN_UID {
+		c.String(http.StatusUnauthorized, "Only admins are able to look at user that aren't themselves. Try the endpoint /users/0 to look at your own user details")
+		return
 	}
 
 	uid = uint64(newUid)
