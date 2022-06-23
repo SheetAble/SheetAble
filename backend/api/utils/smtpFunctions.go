@@ -24,7 +24,7 @@ func SendPasswordResetEmail(resetPasswordId string, emailAdress string) {
 	m.SetHeader("Subject", "Password Reset Request")
 
 	// Set E-Mail body. You can set plain text or html with text/html
-	m.SetBody("text/plain", "Hey there was a password reset request to your accout. Your Reset id is: "+resetPasswordId) // TODO: Make HTML + make resetPasswordId a frontend URL
+	m.SetBody("text/plain", "Hey there was a password reset request to your accout. Go to "+config.Config().ServerUrl+"/reset-password/"+resetPasswordId+" to update your password") // TODO: Make HTML + make resetPasswordId a frontend URL
 
 	// Settings for SMTP server
 	d := gomail.NewDialer(config.Config().Smtp.HostServerAddr,

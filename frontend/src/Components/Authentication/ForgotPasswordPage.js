@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function ForgotPassword() {
+export default function ForgotPasswordPage() {
   const [emailValue, setEmailValue] = useState("")
   const [error, setError] = useState(0) // 0: nothing, 1: success; 2: err
   // TODO: check if email is valid
