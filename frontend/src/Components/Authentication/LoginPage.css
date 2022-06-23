@@ -2,7 +2,7 @@
 
 .all-container-pos {
   position: absolute;
-
+  background-color: whitesmoke;
   top: 50%;
   left: 50%;
   margin: -250px 0 0 -187px;
