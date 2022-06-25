@@ -15,9 +15,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+const ()
+
 type User struct {
 	ID                  uint32    `gorm:"primary_key;auto_increment" json:"id"` // If ID == 1: user = admin
 	Email               string    `gorm:"size:100;not null;unique" json:"email"`
+	Role                uint8     `json:"role"` // 0=admin 1=normal,
 	Password            string    `gorm:"size:100;not null;" json:"password"`
 	PasswordReset       string    `gorm:"size:10;unique" json:"password_reset"` /* Random 8 char string for resetting the password (prob not the best implementation of a password reset so it could be redone)*/
 	PasswordResetExpire time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"password_reset_expire"`
@@ -45,6 +48,7 @@ func (u *User) BeforeSave() error {
 func (u *User) Prepare() {
 	u.ID = 0
 	u.Email = html.EscapeString(strings.TrimSpace(u.Email))
+	u.Role = 1
 	u.PasswordReset = utils.CreateRandString(40)
 	u.PasswordResetExpire = time.Now()
 	u.CreatedAt = time.Now()

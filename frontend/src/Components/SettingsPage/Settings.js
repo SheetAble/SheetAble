@@ -10,6 +10,7 @@ import { createUser } from "../../Redux/Actions/userActions";
 import CreateAccountContent from "./CreateAccountContent";
 import { Button } from "@material-ui/core";
 import SettingsSvg from "../../Images/Settings.svg";
+import UserManagement from "./UserManagement";
 
 function Settings(props) {
   const [admin] = useState(props.userData.id === 1);
@@ -41,6 +42,8 @@ function Settings(props) {
 
         {admin ? (
           <div className="admin-wrapper">
+            <UserManagement />
+            {/*
             <Button
               variant="contained"
               color="primary"
@@ -49,6 +52,7 @@ function Settings(props) {
             >
               Create New Account
             </Button>
+        */}
             <Modal
               title="Create New Account"
               onClose={() => setModal(false)}

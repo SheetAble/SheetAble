@@ -10,7 +10,7 @@ import Sheet from "./Components/Sheet/Sheet";
 import SheetsPage from "./Components/SheetsPage/SheetsPage";
 import ComposersPage from "./Components/ComposersPage/ComposersPage";
 import Composer from "./Components/Composer/Composer";
-import Settings from "./Components/Settings/Settings";
+import Settings from "./Components/SettingsPage/Settings";
 import Ping from "./Components/Ping/Ping";
 import PageNotFound from "./Components/NotFound/PageNotFound";
 import Redirect from "./Components/Redirect/Redirect";
