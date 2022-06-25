@@ -1,6 +1,7 @@
 on:
   push:
-    branch: main
+    branches:
+      - main
 
 name: Build Docker Image Nightly
 jobs:
