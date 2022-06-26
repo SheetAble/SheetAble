@@ -1,9 +1,9 @@
+name: Build Docker Image Nightly
 on:
   push:
     branches:
       - main
-
-name: Build Docker Image Nightly
+      
 jobs:
   build:
     runs-on: ubuntu-latest
