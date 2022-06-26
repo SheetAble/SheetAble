@@ -1,6 +1,22 @@
 import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, renderActionsCell } from '@mui/x-data-grid';
 import { Button } from '@material-ui/core';
+
+const removeButton = (params) => {
+  return (
+        <Button
+            variant="contained"
+            
+            size="small"
+            style={{ marginLeft: 16 }}
+            onClick={() => {
+                console.log(params)
+            }}
+        >
+            Remove
+        </Button>
+  )
+}
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -21,13 +37,7 @@ const columns = [
     valueGetter: (params) =>
       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
-  { field: 'lastName', headerName: 'Last name', width: 130, BaseButton:  <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {}}
-              size="large"
-          >
-            Create</Button>  },
+  { field: 'lastName', headerName: 'Last name', width: 130, renderCell: removeButton}
 ];
 
 const rows = [
@@ -49,6 +59,10 @@ export default function DataTable() {
         rows={rows}
         columns={columns}
         pageSize={5}
+        checkboxSelection={false}
+        disableColumnSelector={true}
+        disableSelectionOnClick={true}
+        disableRowSelector={true}
         rowsPerPageOptions={[5]}
       />
     </div>
