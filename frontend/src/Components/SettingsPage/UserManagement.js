@@ -1,55 +1,38 @@
 import * as React from 'react';
 import { DataGrid, renderActionsCell } from '@mui/x-data-grid';
 import { Button } from '@material-ui/core';
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const removeButton = (params) => {
   return (
-        <Button
+        <IconButton
             variant="contained"
-            
+            color="secondary"
             size="small"
-            style={{ marginLeft: 16 }}
+            style={{ color: " #ff4a35 " }}
             onClick={() => {
                 console.log(params)
             }}
         >
-            Remove
-        </Button>
+              <DeleteIcon />
+        </IconButton>
   )
 }
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'firstName', headerName: 'First name', width: 130 },
-  { field: 'lastName', headerName: 'Last name', width: 130 },
-  {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
-  },
-  {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  },
-  { field: 'lastName', headerName: 'Last name', width: 130, renderCell: removeButton}
+  { field: 'email', headerName: 'Email', width: 150 },
+  { field: 'role', headerName: 'Role', width: 150 },
+  { field: 'createdAt', headerName: 'Created At', width: 150 },
+  { field: 'updatedAt', headerName: 'Updated At', width: 150 },
+  { field: 'updateRole', headerName: 'Update User', width: 130, renderCell: removeButton },
+  { field: 'remove', headerName: 'Remove User', width: 130, renderCell: removeButton },
+  { field: 'sendPassword', headerName: 'Send Password Reset', width: 200, renderCell: removeButton },
 ];
 
 const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65,},
+
 ];
 
 export default function DataTable() {
