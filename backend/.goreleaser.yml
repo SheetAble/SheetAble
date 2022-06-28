@@ -8,8 +8,6 @@ builds:
   ignore:
   - goos: linux
     goarch: 386
-  - goos: linux
-    goarch: arm64
 - id: darwin-build
   binary: sheetable
   ldflags:
