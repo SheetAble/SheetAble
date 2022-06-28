@@ -1,13 +1,29 @@
 builds:
-- id: linux-build
+- id: linux-build_amd64
   binary: sheetable
   env:
   - CGO_ENABLED=1
-  goos:
-  - linux
-  ignore:
-  - goos: linux
-    goarch: 386
+  goos: [linux]
+  goarch: [amd64]
+
+- id: linux-build-arm64
+  binary: sheetable
+  env:
+    - CGO_ENABLED=1
+    - CC=aarch64-linux-gnu-gcc
+    - CXX=aarch64-linux-gnu-g++
+  goos: [linux]
+  goarch: [arm64]
+
+#- id: linux-build-armv6
+#  binary: sheetable
+#  env:
+#    - CGO_ENABLED=1
+#    - CC=arm-linux-gnueabi-gcc
+#  goos: [linux]
+#  goarch: [arm]
+#  goarm: ["6", "7"]
+
 - id: darwin-build
   binary: sheetable
   ldflags:
@@ -21,6 +37,7 @@ builds:
   ignore:
   - goos: darwin
     goarch: 386
+
 - id: windows-build
   binary: sheetable
   ldflags: -buildmode=exe
