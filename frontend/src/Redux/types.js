@@ -15,6 +15,7 @@ export const SET_SHEETS = "SET_SHEETS";
 export const LOADING_COMPOSERS = "LOADING_COMPOSERS";
 export const SET_COMPOSERS = "SET_COMPOSERS";
 export const RESET_DATA = "RESET_DATA";
+export const SET_USERS_DATA = "SET_USERS_DATA"
 
 // Sheet Pages
 export const SET_PAGE_SHEETS = "SET_PAGE_SHEETS"; // Data

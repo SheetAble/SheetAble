@@ -14,11 +14,13 @@ import {
   INCREMENT_COMPOSER_PAGE,
   DECREMENT_COMPOSER_PAGE,
   SET_COMPOSER_PAGE,
+  SET_USERS_DATA,
 } from "../types";
 import axios from "axios";
 
 import { store } from "../store";
 import { logoutUser } from "./userActions";
+import { checkAuthErr } from "../../Utils/httpUtils";
 
 // Get all Sheets
 export const getSheets = () => (dispatch) => {
@@ -393,6 +395,18 @@ export const editInfoText = (infoText, sheetName, _callback) => (dispatch) => {
       console.log(err);
     });
 };
+
+export const getUsersData = () => (dispatch) => {
+  dispatch({ type: LOADING_DATA })
+  axios
+    .get("/users")
+    .then(res => {
+      dispatch({
+        type: SET_USERS_DATA,
+        payload: res.data
+      })
+    }).catch(err => checkAuthErr(err, dispatch))
+}
 
 export const resetData = () => (dispatch) => {
   dispatch({ type: RESET_DATA });

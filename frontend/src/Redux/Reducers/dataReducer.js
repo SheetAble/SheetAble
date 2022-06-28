@@ -14,6 +14,7 @@ import {
   DECREMENT_COMPOSER_PAGE,
   SET_COMPOSER_PAGE,
   SET_PAGE_COMPOSERS,
+  SET_USERS_DATA,
 } from "../types";
 
 const initialState = {
@@ -28,6 +29,8 @@ const initialState = {
 
   totalSheetPages: 1,
   totalComposerPages: 1,
+
+  usersData: [],
 
   loading: false,
 };
@@ -152,6 +155,13 @@ export default function (state = initialState, action) {
         composers: action.payload,
         loading: false,
       };
+    
+    case SET_USERS_DATA:
+      return {
+        ...state.composerPage,
+        usersData: action.payload,
+        loading: false
+      }
 
     case RESET_DATA:
       return {

@@ -3,6 +3,9 @@ import { DataGrid, renderActionsCell } from '@mui/x-data-grid';
 import { Button } from '@material-ui/core';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { getUsersData } from '../../Redux/Actions/dataActions';
+import { connect } from 'react-redux';
+
 
 const removeButton = (params) => {
   return (
@@ -35,7 +38,7 @@ const rows = [
 
 ];
 
-export default function DataTable() {
+function UserManagement({ getUsersData }) {
   return (
     <div style={{ height: 400, width: '100%' }} className="users-table">
       <DataGrid
@@ -48,6 +51,19 @@ export default function DataTable() {
         disableRowSelector={true}
         rowsPerPageOptions={[5]}
       />
+      <Button onClick={() => getUsersData()}>
+        Send Users Request
+      </Button>
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+});
+
+const mapActionsToProps = {
+  getUsersData
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(UserManagement);
+
