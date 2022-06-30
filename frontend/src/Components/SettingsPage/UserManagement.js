@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getUsersData } from '../../Redux/Actions/dataActions';
 import { connect } from 'react-redux';
-
+import { formatDistance, subDays } from 'date-fns'
 
 const removeButton = (params) => {
   return (
@@ -25,20 +25,37 @@ const removeButton = (params) => {
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'email', headerName: 'Email', width: 150 },
+  { field: 'email', headerName: 'Email', width: 200 },
   { field: 'role', headerName: 'Role', width: 150 },
   { field: 'createdAt', headerName: 'Created At', width: 150 },
   { field: 'updatedAt', headerName: 'Updated At', width: 150 },
-  { field: 'updateRole', headerName: 'Update User', width: 130, renderCell: removeButton },
-  { field: 'remove', headerName: 'Remove User', width: 130, renderCell: removeButton },
-  { field: 'sendPassword', headerName: 'Send Password Reset', width: 200, renderCell: removeButton },
+  { field: 'updateRole', headerName: 'Update', width: 90, renderCell: removeButton },
+  { field: 'remove', headerName: 'Remove', width: 90, renderCell: removeButton },
+  { field: 'sendPassword', headerName: 'Send Password Reset', width: 170, renderCell: removeButton },
 ];
 
-const rows = [
 
-];
+function UserManagement({ getUsersData, users }) {
+  
+  const [rows, setRows] = React.useState([])
 
-function UserManagement({ getUsersData }) {
+  React.useEffect(() => {
+    let mappedUsers = []
+    users.map(user => {
+      const u = {  
+        id: user.id, 
+        email: user.email,
+        role: user.role == 0 ? "Administrator" : "User", 
+        createdAt: formatDistance(new Date(user.created_at), new Date(), { addSuffix: true }), 
+        updatedAt: formatDistance(new Date(user.updated_at), new Date(), { addSuffix: true }), 
+      }
+
+      mappedUsers.push(u)
+    })
+    setRows(mappedUsers)
+  }, [])
+
+
   return (
     <div style={{ height: 400, width: '100%' }} className="users-table">
       <DataGrid
@@ -59,6 +76,7 @@ function UserManagement({ getUsersData }) {
 }
 
 const mapStateToProps = (state) => ({
+    users: state.data.usersData,
 });
 
 const mapActionsToProps = {
