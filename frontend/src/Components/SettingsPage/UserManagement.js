@@ -57,16 +57,16 @@ function UserManagement({ getUsersData, users }) {
 
 
   return (
-    <div style={{ height: 400, width: '100%' }} className="users-table">
+    <div style={{ height: '70vh', marginRight: '100px'}} className="users-table">
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
+        pageSize={10}
         checkboxSelection={false}
         disableColumnSelector={true}
         disableSelectionOnClick={true}
         disableRowSelector={true}
-        rowsPerPageOptions={[5]}
+        rowsPerPageOptions={[10]}
       />
       <Button onClick={() => getUsersData()}>
         Send Users Request
