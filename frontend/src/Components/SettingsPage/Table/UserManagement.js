@@ -1,27 +1,10 @@
 import * as React from 'react';
 import { DataGrid, renderActionsCell } from '@mui/x-data-grid';
 import { Button } from '@material-ui/core';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { getUsersData } from '../../Redux/Actions/dataActions';
+import { getUsersData } from '../../../Redux/Actions/dataActions';
 import { connect } from 'react-redux';
 import { formatDistance, subDays } from 'date-fns'
-
-const removeButton = (params) => {
-  return (
-        <IconButton
-            variant="contained"
-            color="secondary"
-            size="small"
-            style={{ color: " #ff4a35 " }}
-            onClick={() => {
-                console.log(params)
-            }}
-        >
-              <DeleteIcon />
-        </IconButton>
-  )
-}
+import RemoveButton from './Buttons/RemoveButton';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -29,9 +12,9 @@ const columns = [
   { field: 'role', headerName: 'Role', width: 150 },
   { field: 'createdAt', headerName: 'Created At', width: 150 },
   { field: 'updatedAt', headerName: 'Updated At', width: 150 },
-  { field: 'updateRole', headerName: 'Update', width: 90, renderCell: removeButton },
-  { field: 'remove', headerName: 'Remove', width: 90, renderCell: removeButton },
-  { field: 'sendPassword', headerName: 'Send Password Reset', width: 170, renderCell: removeButton },
+  { field: 'updateRole', headerName: 'Update', width: 90, renderCell: RemoveButton, value: "test" },
+  { field: 'remove', headerName: 'Remove', width: 90, renderCell: RemoveButton },
+  { field: 'sendPassword', headerName: 'Send Password Reset', width: 170, renderCell: RemoveButton },
 ];
 
 
@@ -80,7 +63,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapActionsToProps = {
-  getUsersData
+  getUsersData,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(UserManagement);

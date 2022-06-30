@@ -10,7 +10,7 @@ import { createUser } from "../../Redux/Actions/userActions";
 import CreateAccountContent from "./CreateAccountContent";
 import { Button } from "@material-ui/core";
 import SettingsSvg from "../../Images/Settings.svg";
-import UserManagement from "./UserManagement";
+import UserManagement from "./Table/UserManagement";
 
 function Settings(props) {
   const [admin] = useState(props.userData.id === 1);

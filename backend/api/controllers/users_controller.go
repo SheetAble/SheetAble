@@ -184,7 +184,7 @@ func (server *Server) DeleteUser(c *gin.Context) {
 		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
-	if tokenID != 0 && tokenID != uint32(uid) {
+	if tokenID != 1 && tokenID != uint32(uid) {
 		c.String(http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized))
 		return
 	}
