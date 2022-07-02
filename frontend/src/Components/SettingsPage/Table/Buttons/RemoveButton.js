@@ -11,7 +11,7 @@ export default function RemoveButton(params) {
       size="small"
       style={{ color: " #ff4a35 " }}
       onClick={() => {
-          deleteUser(params.id)
+          deleteUser(params.row.id)
       }}
     >
       <DeleteIcon />

@@ -5,6 +5,7 @@ import { getUsersData } from '../../../Redux/Actions/dataActions';
 import { connect } from 'react-redux';
 import { formatDistance, subDays } from 'date-fns'
 import RemoveButton from './Buttons/RemoveButton';
+import SendPasswordResetButton from './Buttons/SendPasswordResetButton';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -14,7 +15,7 @@ const columns = [
   { field: 'updatedAt', headerName: 'Updated At', width: 150 },
   { field: 'updateRole', headerName: 'Update', width: 90, renderCell: RemoveButton, value: "test" },
   { field: 'remove', headerName: 'Remove', width: 90, renderCell: RemoveButton },
-  { field: 'sendPassword', headerName: 'Send Password Reset', width: 170, renderCell: RemoveButton },
+  { field: 'sendPassword', headerName: 'Send Password Reset', width: 170, renderCell: SendPasswordResetButton },
 ];
 
 
