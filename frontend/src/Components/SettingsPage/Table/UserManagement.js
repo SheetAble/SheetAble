@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { formatDistance, subDays } from 'date-fns'
 import RemoveButton from './Buttons/RemoveButton';
 import SendPasswordResetButton from './Buttons/SendPasswordResetButton';
+import UpdateButton from './Buttons/UpdateButton';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -13,7 +14,7 @@ const columns = [
   { field: 'role', headerName: 'Role', width: 150 },
   { field: 'createdAt', headerName: 'Created At', width: 150 },
   { field: 'updatedAt', headerName: 'Updated At', width: 150 },
-  { field: 'updateRole', headerName: 'Update', width: 90, renderCell: RemoveButton, value: "test" },
+  { field: 'updateRole', headerName: 'Update', width: 90, renderCell: UpdateButton },
   { field: 'remove', headerName: 'Remove', width: 90, renderCell: RemoveButton },
   { field: 'sendPassword', headerName: 'Send Password Reset', width: 170, renderCell: SendPasswordResetButton },
 ];
