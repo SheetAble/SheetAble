@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 
-import { connect } from "react-redux";
-import { uploadSheet, resetData } from "../../../../../Redux/Actions/dataActions"
 
-function ModalContent(props) {
+// eslint-disable-next-line
+const re =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+function ModalContent({userId}) {
+
+  const [emailValue, setEmailValue] = useState('')
+  const [passwordValue, setPasswordValue] = useState('')
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState('')
+
   return (
     <div className="update">
       <form noValidate autoComplete="off">
@@ -15,6 +23,13 @@ function ModalContent(props) {
           className="form-field"
           name="email"
           type="email"
+          value={emailValue}
+          onChange={val => setEmailValue(val.target.value)}
+          helperText={
+            !re.test(emailValue) &&
+            emailValue &&
+             "Email address is not valid"
+          }
         />
         <TextField
           id="standard-basic"
@@ -22,6 +37,8 @@ function ModalContent(props) {
           className="form-field comp pswd-field"
           name="password"
           type="password"
+          value={passwordValue}
+          onChange={val => setPasswordValue(val.target.value)}
         />
         <TextField
           id="standard-basic"
@@ -29,12 +46,18 @@ function ModalContent(props) {
           className="form-field comp"
           name="confirm-password"
           type="password"
+          value={confirmPasswordValue}
+          onChange={val => setConfirmPasswordValue(val.target.value)}
         />
       </form>
       <Button
         variant="contained"
         color="primary"
         className="btn"
+        disabled={
+          passwordValue != confirmPasswordValue  || emailValue == '' || passwordValue == ''
+        }
+        onClick={() => sendReq(userId, emailValue, passwordValue)}
       >
         Update User
       </Button>
@@ -42,11 +65,15 @@ function ModalContent(props) {
   );
 }
 
-const mapActionsToProps = {
-  uploadSheet,
-  resetData,
-};
+const sendReq = (userId, email, password) => {
+	console.log(email, password);
+  axios.put(`/users/${userId}`, {email: email, password: password})
+	.then(res => {
+		window.location.reload()
+	})
+	.catch(err => {
+		console.error(err)
+	})
+}
 
-const mapStateToProps = (state) => ({});
-
-export default connect(mapStateToProps, mapActionsToProps)(ModalContent);
+export default ModalContent;

@@ -4,7 +4,7 @@ import UpdateModalContent from './UpdateModal/UpdateModalContent'
 import { IconButton } from '@material-ui/core'
 import SendIcon from '@mui/icons-material/Send';
 
-export default function UpdateButton() {
+export default function UpdateButton(params) {
 
 	const [updateModal, setUpdateModal] = useState(false)
 
@@ -15,7 +15,7 @@ export default function UpdateButton() {
 				onClose={() => setUpdateModal(false)}
 				show={updateModal}
 			>
-				<UpdateModalContent />
+				<UpdateModalContent userId={params.row.id}/>
 			</Modal>
 			<IconButton
 				variant="contained"

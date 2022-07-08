@@ -149,7 +149,7 @@ func (server *Server) UpdateUser(c *gin.Context) {
 		c.String(http.StatusUnauthorized, "Unauthorized")
 		return
 	}
-	if tokenID != uint32(uid) {
+	if tokenID != uint32(uid) && tokenID != ADMIN_UID {
 		c.String(http.StatusUnauthorized, http.StatusText(http.StatusUnauthorized))
 		return
 	}
