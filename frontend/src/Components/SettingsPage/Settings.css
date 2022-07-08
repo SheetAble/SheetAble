@@ -39,3 +39,11 @@
   width: 95% !important;
   margin-top: 10px !important;
 }
+
+.update .btn {
+  margin-top: 30px;
+}
+
+.update .pswd-field {
+  margin-top: 10px;
+}

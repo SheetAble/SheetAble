@@ -7,29 +7,36 @@ import { uploadSheet, resetData } from "../../../../../Redux/Actions/dataActions
 
 function ModalContent(props) {
   return (
-    <div className="upload">
+    <div className="update">
       <form noValidate autoComplete="off">
         <TextField
           id="standard-basic"
-          label="Sheet Name"
+          label="Email"
           className="form-field"
-          name="sheetName"
-        
+          name="email"
+          type="email"
         />
         <TextField
           id="standard-basic"
-          label="Composer"
+          label="Password"
+          className="form-field comp pswd-field"
+          name="password"
+          type="password"
+        />
+        <TextField
+          id="standard-basic"
+          label="Confirm Password"
           className="form-field comp"
-          name="composer"
-        
+          name="confirm-password"
+          type="password"
         />
       </form>
       <Button
         variant="contained"
         color="primary"
-        
+        className="btn"
       >
-        Upload
+        Update User
       </Button>
     </div>
   );
