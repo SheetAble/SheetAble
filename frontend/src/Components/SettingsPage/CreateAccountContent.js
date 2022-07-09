@@ -25,6 +25,8 @@ function CreateAccountContent(props) {
 
   const sendRequest = () => {
     props.createUser(requestData);
+    props.getUsersData()
+    window.location.reload()
     props.onClose();
   };
 

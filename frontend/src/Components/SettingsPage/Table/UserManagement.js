@@ -7,6 +7,9 @@ import { formatDistance, subDays } from 'date-fns'
 import RemoveButton from './Buttons/RemoveButton';
 import SendPasswordResetButton from './Buttons/SendPasswordResetButton';
 import UpdateButton from './Buttons/UpdateButton';
+import Modal from '../../Sidebar/Modal/Modal';
+import CreateAccountContent from '../CreateAccountContent';
+import { createUser } from "../../../Redux/Actions/userActions";
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -20,9 +23,17 @@ const columns = [
 ];
 
 
-function UserManagement({ getUsersData, users }) {
+function UserManagement({ getUsersData, users, createUser }) {
   
+  React.useEffect(() => {
+    // Get new users data on load
+    getUsersData()
+  },[])
+  
+
   const [rows, setRows] = React.useState([])
+  const [showCreateUserModal, setShowCreateUserModal] = React.useState(false)
+
 
   React.useEffect(() => {
     let mappedUsers = []
@@ -53,9 +64,20 @@ function UserManagement({ getUsersData, users }) {
         disableRowSelector={true}
         rowsPerPageOptions={[10]}
       />
-      <Button onClick={() => getUsersData()}>
-        Send Users Request
+      <Button onClick={() => setShowCreateUserModal(true)} style={{marginTop: 10}}>
+        Add New User
       </Button>
+      <Modal
+        title="Create New Account"
+        onClose={() => setShowCreateUserModal(false)}
+        show={showCreateUserModal}
+      >
+        <CreateAccountContent
+          createUser={createUser}
+          onClose={() => setShowCreateUserModal(false)}
+          getUsersData={getUsersData}
+        />
+      </Modal>
     </div>
   );
 }
@@ -66,6 +88,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   getUsersData,
+  createUser
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(UserManagement);

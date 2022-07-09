@@ -42,27 +42,7 @@ function Settings(props) {
 
         {admin ? (
           <div className="admin-wrapper">
-            <UserManagement />
-            {/*
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => setModal(!modal)}
-              size="large"
-            >
-              Create New Account
-            </Button>
-        */}
-            <Modal
-              title="Create New Account"
-              onClose={() => setModal(false)}
-              show={modal}
-            >
-              <CreateAccountContent
-                createUser={props.createUser}
-                onClose={() => setModal(false)}
-              />
-            </Modal>
+            <UserManagement createUser={createUser}/>
           </div>
         ) : (
           <div className="non-admin-wrapper">
