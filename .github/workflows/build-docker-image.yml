@@ -1,17 +1,23 @@
+name: Build Docker Image
+
 on:
   push:
-    # Sequence of patterns matched against refs/tags
+    branches:
+      - 'main'
     tags:
-    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+      - 'v*'
+  pull_request:
+    branches:
+      - 'main'
 
-name: Build Docker Image
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -20,20 +26,24 @@ jobs:
         with:
           config: .github/buildkitd.toml
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: vallezw/sheetable
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-
-      - name: Build and push
+      -
+        name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: ./backend
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: vallezw/sheetable:${{ steps.get_version.outputs.VERSION }}, vallezw/sheetable:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
