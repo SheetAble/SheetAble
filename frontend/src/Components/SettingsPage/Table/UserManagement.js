@@ -14,9 +14,9 @@ const columns = [
   { field: 'role', headerName: 'Role', width: 150 },
   { field: 'createdAt', headerName: 'Created At', width: 150 },
   { field: 'updatedAt', headerName: 'Updated At', width: 150 },
-  { field: 'updateRole', headerName: 'Update', width: 90, renderCell: UpdateButton },
-  { field: 'remove', headerName: 'Remove', width: 90, renderCell: RemoveButton },
-  { field: 'sendPassword', headerName: 'Send Password Reset', width: 170, renderCell: SendPasswordResetButton },
+  { field: 'updateRole', headerName: 'Update', width: 140, renderCell: UpdateButton },
+  { field: 'sendPassword', headerName: 'Reset Password', width: 140, renderCell: SendPasswordResetButton },
+  { field: 'remove', headerName: 'Remove', width: 140, renderCell: RemoveButton },  
 ];
 
 
