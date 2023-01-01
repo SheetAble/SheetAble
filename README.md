@@ -5,7 +5,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/SheetAble">
-    <img src="docs/sheetablelogo.png" alt="Logo" width="110" height="110">
+    <img src="docs/LogoT.png" alt="Logo" width="110" height="110">
   </a>
 
   <h3 align="center">SheetAble</h3>
