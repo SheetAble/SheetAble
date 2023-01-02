@@ -4,23 +4,23 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Pages and Components
 import LoginPage from "./Components/Authentication/LoginPage";
+import Composer from "./Components/Composer/Composer";
+import ComposersPage from "./Components/ComposersPage/ComposersPage";
 import HomePageProvider from "./Components/Home/HomePageProvider";
-import UploadPage from "./Components/Upload/UploadPage";
+import PageNotFound from "./Components/NotFound/PageNotFound";
+import Ping from "./Components/Ping/Ping";
+import Redirect from "./Components/Redirect/Redirect";
+import Settings from "./Components/SettingsPage/Settings";
 import Sheet from "./Components/Sheet/Sheet";
 import SheetsPage from "./Components/SheetsPage/SheetsPage";
-import ComposersPage from "./Components/ComposersPage/ComposersPage";
-import Composer from "./Components/Composer/Composer";
-import Settings from "./Components/SettingsPage/Settings";
-import Ping from "./Components/Ping/Ping";
-import PageNotFound from "./Components/NotFound/PageNotFound";
-import Redirect from "./Components/Redirect/Redirect";
+import UploadPage from "./Components/Upload/UploadPage";
 
 // Redux
 import { Provider } from "react-redux";
-import { store, persistor } from "./Redux/store";
-import { logoutUser } from "./Redux/Actions/userActions";
-import { SET_AUTHENTICATED } from "./Redux/types";
 import { PersistGate } from "redux-persist/integration/react";
+import { logoutUser } from "./Redux/Actions/userActions";
+import { persistor, store } from "./Redux/store";
+import { SET_AUTHENTICATED } from "./Redux/types";
 
 // Axios
 import axios from "axios";
@@ -32,12 +32,12 @@ import jwtDecode from "jwt-decode";
 import "./App.css";
 
 // eslint-disable-next-line
-import Logo from "./Images/logo.png";
+//import Logo from "./Images/logo.png";
 import SearchPage from "./Components/SearchPage/SearchPage";
 import TagsPage from "./Components/TagsPage/TagsPage";
-import ForgotPassword from "./Components/Authentication/ForgotPasswordPage";
-import ResetPasswordPage from "./Components/Authentication/ResetPasswordPage";
+//import ForgotPassword from "./Components/Authentication/ForgotPasswordPage";
 import ForgotPasswordPage from "./Components/Authentication/ForgotPasswordPage";
+import ResetPasswordPage from "./Components/Authentication/ResetPasswordPage";
 
 // Check if started in development mode, so you can modify baseURL accordingly
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
@@ -99,14 +99,26 @@ function App() {
                 <Route exact path="/ping" component={Ping} />
                 <Route exact path="/tag/:tagName" component={TagsPage} />
                 <Route component={PageNotFound} />
-                <Route exact path="/reset-password/:resetPasswordId" component={ResetPasswordPage} />
+                <Route
+                  exact
+                  path="/reset-password/:resetPasswordId"
+                  component={ResetPasswordPage}
+                />
               </Switch>
             </Fragment>
           ) : (
             <Switch>
               <Route exact path="/login" component={LoginPage} />
-              <Route exact path="/forgot-password" component={ForgotPasswordPage} />
-              <Route exact path="/reset-password/:resetPasswordId" component={ResetPasswordPage} />
+              <Route
+                exact
+                path="/forgot-password"
+                component={ForgotPasswordPage}
+              />
+              <Route
+                exact
+                path="/reset-password/:resetPasswordId"
+                component={ResetPasswordPage}
+              />
               <Route component={Redirect} />
             </Switch>
           )}

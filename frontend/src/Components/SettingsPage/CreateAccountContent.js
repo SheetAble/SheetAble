@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 
+/* eslint-disable */
 // eslint-disable-next-line
 const re =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+/* eslint-enable */
 
 function CreateAccountContent(props) {
   const [requestData, setRequestData] = useState({
@@ -25,8 +27,8 @@ function CreateAccountContent(props) {
 
   const sendRequest = () => {
     props.createUser(requestData);
-    props.getUsersData()
-    window.location.reload()
+    props.getUsersData();
+    window.location.reload();
     props.onClose();
   };
 

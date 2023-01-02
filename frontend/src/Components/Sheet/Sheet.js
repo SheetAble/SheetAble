@@ -157,7 +157,7 @@ function Sheet({
           store.dispatch(logoutUser());
           window.location.href = "/login";
         }
-        if (err.request.status == 404) {
+        if (err.request.status === 404) {
           window.location.href = "/";
         }
       });
@@ -211,7 +211,7 @@ function Sheet({
 
   const [editModal, setEditModal] = useState(false);
 
-  if (composer.portrait_url == undefined) {
+  if (composer.portrait_url === undefined) {
     window.location.replace("/");
   }
   const imgUrl = getCompImgUrl(composer.portrait_url);

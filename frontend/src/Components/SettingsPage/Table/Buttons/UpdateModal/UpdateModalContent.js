@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 
-
+<<<<<<< HEAD
+/*eslint-disable */
 // eslint-disable-next-line
 const re =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+/*eslint-enable */
 
-function ModalContent({userId}) {
+=======
+/* eslint-disable */
+// eslint-disable-next-line
+const re =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+/* eslint-enable */
+>>>>>>> 9d6f8ddc35e909a0de055122fc5fd27034307242
 
-  const [emailValue, setEmailValue] = useState('')
-  const [passwordValue, setPasswordValue] = useState('')
-  const [confirmPasswordValue, setConfirmPasswordValue] = useState('')
+function ModalContent({ userId }) {
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
 
   return (
     <div className="update">
@@ -24,11 +33,9 @@ function ModalContent({userId}) {
           name="email"
           type="email"
           value={emailValue}
-          onChange={val => setEmailValue(val.target.value)}
+          onChange={(val) => setEmailValue(val.target.value)}
           helperText={
-            !re.test(emailValue) &&
-            emailValue &&
-             "Email address is not valid"
+            !re.test(emailValue) && emailValue && "Email address is not valid"
           }
         />
         <TextField
@@ -38,7 +45,7 @@ function ModalContent({userId}) {
           name="password"
           type="password"
           value={passwordValue}
-          onChange={val => setPasswordValue(val.target.value)}
+          onChange={(val) => setPasswordValue(val.target.value)}
         />
         <TextField
           id="standard-basic"
@@ -47,7 +54,7 @@ function ModalContent({userId}) {
           name="confirm-password"
           type="password"
           value={confirmPasswordValue}
-          onChange={val => setConfirmPasswordValue(val.target.value)}
+          onChange={(val) => setConfirmPasswordValue(val.target.value)}
         />
       </form>
       <Button
@@ -55,7 +62,9 @@ function ModalContent({userId}) {
         color="primary"
         className="btn"
         disabled={
-          passwordValue != confirmPasswordValue  || emailValue == '' || passwordValue == ''
+          passwordValue !== confirmPasswordValue ||
+          emailValue === "" ||
+          passwordValue === ""
         }
         onClick={() => sendReq(userId, emailValue, passwordValue)}
       >
@@ -66,14 +75,15 @@ function ModalContent({userId}) {
 }
 
 const sendReq = (userId, email, password) => {
-	console.log(email, password);
-  axios.put(`/users/${userId}`, {email: email, password: password})
-	.then(res => {
-		window.location.reload()
-	})
-	.catch(err => {
-		console.error(err)
-	})
-}
+  console.log(email, password);
+  axios
+    .put(`/users/${userId}`, { email: email, password: password })
+    .then((res) => {
+      window.location.reload();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
 
 export default ModalContent;
