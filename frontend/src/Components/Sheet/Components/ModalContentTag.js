@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   addNewTag,
   deleteTag,
   editInfoText,
 } from "../../../Redux/Actions/dataActions";
-import { connect } from "react-redux";
 
 function ModalContent(props) {
   const [tagName, setTagName] = useState("");
@@ -43,7 +43,7 @@ function ModalContent(props) {
           variant="contained"
           color="primary"
           disabled={
-            infoText == "Write a short information text about your sheet."
+            infoText === "Write a short information text about your sheet."
           }
           onClick={() => props.editInfoText(infoText, props.sheetName)}
         >
@@ -71,7 +71,7 @@ function ModalContent(props) {
             <Button
               variant="contained"
               color="primary"
-              disabled={tagName == ""}
+              disabled={tagName === ""}
               onClick={() => props.addNewTag(tagName, props.sheetName)}
             >
               Add Tag

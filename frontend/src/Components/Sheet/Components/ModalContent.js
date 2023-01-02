@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import TextField from "@material-ui/core/TextField";
 import DeleteIcon from "@material-ui/icons/Delete";
+import React, { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 import {
-  updateSheet,
-  resetData,
   deleteSheet,
+  resetData,
+  updateSheet,
 } from "../../../Redux/Actions/dataActions";
 
 // Import React FilePond
 import { FilePond } from "react-filepond";
 
 // Import the plugin code
-// eslint-disable-next-line
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -133,7 +131,7 @@ function ModalContent(props) {
   };
 
   const uploadFinish = (files) => {
-    if (files[0] != undefined) {
+    if (files[0] !== undefined) {
       setUploadFile(files[0].file);
     }
   };

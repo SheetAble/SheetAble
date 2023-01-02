@@ -34,11 +34,9 @@ function SideBar(props) {
         return res.json();
       })
       .then((data) => {
-        axios
-          .get("/version")
-          .then((versionRes) => {
-            setFalseVersion(versionRes.data.data != data.tag_name);    
-          })
+        axios.get("/version").then((versionRes) => {
+          setFalseVersion(versionRes.data.data !== data.tag_name);
+        });
       });
   }, []);
 

@@ -1,6 +1,5 @@
 import { SET_SIDEBAR, SET_VERSION } from "../types";
 import axios from "axios";
-import { store } from "../store";
 import { logoutUser } from "./userActions";
 
 // Set Sidebar

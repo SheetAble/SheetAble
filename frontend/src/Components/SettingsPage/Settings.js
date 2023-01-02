@@ -1,21 +1,13 @@
-import React, { Fragment, useState, useEffect } from "react";
-import SideBar from "../Sidebar/SideBar";
-
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import "./Settings.css";
-import Modal from "../Sidebar/Modal/Modal";
-
-import { createUser } from "../../Redux/Actions/userActions";
-
-import CreateAccountContent from "./CreateAccountContent";
-import { Button } from "@material-ui/core";
 import SettingsSvg from "../../Images/Settings.svg";
+import { createUser } from "../../Redux/Actions/userActions";
+import SideBar from "../Sidebar/SideBar";
+import "./Settings.css";
 import UserManagement from "./Table/UserManagement";
 
 function Settings(props) {
   const [admin] = useState(props.userData.id === 1);
-
-  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     // Change Page Title
@@ -42,7 +34,7 @@ function Settings(props) {
 
         {admin ? (
           <div className="admin-wrapper">
-            <UserManagement createUser={createUser}/>
+            <UserManagement createUser={createUser} />
           </div>
         ) : (
           <div className="non-admin-wrapper">
