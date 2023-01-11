@@ -6,6 +6,7 @@ require (
 	github.com/GeertJohan/go.rice v1.0.2
 	github.com/badoux/checkmail v1.2.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/fiam/gounidecode v0.0.0-20150629112515-8deddbd03fec // indirect
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-playground/validator/v10 v10.9.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect

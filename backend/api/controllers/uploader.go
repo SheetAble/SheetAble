@@ -20,6 +20,7 @@ import (
 
 	"github.com/SheetAble/SheetAble/backend/api/auth"
 	"github.com/SheetAble/SheetAble/backend/api/forms"
+	. "github.com/fiam/gounidecode/unidecode"
 	"github.com/gin-gonic/gin"
 
 	. "github.com/SheetAble/SheetAble/backend/api/config"
@@ -100,7 +101,7 @@ func (server *Server) UploadFile(c *gin.Context) {
 	}
 
 	// Send POST request to python server for creating the thumbnail (first page of pdf as an image)
-	if !utils.RequestToPdfToImage(fullpath, sanitize.Name(sheetName)) {
+	if !utils.RequestToPdfToImage(fullpath, sanitize.Name(Unidecode(sheetName))) {
 		return
 	}
 
@@ -139,7 +140,7 @@ func getPortraitURL(composerName string) Comp {
 
 		return Comp{
 			CompleteName: composerName,
-			SafeName:     sanitize.Name(composerName),
+			SafeName:     sanitize.Name(Unidecode(composerName)),
 			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
 			Epoch:        "Unknown",
 		}
@@ -162,7 +163,7 @@ func getPortraitURL(composerName string) Comp {
 	if len(composers) == 0 || (!strings.EqualFold(composerName, composers[0].Name) && !strings.EqualFold(composerName, composers[0].CompleteName)) {
 		return Comp{
 			CompleteName: composerName,
-			SafeName:     sanitize.Name(composerName),
+			SafeName:     sanitize.Name(Unidecode(composerName)),
 			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
 			Epoch:        "Unknown",
 		}
@@ -176,7 +177,9 @@ func safeComposer(server *Server, composer string) Comp {
 	compo := getPortraitURL(composer)
 
 	if compo.SafeName == "" {
-		compo.SafeName = sanitize.Name(compo.CompleteName)
+		// Used for chinese/japanese chars etc
+		unideCodeName := Unidecode(compo.CompleteName)
+		compo.SafeName = sanitize.Name(unideCodeName)
 	}
 
 	comp := models.Composer{
@@ -185,7 +188,7 @@ func safeComposer(server *Server, composer string) Comp {
 		PortraitURL: compo.Portrait,
 		Epoch:       compo.Epoch,
 	}
-	fmt.Println(comp.SafeName)
+
 	comp.Prepare()
 	comp.SaveComposer(server.DB)
 	return compo
@@ -207,9 +210,9 @@ func checkComposer(path string, comp Comp) string {
 func createFile(uid uint32, server *Server, fullpath string, file multipart.File, comp Comp, sheetName string, releaseDate string, informationText string) error {
 	// Create database entry
 	sheet := models.Sheet{
-		SafeSheetName:   sanitize.Name(sheetName),
+		SafeSheetName:   sanitize.Name(Unidecode(sheetName)),
 		SheetName:       sheetName,
-		SafeComposer:    sanitize.Name(comp.CompleteName),
+		SafeComposer:    sanitize.Name(Unidecode(comp.CompleteName)),
 		Composer:        comp.CompleteName,
 		UploaderID:      uid,
 		ReleaseDate:     createDate(releaseDate),
@@ -238,7 +241,7 @@ func createDate(date string) time.Time {
 
 func checkFile(pathName string, sheetName string) (string, error) {
 	// Check if the file already exists
-	fullpath := fmt.Sprintf("%s/%s.pdf", pathName, sanitize.Name(sheetName))
+	fullpath := fmt.Sprintf("%s/%s.pdf", pathName, sanitize.Name(Unidecode(sheetName)))
 	if _, err := os.Stat(fullpath); err == nil {
 		return "", errors.New("file already exists")
 	}
