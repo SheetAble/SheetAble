@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	utils.Version = "v0.8"
+	utils.Version = "v0.8.1"
 	utils.PrintAsciiVersion()
 	api.Run()
 }
