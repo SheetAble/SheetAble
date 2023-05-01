@@ -108,7 +108,7 @@ func (c *Composer) DeleteComposer(db *gorm.DB, composerName string) (int64, erro
 	// Swap sheets composer to Unknown
 	db.Exec("UPDATE 'sheets' SET 'composer' = 'Unknown' WHERE (safe_composer = ?);", composerName)
 	db.Exec("UPDATE 'sheets' SET 'safe_composer' = 'unknown' WHERE (composer = ?);", "Unknown")
-	db.Exec("UPDATE sheets SET pdf_url = REPLACE(pdf_url, ?, ?) WHERE safe_composer = ?;", composerName, "unknown", "unknown")
+	db.Exec("UPDATE sheets s JOIN (SELECT id, pdf_url, LOCATE(?, pdf_url) AS pos FROM sheets WHERE safe_composer = ? LIMIT 1) t ON s.id = t.id SET s.pdf_url = CONCAT(SUBSTRING(s.pdf_url, 1, t.pos - 1), 'unknown', SUBSTRING(s.pdf_url, t.pos + CHAR_LENGTH(?)))", composerName, composerName, composerName)
 
 	confPath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets/")
 
