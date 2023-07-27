@@ -205,8 +205,11 @@ function Sheet({
   const [copyText, setCopyText] = useState("Click to Copy");
 
   const handleClick = () => {
-    setCopyText(copyText === "Click to Copy" ? "Copied ✓" : "Click to Copy");
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(window.location.href).then(()=>{
+      setCopyText("Copied ✓")
+    }).catch(()=>{
+      setCopyText("Click to Copy")
+    });
   };
 
   const [editModal, setEditModal] = useState(false);
