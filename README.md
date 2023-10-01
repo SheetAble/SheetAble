@@ -36,7 +36,21 @@
     </li>
     <li>
 		<a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#cloning-the-repo">Cloning the Repo</a></li>
+      </ul>
+      <ul>
+        <li><a href="#production-version">Production Version</a></li>
+      </ul>
+      <ul>
+        <li><a href="#development-version">Development Version</a></li>
+      </ul>
     </li>
+    <li><a href="#project-structure">Project Structure</a></li>
+    <ul>
+      <li><a href="#frontend-project-structure">Frontend Project Structure</a></li>
+      <li><a href="#backend-project-structure">Backend Project Structure</a></li>
+    </ul>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -66,6 +80,12 @@ The backend is written in [Golang](https://golang.org/) and the frontend with [R
 
 ## Getting Started
 
+### Project Setup
+The first step to contributing to this project is cloning the project to your local machine. To do this, open terminal and `cd` into the directory on your computer where you'd like this project to live. Then, run:
+
+```git clone https://github.com/SheetAble/SheetAble.git```
+
+Next, take a look at the guides, which walk through steps to install dependencies for the project. 
 ### Production Version
 
 To install the **production** version of SheetAble please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
@@ -73,6 +93,109 @@ To install the **production** version of SheetAble please refer to this [Docs pa
 ### Development Version
 
 To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
+
+<!-- PROJECT STRUCTURE -->
+
+## Project Structure
+
+### Frontend Project Structure
+To get started on making changes to the user interface, you'll want to take a look at the `frontend/src` directory. Here, you'll find the `Components` folder, which contains React components and css styling files associated with different functionality of the website. For example, within the `Authentication` directory, you can find all files related to user sign in/signup, and password reset. Likewise, `SheetsPage` contains code associated with sheets of music for a piece. Below is the basic structure of the frontend directory, displaying important folders and files.
+```bash
+src
+    ├── App.css
+    ├── App.js
+    ├── Components
+    │   ├── Authentication
+    │   ├── Composer
+    │   ├── Composers
+    │   ├── ComposersPage
+    │   ├── Home
+    │   ├── NotFound
+    │   ├── Ping
+    │   ├── Redirect
+    │   ├── SearchPage
+    │   ├── SettingsPage
+    │   │   └── Table
+    │   │       ├── Buttons
+    │   ├── Sheet
+    │   │   ├── Components
+    │   ├── Sheets
+    │   ├── SheetsPage
+    │   │   ├── Components
+    │   ├── Sidebar
+    │   ├── TagsPage
+    │   └── Upload
+``````
+
+### Backend Project Structure
+The files concerning the backend of the project are placed in the `backend` directory. Below is the basic structure of the backend of the project.
+```bash
+backend
+├── Dockerfile
+├── Makefile
+├── api
+│   ├── auth
+│   │   └── token.go
+│   ├── config
+│   │   ├── config.go
+│   │   ├── config_test.go
+│   │   └── constants.go
+│   ├── controllers
+│   │   ├── base.go
+│   │   ├── composers_controller.go
+│   │   ├── home_controller.go
+│   │   ├── login_controller.go
+│   │   ├── rice-box.go
+│   │   ├── routes.go
+│   │   ├── search_controller.go
+│   │   ├── sheet_controller.go
+│   │   ├── uploader.go
+│   │   └── users_controller.go
+│   ├── forms
+│   │   ├── common.go
+│   │   ├── composers.go
+│   │   ├── information_text.go
+│   │   ├── sheets.go
+│   │   ├── tags.go
+│   │   ├── upload.go
+│   │   └── user.go
+│   ├── middlewares
+│   │   └── auth.go
+│   ├── models
+│   │   ├── Composer.go
+│   │   ├── Pagination.go
+│   │   ├── Sheet.go
+│   │   └── User.go
+│   ├── seed
+│   │   └── seeder.go
+│   ├── server.go
+│   └── utils
+│       ├── formaterror
+│       │   └── formaterror.go
+│       ├── goUtils.go
+│       ├── http.go
+│       ├── osFunctions.go
+│       ├── osFunctions_test.go
+│       ├── pdfToImage.go
+│       ├── smtpFunctions.go
+│       └── version.go
+├── build.sh
+├── go.mod
+├── go.sum
+└── main.go
+``````
+
+Below is a summary/description of some of the important directories within the project and what each contain:
+
+`auth`: handles generating and validating tokens for user authentication 
+
+`controllers`: define backend endpoints for user requests, with each file pertaining to specific functionality such as `login`, or `composers`
+
+`forms`: files to handle incoming requests related to various inputs (such as `Composer`, `Sheet`, `User`)
+
+`utils`: defines reusable utilities/functionality that can be reused throughout application, such as `pdfToImage.go`, which contains code to obtain a png file from a pdf.
+
+`models`: Contains files outlining structure of data to represent `Composer`, `Pagination`, `Sheet`, and `User` entities
 
 <!-- ROADMAP -->
 
@@ -90,7 +213,7 @@ Contributions are what make the open-source community such an amazing place to l
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a [Pull Request](https://github.com/SheetAble/SheetAble/compare)
+5. Open a [Pull Request](https://github.com/SheetAble/SheetAble/compare) using the [PR Template](https://github.com/SheetAble/SheetAble/blob/main/pull_request_template.md)
 
 <!-- LICENSE -->
 
