@@ -37,7 +37,7 @@
     <li>
 		<a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#cloning-the-repo">Cloning the Repo</a></li>
+        <li><a href="#project-set-up">Project Set Up</a></li>
       </ul>
       <ul>
         <li><a href="#production-version">Production Version</a></li>
@@ -80,7 +80,7 @@ The backend is written in [Golang](https://golang.org/) and the frontend with [R
 
 ## Getting Started
 
-### Project Setup
+### Project Set Up
 The first step to contributing to this project is cloning the project to your local machine. To do this, open terminal and `cd` into the directory on your computer where you'd like this project to live. Then, run:
 
 ```git clone https://github.com/SheetAble/SheetAble.git```
