@@ -35,7 +35,11 @@
       </ul>
     </li>
     <li>
-		<a href="#getting-started">Getting Started</a>
+	<a href="#getting-started">Getting Started</a>
+	<ul>
+	   <li><a href="#production-version">Production Version</a></li>
+           <li><a href="#development-version">Development Version</a></li>
+	</ul>
     </li>
     <li><a href="#features">Features</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
