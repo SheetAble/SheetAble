@@ -78,7 +78,7 @@ After following the development guide, use these login credentials to access the
 Email: `admin@admin.com`  
 Password: `sheetable`  
   
-Fore information on various configuration settings, please refer to [Docs page](https://sheetable.net/docs/configuration).
+Fore information on various configuration settings, please refer to the [Configuration guide](https://sheetable.net/docs/configuration).
 
 <!-- FEATURES -->
 ### Features
