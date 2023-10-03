@@ -72,19 +72,21 @@ To install the **production** version of SheetAble, please refer to this [Docs p
 
 ### Development Version
 
-To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
+To develop on SheetAble we also made a [Development guide](https://sheetable.net/docs/development).  
 
-After following the development guide, use these login credentials to access the main interface:  
+After following the development guide, navigate to `localhost:8080` within a browser.  
+
+Use these login credentials to access the main interface:  
 Email: `admin@admin.com`  
 Password: `sheetable`  
   
-Fore information on various configuration settings, please refer to the [Configuration guide](https://sheetable.net/docs/configuration).
+For more information on various configuration settings, please refer to the [Configuration guide](https://sheetable.net/docs/configuration).
 
 <!-- FEATURES -->
 ### Features
 
 - Upload a sheet by selecting "Upload Sheet"
-- 
+- Navigate to the various pages using the right side menu
 
 <!-- ROADMAP -->
 
