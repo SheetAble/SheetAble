@@ -83,7 +83,7 @@ Password: `sheetable`
 For more information on various configuration settings, please refer to the [Configuration guide](https://sheetable.net/docs/configuration).
 
 <!-- FEATURES -->
-### Features
+## Features
 
 - Upload a sheet by selecting "Upload Sheet"
 - Navigate to the various pages using the right side menu
