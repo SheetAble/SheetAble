@@ -74,6 +74,10 @@ To install the **production** version of SheetAble please refer to this [Docs pa
 
 To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
 
+After following the development guide, use:
+Email: `admin@admin.com`
+Password: `sheetable`
+
 <!-- ROADMAP -->
 
 ## Roadmap
