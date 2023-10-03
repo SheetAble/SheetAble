@@ -35,8 +35,13 @@
       </ul>
     </li>
     <li>
-		<a href="#getting-started">Getting Started</a>
+	<a href="#getting-started">Getting Started</a>
+	<ul>
+	   <li><a href="#production-version">Production Version</a></li>
+           <li><a href="#development-version">Development Version</a></li>
+	</ul>
     </li>
+    <li><a href="#features">Features</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -68,11 +73,25 @@ The backend is written in [Golang](https://golang.org/) and the frontend with [R
 
 ### Production Version
 
-To install the **production** version of SheetAble please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
+To install the **production** version of SheetAble, please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
 
 ### Development Version
 
-To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
+To develop on SheetAble we also made a [Development guide](https://sheetable.net/docs/development).  
+
+After following the development guide, navigate to `localhost:8080` within a browser.  
+
+Use these login credentials to access the main interface:  
+Email: `admin@admin.com`  
+Password: `sheetable`  
+  
+For more information on various configuration settings, please refer to the [Configuration guide](https://sheetable.net/docs/configuration).
+
+<!-- FEATURES -->
+## Features
+
+- Upload a sheet by selecting "Upload Sheet"
+- Navigate to the various pages using the right side menu
 
 <!-- ROADMAP -->
 
