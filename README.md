@@ -68,15 +68,23 @@ The backend is written in [Golang](https://golang.org/) and the frontend with [R
 
 ### Production Version
 
-To install the **production** version of SheetAble please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
+To install the **production** version of SheetAble, please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
 
 ### Development Version
 
 To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
 
-After following the development guide, use:  
+After following the development guide, use these login credentials to access the main interface:  
 Email: `admin@admin.com`  
-Password: `sheetable`
+Password: `sheetable`  
+  
+Fore information on various configuration settings, please refer to [Docs page](https://sheetable.net/docs/configuration).
+
+<!-- FEATURES -->
+### Features
+
+- Upload a sheet by selecting "Upload Sheet"
+- 
 
 <!-- ROADMAP -->
 
