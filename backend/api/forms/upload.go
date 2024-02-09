@@ -14,6 +14,10 @@ type UploadRequest struct {
 
 // Currently a no-op but enables us to add any custom form validation in without having to change any calling code.
 
+func (req *UploadRequest) GetComposersAsSlice() []string {
+	return strings.Split(req.Composer, ", ")
+}
+
 func (req *UploadRequest) ValidateForm() error {
 	return nil
 }

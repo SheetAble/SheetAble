@@ -27,7 +27,7 @@ const InteractiveForm = () => {
 
   const [requestData, setrequestData] = useState({
     uploadFile: undefined,
-    composer: "",
+    composer: [], // Empty array to store multiple composer's names
     sheetName: "",
     releaseDate: "1999-12-31",
   });
@@ -45,10 +45,18 @@ const InteractiveForm = () => {
   };
 
   const handleChange = (event) => {
-    setrequestData({
-      ...requestData,
-      [event.target.name]: event.target.value,
-    });
+    if(event.target.name === "composer") {
+      const selectedComposers = Array.from(event.target.selectedOptions, option => option.value);
+      setrequestData({
+        ...requestData,
+        [event.target.name]: selectedComposers,
+      });
+    } else {
+      setrequestData({
+        ...requestData,
+        [event.target.name]: event.target.value,
+      });
+    }
   };
 
   return (

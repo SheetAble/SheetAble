@@ -203,7 +203,9 @@ export const uploadSheet = (data, _callback) => (dispatch) => {
   let bodyFormData = new FormData();
   bodyFormData.append("uploadFile", data.uploadFile);
   bodyFormData.append("sheetName", data.sheetName);
-  bodyFormData.append("composer", data.composer);
+  // Handling multiple composer names
+  const composerString = data.composer.join(', ');
+  bodyFormData.append("composer", composerString);
   bodyFormData.append("releaseDate", data.releaseDate);
 
   axios
@@ -230,7 +232,9 @@ export const updateSheet = (data, origSheetName, _callback) => (dispatch) => {
   let bodyFormData = new FormData();
   bodyFormData.append("uploadFile", data.uploadFile);
   bodyFormData.append("sheetName", data.sheetName);
-  bodyFormData.append("composer", data.composer);
+  // Handling multiple composer names
+  const composerString = data.composer.join(', ');
+  bodyFormData.append("composer", composerString);
   bodyFormData.append("releaseDate", data.releaseDate);
 
   axios
