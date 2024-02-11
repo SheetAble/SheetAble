@@ -224,7 +224,7 @@ input:focus,
 .slider-form [type="text"] {
   width: 90%;
   box-sizing: border-box;
-  padding: 15px 20px;
+  padding: 15px 25px;
   background: white;
   border: 1px solid transparent;
   color: black;
@@ -257,6 +257,16 @@ input:focus,
   font-weight: 300;
   position: relative;
 }
+
+.slider-form .error,
+.slider-form .horizontal-error {
+  color: #ff6347; /* Adjust the color as needed */
+  font-size: 0.8rem; /* Adjust the font size as needed */
+  margin-left: 35px; /* Add left margin to separate from the input box */
+  margin-top: -15px;
+  margin-bottom: 15px;
+}
+
 
 .interactive-form-button:disabled {
   cursor: not-allowed;

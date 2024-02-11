@@ -1,8 +1,6 @@
 import React, { Fragment, useState } from "react";
 import SideBar from "../Sidebar/SideBar";
-
 import "./Upload.css";
-
 import DragNDrop from "./DragNDrop";
 
 function UploadPage() {
@@ -18,19 +16,16 @@ function UploadPage() {
 
 const InteractiveForm = () => {
   const [firstButtonText, setfirstButtonText] = useState("Next Step");
-
   const [secondButtonText, setSecondButtonText] = useState("Next Step");
-
-  const [containerClasses, setcontainerClasses] = useState(
-    "container slider-one-active"
-  );
-
+  const [containerClasses, setcontainerClasses] = useState("container slider-one-active");
   const [requestData, setrequestData] = useState({
     uploadFile: undefined,
     composer: "",
     sheetName: "",
     releaseDate: "1999-12-31",
   });
+  const [composerError, setComposerError] = useState("");
+  const [sheetNameError, setSheetNameError] = useState("");
 
   const firstButtonOnClick = (e) => {
     e.preventDefault();
@@ -45,66 +40,97 @@ const InteractiveForm = () => {
   };
 
   const handleChange = (event) => {
+    const { name, value } = event.target;
+  
+    // Always update the requestData
     setrequestData({
       ...requestData,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
+  
+    // Validate input and set error messages
+    if (name === "composer") {
+      if (value.length > 50) {
+        setComposerError("Composer must be 50 characters or less.");
+      } else {
+        setComposerError("");
+      }
+    } else if (name === "sheetName") {
+      if (value.length > 50) {
+        setSheetNameError("Sheet Name must be 50 characters or less.");
+      } else {
+        setSheetNameError("");
+      }
+    }
   };
+  
 
   return (
     <Fragment>
-      <div class={containerClasses}>
-        <div class="steps">
-          <div class="step step-one">
-            {/*<div class="liner"></div>*/}
+      <div className={containerClasses}>
+        <div className="steps">
+          <div className="step step-one">
             <span>Information</span>
           </div>
-          <div class="step step-two">
-            {/*<div class="liner"></div>*/}
+          <div className="step step-two">
             <span>Upload</span>
           </div>
-          <div class="step step-three">
-            {/*<div class="liner"></div>*/}
+          <div className="step step-three">
             <span>Conclusion</span>
           </div>
         </div>
-        <div class="line">
-          <div class="dot-move"></div>
-          <div class="dot zero"></div>
-          <div class="dot center"></div>
-          <div class="dot full"></div>
+        <div className="line">
+          <div className="dot-move"></div>
+          <div className="dot zero"></div>
+          <div className="dot center"></div>
+          <div className="dot full"></div>
         </div>
-        <div class="slider-ctr">
-          <div class="slider">
-            <form class="slider-form slider-one">
+        <div className="slider-ctr">
+          <div className="slider">
+            <form className="slider-form slider-one">
               <h2>Type in the data of the sheet</h2>
-              <label class="input">
-                <input
-                  type="text"
-                  class="name"
-                  name="sheetName"
-                  placeholder="Sheet Name"
-                  onChange={handleChange}
-                />
-                <input
-                  type="text"
-                  class="name"
-                  name="composer"
-                  placeholder="Composer"
-                  onChange={handleChange}
-                />
-              </label>
+              <div className="input-container">
+                <label className="input">
+                  Sheet Name:
+                  <input
+                    type="text"
+                    className="name"
+                    name="sheetName"
+                    placeholder="Sheet Name"
+                    onChange={handleChange}
+                  />
+                  {sheetNameError && <p className="error horizontal-error">{sheetNameError}</p>}
+                </label>
+              </div>
+              <div className="input-container">
+                <label className="input">
+                  Composer:
+                  <input
+                    type="text"
+                    className="name"
+                    name="composer"
+                    placeholder="Composer"
+                    onChange={handleChange}
+                  />
+                  {composerError && <p className="error horizontal-error">{composerError}</p>}
+                </label>
+              </div>
               <button
                 disabled={
-                  requestData.sheetName === "" || requestData.composer === ""
+                  requestData.sheetName === "" ||
+                  requestData.composer === "" ||
+                  composerError ||
+                  sheetNameError ||
+                  requestData.sheetName.length > 50 ||
+                  requestData.composer.length > 50
                 }
-                class="first next interactive-form-button"
+                className="first next interactive-form-button"
                 onClick={firstButtonOnClick}
               >
                 {firstButtonText}
               </button>
             </form>
-            <form class="slider-form slider-two">
+            <form className="slider-form slider-two">
               <h2>Upload the PDF</h2>
               <DragNDrop
                 requestData={requestData}
@@ -112,12 +138,12 @@ const InteractiveForm = () => {
                 secondButtonText={secondButtonText}
               />
             </form>
-            <div class="slider-form slider-three three">
+            <div className="slider-form slider-three three">
               <h2>
-                The Sheet, <span class="yourname">{requestData.sheetName}</span>
+                The Sheet, <span className="yourname">{requestData.sheetName}</span>
               </h2>
-              <h3 className="minus-marg">has been succesfully uploaded</h3>
-              <a class="reset" href="/">
+              <h3 className="minus-marg">has been successfully uploaded</h3>
+              <a className="reset" href="/">
                 Home
               </a>
             </div>
