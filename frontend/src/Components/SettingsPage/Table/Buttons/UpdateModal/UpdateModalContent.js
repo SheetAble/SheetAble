@@ -16,6 +16,9 @@ function ModalContent({ userId }) {
 
   return (
     <div className="update">
+    opacity:0; // makes the modal completely opaque
+    position:fixed; //includes any scrollable areas
+    height:100%; 
       <form noValidate autoComplete="off">
         <TextField
           id="standard-basic"
