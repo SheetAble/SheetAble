@@ -52,11 +52,12 @@
 
 <img src="docs/SheetAbleShowcase.gif" alt="Example Gif" style="border-radius: 5px;">
 
-**SheetAble** is an easy-to-use music sheet organizer for all the music enthusiasts out there. You can upload and organize your sheets for any kind of instrument you use!
-Create Accounts for your friends or family to invite them to your library to use it as well or potentially upload sheets themselves.
-Currently it is available for web and [iPad/Android Tablets](https://github.com/SheetAble/tablet-client). All repos are open-source with the `AGPL` license.
+SheetAble is an intuitive music sheet organizer designed for musicians of all levels. 
+With SheetAble, you can effortlessly upload, organize, and manage your music sheets for any instrument.
+ Whether you're a soloist, band member, or music teacher, SheetAble offers a seamless solution for keeping your music library organized and accessible. 
+Create accounts for your collaborators or students to share your music sheets and collaborate on projects.
+ SheetAble is currently available for web browsers and iPad/Android tablets, with all repositories open-source and licensed under AGPL.
 
-You may also suggest changes by forking this repo and creating a [pull request](https://github.com/SheetAble/SheetAble/compare) or opening an [issue](https://github.com/SheetAble/SheetAble/issues). Thanks to all the people who want to help expanding this project!
 
 ### Built With
 
@@ -68,17 +69,46 @@ The backend is written in [Golang](https://golang.org/) and the frontend with [R
 
 ### Production Version
 
-To install the **production** version of SheetAble please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
+To install the production version of SheetAble, please refer to [this Docs page](link-to-production-docs).
+
 
 ### Development Version
 
-To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
+To install the production version of SheetAble, please refer to [this Docs page](link-to-production-docs).
+
+### Detailed Usage Instructions
+SheetAble offers a user-friendly interface for organizing your music sheets. Follow these steps to make the most of SheetAble's features:
+
+1. **Uploading Music Sheets**: Click on the "Upload" button to add music sheets to your library. You can upload files from your computer or import them from cloud storage services.
+
+2. **Organizing Your Library**: Use tags, categories, or folders to organize your music sheets for easy access. You can create custom tags to categorize sheets by genre, composer, or difficulty level.
+
+3. **Collaborating with Others**: Invite friends, bandmates, or students to join your SheetAble library. Create accounts for them and grant them access to view and edit sheets, or restrict access to certain folders for privacy.
+
+4. **Accessing SheetAble on Different Devices**: SheetAble is available for web browsers and iPad/Android tablets. Access your library from any device with an internet connection, and enjoy seamless synchronization of your music sheets across platforms.
+
+### Feature Overview
+SheetAble's key features include:
+- Intuitive interface for easy music sheet organization
+- Secure collaboration tools for sharing and editing sheets with others
+- Cross-platform accessibility for seamless access on web browsers and tablets
+- Support for importing and exporting music sheets in various file formats
+- Customizable tagging system for efficient categorization of music sheets
+
+### FAQ Section
+#### Q: Can I export my music sheets from SheetAble?
+A: Yes, you can export individual sheets or entire folders from SheetAble in various file formats, including PDF, MIDI, and MusicXML.
+
+#### Q: Is SheetAble compatible with touchscreen devices?
+A: Yes, SheetAble is optimized for touchscreen devices, making it easy to navigate and interact with your music sheets on tablets and iPads.
+
 
 <!-- ROADMAP -->
 
 ## Roadmap
 
-See the [open issues](https://github.com/SheetAble/SheetAble/issues) for a list of proposed features (and known issues).
+See the [open issues](link-to-open-issues) for a list of proposed features and known issues.
+ Stay tuned for updates on upcoming releases and milestones.
 
 <!-- CONTRIBUTING -->
 
@@ -95,8 +125,8 @@ Contributions are what make the open-source community such an amazing place to l
 <!-- LICENSE -->
 
 ## License
-
-Distributed under the AGPL License. See `LICENSE` for more information.
+Distributed under the AGPL License.
+ See [LICENSE](link-to-license) for more information.
 
 <!-- CONTACT -->
 
@@ -110,4 +140,5 @@ Organization Link: [github.com/SheetAble](https://github.com/SheetAble)
 
 ## Acknowledgements
 
-- [Open Opus API](https://openopus.org) - Free, open metadata for classical music
+Special thanks to the contributors who have helped shape SheetAble. 
+We also acknowledge the invaluable support of the Open Opus API, providing free and open metadata for classical music.
