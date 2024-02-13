@@ -60,7 +60,7 @@ You may also suggest changes by forking this repo and creating a [pull request](
 
 ### Built With
 
-The backend is written in [Golang](https://golang.org/) and the frontend with [React.js](https://reactjs.org/).
+The backend is written in [Golang](https://golang.org/) and the frontend with [React.js](https://reactjs.org/). In addition, this project utilizes [Docker](https://docs.docker.com/) for simple and easy containerization and [Node](https://nodejs.org/en) to take advantage of the processing power of the users computer instead of the browser. These two applications improve the projects development cycle and user experience. 
 
 <!-- GETTING STARTED -->
 
@@ -86,12 +86,42 @@ See the [open issues](https://github.com/SheetAble/SheetAble/issues) for a list 
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
+As a prerequisite for contributions, please ensure that your system has the correct versions of **Node.js** and **GoLang**.
+
+- GoLang v1.6
+- Node v14
+
+To confirm that you have the necessary versions on your development environment, you can use the following commands within your terminal:
+- `node -v`
+- `go version`
+
+### Typical Contribution Steps
+
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a [Pull Request](https://github.com/SheetAble/SheetAble/compare)
 
+## Project Anatomy
+### Backend
+The [backend](https://github.com/SheetAble/SheetAble/tree/main/backend) directory containes the following:
+- `backend\api\auth` - Manages the creation and validation of user tokens
+- `backend\api\config` - Manages the configuration of the development environment and database
+- `backend\api\controllers` - Manages the logic of the application without being tied to the frontend
+- `backend\api\forms` - Determines the structure of data whenever a form is accessed or requested
+- `backend\api\middlewares` - Manages the setup of existing middleware in the project
+- `backend\api\models` - Houses the models for different data, said models include props and attributes according to reactjs
+- `backend\api\seed` - Attempts to upload user data
+- `backend\api\utils` - General function utilities are stored here
+
+### Frontend
+The [frontend](https://github.com/SheetAble/SheetAble/tree/main/frontend) directory contains the following: 
+- `frontend\src\components` - User interface definitions
+- `frontend\src\images` - Contains images and animations used on the application
+- `frontend\src\redux` - Manages react states
+- `frontend\src\utils` - General function utilities are stored here
+  
 <!-- LICENSE -->
 
 ## License
