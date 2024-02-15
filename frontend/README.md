@@ -39,6 +39,52 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## File Features
+  src/Components: Contains code for all visual elements of the program. Includes the following:
+  
+    - Authentication - for user login; includes: login page, forgot password, reset password
+    
+    - Composer - composer visual structure
+    
+    - Composers - composer data and images in list form
+    
+    - ComposersPage - composers page structure found on the sidebar
+    
+    - Home - structures home page, recently added and composer
+    
+    - NotFound - error visual and functionality used for searching
+    
+    - Ping - handles poor ping from user
+    
+    - Redirect - redirection to main screen
+    
+    - SearchPage - search for sheet music page
+    
+    - SettingsPage - settings page
+    
+    - Sheet - sheet visual structure and data
+    
+    - Sheets - sheets owned by user in list form
+    
+    - SheetsPage - sheets assembled into page
+    
+    - Sidebar - sidebar functionality
+    
+    - TagsPage - tags page
+    
+    - Upload - upload button and functionality
+    
+
+  src/Redux: Handles [Redux](https://react-redux.js.org/) for state optimization
+
+  src/Utils: Contains code for utility and additional functionality
+  
+    - colors.js - stylistic color scheme
+    
+    - httpUtils.js - outlines web structure
+    
+    - utils.js - supplementary functions such as "findComposerByComposers" and "getCompImgUrl"
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
