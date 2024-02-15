@@ -31,6 +31,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
+	<li><a href="#built-with">Features</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -57,6 +58,14 @@ Create Accounts for your friends or family to invite them to your library to use
 Currently it is available for web and [iPad/Android Tablets](https://github.com/SheetAble/tablet-client). All repos are open-source with the `AGPL` license.
 
 You may also suggest changes by forking this repo and creating a [pull request](https://github.com/SheetAble/SheetAble/compare) or opening an [issue](https://github.com/SheetAble/SheetAble/issues). Thanks to all the people who want to help expanding this project!
+
+### Features
+
+**SheetAble** includes these features:
+	1. Upload sheet music to personal library for easy access
+ 	2. Share music to other accounts
+  	3. Display composers included in uploaded sheets
+   	4. Search and synchronize sheets in the library
 
 ### Built With
 
