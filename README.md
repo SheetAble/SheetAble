@@ -62,9 +62,13 @@ You may also suggest changes by forking this repo and creating a [pull request](
 ### Features
 
 **SheetAble** includes these features:
+
 	1. Upload sheet music to personal library for easy access
+ 
  	2. Share music to other accounts
+  
   	3. Display composers included in uploaded sheets
+   
    	4. Search and synchronize sheets in the library
 
 ### Built With
