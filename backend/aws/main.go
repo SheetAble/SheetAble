@@ -1,9 +1,6 @@
 package main
 
 import (
-	"github.com/SheetAble/SheetAble/backend/api"
-	"github.com/SheetAble/SheetAble/backend/api/utils"
-
 	"fmt"
 	"mime/multipart"
 	"net/http"
@@ -15,31 +12,28 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
 
-func main() {
-	http.HandleFunc("/upload", handleFileUpload)
-	http.ListenAndServe(":8080", nil)
-
-	utils.Version = "v0.8.1"
-	utils.PrintAsciiVersion()
-	api.Run()
-}
-
 const (
 	// region          = "your-aws-region"
 	// bucketName      = "your-s3-bucket-name"
 	// uploadFolderKey = "uploads/"
-	region          = "eu-north-1"
+	region          = "Europe (Stockholm) eu-north-1"
 	bucketName      = "sheetalble"
 	uploadFolderKey = "uploads/"
 )
+
 var (
 	sess *session.Session
 )
+
 func init() {
 	sess = session.Must(session.NewSession(&aws.Config{
 		Region: aws.String(region),
-		Credentials: credentials.NewStaticCredentials(process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_ACCESS_KEY, ""),
 	}))
+}
+
+func main() {
+	http.HandleFunc("/upload", handleFileUpload)
+	http.ListenAndServe(":8080", nil)
 }
 
 func handleFileUpload(w http.ResponseWriter, r *http.Request) {
