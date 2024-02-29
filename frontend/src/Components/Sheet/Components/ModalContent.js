@@ -130,9 +130,26 @@ function ModalContent(props) {
     });
   };
 
-  const uploadFinish = (files) => {
+  const uploadFinish = async (files) => {
     if (files[0] !== undefined) {
-      setUploadFile(files[0].file);
+      const formData = new FormData();
+      formData.append("file", files[0].file);
+
+      try {
+        const response = await fetch("http://localhost:8080/api", {
+          // http://your-backend-server/upload
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log("File uploaded successfully");
+        } else {
+          console.error("Failed to upload file");
+        }
+      } catch (error) {
+        console.error("Error during file upload:", error);
+      }
     }
   };
 
