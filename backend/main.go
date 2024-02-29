@@ -25,11 +25,8 @@ func main() {
 }
 
 const (
-	// region          = "your-aws-region"
-	// bucketName      = "your-s3-bucket-name"
-	// uploadFolderKey = "uploads/"
-	region          = "eu-north-1"
-	bucketName      = "sheetalble"
+	region          = "your-aws-region"
+	bucketName      = "your-s3-bucket-name"
 	uploadFolderKey = "uploads/"
 )
 var (
