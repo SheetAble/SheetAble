@@ -1,117 +1,84 @@
-# SheetAble Version 1.x 
-We are curerntly developing a big update of SheetAble on the branch `v1.x`, if you'd like to look at the old repository go to the branch `main`
+# Turborepo starter
 
+This Turborepo starter is maintained by the Turborepo core team.
 
-<p align="center">
-<img src="https://img.shields.io/github/forks/SheetAble/SheetAble?color=bf616a&labelColor=3b4252&style=for-the-badge"> <img src="https://img.shields.io/github/stars/SheetAble/SheetAble?color=d08770&labelColor=3b4252&style=for-the-badge"> <img src="https://img.shields.io/github/issues-raw/SheetAble/SheetAble?color=a3be8c&labelColor=3b4252&style=for-the-badge"> <a href="./LICENSE"> <img src="https://img.shields.io/static/v1?label=license&message=AGPL&color=81a1c1&labelColor=3b4252&style=for-the-badge"> </a>
-<a href="https://discord.com/invite/QnFbxyPbRj"> <img src="https://img.shields.io/static/v1?label=discord&message=Join&color=5765F2&labelColor=3b4252&style=for-the-badge"> </a>
-</p>
-<br />
-<p align="center">
-  <a href="https://github.com/SheetAble">
-    <img src="docs/LogoT.png" alt="Logo" width="110" height="110">
-  </a>
+## Using this example
 
-  <h3 align="center">SheetAble</h3>
+Run the following command:
 
-  <p align="center">
-    Self-hosted music sheet organizing software
-    <br />
-    <a href="https://sheetable.net" target="_blank"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://discord.com/invite/QnFbxyPbRj" target="_blank">Discord Server</a>
-    ·
-    <a href="https://github.com/SheetAble/SheetAble/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/SheetAble/SheetAble/issues">Request Feature</a>
-  </p>
-</p>
+```sh
+npx create-turbo@latest
+```
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-		<a href="#getting-started">Getting Started</a>
-    </li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-    <li><a href="#supporters">Supporters</a></li>
-  </ol>
-</details>
+## What's inside?
 
-<!-- ABOUT THE PROJECT -->
+This Turborepo includes the following packages/apps:
 
-## About The Project
+### Apps and Packages
 
-<img src="docs/SheetAbleShowcase.gif" alt="Example Gif" style="border-radius: 5px;">
+- `docs`: a [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app
+- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-**SheetAble** is an easy-to-use music sheet organizer for all the music enthusiasts out there. You can upload and organize your sheets for any kind of instrument you use!
-Create Accounts for your friends or family to invite them to your library to use it as well or potentially upload sheets themselves.
-Currently it is available for web and [iPad/Android Tablets](https://github.com/SheetAble/tablet-client). All repos are open-source with the `AGPL` license.
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-You may also suggest changes by forking this repo and creating a [pull request](https://github.com/SheetAble/SheetAble/compare) or opening an [issue](https://github.com/SheetAble/SheetAble/issues). Thanks to all the people who want to help expanding this project!
+### Utilities
 
-### Built With
+This Turborepo has some additional tools already setup for you:
 
-The backend is written in [Golang](https://golang.org/) and the frontend with [React.js](https://reactjs.org/).
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
 
-<!-- GETTING STARTED -->
+### Build
 
-## Getting Started
+To build all apps and packages, run the following command:
 
-### Production Version
+```
+cd my-turborepo
+pnpm build
+```
 
-To install the **production** version of SheetAble please refer to this [Docs page](https://sheetable.net/docs/Installation/installation).
+### Develop
 
-### Development Version
+To develop all apps and packages, run the following command:
 
-To develop on SheetAble we also made a [Documentation guide](https://sheetable.net/docs/development).
+```
+cd my-turborepo
+pnpm dev
+```
 
-<!-- ROADMAP -->
+### Remote Caching
 
-## Roadmap
+> [!TIP]
+> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
 
-See the [open issues](https://github.com/SheetAble/SheetAble/issues) for a list of proposed features (and known issues).
+Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-<!-- CONTRIBUTING -->
+By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
 
-## Contributing
+```
+cd my-turborepo
+npx turbo login
+```
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a [Pull Request](https://github.com/SheetAble/SheetAble/compare)
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
 
-<!-- LICENSE -->
+```
+npx turbo link
+```
 
-## License
+## Useful Links
 
-Distributed under the AGPL License. See `LICENSE` for more information.
+Learn more about the power of Turborepo:
 
-<!-- CONTACT -->
-
-## Contact
-
-Valentin Zwerschke - [@vallezw](https://github.com/vallezw)
-
-Organization Link: [github.com/SheetAble](https://github.com/SheetAble)
-
-<!-- ACKNOWLEDGEMENTS -->
-
-## Acknowledgements
-
-- [Open Opus API](https://openopus.org) - Free, open metadata for classical music
+- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
+- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
+- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
+- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
+- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
+- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
