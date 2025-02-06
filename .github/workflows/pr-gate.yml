@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: "20"
       - run: bun install
-      - name: Build everything but the app
+      - name: Build everything
         run: bun run turbo build
       - name: Linting
         run: bun run format-and-lint
