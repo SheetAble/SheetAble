@@ -1,8 +1,9 @@
 {
 	"compilerOptions": {
 		"target": "ES2021",
-		"module": "ES2022",
-		"moduleResolution": "node",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"moduleDetection": "force",
 		"types": ["bun-types"],
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,

@@ -1,5 +1,5 @@
 {
-	"name": "drizzle",
+	"name": "@repo/drizzle",
 	"module": "src/index.ts",
 	"type": "module",
 	"devDependencies": {
@@ -11,9 +11,15 @@
 	"peerDependencies": {
 		"typescript": "^5.0.0"
 	},
+	"exports": {
+		"./schema": "./src/schema.ts"
+	},
 	"dependencies": {
 		"dotenv": "^16.4.7",
 		"drizzle-orm": "^0.39.2",
 		"pg": "^8.13.1"
+	},
+	"override": {
+		"@sinclair/typebox": "0.34.15"
 	}
 }

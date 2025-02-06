@@ -7,7 +7,12 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": [".next/", "node_modules/", ".turbo/"]
+		"ignore": [
+			".next/",
+			"node_modules/",
+			".turbo/",
+			"packages/drizzle/src/utils.ts"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -24,7 +29,8 @@
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "double"
+			"quoteStyle": "double",
+			"semicolons": "asNeeded"
 		}
 	}
 }
