@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "pnpm"
+          cache: "bun"
       - run: bun install
       - name: Build everything but the app
         run: bun run turbo build
