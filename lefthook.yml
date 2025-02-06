@@ -21,7 +21,7 @@ pre-commit:
   commands:
     check:
       glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
-      run: bunx @biomejs/biome check --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      run: bun run format-and-lint --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
 #   parallel: true
 #   jobs:
 #     - run: yarn eslint {staged_files}
