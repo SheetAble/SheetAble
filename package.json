@@ -1,12 +1,5 @@
 {
 	"name": "sheetable",
-	"private": true,
-	"scripts": {
-		"build": "turbo build",
-		"dev": "turbo dev",
-		"format-and-lint": "biome check .",
-		"format-and-lint:fix": "biome check . --write"
-	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"prettier": "^3.4.2",
@@ -17,5 +10,12 @@
 		"node": ">=18"
 	},
 	"packageManager": "bun@1.2.2",
+	"private": true,
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"format-and-lint": "biome check .",
+		"format-and-lint:fix": "biome check . --write"
+	},
 	"workspaces": ["apps/*", "packages/*"]
 }
