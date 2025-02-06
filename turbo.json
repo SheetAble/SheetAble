@@ -20,6 +20,7 @@
 		"//#format-and-lint": {},
 		"//#format-and-lint:fix": {
 			"cache": false
-		}
+		},
+		"//#format-ci": {}
 	}
 }

@@ -1,0 +1,19 @@
+name: PR Gate
+on: push
+
+jobs:
+  build:
+    name: "Test-build everything"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+      - run: bun install
+      - name: Build everything but the app
+        run: bun run turbo build
+      - name: Linting
+        run: bun run format-and-lint
