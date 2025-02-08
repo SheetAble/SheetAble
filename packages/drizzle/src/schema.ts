@@ -1,15 +1,25 @@
-import { integer, pgTable, timestamp, varchar } from "drizzle-orm/pg-core"
+import {
+	integer,
+	pgTable,
+	serial,
+	text,
+	timestamp,
+	varchar,
+} from "drizzle-orm/pg-core"
 
-export const user = pgTable("user", {
-	id: integer().primaryKey().generatedAlwaysAsIdentity(),
-	name: varchar({ length: 255 }).notNull(),
-	password: varchar("password").notNull(),
-	email: varchar({ length: 255 }).notNull().unique(),
-	createdAt: timestamp("created_at").defaultNow().notNull(),
+export const users = pgTable("user", {
+	// id: serial("id").primaryKey(),
+	email: varchar("email", { length: 255 }),
+	username: varchar("username", { length: 255 }),
+	password: text("password"),
 })
 
 export const table = {
-	user,
+	users,
 } as const
+
+import { drizzle } from "drizzle-orm/node-postgres"
+
+export const db = drizzle(process.env.DATABASE_URL ?? "") // todo: move
 
 export type Table = typeof table

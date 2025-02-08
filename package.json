@@ -18,5 +18,8 @@
 		"format-and-lint:fix": "biome check . --write",
 		"format-ci": "biome ci ."
 	},
-	"workspaces": ["apps/*", "packages/*"]
+	"workspaces": ["apps/*", "packages/*"],
+	"dependencies": {
+		"@elysiajs/swagger": "^1.2.0"
+	}
 }
