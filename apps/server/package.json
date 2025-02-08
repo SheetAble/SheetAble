@@ -1,0 +1,26 @@
+{
+	"name": "server",
+	"version": "1.0.50",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "bun run --watch src/index.ts"
+	},
+	"dependencies": {
+		"dotenv": "^16.4.7",
+		"drizzle-orm": "^0.39.2",
+		"drizzle-typebox": "^0.3.0",
+		"elysia": "latest",
+		"import": "^0.0.6",
+		"pg": "^8.13.1"
+	},
+	"devDependencies": {
+		"@types/pg": "^8.11.11",
+		"bun-types": "latest",
+		"drizzle-kit": "^0.30.4",
+		"tsx": "^4.19.2"
+	},
+	"module": "src/index.js",
+	"override": {
+		"@sinclair/typebox": "0.34.15"
+	}
+}
