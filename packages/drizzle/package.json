@@ -12,7 +12,8 @@
 		"typescript": "^5.0.0"
 	},
 	"exports": {
-		"./schema": "./src/schema.ts"
+		"./schema": "./src/schema.ts",
+		"./authschema": "./src/authschema.ts"
 	},
 	"dependencies": {
 		"dotenv": "^16.4.7",
