@@ -205,6 +205,11 @@ export const uploadSheet = (data, _callback) => (dispatch) => {
   bodyFormData.append("sheetName", data.sheetName);
   bodyFormData.append("composer", data.composer);
   bodyFormData.append("releaseDate", data.releaseDate);
+  // Add new fields for issue #90
+  bodyFormData.append("key", data.key);
+  bodyFormData.append("instrument", data.instrument);
+  bodyFormData.append("sheetType", data.sheetType);
+  bodyFormData.append("yearWritten", data.yearWritten);
 
   axios
     .post("/upload", bodyFormData, {
@@ -232,6 +237,11 @@ export const updateSheet = (data, origSheetName, _callback) => (dispatch) => {
   bodyFormData.append("sheetName", data.sheetName);
   bodyFormData.append("composer", data.composer);
   bodyFormData.append("releaseDate", data.releaseDate);
+  // Add new fields for issue #90
+  bodyFormData.append("key", data.key);
+  bodyFormData.append("instrument", data.instrument);
+  bodyFormData.append("sheetType", data.sheetType);
+  bodyFormData.append("yearWritten", data.yearWritten);
 
   axios
     .put(`/sheet/${origSheetName}`, bodyFormData, {

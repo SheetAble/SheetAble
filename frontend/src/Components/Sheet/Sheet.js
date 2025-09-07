@@ -282,6 +282,31 @@ function Sheet({
                 <span className="bold sheet_info_info">Uploaded By:</span>
                 <span className="sheet_info_info"> {sheet.uploader_id}</span>
               </div>
+              {/* New fields for issue #90 */}
+              {sheet.key && (
+                <div>
+                  <span className="bold sheet_info_info">Key:</span>
+                  <span className="sheet_info_info"> {sheet.key}</span>
+                </div>
+              )}
+              {sheet.instrument && (
+                <div>
+                  <span className="bold sheet_info_info">Instrument:</span>
+                  <span className="sheet_info_info"> {sheet.instrument}</span>
+                </div>
+              )}
+              {sheet.sheet_type && (
+                <div>
+                  <span className="bold sheet_info_info">Sheet Type:</span>
+                  <span className="sheet_info_info"> {sheet.sheet_type}</span>
+                </div>
+              )}
+              {sheet.year_written && (
+                <div>
+                  <span className="bold sheet_info_info">Year Written:</span>
+                  <span className="sheet_info_info"> {sheet.year_written}</span>
+                </div>
+              )}
 
               <div className="tooltip">
                 <button className="sheet_info_button" onClick={handleClick}>

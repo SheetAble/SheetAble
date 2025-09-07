@@ -13,6 +13,11 @@ function ModalContent(props) {
     composer: "",
     sheetName: "",
     releaseDate: "1999-12-31",
+    // Add new fields for issue #90
+    key: "",
+    instrument: "",
+    sheetType: "",
+    yearWritten: "",
   });
 
   const [uploadFile, setUploadFile] = useState(undefined);
@@ -73,6 +78,39 @@ function ModalContent(props) {
           className="form-field comp"
           name="composer"
           onChange={handleChange}
+        />
+        {/* New fields for issue #90 */}
+        <TextField
+          id="standard-basic"
+          label="Key"
+          className="form-field"
+          name="key"
+          onChange={handleChange}
+          placeholder="e.g., C Major, D Minor"
+        />
+        <TextField
+          id="standard-basic"
+          label="Instrument"
+          className="form-field"
+          name="instrument"
+          onChange={handleChange}
+          placeholder="e.g., Piano, Violin, Guitar"
+        />
+        <TextField
+          id="standard-basic"
+          label="Sheet Type"
+          className="form-field"
+          name="sheetType"
+          onChange={handleChange}
+          placeholder="e.g., Solo, Duet, Ensemble"
+        />
+        <TextField
+          id="standard-basic"
+          label="Year Written"
+          className="form-field"
+          name="yearWritten"
+          onChange={handleChange}
+          placeholder="e.g., 1778, 1901"
         />
       </form>
       <DragNDrop giveModalData={giveModalData} />

@@ -26,6 +26,11 @@ function ModalContent(props) {
     composer: props.sheet.composer,
     sheetName: props.sheet.sheet_name,
     releaseDate: "1999-12-31",
+    // Add new fields for issue #90
+    key: props.sheet.key || "",
+    instrument: props.sheet.instrument || "",
+    sheetType: props.sheet.sheet_type || "",
+    yearWritten: props.sheet.year_written || "",
   });
 
   const [pdfChange, setPdfChange] = useState(false);
@@ -154,6 +159,43 @@ function ModalContent(props) {
           name="composer"
           onChange={handleChange}
           value={requestData.composer}
+        />
+        {/* New fields for issue #90 */}
+        <TextField
+          id="standard-basic"
+          label="Key"
+          className="form-field"
+          name="key"
+          onChange={handleChange}
+          value={requestData.key}
+          placeholder="e.g., C Major, D Minor"
+        />
+        <TextField
+          id="standard-basic"
+          label="Instrument"
+          className="form-field"
+          name="instrument"
+          onChange={handleChange}
+          value={requestData.instrument}
+          placeholder="e.g., Piano, Violin, Guitar"
+        />
+        <TextField
+          id="standard-basic"
+          label="Sheet Type"
+          className="form-field"
+          name="sheetType"
+          onChange={handleChange}
+          value={requestData.sheetType}
+          placeholder="e.g., Solo, Duet, Ensemble"
+        />
+        <TextField
+          id="standard-basic"
+          label="Year Written"
+          className="form-field"
+          name="yearWritten"
+          onChange={handleChange}
+          value={requestData.yearWritten}
+          placeholder="e.g., 1778, 1901"
         />
       </form>
       <div className="upload-container">
