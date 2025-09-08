@@ -1,15 +1,13 @@
-# GO Repo base repo
-FROM golang:alpine as builder
-
-RUN apk add build-base
-
-RUN apk add git
+# GO Repo base repo - Using Debian instead of Alpine to fix go-sqlite3 CGO issues
+FROM golang:1.19-bullseye as builder
 
 # Add Maintainer Info
 LABEL maintainer="vallezw"
 
+# Install build dependencies
+RUN apt-get update && apt-get install -y build-essential git
+
 RUN mkdir /app
-ADD . /app
 WORKDIR /app
 
 COPY go.mod go.sum ./
@@ -22,13 +20,13 @@ COPY . .
 # Build the Go app
 RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o main .
 
-# GO Repo base repo
-FROM alpine:latest
+# Use Debian slim for runtime
+FROM debian:bullseye-slim
 
-RUN apk --no-cache add ca-certificates curl
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y ca-certificates curl && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app
-
 WORKDIR /app/
 
 # Copy the Pre-built binary file from the previous stage
