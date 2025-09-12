@@ -11,7 +11,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"mime/multipart"
 	"net/http"
 	"os"
 	"path"
@@ -94,7 +93,31 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 	defer theFile.Close()
-	err = createFile(uid, server, fullpath, theFile, comp, sheetName, releaseDate, uploadForm.InformationText)
+	
+	// Create sheet with all fields
+	sheet := models.Sheet{
+		SafeSheetName:   sanitize.Name(Unidecode(sheetName)),
+		SheetName:       sheetName,
+		SafeComposer:    sanitize.Name(Unidecode(comp.CompleteName)),
+		Composer:        comp.CompleteName,
+		UploaderID:      uid,
+		ReleaseDate:     createDate(releaseDate),
+		InformationText: uploadForm.InformationText,
+		// New fields
+		Key:             uploadForm.Key,
+		Instrument:      uploadForm.Instrument,
+		SheetType:       uploadForm.SheetType,
+		YearWritten:     uploadForm.YearWritten,
+	}
+	sheet.Prepare()
+	
+	_, err = sheet.SaveSheet(server.DB)
+	if err != nil {
+		c.String(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	err = utils.OsCreateFile(fullpath, theFile)
 	if err != nil {
 		c.String(http.StatusInternalServerError, err.Error())
 		return
@@ -129,6 +152,7 @@ func (server *Server) UpdateSheet(c *gin.Context) {
 		return
 	}
 
+	// Re-upload with new data including the new fields
 	server.UploadFile(c)
 
 }
@@ -207,30 +231,7 @@ func checkComposer(path string, comp Comp) string {
 	return path
 }
 
-func createFile(uid uint32, server *Server, fullpath string, file multipart.File, comp Comp, sheetName string, releaseDate string, informationText string) error {
-	// Create database entry
-	sheet := models.Sheet{
-		SafeSheetName:   sanitize.Name(Unidecode(sheetName)),
-		SheetName:       sheetName,
-		SafeComposer:    sanitize.Name(Unidecode(comp.CompleteName)),
-		Composer:        comp.CompleteName,
-		UploaderID:      uid,
-		ReleaseDate:     createDate(releaseDate),
-		InformationText: informationText,
-	}
-	sheet.Prepare()
-
-	_, err := sheet.SaveSheet(server.DB)
-	if err != nil {
-		return err
-	}
-
-	err = utils.OsCreateFile(fullpath, file)
-	if err != nil {
-		return err
-	}
-	return nil
-}
+// createFile function has been removed and its functionality moved directly into UploadFile
 
 func createDate(date string) time.Time {
 	// Create a usable date

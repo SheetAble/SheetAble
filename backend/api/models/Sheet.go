@@ -27,6 +27,10 @@ type Sheet struct {
 	UpdatedAt       time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 	Tags            pq.StringArray `gorm:"type:text[]" json:"tags"`
 	InformationText string         `json:"information_text"`
+	Key             string         `json:"key"`
+	Instrument      string         `json:"instrument"`
+	SheetType       string         `json:"sheet_type"`
+	YearWritten     string         `json:"year_written"`
 }
 
 func (s *Sheet) Prepare() {

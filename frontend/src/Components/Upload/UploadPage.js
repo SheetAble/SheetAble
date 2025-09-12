@@ -30,6 +30,10 @@ const InteractiveForm = () => {
     composer: "",
     sheetName: "",
     releaseDate: "1999-12-31",
+    key: "",
+    instrument: "",
+    sheetType: "",
+    yearWritten: "",
   });
 
   const firstButtonOnClick = (e) => {
@@ -91,6 +95,35 @@ const InteractiveForm = () => {
                   class="name"
                   name="composer"
                   placeholder="Composer"
+                  onChange={handleChange}
+                />
+                {/* New fields */}
+                <input
+                  type="text"
+                  class="name"
+                  name="key"
+                  placeholder="Key (e.g., C, C#, D)"
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  class="name"
+                  name="instrument"
+                  placeholder="Instrument (e.g., Trumpet, Voice - Soprano)"
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  class="name"
+                  name="sheetType"
+                  placeholder="Sheet Type (e.g., Orchestral Score, Vocal Anthology)"
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  class="name"
+                  name="yearWritten"
+                  placeholder="Year Written"
                   onChange={handleChange}
                 />
               </label>
