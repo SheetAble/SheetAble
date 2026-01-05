@@ -17,7 +17,7 @@ import SideBar from "../Sidebar/SideBar";
 import SheetBox from "../SheetsPage/Components/SheetBox";
 import { IconButton } from "@material-ui/core";
 import Modal from "../Sidebar/Modal/Modal";
-import ModalContent from "./ModalContent";
+import SheetMusicEditor from "../SheetMusicEditor/SheetMusicEditor";
 
 function Composer({
   composerPages,
@@ -35,17 +35,17 @@ function Composer({
   const [composer, setComposer] = useState(
     findComposerByPages(safeComposerName, composerPages)
   );
-
   const [inRequest, setInRequest] = useState(false);
   const [imgUrl, setImgUrl] = useState(undefined);
-
   const [loading, setLoading] = useState(true);
 
+  // Modal state
+  const [modal, setModal] = useState(false);
+  const [editingSheet, setEditingSheet] = useState(null);
+
+  // Fetch composer sheets
   const getData = () => {
-    if (
-      (composer === undefined || composer.sheets === undefined) &&
-      !inRequest
-    ) {
+    if ((composer === undefined || composer.sheets === undefined) && !inRequest) {
       setInRequest(true);
       getComposerPagesData(() => {
         getSheetsForComposer();
@@ -62,7 +62,6 @@ function Composer({
       sortBy: "updated_at desc",
       composer: safeComposerName,
     };
-
     getSheetPage(data, () => {
       setComposer(findComposerByPages(safeComposerName, composerPages));
     });
@@ -85,6 +84,7 @@ function Composer({
     getComposerPage(data, () => _callback());
   };
 
+  // Update composer when composerPages change
   useEffect(() => {
     setComposer(findComposerByPages(safeComposerName, composerPages));
     if (composer !== undefined && composer.sheets !== undefined) {
@@ -93,32 +93,38 @@ function Composer({
     }
   }, [composerPages]);
 
+  // Update image URL and page title
   useEffect(() => {
-    if (!loading) {
+    if (!loading && composer) {
       setImgUrl(getCompImgUrl(composer.portrait_url));
     }
-
-    // Change Page Title
-    document.title = `SheetAble - ${
-      composer === undefined ? "Composer" : composer.name
-    }`;
-  }, [loading]);
+    document.title = `SheetAble - ${composer ? composer.name : "Composer"}`;
+  }, [loading, composer]);
 
   useEffect(() => {
     getData();
   });
 
-  const [modal, setModal] = useState(false);
+  // Handle sheet save from SheetMusicEditor
+  const handleSaveSheet = (sheetData) => {
+    console.log("Saved sheet:", sheetData);
+    // TODO: call Redux action to save sheet to backend if needed
+    setModal(false);
+    setEditingSheet(null);
+    getSheetsForComposer(); // refresh sheets
+  };
 
   return (
     <Fragment>
       <SideBar />
       <div className="home_content">
-        {!loading ? (
+        {!loading && composer ? (
           <div className="composer-page">
             <img src={imgUrl} className="portrait-page" alt="Portrait" />
             <h5>{composer.name}</h5>
             <h6>{composer.epoch}</h6>
+
+            {/* Edit Composer */}
             <IconButton
               onClick={() => setModal(true)}
               className="edit"
@@ -126,6 +132,8 @@ function Composer({
             >
               <EditIcon />
             </IconButton>
+
+            {/* Delete Composer */}
             <IconButton
               className="delete"
               disabled={composer.name === "Unknown"}
@@ -138,22 +146,48 @@ function Composer({
             >
               <DeleteIcon />
             </IconButton>
-            <Modal title="Edit" onClose={() => setModal(false)} show={modal}>
-              <ModalContent
+
+            {/* Add New Sheet Button */}
+            <button
+              className="btn-add-sheet"
+              onClick={() => {
+                setEditingSheet(null); // new sheet
+                setModal(true);
+              }}
+            >
+              + Add New Sheet
+            </button>
+
+            {/* Modal for editing/creating sheet */}
+            <Modal title={editingSheet ? "Edit Sheet" : "New Sheet"} onClose={() => setModal(false)} show={modal}>
+              <SheetMusicEditor
+                initialData={editingSheet || { title: "", composer: composer.name }}
+                composerName={composer.name}
+                onSave={handleSaveSheet}
                 onClose={() => setModal(false)}
-                composer={composer}
               />
             </Modal>
+
+            {/* Sheets list */}
             <ul className="all-sheets-container full-height">
-              {composer.sheets === undefined
-                ? getData()
-                : composer.sheets.map((sheet) => {
-                    return <SheetBox sheet={sheet} />;
-                  })}
+              {composer.sheets && composer.sheets.length > 0 ? (
+                composer.sheets.map((sheet) => (
+                  <SheetBox
+                    key={sheet.id}
+                    sheet={sheet}
+                    onEdit={() => {
+                      setEditingSheet(sheet);
+                      setModal(true);
+                    }}
+                  />
+                ))
+              ) : (
+                <p>No sheets found</p>
+              )}
             </ul>
           </div>
         ) : (
-          <p>loading</p>
+          <p>Loading...</p>
         )}
       </div>
     </Fragment>

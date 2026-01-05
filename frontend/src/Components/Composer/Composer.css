@@ -59,3 +59,58 @@
 .edit-wrapper .filepond--wrapper {
   margin-top: 35px;
 }
+
+.composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px 0;
+  gap: 10px;
+}
+
+.user-sheets-section {
+  margin: 30px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.user-sheets-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.user-sheet-card {
+  background: white;
+  border-radius: 6px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.user-sheet-content h5 {
+  margin: 0 0 10px 0;
+  color: #1976d2;
+}
+
+.user-sheet-content p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.user-sheet-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
