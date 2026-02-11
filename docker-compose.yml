@@ -1,0 +1,50 @@
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8000"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=sheetable
+      - DB_PASSWORD=sheetable
+      - DB_NAME=sheetable
+      - ADMIN_EMAIL=admin@admin.com
+      - ADMIN_PASSWORD=sheetable
+      - PORT=8000
+      - LIBRARY_PATH=/sheetmusic
+    volumes:
+      # Mount your sheet music library
+      - ./sheetmusic:/sheetmusic:ro
+      # Persist uploaded sheets and thumbnails
+      - sheetable-data:/app/data
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=sheetable
+      - POSTGRES_PASSWORD=sheetable
+      - POSTGRES_DB=sheetable
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  sheetable-data:

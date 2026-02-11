@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"log"
 	"os"
 	"path"
 	"strings"
@@ -27,6 +26,11 @@ type Sheet struct {
 	UpdatedAt       time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 	Tags            pq.StringArray `gorm:"type:text[]" json:"tags"`
 	InformationText string         `json:"information_text"`
+	// Library sync fields
+	FilePath    string `json:"file_path"`                        // Absolute path to PDF file (for synced files)
+	FileHash    string `json:"file_hash"`                        // SHA256 hash for duplicate detection
+	IsAvailable bool   `gorm:"default:true" json:"is_available"` // Whether file exists
+	Source      string `gorm:"default:'uploaded'" json:"source"` // "uploaded" or "synced"
 }
 
 func (s *Sheet) Prepare() {
@@ -38,6 +42,14 @@ func (s *Sheet) Prepare() {
 	s.UpdatedAt = time.Now()
 	s.PdfUrl = "sheet/pdf/" + s.SafeComposer + "/" + s.SafeSheetName
 	s.Tags = pq.StringArray{}
+	// Set default source if not specified
+	if s.Source == "" {
+		s.Source = "uploaded"
+	}
+	// Default to available
+	if s.Source == "uploaded" {
+		s.IsAvailable = true
+	}
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
@@ -63,10 +75,9 @@ func (s *Sheet) DeleteSheet(db *gorm.DB, sheetName string) (int64, error) {
 		path.Join(Config().ConfigPath, "sheets/thumbnails", sheet.SafeSheetName+".png"),
 	}
 
-	for _, path := range paths {
-		e := os.Remove(path)
-		if e != nil {
-			log.Fatal(e)
+	for _, p := range paths {
+		if _, err := os.Stat(p); err == nil {
+			_ = os.Remove(p)
 		}
 	}
 
@@ -93,7 +104,8 @@ func (s *Sheet) GetAllSheets(db *gorm.DB) (*[]Sheet, error) {
 	var err error
 	sheets := []Sheet{}
 
-	err = db.Order("updated_at desc").Limit(20).Find(&sheets).Error
+	// Only show available sheets
+	err = db.Where("is_available = ?", true).Order("updated_at desc").Limit(20).Find(&sheets).Error
 
 	if err != nil {
 		return &[]Sheet{}, err
@@ -119,10 +131,13 @@ func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagi
 	// For pagination
 
 	var sheets []*Sheet
+	// Only show available sheets
+	query := db.Where("is_available = ?", true)
+
 	if composer != "" {
-		db.Scopes(ComposerEqual(composer), paginate(sheets, &pagination, db)).Find(&sheets)
+		query.Scopes(ComposerEqual(composer), paginate(sheets, &pagination, query)).Find(&sheets)
 	} else {
-		db.Scopes(paginate(sheets, &pagination, db)).Find(&sheets)
+		query.Scopes(paginate(sheets, &pagination, query)).Find(&sheets)
 	}
 
 	pagination.Rows = sheets
@@ -135,7 +150,8 @@ func SearchSheet(db *gorm.DB, searchValue string) []*Sheet {
 	// Search for sheets with containing string
 	var sheets []*Sheet
 	searchValue = "%" + searchValue + "%"
-	db.Where("sheet_name LIKE ?", searchValue).Find(&sheets)
+	// Only show available sheets
+	db.Where("sheet_name LIKE ? AND is_available = ?", searchValue, true).Find(&sheets)
 	return sheets
 }
 
@@ -192,4 +208,30 @@ func FindSheetByTag(db *gorm.DB, tag string) []*Sheet {
 	}
 
 	return affectedSheets
+}
+
+// FindSheetByHash finds a sheet by its file hash (for duplicate detection)
+func FindSheetByHash(db *gorm.DB, hash string) (*Sheet, error) {
+	var sheet Sheet
+	err := db.Model(&Sheet{}).Where("file_hash = ?", hash).First(&sheet).Error
+	if err != nil {
+		return nil, err
+	}
+	return &sheet, nil
+}
+
+// MarkAsUnavailable marks a sheet as unavailable (file no longer exists)
+func (s *Sheet) MarkAsUnavailable(db *gorm.DB) error {
+	s.IsAvailable = false
+	return db.Model(s).Update("is_available", false).Error
+}
+
+// UpdateFilePath updates the file path for a synced sheet
+func (s *Sheet) UpdateFilePath(db *gorm.DB, newPath string) error {
+	s.FilePath = newPath
+	s.IsAvailable = true
+	return db.Model(s).Updates(map[string]interface{}{
+		"file_path":    newPath,
+		"is_available": true,
+	}).Error
 }

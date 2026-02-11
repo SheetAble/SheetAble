@@ -1,0 +1,54 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+docs/
+
+# Development files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files
+*_test.go
+test/
+coverage.txt
+
+# Build artifacts
+main
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Scripts (not needed in container)
+scripts/install-thumbnail-tools.sh
+
+# Data directories (mounted as volumes)
+data/
+sheets/
+library/
+
+# Logs
+*.log
+logs/

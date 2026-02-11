@@ -19,11 +19,24 @@ import axios from "axios";
 function SideBar(props) {
   const [uploadModal, setUploadModal] = useState(false);
   const [falseVersion, setFalseVersion] = useState(false);
+  const [syncLoading, setSyncLoading] = useState(false);
 
   const { sidebar } = props;
 
   const onClickBtn = () => {
     props.setSidebar();
+  };
+
+  const handleLibrarySync = async () => {
+    try {
+      // Trigger library sync
+      await axios.post("/library/scan");
+      // The polling will automatically update syncLoading state
+    } catch (error) {
+      console.error("Error triggering library sync:", error);
+      const errorMsg = (error.response && error.response.data && error.response.data.error) || "Failed to start library sync";
+      alert(errorMsg);
+    }
   };
 
   useEffect(() => {
@@ -38,7 +51,58 @@ function SideBar(props) {
           setFalseVersion(versionRes.data.data !== data.tag_name);
         });
       });
+
+    // Check initial sync status
+    checkSyncStatus();
+
+    // Use a ref to track polling state
+    let pollCount = 0;
+    let statusInterval;
+
+    const startPolling = () => {
+      if (statusInterval) clearInterval(statusInterval);
+      
+      statusInterval = setInterval(async () => {
+        try {
+          const response = await axios.get("/library/status");
+          const isScanning = response.data.IsScanning;
+          setSyncLoading(isScanning);
+
+          if (isScanning) {
+            // Reset poll count when scanning
+            pollCount = 0;
+          } else {
+            // Increment poll count when not scanning
+            pollCount++;
+            
+            // After 10 idle polls (30 seconds), stop polling to save resources
+            if (pollCount >= 10) {
+              clearInterval(statusInterval);
+              statusInterval = null;
+            }
+          }
+        } catch (error) {
+          console.debug("Could not fetch sync status:", error);
+        }
+      }, 3000);
+    };
+
+    startPolling();
+
+    return () => {
+      if (statusInterval) clearInterval(statusInterval);
+    };
   }, []);
+
+  const checkSyncStatus = async () => {
+    try {
+      const response = await axios.get("/library/status");
+      setSyncLoading(response.data.IsScanning);
+    } catch (error) {
+      // Silently fail - status endpoint might not be available
+      console.debug("Could not fetch sync status:", error);
+    }
+  };
 
   return (
     <Fragment>
@@ -120,16 +184,18 @@ function SideBar(props) {
           </li>
           <li>
             <p
+              disabled={syncLoading}
               onClick={() => {
-                props.resetData();
-                window.location.reload();
+                if (!syncLoading) {
+                  handleLibrarySync();
+                }
               }}
-              className="cursor"
+              className={syncLoading ? "" : "cursor"}
             >
-              <i className="bx bx-sync"></i>
-              <span className="links_name">Synchronize</span>
+              <i className={`bx ${syncLoading ? "bx-loader-alt bx-spin" : "bx-sync"}`}></i>
+              <span className="links_name">{syncLoading ? "Syncing..." : "Synchronize"}</span>
             </p>
-            <span className="tooltip">Synchronize</span>
+            <span className="tooltip">{syncLoading ? "Syncing..." : "Synchronize"}</span>
           </li>
 
           <li>

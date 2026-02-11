@@ -5,6 +5,7 @@ import { createUser } from "../../Redux/Actions/userActions";
 import SideBar from "../Sidebar/SideBar";
 import "./Settings.css";
 import UserManagement from "./Table/UserManagement";
+import LibrarySettings from "./LibrarySettings";
 
 function Settings(props) {
   const [admin] = useState(props.userData.id === 1);
@@ -23,20 +24,23 @@ function Settings(props) {
           <br />
           <span className="doc_composer ">
             Account Status: <b>{admin ? "Admin" : "Non Admin"}</b>
-            {!admin && (
-              <div className="no-settings">
-                {" "}
-                Currently no settings available for non admins
-              </div>
-            )}
           </span>
         </div>
 
-        {admin ? (
+        {/* Library Settings - Available to all users */}
+        <div className="settings-section">
+          <LibrarySettings isAdmin={admin} />
+        </div>
+
+        {/* User Management - Admin only */}
+        {admin && (
           <div className="admin-wrapper">
             <UserManagement createUser={createUser} />
           </div>
-        ) : (
+        )}
+
+        {/* Placeholder for non-admins if no library path configured */}
+        {!admin && (
           <div className="non-admin-wrapper">
             <img src={SettingsSvg} alt="" />
           </div>

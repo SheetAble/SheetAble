@@ -8,7 +8,7 @@ import (
 
 func CreateDir(path string) error {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		err = os.Mkdir(path, os.ModePerm)
+		err = os.MkdirAll(path, os.ModePerm)
 		if err != nil {
 			return err
 		}
@@ -25,4 +25,25 @@ func OsCreateFile(fullpath string, file multipart.File) error {
 	defer f.Close()
 	io.Copy(f, file)
 	return nil
+}
+
+func CopyFile(src, dst string) error {
+	sourceFile, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer sourceFile.Close()
+
+	destFile, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer destFile.Close()
+
+	_, err = io.Copy(destFile, sourceFile)
+	if err != nil {
+		return err
+	}
+
+	return destFile.Sync()
 }

@@ -73,6 +73,16 @@ type ServerConfig struct {
 	Dev  bool `env:"DEV"`
 	Port int  `env:"PORT"`
 
+	// Library configuration
+	// NOTE: These values are used ONLY for initial database seeding on first run.
+	// After the first run, library settings are managed via the database and UI.
+	// Changing these values will NOT affect an existing installation.
+	LibraryPath     string `env:"LIBRARY_PATH"`
+	AutoScanEnabled bool   `env:"AUTO_SCAN_ENABLED"`
+	ScanInterval    int    `env:"SCAN_INTERVAL"`
+	OrganizeMode    bool   `env:"ORGANIZE_MODE"`
+	AllowDuplicates bool   `env:"ALLOW_DUPLICATES"`
+
 	Database DatabaseConfig
 	Smtp     SmtpConfig
 }
@@ -91,6 +101,12 @@ func NewConfig() ServerConfig {
 		Smtp: SmtpConfig{
 			Enabled: "0",
 		},
+		// Library defaults
+		LibraryPath:     "",
+		AutoScanEnabled: false,
+		ScanInterval:    60, // 60 minutes
+		OrganizeMode:    false,
+		AllowDuplicates: false,
 	}
 }
 

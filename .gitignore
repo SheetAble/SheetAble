@@ -2,3 +2,5 @@ build/
 .idea/
 node_modules
 yarn.lock
+/sheetmusic
+.DS_Store

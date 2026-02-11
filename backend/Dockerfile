@@ -1,9 +1,11 @@
 # GO Repo base repo
-FROM golang:alpine as builder
+FROM golang:1.21-bookworm AS builder
 
-RUN apk add build-base
-
-RUN apk add git
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
 # Add Maintainer Info
 LABEL maintainer="vallezw"
@@ -22,10 +24,18 @@ COPY . .
 # Build the Go app
 RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o main .
 
-# GO Repo base repo
-FROM alpine:latest
+# Production stage
+FROM debian:bookworm-slim
 
-RUN apk --no-cache add ca-certificates curl
+# Install runtime dependencies
+# - ca-certificates: for HTTPS requests
+# - curl: for health checks
+# - poppler-utils: for PDF thumbnail generation (pdftoppm)
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    poppler-utils \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /app
 

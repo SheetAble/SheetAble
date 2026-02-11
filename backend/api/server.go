@@ -18,6 +18,9 @@ func Run() {
 
 	seed.Load(server.DB, Config().AdminEmail, Config().AdminPassword)
 
+	// Initialize library sync after seeding
+	server.InitializeLibrarySync()
+
 	port := 8080
 	if Config().Port != 0 {
 		port = Config().Port
@@ -32,6 +35,9 @@ func RunWithPort(port int) {
 	server.Initialize()
 
 	seed.Load(server.DB, Config().AdminEmail, Config().AdminPassword)
+
+	// Initialize library sync after seeding
+	server.InitializeLibrarySync()
 
 	server.Run(fmt.Sprintf("0.0.0.0:%d", port), Config().Dev)
 }

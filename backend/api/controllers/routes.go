@@ -69,6 +69,14 @@ func (server *Server) SetupRouter() {
 	secureApi.DELETE("/composer/:composerName", server.DeleteComposer)
 	api.GET("/composer/portrait/:composerName", server.ServePortraits)
 
+	// Library routes
+	secureApi.POST("/library/scan", server.TriggerLibraryScan)
+	secureApi.GET("/library/status", server.GetLibraryStatus)
+	secureApi.GET("/library/stats", server.GetLibraryStats)
+	secureApi.GET("/library/settings", server.GetLibrarySettings)
+	secureApi.PUT("/library/settings", server.UpdateLibrarySettings)
+	secureApi.GET("/library/thumbnail-tools", server.GetThumbnailTools)
+
 	// Serve React
 	appBox := rice.MustFindBox("../../../frontend/build")
 

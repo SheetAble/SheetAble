@@ -22,6 +22,7 @@ import (
 	"github.com/SheetAble/SheetAble/backend/api/forms"
 	. "github.com/fiam/gounidecode/unidecode"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 
 	. "github.com/SheetAble/SheetAble/backend/api/config"
 	"github.com/SheetAble/SheetAble/backend/api/models"
@@ -32,7 +33,7 @@ import (
 // Structs for handling the response on the Open Opus API
 
 type Response struct {
-	Composers *[]Comp `json: "composers"`
+	Composers *[]Comp `json:"composers"`
 }
 
 type Comp struct {
@@ -45,6 +46,9 @@ type Comp struct {
 	Portrait     string `json:"portrait"`
 }
 
+// UploadFile handles the basic upload of sheets.
+// It will upload given file in the uploaded sheets folder either under
+// the unknown subfolder or under the author's name subfolder, depending on whether an author is given or not.
 func (server *Server) UploadFile(c *gin.Context) {
 	// Check for authentication
 	token := utils.ExtractToken(c)
@@ -100,9 +104,9 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 
-	// Send POST request to python server for creating the thumbnail (first page of pdf as an image)
-	if !utils.RequestToPdfToImage(fullpath, sanitize.Name(Unidecode(sheetName))) {
-		return
+	// Generate thumbnail locally using Poppler/ImageMagick
+	if err := utils.GenerateThumbnailLocal(fullpath, sanitize.Name(Unidecode(sheetName))); err != nil {
+		fmt.Printf("Warning: Failed to generate thumbnail for %s: %v\n", sheetName, err)
 	}
 
 	// Return that we have successfully uploaded our file!
@@ -110,7 +114,6 @@ func (server *Server) UploadFile(c *gin.Context) {
 }
 
 func (server *Server) UpdateSheet(c *gin.Context) {
-
 	// Check for authentication
 	token := utils.ExtractToken(c)
 	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
@@ -119,18 +122,162 @@ func (server *Server) UpdateSheet(c *gin.Context) {
 		return
 	}
 
-	sheetName := c.Param("sheetName")
-
-	// Delete Sheet
-	var sheet models.Sheet
-	_, err = sheet.DeleteSheet(server.DB, sheetName)
-	if err != nil {
-		c.String(http.StatusBadRequest, err.Error())
+	origSafeName := c.Param("sheetName")
+	if origSafeName == "" {
+		utils.DoError(c, http.StatusBadRequest, errors.New("missing sheet name parameter"))
 		return
 	}
 
-	server.UploadFile(c)
+	// Find the existing sheet
+	var oldSheet models.Sheet
+	if err := server.DB.Where("safe_sheet_name = ?", origSafeName).First(&oldSheet).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			c.String(http.StatusNotFound, "Sheet not found")
+		} else {
+			utils.DoError(c, http.StatusInternalServerError, err)
+		}
+		return
+	}
 
+	// Parse form
+	var uploadForm forms.UploadRequest
+	if err := c.ShouldBind(&uploadForm); err != nil {
+		utils.DoError(c, http.StatusBadRequest, fmt.Errorf("bad request: %v", err))
+		return
+	}
+
+	// Prepare new metadata
+	newSheetName := uploadForm.SheetName
+	if newSheetName == "" {
+		newSheetName = oldSheet.SheetName
+	}
+	newSafeName := sanitize.Name(Unidecode(newSheetName))
+
+	newComposerName := uploadForm.Composer
+	if newComposerName == "" {
+		newComposerName = oldSheet.Composer
+	}
+	newSafeComposer := sanitize.Name(Unidecode(newComposerName))
+
+	// Check if we are renaming to an already existing safe name (if changing)
+	if newSafeName != oldSheet.SafeSheetName {
+		var checkSheet models.Sheet
+		if err := server.DB.Where("safe_sheet_name = ?", newSafeName).First(&checkSheet).Error; err == nil {
+			c.String(http.StatusConflict, "A sheet with the new name already exists")
+			return
+		}
+	}
+
+	// Handle Composer (Ensures composer exists)
+	_ = safeComposer(server, newComposerName)
+
+	// Update paths logic
+	oldPath := oldSheet.FilePath
+	if oldPath == "" && oldSheet.Source == "uploaded" {
+		// Fallback for older records without FilePath
+		oldPath = path.Join(Config().ConfigPath, "sheets/uploaded-sheets", oldSheet.SafeComposer, oldSheet.SafeSheetName+".pdf")
+	}
+	newPath := oldPath
+
+	// If it was an uploaded file OR we are about to write/move it,
+	// ensure the destination is in the writable uploaded-sheets directory.
+	// We move it if:
+	// - It's already an uploaded file (so we can handle renames/composer changes in managed storage)
+	// - A new file was uploaded (converting it to an uploaded file)
+	needsMove := oldSheet.Source == "uploaded" || uploadForm.File != nil
+	if needsMove {
+		uploadDir := path.Join(Config().ConfigPath, "sheets/uploaded-sheets", newSafeComposer)
+		utils.CreateDir(uploadDir)
+		newPath = path.Join(uploadDir, newSafeName+".pdf")
+	}
+
+	// 1. If a new file is uploaded, use it
+	if uploadForm.File != nil && uploadForm.File.Filename != "" {
+		theFile, err := uploadForm.File.Open()
+		if err != nil {
+			utils.DoError(c, http.StatusInternalServerError, err)
+			return
+		}
+		defer theFile.Close()
+
+		// Save new file to the new (writeable) path
+		if err := utils.OsCreateFile(newPath, theFile); err != nil {
+			utils.DoError(c, http.StatusInternalServerError, err)
+			return
+		}
+	} else if newPath != oldPath {
+		// 2. If no new file but path changed (rename/re-composer/synced-to-uploaded)
+		if _, err := os.Stat(oldPath); err == nil {
+			// If moving from a read-only or different volume, we should copy.
+			// For simplicity and safety, we copy then delete if it was "uploaded".
+			// If it was "synced", we just copy (leaving original library untouched).
+			err := utils.CopyFile(oldPath, newPath)
+			if err != nil {
+				fmt.Printf("Warning: Failed to copy file from %s to %s: %v\n", oldPath, newPath, err)
+			} else if oldSheet.Source == "uploaded" && oldPath != newPath {
+				_ = os.Remove(oldPath)
+			}
+		}
+	}
+
+	// Handle Thumbnail rename if needed
+	oldThumb := path.Join(Config().ConfigPath, "sheets/thumbnails", oldSheet.SafeSheetName+".png")
+	newThumb := path.Join(Config().ConfigPath, "sheets/thumbnails", newSafeName+".png")
+	if newSafeName != oldSheet.SafeSheetName {
+		if _, err := os.Stat(oldThumb); err == nil {
+			_ = os.Rename(oldThumb, newThumb)
+		}
+	}
+
+	// Update record
+	tx := server.DB.Begin()
+	// Since SafeSheetName is the primary key and might have changed, we use a manual update or delete/recreate
+	if newSafeName != oldSheet.SafeSheetName {
+		// If PK changed, we must delete old and create new to avoid PK issues in some GORM versions
+		if err := tx.Where("safe_sheet_name = ?", oldSheet.SafeSheetName).Delete(&models.Sheet{}).Error; err != nil {
+			tx.Rollback()
+			utils.DoError(c, http.StatusInternalServerError, err)
+			return
+		}
+	}
+
+	newSheet := oldSheet
+	newSheet.SafeSheetName = newSafeName
+	newSheet.SheetName = newSheetName
+	newSheet.SafeComposer = newSafeComposer
+	newSheet.Composer = newComposerName
+	newSheet.FilePath = newPath
+	// If it was synced but now moved to our data folder or replaced, it is now an "uploaded" source
+	if uploadForm.File != nil || newPath != oldPath {
+		newSheet.Source = "uploaded"
+	} else {
+		newSheet.Source = oldSheet.Source
+	}
+	newSheet.InformationText = uploadForm.InformationText
+	if uploadForm.ReleaseDate != "" {
+		newSheet.ReleaseDate = createDate(uploadForm.ReleaseDate)
+	}
+	newSheet.UpdatedAt = time.Now()
+	newSheet.PdfUrl = "sheet/pdf/" + newSafeComposer + "/" + newSafeName
+
+	// Save (will create if newSafeName changed and old was deleted, or update otherwise)
+	if err := tx.Save(&newSheet).Error; err != nil {
+		tx.Rollback()
+		utils.DoError(c, http.StatusInternalServerError, err)
+		return
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		utils.DoError(c, http.StatusInternalServerError, err)
+		return
+	}
+
+	// Regenerate thumbnail if file changed or renamed
+	if uploadForm.File != nil || newSafeName != oldSheet.SafeSheetName {
+		_ = utils.GenerateThumbnailLocal(newPath, newSafeName)
+	}
+
+	c.JSON(http.StatusOK, "Sheet successfully updated")
 }
 
 func getPortraitURL(composerName string) Comp {
@@ -207,6 +354,7 @@ func checkComposer(path string, comp Comp) string {
 	return path
 }
 
+// createFile saves the file to disk and creates the corresponding database entry.
 func createFile(uid uint32, server *Server, fullpath string, file multipart.File, comp Comp, sheetName string, releaseDate string, informationText string) error {
 	// Create database entry
 	sheet := models.Sheet{
@@ -217,6 +365,9 @@ func createFile(uid uint32, server *Server, fullpath string, file multipart.File
 		UploaderID:      uid,
 		ReleaseDate:     createDate(releaseDate),
 		InformationText: informationText,
+		FilePath:        fullpath, // Store the absolute path for consistency
+		Source:          "uploaded",
+		IsAvailable:     true,
 	}
 	sheet.Prepare()
 

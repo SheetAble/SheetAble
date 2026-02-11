@@ -93,7 +93,7 @@ function SheetsPage({
                 <span className="doc_composer">Recent Uploads</span>
               </div>
               <div className="middle-part-container">
-                <ul className="all-sheets-container full-height">
+                <ul className="all-sheets-container">
                   {sheetPages[sheetPage] === undefined
                     ? getData()
                     : sheetPages[sheetPage].map((sheet) => {

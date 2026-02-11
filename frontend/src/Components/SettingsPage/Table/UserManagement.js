@@ -64,7 +64,7 @@ function UserManagement({ getUsersData, users, createUser }) {
       return mappedUsers.push(u);
     });
     setRows(mappedUsers);
-  }, []);
+  }, [users]);
 
   return (
     <div
