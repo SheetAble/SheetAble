@@ -7,15 +7,12 @@
 package controllers
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"path"
-	"strings"
 	"time"
 
 	"github.com/SheetAble/SheetAble/backend/api/auth"
@@ -30,27 +27,12 @@ import (
 	"github.com/kennygrant/sanitize"
 )
 
-// Structs for handling the response on the Open Opus API
-
-type Response struct {
-	Composers *[]Comp `json:"composers"`
-}
-
-type Comp struct {
-	Name         string `json:"name"`
-	CompleteName string `json:"complete_name"`
-	SafeName     string `json:"safe_name"`
-	Birth        string `json:"birth"`
-	Death        string `json:"death"`
-	Epoch        string `json:"epoch"`
-	Portrait     string `json:"portrait"`
-}
-
 // UploadFile handles the basic upload of sheets.
 // It will upload given file in the uploaded sheets folder either under
 // the unknown subfolder or under the author's name subfolder, depending on whether an author is given or not.
 func (server *Server) UploadFile(c *gin.Context) {
 	// Check for authentication
+
 	token := utils.ExtractToken(c)
 	uid, err := auth.ExtractTokenID(token, Config().ApiSecret)
 	if err != nil || uid == 0 {
@@ -73,14 +55,18 @@ func (server *Server) UploadFile(c *gin.Context) {
 	thumbnailPath := path.Join(Config().ConfigPath, "sheets/thumbnails")
 
 	// Save composer in the database
-	comp := safeComposer(server, uploadForm.Composer)
+	comp := models.EnsureComposer(server.DB, uploadForm.Composer)
 
 	utils.CreateDir(prePath)
 	utils.CreateDir(uploadPath)
 	utils.CreateDir(thumbnailPath)
 
 	// Handle case where no composer is given
-	uploadPath = checkComposer(uploadPath, comp)
+	uploadPath, err = checkComposer(uploadPath, comp)
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, err)
+		return
+	}
 
 	// Check if the file already exists
 	sheetName := uploadForm.SheetName
@@ -169,7 +155,7 @@ func (server *Server) UpdateSheet(c *gin.Context) {
 	}
 
 	// Handle Composer (Ensures composer exists)
-	comp := safeComposer(server, newComposerName)
+	comp := models.EnsureComposer(server.DB, newComposerName)
 	newComposerName = comp.CompleteName
 	newSafeComposer = comp.SafeName
 
@@ -282,68 +268,7 @@ func (server *Server) UpdateSheet(c *gin.Context) {
 	c.JSON(http.StatusOK, "Sheet successfully updated")
 }
 
-func getPortraitURL(composerName string) Comp {
-	resp, err := http.Get("https://api.openopus.org/composer/list/search/" + composerName + ".json")
-	if err != nil {
-		fmt.Println(err)
-
-		return Comp{
-			CompleteName: composerName,
-			SafeName:     sanitize.Name(Unidecode(composerName)),
-			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
-			Epoch:        "Unknown",
-		}
-	}
-
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println(err)
-	}
-	response := &Response{
-		Composers: &[]Comp{},
-	}
-
-	err_new := json.Unmarshal([]byte(string(body)), response)
-	fmt.Println(err_new)
-	composers := *response.Composers
-
-	// Check if the given name and the name from the API are alike
-	if len(composers) == 0 || (!strings.EqualFold(composerName, composers[0].Name) && !strings.EqualFold(composerName, composers[0].CompleteName)) {
-		return Comp{
-			CompleteName: composerName,
-			SafeName:     sanitize.Name(Unidecode(composerName)),
-			Portrait:     "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
-			Epoch:        "Unknown",
-		}
-	}
-
-	return composers[0]
-}
-
-func safeComposer(server *Server, composer string) Comp {
-
-	compo := getPortraitURL(composer)
-
-	if compo.SafeName == "" {
-		// Used for chinese/japanese chars etc
-		unideCodeName := Unidecode(compo.CompleteName)
-		compo.SafeName = sanitize.Name(unideCodeName)
-	}
-
-	comp := models.Composer{
-		Name:        compo.CompleteName,
-		SafeName:    compo.SafeName,
-		PortraitURL: compo.Portrait,
-		Epoch:       compo.Epoch,
-	}
-
-	comp.Prepare()
-	comp.SaveComposer(server.DB)
-	return compo
-}
-
-func checkComposer(path string, comp Comp) string {
+func checkComposer(path string, comp utils.Comp) (string, error) {
 	// Handle case where no composer is given
 	composer := comp.SafeName
 	fmt.Println(composer)
@@ -352,12 +277,11 @@ func checkComposer(path string, comp Comp) string {
 	} else {
 		path += "/unknown"
 	}
-	utils.CreateDir(path)
-	return path
+	return path, utils.CreateDir(path)
 }
 
 // createFile saves the file to disk and creates the corresponding database entry.
-func createFile(uid uint32, server *Server, fullpath string, file multipart.File, comp Comp, sheetName string, releaseDate string, informationText string) error {
+func createFile(uid uint32, server *Server, fullpath string, file multipart.File, comp utils.Comp, sheetName string, releaseDate string, informationText string) error {
 	// Create database entry
 	sheet := models.Sheet{
 		SafeSheetName:   sanitize.Name(Unidecode(sheetName)),

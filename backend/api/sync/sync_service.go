@@ -206,21 +206,14 @@ func ImportFile(db *gorm.DB, fileInfo scanner.FileInfo) (bool, error) {
 	}
 
 	// Create or get composer
-	composer := models.Composer{
-		Name:        fileInfo.Composer,
-		SafeName:    fileInfo.SafeComposer,
-		PortraitURL: "https://icon-library.com/images/unknown-person-icon/unknown-person-icon-4.jpg",
-		Epoch:       "Unknown",
-	}
-	composer.Prepare()
-	composer.SaveComposer(tx)
+	comp := models.EnsureComposer(tx, fileInfo.Composer)
 
 	// Create sheet entry
 	sheet := models.Sheet{
 		SafeSheetName:   fileInfo.SafeTitle,
 		SheetName:       fileInfo.Title,
-		SafeComposer:    fileInfo.SafeComposer,
-		Composer:        fileInfo.Composer,
+		SafeComposer:    comp.SafeName,
+		Composer:        comp.CompleteName,
 		ReleaseDate:     time.Now(),
 		UploaderID:      1, // System user for synced files
 		FilePath:        fileInfo.Path,

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import { startLibrarySync, clearSyncStats } from "../../Redux/Actions/uiActions";
 import "./LibrarySettings.css";
 
-function LibrarySettings({ isAdmin }) {
+function LibrarySettings({ isAdmin, syncLoading, syncStats, startLibrarySync, clearSyncStats }) {
   const [settings, setSettings] = useState({
     library_path: "",
     auto_scan_enabled: false,
@@ -13,7 +15,6 @@ function LibrarySettings({ isAdmin }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [syncing, setSyncing] = useState(false);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
@@ -68,45 +69,28 @@ function LibrarySettings({ isAdmin }) {
     }
   };
 
-  const handleSync = async () => {
-    setSyncing(true);
-    setMessage(null);
+  const prevSyncLoading = useRef(syncLoading);
 
-    try {
-      await axios.post("/library/scan");
+  useEffect(() => {
+    if (!syncLoading && syncStats) {
+      // Sync just finished and we have stats
+      fetchStats();
       setMessage({
         type: "success",
-        text: "Library sync started! This may take a few minutes.",
+        text: `Sync completed! ${syncStats.imported} files imported, ${syncStats.missing} missing, ${syncStats.updated} updated.`,
       });
-      // Poll for status updates
-      pollSyncStatus();
-    } catch (error) {
-      console.error("Error triggering sync:", error);
-      const errorMsg = (error.response && error.response.data && error.response.data.error) || "Failed to start sync";
-      setMessage({ type: "error", text: errorMsg });
-      setSyncing(false);
+      clearSyncStats();
     }
-  };
+    prevSyncLoading.current = syncLoading;
+  }, [syncLoading, syncStats]);
 
-  const pollSyncStatus = () => {
-    const interval = setInterval(async () => {
-      try {
-        const response = await axios.get("/library/status");
-        if (!response.data.IsScanning) {
-          clearInterval(interval);
-          setSyncing(false);
-          fetchStats(); // Refresh stats after sync completes
-          setMessage({
-            type: "success",
-            text: `Sync completed! ${response.data.FilesImported || 0} files imported, ${response.data.FilesMissing || 0} marked missing.`,
-          });
-        }
-      } catch (error) {
-        console.error("Error polling sync status:", error);
-        clearInterval(interval);
-        setSyncing(false);
-      }
-    }, 2000); // Poll every 2 seconds
+  const handleSync = () => {
+    setMessage(null);
+    startLibrarySync();
+    setMessage({
+      type: "success",
+      text: "Library sync started! This may take a few minutes.",
+    });
   };
 
   if (loading) {
@@ -156,10 +140,10 @@ function LibrarySettings({ isAdmin }) {
       <div className="sync-section">
         <button
           onClick={handleSync}
-          disabled={syncing}
+          disabled={syncLoading}
           className="btn-sync"
         >
-          {syncing ? "Syncing..." : "Sync Library Now"}
+          {syncLoading ? "Syncing..." : "Sync Library Now"}
         </button>
       </div>
 
@@ -251,4 +235,14 @@ function LibrarySettings({ isAdmin }) {
   );
 }
 
-export default LibrarySettings;
+const mapStateToProps = (state) => ({
+  syncLoading: state.UI.syncLoading,
+  syncStats: state.UI.syncStats,
+});
+
+const mapActionsToProps = {
+  startLibrarySync,
+  clearSyncStats,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(LibrarySettings);

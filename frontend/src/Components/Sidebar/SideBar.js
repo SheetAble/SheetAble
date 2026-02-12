@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./SideBar.css";
 
-import { setSidebar, getVersion } from "../../Redux/Actions/uiActions";
+import { setSidebar, getVersion, startLibrarySync, checkSyncStatus } from "../../Redux/Actions/uiActions";
 import {
   getSheets,
   getComposers,
@@ -19,24 +19,15 @@ import axios from "axios";
 function SideBar(props) {
   const [uploadModal, setUploadModal] = useState(false);
   const [falseVersion, setFalseVersion] = useState(false);
-  const [syncLoading, setSyncLoading] = useState(false);
 
-  const { sidebar } = props;
+  const { sidebar, syncLoading } = props;
 
   const onClickBtn = () => {
     props.setSidebar();
   };
 
-  const handleLibrarySync = async () => {
-    try {
-      // Trigger library sync
-      await axios.post("/library/scan");
-      // The polling will automatically update syncLoading state
-    } catch (error) {
-      console.error("Error triggering library sync:", error);
-      const errorMsg = (error.response && error.response.data && error.response.data.error) || "Failed to start library sync";
-      alert(errorMsg);
-    }
+  const handleLibrarySync = () => {
+    props.startLibrarySync();
   };
 
   useEffect(() => {
@@ -53,7 +44,7 @@ function SideBar(props) {
       });
 
     // Check initial sync status
-    checkSyncStatus();
+    props.checkSyncStatus();
 
     // Use a ref to track polling state
     let pollCount = 0;
@@ -62,27 +53,23 @@ function SideBar(props) {
     const startPolling = () => {
       if (statusInterval) clearInterval(statusInterval);
       
-      statusInterval = setInterval(async () => {
-        try {
-          const response = await axios.get("/library/status");
-          const isScanning = response.data.IsScanning;
-          setSyncLoading(isScanning);
+      statusInterval = setInterval(() => {
+        // We just dispatch the check, the reducer updates the state
+        props.checkSyncStatus();
 
-          if (isScanning) {
+        if (syncLoading) {
             // Reset poll count when scanning
             pollCount = 0;
-          } else {
+        } else {
             // Increment poll count when not scanning
             pollCount++;
             
             // After 10 idle polls (30 seconds), stop polling to save resources
-            if (pollCount >= 10) {
-              clearInterval(statusInterval);
-              statusInterval = null;
+            // However, we need to respect if syncLoading becomes true from elsewhere
+            if (pollCount >= 10 && !syncLoading) {
+               clearInterval(statusInterval);
+               statusInterval = null;
             }
-          }
-        } catch (error) {
-          console.debug("Could not fetch sync status:", error);
         }
       }, 3000);
     };
@@ -92,17 +79,7 @@ function SideBar(props) {
     return () => {
       if (statusInterval) clearInterval(statusInterval);
     };
-  }, []);
-
-  const checkSyncStatus = async () => {
-    try {
-      const response = await axios.get("/library/status");
-      setSyncLoading(response.data.IsScanning);
-    } catch (error) {
-      // Silently fail - status endpoint might not be available
-      console.debug("Could not fetch sync status:", error);
-    }
-  };
+  }, [syncLoading, props.checkSyncStatus]); // Added dependencies to restart polling if loading changes
 
   return (
     <Fragment>
@@ -184,7 +161,6 @@ function SideBar(props) {
           </li>
           <li>
             <p
-              disabled={syncLoading}
               onClick={() => {
                 if (!syncLoading) {
                   handleLibrarySync();
@@ -238,6 +214,7 @@ const mapStateToProps = (state) => ({
   sidebar: state.UI.sidebar,
   userData: state.user.userData,
   version: state.UI.version,
+  syncLoading: state.UI.syncLoading,
 });
 
 const mapActionsToProps = {
@@ -249,6 +226,8 @@ const mapActionsToProps = {
   getSheetPage,
   resetData,
   getVersion,
+  startLibrarySync,
+  checkSyncStatus,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);
