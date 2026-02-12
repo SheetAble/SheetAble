@@ -20,7 +20,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { logoutUser } from "./Redux/Actions/userActions";
 import { persistor, store } from "./Redux/store";
-import { SET_AUTHENTICATED } from "./Redux/types";
+import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./Redux/types";
 
 // Axios
 import axios from "axios";
@@ -46,6 +46,20 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
   axios.defaults.baseURL = "/api";
 }
 
+// Axios interceptor for global 401 handling
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      store.dispatch(logoutUser());
+      if (window.location.pathname !== "/login") {
+        window.location.href = "/login";
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Load token from localstorage and check it
 const token = localStorage.FBIdToken;
 if (token) {
@@ -57,8 +71,7 @@ if (token) {
   }
 
   if (decodedToken !== undefined) {
-    const ts = Date.now();
-    const currentTime = Math.floor(ts / 1000) - 7200;
+    const currentTime = Date.now() / 1000;
     if (decodedToken.exp < currentTime) {
       store.dispatch(logoutUser());
       window.location.href = "/login";
@@ -70,6 +83,9 @@ if (token) {
     store.dispatch(logoutUser());
     window.location.href = "/login";
   }
+} else {
+  // Clear any persisted authenticated state if token is missing
+  store.dispatch({ type: SET_UNAUTHENTICATED });
 }
 
 function App() {

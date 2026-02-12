@@ -9,6 +9,7 @@ import (
 	"time"
 
 	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/sync"
 	"github.com/gin-gonic/gin"
 
 	"github.com/jinzhu/gorm"
@@ -76,15 +77,15 @@ func (server *Server) Initialize() {
 	// Silence the logger
 	server.DB.LogMode(false)
 
-	// Migrate DBs
-	server.DB.AutoMigrate(&models.User{}, &models.Sheet{})
+	// Migrate DBs - moved here so seeding happens before InitializeLibrarySync
+	server.DB.AutoMigrate(&models.User{}, &models.Sheet{}, &models.LibrarySettings{})
 
 	server.SetupRouter()
 }
 
 func (server *Server) Run(addr string, dev bool) {
 	fmt.Printf("Listening to port %v\n", addr)
-	/* 
+	/*
 		cors.Default() setup the middleware with default options being
 		all origins accepted with simple methods (GET, POST).
 		See documentation below for more options.
@@ -109,7 +110,7 @@ func (server *Server) Run(addr string, dev bool) {
 		AllowCredentials: true,
 	})
 
-	// Check if run in dev mode, so you can enable CORS or not 
+	// Check if run in dev mode, so you can enable CORS or not
 	srvHandler := handlers.LoggingHandler(os.Stdout, c.Handler(server.Router))
 
 	if !dev {
@@ -124,4 +125,39 @@ func (server *Server) Run(addr string, dev bool) {
 	}
 
 	log.Fatal(srv.ListenAndServe())
+}
+
+func (server *Server) InitializeLibrarySync() {
+	// Get settings from database
+	settings, err := models.GetSettings(server.DB)
+	if err != nil {
+		fmt.Printf("Error loading library settings: %v\n", err)
+		return
+	}
+
+	if settings.LibraryPath == "" {
+		fmt.Println("Library path not configured, skipping library sync initialization")
+		return
+	}
+
+	fmt.Printf("Library path configured: %s\n", settings.LibraryPath)
+
+	// Start scheduler if auto-scan is enabled
+	if settings.AutoScanEnabled {
+		fmt.Printf("Starting library sync scheduler (interval: %d minutes)\n", settings.ScanInterval)
+		sync.StartScheduler(server.DB, settings.LibraryPath, settings.ScanInterval)
+	}
+
+	// Perform initial scan
+	fmt.Println("Performing initial library scan...")
+	go func() {
+		err := sync.SyncLibrary(server.DB, settings.LibraryPath)
+		if err != nil {
+			fmt.Printf("Initial library scan error: %v\n", err)
+		} else {
+			status := sync.GetStatus()
+			fmt.Printf("Initial scan completed: %d files found, %d imported, %d updated, %d missing, %d skipped\n",
+				status.FilesFound, status.FilesImported, status.FilesUpdated, status.FilesMissing, status.FilesSkipped)
+		}
+	}()
 }

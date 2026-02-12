@@ -9,6 +9,8 @@ export const LOADING_UI = "LOADING_UI";
 export const CLEAR_ERRORS = "CLEAR ERRORS";
 export const LOADING_DATA = "LOADING_DATA";
 export const STOP_LOADING_UI = "STOP_LOADING_UI";
+export const SET_SYNC_LOADING = "SET_SYNC_LOADING";
+export const SET_SYNC_STATS = "SET_SYNC_STATS";
 export const SET_VERSION = "SET_VERSION";
 // Data reducer types
 export const SET_SHEETS = "SET_SHEETS";

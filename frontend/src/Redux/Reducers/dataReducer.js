@@ -158,10 +158,10 @@ export default function (state = initialState, action) {
     
     case SET_USERS_DATA:
       return {
-        ...state.composerPage,
+        ...state,
         usersData: action.payload,
-        loading: false
-      }
+        loading: false,
+      };
 
     case RESET_DATA:
       return {

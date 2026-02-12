@@ -10,7 +10,9 @@ import (
 	"time"
 
 	. "github.com/SheetAble/SheetAble/backend/api/config"
+	"github.com/SheetAble/SheetAble/backend/api/utils"
 
+	. "github.com/fiam/gounidecode/unidecode"
 	"github.com/jinzhu/gorm"
 	"github.com/kennygrant/sanitize"
 )
@@ -233,4 +235,26 @@ func CheckAndDeleteUnknownComposer(db *gorm.DB) {
 	if result.RowsAffected <= 1 {
 		db = db.Model(&Composer{}).Where("safe_name = ?", "unknown").Take(&Composer{}).Delete(&Composer{})
 	}
+}
+
+func EnsureComposer(db *gorm.DB, composer string) utils.Comp {
+
+	compo := utils.GetComposerInfo(composer)
+
+	if compo.SafeName == "" {
+		// Used for chinese/japanese chars etc
+		unideCodeName := Unidecode(compo.CompleteName)
+		compo.SafeName = sanitize.Name(unideCodeName)
+	}
+
+	comp := Composer{
+		Name:        compo.CompleteName,
+		SafeName:    compo.SafeName,
+		PortraitURL: compo.Portrait,
+		Epoch:       compo.Epoch,
+	}
+
+	comp.Prepare()
+	comp.SaveComposer(db)
+	return compo
 }

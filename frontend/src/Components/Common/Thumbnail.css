@@ -1,0 +1,19 @@
+.thumbnail-no-preview {
+  background-color: #f8f9fa;
+  padding-bottom: 0px;
+  border-radius: 15px;
+  min-height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.thumbnail-image-no-preview {
+  max-width: 150px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  overflow: visible;
+}

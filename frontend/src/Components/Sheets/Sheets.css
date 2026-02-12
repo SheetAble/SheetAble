@@ -12,6 +12,7 @@
 }
 
 .thumbnail-image {
+  margin: 0 auto;
   max-width: 150px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -50,6 +51,8 @@
 
 .all-sheets-container {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   list-style: none;
   padding-bottom: 25px;
   overflow-x: auto;

@@ -3,6 +3,7 @@ import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { connect } from "react-redux";
 import {
@@ -20,6 +21,7 @@ import { FilePond } from "react-filepond";
 import "filepond/dist/filepond.min.css";
 
 function ModalContent(props) {
+  const history = useHistory();
   const [disabled, setDisabled] = useState(true);
 
   const [requestData, setRequestData] = useState({
@@ -30,35 +32,26 @@ function ModalContent(props) {
 
   const [pdfChange, setPdfChange] = useState(false);
 
-  const [uploadFile, setUploadFile] = useState(
-    dataURLtoFile(
-      arrayBufferToBase64(props.uploadFile.data, "pdf"),
-      `${props.sheet.safe_sheet_name}.pdf`
-    )
-  );
+  const [uploadFile, setUploadFile] = useState(null);
 
   useEffect(() => {
-    if (
+    const hasMetadataChanged = 
       requestData.composer !== props.sheet.composer ||
-      requestData.sheetName !== props.sheet.sheet_name ||
-      pdfChange
-    ) {
-      if (
-        requestData.composer !== "" &&
-        requestData.sheetName !== "" &&
-        uploadFile !== undefined
-      ) {
-        setDisabled(false);
-      } else if (uploadFile === undefined) {
-        setDisabled(true);
-      }
+      requestData.sheetName !== props.sheet.sheet_name;
+    
+    const isMetadataValid = requestData.composer !== "" && requestData.sheetName !== "";
+
+    if ((hasMetadataChanged || pdfChange) && isMetadataValid) {
+      setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [requestData, uploadFile]);
+  }, [requestData, pdfChange]);
 
   useEffect(() => {
-    setPdfChange(true);
+    if (uploadFile) {
+      setPdfChange(true);
+    }
   }, [uploadFile]);
 
   const handleChange = (event) => {
@@ -68,48 +61,7 @@ function ModalContent(props) {
     });
   };
 
-  function arrayBufferToBase64(Arraybuffer, Filetype) {
-    let binary = "";
-    const bytes = new Uint8Array(Arraybuffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    const file = window.btoa(binary);
-    const mimType =
-      Filetype === "pdf"
-        ? "application/pdf"
-        : Filetype === "xlsx"
-        ? "application/xlsx"
-        : Filetype === "pptx"
-        ? "application/pptx"
-        : Filetype === "csv"
-        ? "application/csv"
-        : Filetype === "docx"
-        ? "application/docx"
-        : Filetype === "jpg"
-        ? "application/jpg"
-        : Filetype === "png"
-        ? "application/png"
-        : "";
 
-    const url = `data:${mimType};base64,` + file;
-    return url;
-  }
-
-  function dataURLtoFile(dataurl, filename) {
-    var arr = dataurl.split(","),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
-
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new File([u8arr], filename, { type: mime });
-  }
 
   const sendRequest = () => {
     const newData = {
@@ -119,6 +71,7 @@ function ModalContent(props) {
 
     props.updateSheet(newData, props.sheet.safe_sheet_name, () => {
       props.resetData();
+      history.push("/sheets");
       props.onClose();
     });
   };
@@ -126,6 +79,7 @@ function ModalContent(props) {
   const sendDeleteRequest = () => {
     props.deleteSheet(props.sheet.safe_sheet_name, () => {
       props.resetData();
+      history.push("/sheets");
       props.onClose();
     });
   };
@@ -158,7 +112,7 @@ function ModalContent(props) {
       </form>
       <div className="upload-container">
         <FilePond
-          files={[uploadFile]}
+          files={uploadFile ? [uploadFile] : []}
           onupdatefiles={(files) => {
             uploadFinish(files);
           }}
@@ -193,7 +147,7 @@ function ModalContent(props) {
           disabled={disabled}
           onClick={sendRequest}
         >
-          Upload
+          Save Changes
         </Button>
         <IconButton
           aria-label="delete"

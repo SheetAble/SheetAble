@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
 	"path"
 
 	"github.com/SheetAble/SheetAble/backend/api/auth"
@@ -16,17 +17,17 @@ import (
 )
 
 /*
-	This endpoint will return all sheets in Page like style.
-	Meaning POST request will have 3 attributes:
-		- sort_by: (how is it sorted)
-		- page: (what page)
-		- limit: (limit number)
-		- composer: (what composer)
+This endpoint will return all sheets in Page like style.
+Meaning POST request will have 3 attributes:
+  - sort_by: (how is it sorted)
+  - page: (what page)
+  - limit: (limit number)
+  - composer: (what composer)
 
-	Return:
-		- sheets: [...]
-		- page_max: [7] // How many pages there are
-		- page_current: [1] // Which page is currently selected
+Return:
+  - sheets: [...]
+  - page_max: [7] // How many pages there are
+  - page_current: [1] // Which page is currently selected
 */
 func (server *Server) GetSheetsPage(c *gin.Context) {
 	var form forms.GetSheetsPageRequest
@@ -50,11 +51,13 @@ func (server *Server) GetSheetsPage(c *gin.Context) {
 	c.JSON(http.StatusOK, pageNew)
 }
 
-/*	
-	Get PDF file and information about an individual sheet.
-	Example request:
-		GET /sheet/Étude N. 1
-	Has to be safeName
+/*
+Get PDF file and information about an individual sheet.
+Example request:
+
+	GET /sheet/Étude N. 1
+
+Has to be safeName
 */
 func (server *Server) GetSheet(c *gin.Context) {
 	sheetName := c.Param("sheetName")
@@ -73,28 +76,50 @@ func (server *Server) GetSheet(c *gin.Context) {
 }
 
 /*
-	Serve the PDF file
-	Example request:
-		GET /sheet/pdf/Frédéric Chopin/Étude N. 1
-	sheetname and composer name have to be the safeName of them
+Serve the PDF file
+Example request:
+
+	GET /sheet/pdf/Frédéric Chopin/Étude N. 1
+
+sheetname and composer name have to be the safeName of them
 */
+// GetPDF serves the PDF file for a given sheet.
+// It prioritizes the stored FilePath (for both synced and uploaded files)
+// and falls back to the organized directory structure if necessary.
 func (server *Server) GetPDF(c *gin.Context) {
-	sheetName := c.Param("sheetName") + ".pdf"
+	sheetName := c.Param("sheetName")
 	composer := c.Param("composer")
-	filePath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets", composer, sheetName)
+
+	var sheet models.Sheet
+	err := server.DB.Where("safe_sheet_name = ? AND safe_composer = ?", sheetName, composer).First(&sheet).Error
+
+	if err == nil && sheet.Source == "synced" && sheet.FilePath != "" {
+		if _, err := os.Stat(sheet.FilePath); err == nil {
+			c.File(sheet.FilePath)
+			return
+		}
+	}
+
+	// Fallback to the organized/uploaded path
+	filePath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets", composer, sheetName+".pdf")
 	c.File(filePath)
 }
 
 /*
-	Serve the thumbnail file
-	name = safename of sheet
+Serve the thumbnail file
+name = safename of sheet
 */
 func (server *Server) GetThumbnail(c *gin.Context) {
 	name := c.Param("name") + ".png"
 	filePath := path.Join(Config().ConfigPath, "sheets/thumbnails", name)
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		c.Status(http.StatusNotFound)
+		return
+	}
+
 	c.File(filePath)
 }
-
 
 // Has to be safeName of the sheet
 func (server *Server) DeleteSheet(c *gin.Context) {
@@ -229,7 +254,7 @@ func (server *Server) UpdateSheetInformationText(c *gin.Context) {
 }
 
 func getSheet(db *gorm.DB, c *gin.Context) *models.Sheet {
-	
+
 	// Find a sheet by its name
 	sheetName := c.Param("sheetName")
 	if sheetName == "" {

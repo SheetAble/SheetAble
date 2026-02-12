@@ -10,6 +10,8 @@ import {
 const initialState = {
   loading: false,
   sidebar: true,
+  syncLoading: false,
+  syncStats: null,
 
   errors: null,
 };
@@ -49,7 +51,17 @@ export default function (state = initialState, action) {
         ...state,
         version: action.payload,
       };
-
+    case "SET_SYNC_LOADING":
+      return {
+        ...state,
+        syncLoading: action.payload,
+      };
+    case "SET_SYNC_STATS":
+      return {
+        ...state,
+        syncStats: action.payload,
+      };
+      
     default:
       return state;
   }

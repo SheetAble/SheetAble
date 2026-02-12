@@ -7,5 +7,4 @@ backend.exe
 backend
 rice
 build/
-./config/
-config/
+/config/

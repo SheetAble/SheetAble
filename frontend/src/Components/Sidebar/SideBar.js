@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./SideBar.css";
 
-import { setSidebar, getVersion } from "../../Redux/Actions/uiActions";
+import { setSidebar, getVersion, startLibrarySync, checkSyncStatus } from "../../Redux/Actions/uiActions";
 import {
   getSheets,
   getComposers,
@@ -20,10 +20,14 @@ function SideBar(props) {
   const [uploadModal, setUploadModal] = useState(false);
   const [falseVersion, setFalseVersion] = useState(false);
 
-  const { sidebar } = props;
+  const { sidebar, syncLoading } = props;
 
   const onClickBtn = () => {
     props.setSidebar();
+  };
+
+  const handleLibrarySync = () => {
+    props.startLibrarySync();
   };
 
   useEffect(() => {
@@ -38,7 +42,44 @@ function SideBar(props) {
           setFalseVersion(versionRes.data.data !== data.tag_name);
         });
       });
-  }, []);
+
+    // Check initial sync status
+    props.checkSyncStatus();
+
+    // Use a ref to track polling state
+    let pollCount = 0;
+    let statusInterval;
+
+    const startPolling = () => {
+      if (statusInterval) clearInterval(statusInterval);
+      
+      statusInterval = setInterval(() => {
+        // We just dispatch the check, the reducer updates the state
+        props.checkSyncStatus();
+
+        if (syncLoading) {
+            // Reset poll count when scanning
+            pollCount = 0;
+        } else {
+            // Increment poll count when not scanning
+            pollCount++;
+            
+            // After 10 idle polls (30 seconds), stop polling to save resources
+            // However, we need to respect if syncLoading becomes true from elsewhere
+            if (pollCount >= 10 && !syncLoading) {
+               clearInterval(statusInterval);
+               statusInterval = null;
+            }
+        }
+      }, 3000);
+    };
+
+    startPolling();
+
+    return () => {
+      if (statusInterval) clearInterval(statusInterval);
+    };
+  }, [syncLoading, props.checkSyncStatus]); // Added dependencies to restart polling if loading changes
 
   return (
     <Fragment>
@@ -121,15 +162,16 @@ function SideBar(props) {
           <li>
             <p
               onClick={() => {
-                props.resetData();
-                window.location.reload();
+                if (!syncLoading) {
+                  handleLibrarySync();
+                }
               }}
-              className="cursor"
+              className={syncLoading ? "" : "cursor"}
             >
-              <i className="bx bx-sync"></i>
-              <span className="links_name">Synchronize</span>
+              <i className={`bx ${syncLoading ? "bx-loader-alt bx-spin" : "bx-sync"}`}></i>
+              <span className="links_name">{syncLoading ? "Syncing..." : "Synchronize"}</span>
             </p>
-            <span className="tooltip">Synchronize</span>
+            <span className="tooltip">{syncLoading ? "Syncing..." : "Synchronize"}</span>
           </li>
 
           <li>
@@ -172,6 +214,7 @@ const mapStateToProps = (state) => ({
   sidebar: state.UI.sidebar,
   userData: state.user.userData,
   version: state.UI.version,
+  syncLoading: state.UI.syncLoading,
 });
 
 const mapActionsToProps = {
@@ -183,6 +226,8 @@ const mapActionsToProps = {
   getSheetPage,
   resetData,
   getVersion,
+  startLibrarySync,
+  checkSyncStatus,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SideBar);

@@ -34,12 +34,7 @@ export const getSheets = () => (dispatch) => {
       });
     })
     .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
       console.log(err);
-
       dispatch({
         type: SET_SHEETS,
         payload: [],
@@ -166,7 +161,7 @@ export const getComposerPage =
       .catch((err) => {
         console.log(err);
 
-        if (err.request.status === 401) {
+        if (err.response && err.response.status === 401) {
           store.dispatch(logoutUser());
           window.location.href = "/login";
         }
@@ -228,7 +223,9 @@ export const uploadSheet = (data, _callback) => (dispatch) => {
 // Update a sheet
 export const updateSheet = (data, origSheetName, _callback) => (dispatch) => {
   let bodyFormData = new FormData();
-  bodyFormData.append("uploadFile", data.uploadFile);
+  if (data.uploadFile) {
+    bodyFormData.append("uploadFile", data.uploadFile);
+  }
   bodyFormData.append("sheetName", data.sheetName);
   bodyFormData.append("composer", data.composer);
   bodyFormData.append("releaseDate", data.releaseDate);
@@ -243,11 +240,6 @@ export const updateSheet = (data, origSheetName, _callback) => (dispatch) => {
       _callback();
     })
     .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
-
       console.log(err);
     });
 };
@@ -260,10 +252,6 @@ export const deleteSheet = (origSheetName, _callback) => (dispatch) => {
       _callback();
     })
     .catch((err) => {
-      if (err.request.status === 401) {
-        store.dispatch(logoutUser());
-        window.location.href = "/login";
-      }
       console.log(err);
     });
 };

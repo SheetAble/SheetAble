@@ -1,9 +1,9 @@
 import React from "react";
 
-import "./Sheets.css";
-
+import Thumbnail from "../Common/Thumbnail";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+
+import "./Sheets.css";
 
 function Sheets(props) {
   const { sheets } = props;
@@ -19,11 +19,7 @@ function Sheets(props) {
         }
       >
         <div className="box-container remove_shadow">
-          <img
-            className="thumbnail-image"
-            src={`${axios.defaults.baseURL}/sheet/thumbnail/${sheet.safe_sheet_name}`}
-            alt="Sheet Thumbnail"
-          />
+          <Thumbnail sheet={sheet} />
           <div className="sheet-name-container">
             <span className="sheet-name">{sheet.sheet_name}</span>
           </div>

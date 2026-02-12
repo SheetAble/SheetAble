@@ -2,7 +2,7 @@ import React from "react";
 
 import { useHistory } from "react-router-dom";
 
-import axios from "axios";
+import Thumbnail from "../../Common/Thumbnail";
 
 function SheetBox({ sheet }) {
   let history = useHistory();
@@ -16,11 +16,7 @@ function SheetBox({ sheet }) {
       className="li-height"
     >
       <div className="box-container remove_shadow">
-        <img
-          className="thumbnail-image"
-          src={`${axios.defaults.baseURL}/sheet/thumbnail/${sheet.safe_sheet_name}`}
-          alt="Sheet Thumbnail"
-        />
+        <Thumbnail sheet={sheet} />
         <div className="sheet-name-container">
           <span className="sheet-name">{sheet.sheet_name}</span>
         </div>

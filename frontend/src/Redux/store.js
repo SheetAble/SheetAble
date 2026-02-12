@@ -28,6 +28,7 @@ Create a persisted store to keep the store whlie refreshing the page
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: ["user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
