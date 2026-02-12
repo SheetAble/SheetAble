@@ -169,7 +169,9 @@ func (server *Server) UpdateSheet(c *gin.Context) {
 	}
 
 	// Handle Composer (Ensures composer exists)
-	_ = safeComposer(server, newComposerName)
+	comp := safeComposer(server, newComposerName)
+	newComposerName = comp.CompleteName
+	newSafeComposer = comp.SafeName
 
 	// Update paths logic
 	oldPath := oldSheet.FilePath
@@ -360,7 +362,7 @@ func createFile(uid uint32, server *Server, fullpath string, file multipart.File
 	sheet := models.Sheet{
 		SafeSheetName:   sanitize.Name(Unidecode(sheetName)),
 		SheetName:       sheetName,
-		SafeComposer:    sanitize.Name(Unidecode(comp.CompleteName)),
+		SafeComposer:    comp.SafeName,
 		Composer:        comp.CompleteName,
 		UploaderID:      uid,
 		ReleaseDate:     createDate(releaseDate),
