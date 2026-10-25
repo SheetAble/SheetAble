@@ -3,7 +3,15 @@ import SheetBox from "../SheetsPage/Components/SheetBox";
 
 import SearchSvg from "../../Images/Taken.svg";
 
-function ResultBox({ searchResponse }) {
+function ResultBox({ searchResponse, hasSearched }) {
+  if (!hasSearched) {
+    return (
+      <div className="result_wrapper">
+        <InitialSearch />
+      </div>
+    );
+  }
+
   return (
     <div className="result_wrapper">
       {searchResponse.length === 0 ? (
@@ -11,6 +19,14 @@ function ResultBox({ searchResponse }) {
       ) : (
         <Results searchResponse={searchResponse} />
       )}
+    </div>
+  );
+}
+
+function InitialSearch() {
+  return (
+    <div className="no_results">
+      <span>Search for sheet music by title</span>
     </div>
   );
 }

@@ -10,12 +10,23 @@ function SearchPage({ searchData }) {
   const [searchValue, setSearchValue] = useState("");
 
   const [searchResponse, setSearchResponse] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleSubmit = () => {
-    if (searchValue !== "") {
-      searchData(searchValue, (data) => {
+    if (searchValue.trim() !== "") {
+      searchData(searchValue.trim(), (data) => {
         setSearchResponse(data);
+        setHasSearched(true);
       });
+    }
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    if (value === "") {
+      setSearchResponse([]);
+      setHasSearched(false);
     }
   };
 
@@ -38,7 +49,7 @@ function SearchPage({ searchData }) {
                 name="text"
                 placeholder="Search for sheets"
                 value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
+                onChange={handleChange}
                 onKeyDown={handleKeyDown}
               />
               <i
@@ -47,7 +58,10 @@ function SearchPage({ searchData }) {
               ></i>
             </div>
 
-            <ResultBox searchResponse={searchResponse} />
+            <ResultBox
+              searchResponse={searchResponse}
+              hasSearched={hasSearched}
+            />
           </div>
         </div>
       </Fragment>
