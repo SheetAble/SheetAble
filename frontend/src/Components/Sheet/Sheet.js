@@ -144,13 +144,22 @@ function Sheet({
       : byComposerPages
   );
 
+  const [abcContent, setAbcContent] = useState(null);
+
   const pdfRequest = () => {
     axios
       .get(`/sheet/pdf/${safeComposerName}/${safeSheetName}`, {
         responseType: "arraybuffer",
       })
       .then((res) => {
-        setpdf(res);
+        const bytes = new Uint8Array(res.data.slice(0, 5));
+        const header = String.fromCharCode(...bytes);
+        if (!header.startsWith("%PDF")) {
+          const text = new TextDecoder("utf-8").decode(res.data);
+          setAbcContent(text);
+        } else {
+          setpdf(res);
+        }
       })
       .catch((err) => {
         if (err.request.status === 401) {
@@ -205,11 +214,14 @@ function Sheet({
   const [copyText, setCopyText] = useState("Click to Copy");
 
   const handleClick = () => {
-    navigator.clipboard.writeText(window.location.href).then(()=>{
-      setCopyText("Copied ✓")
-    }).catch(()=>{
-      setCopyText("Click to Copy")
-    });
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => {
+        setCopyText("Copied ✓");
+      })
+      .catch(() => {
+        setCopyText("Click to Copy");
+      });
   };
 
   const [editModal, setEditModal] = useState(false);
@@ -232,33 +244,41 @@ function Sheet({
             </div>
 
             <div className="noselect document">
-              <Document
-                file={pdf === undefined ? pdfRequest() : pdf}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={pageNumber} width={isDesktop ? 540 : 430} />
-              </Document>
+              {abcContent ? (
+                <div className="abc_sheet_viewer">
+                  <pre>{abcContent}</pre>
+                </div>
+              ) : (
+                <Document
+                  file={pdf === undefined ? pdfRequest() : pdf}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                >
+                  <Page pageNumber={pageNumber} width={isDesktop ? 540 : 430} />
+                </Document>
+              )}
             </div>
 
-            <div className="page_controls">
-              <button
-                type="button"
-                disabled={pageNumber === 1}
-                onClick={previousPage}
-              >
-                &lt;
-              </button>
-              <span>
-                {pageNumber} of {numPages}
-              </span>
-              <button
-                type="button"
-                disabled={pageNumber === numPages}
-                onClick={nextPage}
-              >
-                &gt;
-              </button>
-            </div>
+            {!abcContent && (
+              <div className="page_controls">
+                <button
+                  type="button"
+                  disabled={pageNumber === 1}
+                  onClick={previousPage}
+                >
+                  &lt;
+                </button>
+                <span>
+                  {pageNumber} of {numPages}
+                </span>
+                <button
+                  type="button"
+                  disabled={pageNumber === numPages}
+                  onClick={nextPage}
+                >
+                  &gt;
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="right_side_doc">

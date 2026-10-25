@@ -286,3 +286,24 @@
   margin-left: 66px;
   margin-right: 4px;
 }
+
+.abc_sheet_viewer {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  min-height: 500px;
+  max-width: 580px;
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.abc_sheet_viewer pre {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #2d3748;
+}

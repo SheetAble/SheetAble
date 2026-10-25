@@ -79,9 +79,13 @@ func (server *Server) GetSheet(c *gin.Context) {
 	sheetname and composer name have to be the safeName of them
 */
 func (server *Server) GetPDF(c *gin.Context) {
-	sheetName := c.Param("sheetName") + ".pdf"
+	sheetParam := c.Param("sheetName")
 	composer := c.Param("composer")
-	filePath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets", composer, sheetName)
+
+	filePath := path.Join(Config().ConfigPath, "sheets/uploaded-sheets", composer, sheetParam+".abc")
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		filePath = path.Join(Config().ConfigPath, "sheets/uploaded-sheets", composer, sheetParam+".pdf")
+	}
 	c.File(filePath)
 }
 

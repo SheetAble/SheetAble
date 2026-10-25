@@ -82,7 +82,12 @@ func (server *Server) UploadFile(c *gin.Context) {
 	sheetName := uploadForm.SheetName
 	releaseDate := uploadForm.ReleaseDate
 
-	fullpath, err := checkFile(uploadPath, sheetName)
+	fileExt := strings.ToLower(path.Ext(uploadForm.File.Filename))
+	if fileExt != ".abc" {
+		fileExt = ".pdf"
+	}
+
+	fullpath, err := checkFile(uploadPath, sheetName, fileExt)
 	if fullpath == "" || err != nil {
 		return
 	}
@@ -100,8 +105,10 @@ func (server *Server) UploadFile(c *gin.Context) {
 		return
 	}
 
-	// Send POST request to python server for creating the thumbnail (first page of pdf as an image)
-	if !utils.RequestToPdfToImage(fullpath, sanitize.Name(Unidecode(sheetName))) {
+	// Send request for creating the thumbnail (ABC or PDF)
+	if fileExt == ".abc" {
+		_ = utils.CreateAbcThumbnail(sanitize.Name(Unidecode(sheetName)))
+	} else if !utils.RequestToPdfToImage(fullpath, sanitize.Name(Unidecode(sheetName))) {
 		return
 	}
 
@@ -239,9 +246,12 @@ func createDate(date string) time.Time {
 	return t
 }
 
-func checkFile(pathName string, sheetName string) (string, error) {
+func checkFile(pathName string, sheetName string, ext string) (string, error) {
+	if ext == "" {
+		ext = ".pdf"
+	}
 	// Check if the file already exists
-	fullpath := fmt.Sprintf("%s/%s.pdf", pathName, sanitize.Name(Unidecode(sheetName)))
+	fullpath := fmt.Sprintf("%s/%s%s", pathName, sanitize.Name(Unidecode(sheetName)), ext)
 	if _, err := os.Stat(fullpath); err == nil {
 		return "", errors.New("file already exists")
 	}
