@@ -14,6 +14,7 @@ import {
 import "./SheetsPage.css";
 import RandomPieceSelection from "./Components/RandomPieceSelection";
 import NoSheets from "../NotFound/NoSheets";
+import InstrumentFilter from "./InstrumentFilter";
 
 function SheetsPage({
   getSheetPage,
@@ -25,6 +26,7 @@ function SheetsPage({
   totalSheetPages,
 }) {
   const [loading, setLoading] = useState(true);
+  const [instrument, setInstrument] = useState("");
 
   useEffect(() => {
     getData();
@@ -32,32 +34,46 @@ function SheetsPage({
     document.title = `SheetAble - Your Library`;
   }, []);
 
-  const getData = () => {
+  const getData = (selectedInstrument = instrument, page = sheetPage) => {
+    let requestedPage = page;
     if (
-      sheetPage === undefined ||
-      sheetPages < 0 ||
-      sheetPages > totalSheetPages
+      requestedPage === undefined ||
+      requestedPage < 1 ||
+      (totalSheetPages > 0 && requestedPage > totalSheetPages)
     ) {
       setSheetPage(1);
+      requestedPage = 1;
     }
 
     const data = {
-      page: sheetPage,
+      page: requestedPage,
       sortBy: "updated_at desc",
+      instrument: selectedInstrument,
     };
 
-    if (sheetPages === undefined || sheetPages[sheetPage] === undefined) {
-      getSheetPage(data, () => setLoading(false));
-    } else {
-      setLoading(false);
-    }
+    setLoading(true);
+    getSheetPage(data, () => setLoading(false));
+  };
+
+  const handleInstrumentChange = (selectedInstrument) => {
+    setInstrument(selectedInstrument);
+    setSheetPage(1);
+    setLoading(true);
+    getSheetPage(
+      {
+        page: 1,
+        sortBy: "updated_at desc",
+        instrument: selectedInstrument,
+      },
+      () => setLoading(false)
+    );
   };
 
   const svgDec = (e) => {
     e.preventDefault();
     if (sheetPage !== 1) {
       decrementSheetPage();
-      getData();
+      getData(instrument, sheetPage - 1);
     }
   };
 
@@ -65,7 +81,7 @@ function SheetsPage({
     e.preventDefault();
     if (sheetPage !== totalSheetPages) {
       incrementSheetPage();
-      getData();
+      getData(instrument, sheetPage + 1);
     }
   };
 
@@ -82,6 +98,10 @@ function SheetsPage({
         }
         className="home_content"
       >
+        <InstrumentFilter
+          value={instrument}
+          onChange={handleInstrumentChange}
+        />
         {!loading ? (
           sheetPages !== undefined &&
           sheetPages[sheetPage] !== undefined &&

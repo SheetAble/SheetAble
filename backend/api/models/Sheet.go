@@ -3,8 +3,10 @@ package models
 import (
 	"errors"
 	"log"
+	"math"
 	"os"
 	"path"
+	"sort"
 	"strings"
 	"time"
 
@@ -26,6 +28,7 @@ type Sheet struct {
 	CreatedAt       time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt       time.Time      `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 	Tags            pq.StringArray `gorm:"type:text[]" json:"tags"`
+	Instruments     pq.StringArray `gorm:"type:text[]" json:"instruments"`
 	InformationText string         `json:"information_text"`
 }
 
@@ -37,7 +40,12 @@ func (s *Sheet) Prepare() {
 	s.CreatedAt = time.Now()
 	s.UpdatedAt = time.Now()
 	s.PdfUrl = "sheet/pdf/" + s.SafeComposer + "/" + s.SafeSheetName
-	s.Tags = pq.StringArray{}
+	if s.Tags == nil {
+		s.Tags = pq.StringArray{}
+	}
+	if s.Instruments == nil {
+		s.Instruments = pq.StringArray{}
+	}
 }
 
 func (s *Sheet) SaveSheet(db *gorm.DB) (*Sheet, error) {
@@ -114,20 +122,78 @@ func (s *Sheet) FindSheetBySafeName(db *gorm.DB, sheetName string) (*Sheet, erro
 
 }
 
-func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string) (*Pagination, error) {
-
-	// For pagination
-
-	var sheets []*Sheet
+func (s *Sheet) List(db *gorm.DB, pagination Pagination, composer string, instrument string) (*Pagination, error) {
+	query := db.Model(&Sheet{})
 	if composer != "" {
-		db.Scopes(ComposerEqual(composer), paginate(sheets, &pagination, db)).Find(&sheets)
+		query = query.Where("safe_composer = ?", composer)
+	}
+	sheets := make([]*Sheet, 0)
+	if instrument == "" {
+		if err := query.Count(&pagination.TotalRows).Error; err != nil {
+			return nil, err
+		}
+		pagination.TotalPages = int(math.Ceil(float64(pagination.TotalRows) / float64(pagination.GetLimit())))
+		if err := query.Order(pagination.GetSort()).Offset(pagination.GetOffset()).Limit(pagination.GetLimit()).Find(&sheets).Error; err != nil {
+			return nil, err
+		}
 	} else {
-		db.Scopes(paginate(sheets, &pagination, db)).Find(&sheets)
+		var allSheets []*Sheet
+		if err := query.Order(pagination.GetSort()).Find(&allSheets).Error; err != nil {
+			return nil, err
+		}
+		for _, sheet := range allSheets {
+			for _, sheetInstrument := range sheet.Instruments {
+				if strings.EqualFold(strings.TrimSpace(sheetInstrument), strings.TrimSpace(instrument)) {
+					sheets = append(sheets, sheet)
+					break
+				}
+			}
+		}
+
+		pagination.TotalRows = int64(len(sheets))
+		pagination.TotalPages = int(math.Ceil(float64(pagination.TotalRows) / float64(pagination.GetLimit())))
+		start := pagination.GetOffset()
+		if start >= len(sheets) {
+			sheets = []*Sheet{}
+		} else {
+			end := start + pagination.GetLimit()
+			if end > len(sheets) {
+				end = len(sheets)
+			}
+			sheets = sheets[start:end]
+		}
 	}
 
 	pagination.Rows = sheets
 
 	return &pagination, nil
+}
+
+func GetAllInstruments(db *gorm.DB) ([]string, error) {
+	var sheets []Sheet
+	if err := db.Select("instruments").Find(&sheets).Error; err != nil {
+		return nil, err
+	}
+
+	instrumentsByName := make(map[string]string)
+	for _, sheet := range sheets {
+		for _, instrument := range sheet.Instruments {
+			instrument = strings.TrimSpace(instrument)
+			if instrument != "" {
+				key := strings.ToLower(instrument)
+				if current, exists := instrumentsByName[key]; !exists || instrument < current {
+					instrumentsByName[key] = instrument
+				}
+			}
+		}
+	}
+
+	instruments := make([]string, 0, len(instrumentsByName))
+	for _, instrument := range instrumentsByName {
+		instruments = append(instruments, instrument)
+	}
+	sort.Strings(instruments)
+	return instruments, nil
 }
 
 func SearchSheet(db *gorm.DB, searchValue string) []*Sheet {

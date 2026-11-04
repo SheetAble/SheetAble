@@ -1,22 +1,24 @@
 import React, { Fragment, useState } from "react";
 import SideBar from "../Sidebar/SideBar";
+import { connect } from "react-redux";
+import { uploadSheet } from "../../Redux/Actions/dataActions";
 
 import "./Upload.css";
 
 import DragNDrop from "./DragNDrop";
 
-function UploadPage() {
+function UploadPage({ uploadSheet }) {
   return (
     <Fragment>
       <SideBar />
       <div className="home_content">
-        <InteractiveForm />
+        <InteractiveForm uploadSheet={uploadSheet} />
       </div>
     </Fragment>
   );
 }
 
-const InteractiveForm = () => {
+const InteractiveForm = ({ uploadSheet }) => {
   const [firstButtonText, setfirstButtonText] = useState("Next Step");
 
   const [secondButtonText, setSecondButtonText] = useState("Next Step");
@@ -26,11 +28,13 @@ const InteractiveForm = () => {
   );
 
   const [requestData, setrequestData] = useState({
-    uploadFile: undefined,
     composer: "",
     sheetName: "",
     releaseDate: "1999-12-31",
+    instruments: "",
+    uploadFile: undefined,
   });
+  const [uploadError, setUploadError] = useState("");
 
   const firstButtonOnClick = (e) => {
     e.preventDefault();
@@ -41,7 +45,31 @@ const InteractiveForm = () => {
   const secondButtonOnClick = (e) => {
     e.preventDefault();
     setSecondButtonText("Saving...");
-    setcontainerClasses("container full slider-three-active");
+    setUploadError("");
+    uploadSheet(
+      requestData,
+      () => {
+        setSecondButtonText("Next Step");
+        setcontainerClasses("container full slider-three-active");
+      },
+      (error) => {
+        setSecondButtonText("Next Step");
+        const responseData =
+          error.response && error.response.data;
+        setUploadError(
+          (typeof responseData === "string" && responseData) ||
+            error.message ||
+            "Unable to upload the sheet."
+        );
+      }
+    );
+  };
+
+  const giveModalData = (file) => {
+    setrequestData({
+      ...requestData,
+      uploadFile: file,
+    });
   };
 
   const handleChange = (event) => {
@@ -93,6 +121,13 @@ const InteractiveForm = () => {
                   placeholder="Composer"
                   onChange={handleChange}
                 />
+                <input
+                  type="text"
+                  class="name"
+                  name="instruments"
+                  placeholder="Instruments (optional, e.g. Piano, Violin)"
+                  onChange={handleChange}
+                />
               </label>
               <button
                 disabled={
@@ -106,11 +141,16 @@ const InteractiveForm = () => {
             </form>
             <form class="slider-form slider-two">
               <h2>Upload the PDF</h2>
-              <DragNDrop
-                requestData={requestData}
-                secondButtonOnClick={secondButtonOnClick}
-                secondButtonText={secondButtonText}
-              />
+              <DragNDrop giveModalData={giveModalData} />
+              {uploadError && <p role="alert">{uploadError}</p>}
+              <button
+                type="button"
+                disabled={requestData.uploadFile === undefined}
+                class="next interactive-form-button"
+                onClick={secondButtonOnClick}
+              >
+                {secondButtonText}
+              </button>
             </form>
             <div class="slider-form slider-three three">
               <h2>
@@ -128,4 +168,8 @@ const InteractiveForm = () => {
   );
 };
 
-export default UploadPage;
+const mapActionsToProps = {
+  uploadSheet,
+};
+
+export default connect(null, mapActionsToProps)(UploadPage);

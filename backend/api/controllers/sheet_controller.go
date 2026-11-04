@@ -42,12 +42,21 @@ func (server *Server) GetSheetsPage(c *gin.Context) {
 	}
 
 	var sheet models.Sheet
-	pageNew, err := sheet.List(server.DB, pagination, form.Composer)
+	pageNew, err := sheet.List(server.DB, pagination, form.Composer, form.Instrument)
 	if err != nil {
 		utils.DoError(c, http.StatusInternalServerError, err)
 		return
 	}
 	c.JSON(http.StatusOK, pageNew)
+}
+
+func (server *Server) GetInstruments(c *gin.Context) {
+	instruments, err := models.GetAllInstruments(server.DB)
+	if err != nil {
+		utils.DoError(c, http.StatusInternalServerError, err)
+		return
+	}
+	c.JSON(http.StatusOK, instruments)
 }
 
 /*	
@@ -229,7 +238,7 @@ func (server *Server) UpdateSheetInformationText(c *gin.Context) {
 }
 
 func getSheet(db *gorm.DB, c *gin.Context) *models.Sheet {
-	
+
 	// Find a sheet by its name
 	sheetName := c.Param("sheetName")
 	if sheetName == "" {

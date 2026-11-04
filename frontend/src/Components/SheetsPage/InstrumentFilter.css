@@ -1,0 +1,21 @@
+.instrument-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 15px;
+  color: #464646;
+}
+
+.instrument-filter select {
+  min-width: 150px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #464646;
+}
+
+.instrument-filter [role="alert"] {
+  color: #b00020;
+  font-size: 12px;
+}

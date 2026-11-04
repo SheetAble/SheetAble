@@ -23,10 +23,10 @@ import { logoutUser } from "./userActions";
 import { checkAuthErr } from "../../Utils/httpUtils";
 
 // Get all Sheets
-export const getSheets = () => (dispatch) => {
+export const getSheets = (instrument = "") => (dispatch) => {
   dispatch({ type: LOADING_DATA });
   axios
-    .get("/sheets")
+    .get("/sheets", { params: { instrument } })
     .then((res) => {
       dispatch({
         type: SET_SHEETS,
@@ -34,7 +34,7 @@ export const getSheets = () => (dispatch) => {
       });
     })
     .catch((err) => {
-      if (err.request.status === 401) {
+      if (err.request && err.request.status === 401) {
         store.dispatch(logoutUser());
         window.location.href = "/login";
       }
@@ -94,6 +94,9 @@ export const getSheetPage =
 
     if (data.composer !== undefined) {
       bodyFormData.append("composer", data.composer);
+    }
+    if (data.instrument !== undefined) {
+      bodyFormData.append("instrument", data.instrument);
     }
 
     axios
@@ -185,7 +188,7 @@ export const getComposers = () => (dispatch) => {
       });
     })
     .catch((err) => {
-      if (err.request.status === 401) {
+      if (err.request && err.request.status === 401) {
         store.dispatch(logoutUser());
         window.location.href = "/login";
       }
@@ -199,12 +202,13 @@ export const getComposers = () => (dispatch) => {
 };
 
 // Upload a sheet
-export const uploadSheet = (data, _callback) => (dispatch) => {
+export const uploadSheet = (data, _callback, _onError) => (dispatch) => {
   let bodyFormData = new FormData();
   bodyFormData.append("uploadFile", data.uploadFile);
   bodyFormData.append("sheetName", data.sheetName);
   bodyFormData.append("composer", data.composer);
   bodyFormData.append("releaseDate", data.releaseDate);
+  bodyFormData.append("instruments", data.instruments || "");
 
   axios
     .post("/upload", bodyFormData, {
@@ -216,12 +220,15 @@ export const uploadSheet = (data, _callback) => (dispatch) => {
       _callback();
     })
     .catch((err) => {
-      if (err.request.status === 401) {
+      if (err.request && err.request.status === 401) {
         store.dispatch(logoutUser());
         window.location.href = "/login";
       }
 
       console.log(err);
+      if (_onError) {
+        _onError(err);
+      }
     });
 };
 
@@ -232,6 +239,7 @@ export const updateSheet = (data, origSheetName, _callback) => (dispatch) => {
   bodyFormData.append("sheetName", data.sheetName);
   bodyFormData.append("composer", data.composer);
   bodyFormData.append("releaseDate", data.releaseDate);
+  bodyFormData.append("instruments", data.instruments || "");
 
   axios
     .put(`/sheet/${origSheetName}`, bodyFormData, {
