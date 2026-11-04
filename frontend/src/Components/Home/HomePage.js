@@ -15,8 +15,13 @@ import "./HomePage.css";
 import Sheets from "../Sheets/Sheets";
 import Composers from "../Composers/Composers";
 import NoSheets from "../NotFound/NoSheets";
+import InstrumentFilter from "../SheetsPage/InstrumentFilter";
 
 class HomePage extends Component {
+  state = {
+    instrument: "",
+  };
+
   componentDidMount = () => {
     // Change Page Title
     document.title = `SheetAble - Home`;
@@ -33,6 +38,11 @@ class HomePage extends Component {
     }
   };
 
+  handleInstrumentChange = (instrument) => {
+    this.setState({ instrument });
+    this.props.getSheets(instrument);
+  };
+
   render() {
     const sheetsTrue = (
       <div className="home_content">
@@ -40,6 +50,10 @@ class HomePage extends Component {
           <div className="space" />
           <div className="overflow-scroll">
             <span className="text">Recently Added Sheets</span>
+            <InstrumentFilter
+              value={this.state.instrument}
+              onChange={this.handleInstrumentChange}
+            />
 
             <hr className="seperator"></hr>
 
@@ -56,6 +70,10 @@ class HomePage extends Component {
 
     const sheetsFalse = (
       <div id="notfound" className="home_content">
+        <InstrumentFilter
+          value={this.state.instrument}
+          onChange={this.handleInstrumentChange}
+        />
         <NoSheets />
       </div>
     );

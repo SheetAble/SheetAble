@@ -13,6 +13,7 @@ function ModalContent(props) {
     composer: "",
     sheetName: "",
     releaseDate: "1999-12-31",
+    instruments: "",
   });
 
   const [uploadFile, setUploadFile] = useState(undefined);
@@ -72,6 +73,13 @@ function ModalContent(props) {
           label="Composer"
           className="form-field comp"
           name="composer"
+          onChange={handleChange}
+        />
+        <TextField
+          id="standard-basic"
+          label="Instruments (optional, comma-separated)"
+          className="form-field"
+          name="instruments"
           onChange={handleChange}
         />
       </form>

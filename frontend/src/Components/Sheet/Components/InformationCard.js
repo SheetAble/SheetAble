@@ -6,7 +6,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Modal from "../../Sidebar/Modal/Modal";
 import ModalContent from "./ModalContentTag.js";
 
-function InformationCard({ infoText, tags, sheetName }) {
+function InformationCard({ infoText, tags, instruments, sheetName }) {
   const [modal, setModal] = useState(false);
 
   return (
@@ -48,6 +48,12 @@ function InformationCard({ infoText, tags, sheetName }) {
         </Modal>
       </div>
       <div className="info_text">
+        {instruments && instruments.length > 0 && (
+          <div>
+            <strong>Instruments: </strong>
+            {instruments.join(", ")}
+          </div>
+        )}
         <span>{infoText}</span>
       </div>
     </div>

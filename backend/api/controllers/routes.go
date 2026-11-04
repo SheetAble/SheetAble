@@ -44,6 +44,7 @@ func (server *Server) SetupRouter() {
 	secureApi.POST("/upload", server.UploadFile)
 	secureApi.GET("/sheets", server.GetSheetsPage)
 	secureApi.POST("/sheets", server.GetSheetsPage)
+	secureApi.GET("/instruments", server.GetInstruments)
 	api.GET("/sheet/thumbnail/:name", server.GetThumbnail)
 	secureApi.GET("/sheet/pdf/:composer/:sheetName", server.GetPDF)
 	secureApi.GET("/sheet/:sheetName", server.GetSheet)

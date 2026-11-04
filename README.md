@@ -53,6 +53,7 @@
 <img src="docs/SheetAbleShowcase.gif" alt="Example Gif" style="border-radius: 5px;">
 
 **SheetAble** is an easy-to-use music sheet organizer for all the music enthusiasts out there. You can upload and organize your sheets for any kind of instrument you use!
+When uploading a sheet, enter multiple instruments separated by commas to filter matching scores on the Home, Library, and Composer pages.
 Create Accounts for your friends or family to invite them to your library to use it as well or potentially upload sheets themselves.
 Currently it is available for web and [iPad/Android Tablets](https://github.com/SheetAble/tablet-client). All repos are open-source with the `AGPL` license.
 

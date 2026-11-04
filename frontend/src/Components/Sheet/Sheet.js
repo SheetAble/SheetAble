@@ -340,6 +340,7 @@ function Sheet({
             <InformationCard
               infoText={sheet.information_text}
               tags={sheet.tags}
+              instruments={sheet.instruments}
               sheetName={sheet.safe_sheet_name}
             />
           </div>

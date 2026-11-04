@@ -26,6 +26,7 @@ function ModalContent(props) {
     composer: props.sheet.composer,
     sheetName: props.sheet.sheet_name,
     releaseDate: "1999-12-31",
+    instruments: (props.sheet.instruments || []).join(", "),
   });
 
   const [pdfChange, setPdfChange] = useState(false);
@@ -41,6 +42,7 @@ function ModalContent(props) {
     if (
       requestData.composer !== props.sheet.composer ||
       requestData.sheetName !== props.sheet.sheet_name ||
+      requestData.instruments !== (props.sheet.instruments || []).join(", ") ||
       pdfChange
     ) {
       if (
@@ -154,6 +156,14 @@ function ModalContent(props) {
           name="composer"
           onChange={handleChange}
           value={requestData.composer}
+        />
+        <TextField
+          id="standard-basic"
+          label="Instruments (optional, comma-separated)"
+          className="form-field"
+          name="instruments"
+          onChange={handleChange}
+          value={requestData.instruments}
         />
       </form>
       <div className="upload-container">

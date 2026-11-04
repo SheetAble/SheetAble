@@ -18,6 +18,7 @@ import SheetBox from "../SheetsPage/Components/SheetBox";
 import { IconButton } from "@material-ui/core";
 import Modal from "../Sidebar/Modal/Modal";
 import ModalContent from "./ModalContent";
+import InstrumentFilter from "../SheetsPage/InstrumentFilter";
 
 function Composer({
   composerPages,
@@ -40,6 +41,7 @@ function Composer({
   const [imgUrl, setImgUrl] = useState(undefined);
 
   const [loading, setLoading] = useState(true);
+  const [instrument, setInstrument] = useState("");
 
   const getData = () => {
     if (
@@ -56,16 +58,23 @@ function Composer({
     }
   };
 
-  const getSheetsForComposer = () => {
+  const getSheetsForComposer = (selectedInstrument = instrument) => {
     const data = {
       page: 1,
       sortBy: "updated_at desc",
       composer: safeComposerName,
+      instrument: selectedInstrument,
     };
 
     getSheetPage(data, () => {
       setComposer(findComposerByPages(safeComposerName, composerPages));
     });
+  };
+
+  const handleInstrumentChange = (selectedInstrument) => {
+    setInstrument(selectedInstrument);
+    setLoading(true);
+    getSheetsForComposer(selectedInstrument);
   };
 
   const getComposerPagesData = (_callback) => {
@@ -106,7 +115,7 @@ function Composer({
 
   useEffect(() => {
     getData();
-  });
+  }, []);
 
   const [modal, setModal] = useState(false);
 
@@ -144,6 +153,10 @@ function Composer({
                 composer={composer}
               />
             </Modal>
+            <InstrumentFilter
+              value={instrument}
+              onChange={handleInstrumentChange}
+            />
             <ul className="all-sheets-container full-height">
               {composer.sheets === undefined
                 ? getData()
